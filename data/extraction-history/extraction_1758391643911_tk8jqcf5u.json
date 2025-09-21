@@ -1,0 +1,86 @@
+{
+  "id": "extraction_1758391643911_tk8jqcf5u",
+  "timestamp": "2025-09-20T18:07:23.911Z",
+  "searchCriteria": {
+    "category": "tandarts",
+    "location": "Netherlands",
+    "maxRating": 4.6,
+    "maxStars": 3,
+    "dayLimit": 14,
+    "businessLimit": 5,
+    "minReviews": 10,
+    "minTextLength": 20,
+    "language": "nl",
+    "countryCode": "nl"
+  },
+  "results": {
+    "businesses": [
+      {
+        "title": "Dental Clinics Nieuw Bergen",
+        "address": "Jeroen Boschstraat 10, 5854 CZ Bergen, Nederland",
+        "totalScore": 4.1,
+        "reviewsCount": 25,
+        "placeId": "ChIJ4U-2c4Vrx0cRNNvmVHNu4bw",
+        "url": "https://www.google.com/maps/place/Dental+Clinics",
+        "phone": "0485 341 383",
+        "website": "https://www.dentalclinics.nl/tandarts/nieuw-bergen/?utm_source=google&utm_medium=organic&utm_campaign=gmb&utm_content=main_button",
+        "contactEnriched": true,
+        "enrichmentDate": "2025-09-20T21:39:47.987Z",
+        "email": "nieuwbergen@dentalclinics.nl"
+      }
+    ],
+    "reviews": [
+      {
+        "title": "Dental Clinics Nieuw Bergen",
+        "address": "Jeroen Boschstraat 10, 5854 CZ Bergen, Nederland",
+        "name": "Marijke Koreman",
+        "stars": 2,
+        "publishedAtDate": "2025-09-09T00:00:00.000Z",
+        "text": "De behandeling was goed, maar Noa nam (te) veel tijd voorafgaand aan de behandeling...",
+        "reviewerNumberOfReviews": 10,
+        "isLocalGuide": false,
+        "originalLanguage": "nl",
+        "reviewUrl": "https://maps.google.com/review456",
+        "reviewerUrl": "https://maps.google.com/user456",
+        "url": "https://www.google.com/maps/place/Dental+Clinics"
+      }
+    ],
+    "extractionDate": "2025-09-20T18:07:23.911Z"
+  },
+  "statistics": {
+    "businessesFound": 1,
+    "reviewsFound": 1,
+    "avgRating": 2,
+    "extractionTime": 117460
+  },
+  "enrichmentHistory": [
+    {
+      "timestamp": "2025-09-20T19:07:35.493Z",
+      "enrichedBusinesses": 1,
+      "phoneNumbers": 1,
+      "websites": 1,
+      "emails": 0
+    },
+    {
+      "timestamp": "2025-09-20T19:07:45.179Z",
+      "enrichedBusinesses": 1,
+      "phoneNumbers": 1,
+      "websites": 1,
+      "emails": 0
+    },
+    {
+      "timestamp": "2025-09-20T21:39:48.022Z",
+      "enrichedBusinesses": 1,
+      "phoneNumbers": 1,
+      "websites": 1,
+      "emails": 1
+    },
+    {
+      "timestamp": "2025-09-20T21:39:48.682Z",
+      "enrichedBusinesses": 1,
+      "phoneNumbers": 1,
+      "websites": 1,
+      "emails": 1
+    }
+  ]
+}

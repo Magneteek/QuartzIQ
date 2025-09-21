@@ -1,0 +1,86 @@
+{
+  "id": "extraction_1758391643152_medza2a2u",
+  "timestamp": "2025-09-20T18:07:23.152Z",
+  "searchCriteria": {
+    "category": "tandarts",
+    "location": "Amsterdam, Netherlands",
+    "maxRating": 4.6,
+    "maxStars": 3,
+    "dayLimit": 14,
+    "businessLimit": 5,
+    "minReviews": 10,
+    "minTextLength": 20,
+    "language": "nl",
+    "countryCode": "nl"
+  },
+  "results": {
+    "businesses": [
+      {
+        "title": "Lassus Tandartsen",
+        "address": "Stadionplein 125, 1076 CK Amsterdam, Nederland",
+        "totalScore": 4.2,
+        "reviewsCount": 50,
+        "placeId": "ChIJnWUx0_jhxUcRdrSeclG8UiU",
+        "url": "https://www.google.com/maps/place/Lassus+Tandartsen/@52.3406773,4.8851713,17z",
+        "contactEnriched": true,
+        "enrichmentDate": "2025-09-20T21:34:52.940Z",
+        "phone": "020 210 4007",
+        "website": "https://www.lassustandartsen.nl/?utm_source=local&utm_medium=organic&utm_campaign=gmb",
+        "email": "info@lassus.nl"
+      }
+    ],
+    "reviews": [
+      {
+        "title": "Lassus Tandartsen",
+        "address": "Stadionplein 125, 1076 CK Amsterdam, Nederland",
+        "name": "Nato Korchilava",
+        "stars": 1,
+        "publishedAtDate": "2025-09-17T00:00:00.000Z",
+        "text": "Scammers: I have rejected 2 invoices already twice, emailed every details to them...",
+        "reviewerNumberOfReviews": 4,
+        "isLocalGuide": false,
+        "originalLanguage": "en",
+        "reviewUrl": "https://maps.google.com/review123",
+        "reviewerUrl": "https://maps.google.com/user123",
+        "url": "https://www.google.com/maps/place/Lassus+Tandartsen"
+      }
+    ],
+    "extractionDate": "2025-09-20T18:07:23.152Z"
+  },
+  "statistics": {
+    "businessesFound": 1,
+    "reviewsFound": 1,
+    "avgRating": 1,
+    "extractionTime": 114577
+  },
+  "enrichmentHistory": [
+    {
+      "timestamp": "2025-09-20T18:42:33.879Z",
+      "enrichedBusinesses": 1,
+      "phoneNumbers": 0,
+      "websites": 0,
+      "emails": 0
+    },
+    {
+      "timestamp": "2025-09-20T18:42:43.123Z",
+      "enrichedBusinesses": 1,
+      "phoneNumbers": 0,
+      "websites": 0,
+      "emails": 0
+    },
+    {
+      "timestamp": "2025-09-20T21:34:52.944Z",
+      "enrichedBusinesses": 1,
+      "phoneNumbers": 1,
+      "websites": 1,
+      "emails": 1
+    },
+    {
+      "timestamp": "2025-09-20T21:34:53.283Z",
+      "enrichedBusinesses": 1,
+      "phoneNumbers": 1,
+      "websites": 1,
+      "emails": 1
+    }
+  ]
+}

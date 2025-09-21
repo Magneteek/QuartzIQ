@@ -1,0 +1,252 @@
+[
+  {
+    "id": "extraction_1758392893292_9ce0cb8c7",
+    "timestamp": "2025-09-20T19:28:13.292Z",
+    "searchCriteria": {
+      "category": "clinic",
+      "location": "Netherlands",
+      "countryCode": "nl"
+    },
+    "statistics": {
+      "businessesFound": 4,
+      "reviewsFound": 9,
+      "avgRating": 1,
+      "extractionTime": 141259
+    },
+    "enrichmentHistory": [
+      {
+        "timestamp": "2025-09-20T18:37:29.652Z",
+        "enrichedBusinesses": 4,
+        "phoneNumbers": 0,
+        "websites": 0,
+        "emails": 0
+      },
+      {
+        "timestamp": "2025-09-20T18:38:11.032Z",
+        "enrichedBusinesses": 4,
+        "phoneNumbers": 0,
+        "websites": 0,
+        "emails": 0
+      },
+      {
+        "timestamp": "2025-09-20T18:38:34.550Z",
+        "enrichedBusinesses": 4,
+        "phoneNumbers": 0,
+        "websites": 0,
+        "emails": 0
+      },
+      {
+        "timestamp": "2025-09-20T18:53:31.700Z",
+        "enrichedBusinesses": 4,
+        "phoneNumbers": 0,
+        "websites": 0,
+        "emails": 0
+      },
+      {
+        "timestamp": "2025-09-20T18:53:50.397Z",
+        "enrichedBusinesses": 4,
+        "phoneNumbers": 0,
+        "websites": 0,
+        "emails": 0
+      },
+      {
+        "timestamp": "2025-09-20T18:58:50.457Z",
+        "enrichedBusinesses": 4,
+        "phoneNumbers": 0,
+        "websites": 0,
+        "emails": 0
+      },
+      {
+        "timestamp": "2025-09-20T18:59:15.244Z",
+        "enrichedBusinesses": 4,
+        "phoneNumbers": 0,
+        "websites": 0,
+        "emails": 0
+      },
+      {
+        "timestamp": "2025-09-20T19:37:49.806Z",
+        "enrichedBusinesses": 4,
+        "phoneNumbers": 0,
+        "websites": 0,
+        "emails": 0
+      },
+      {
+        "timestamp": "2025-09-20T19:45:00.856Z",
+        "enrichedBusinesses": 4,
+        "phoneNumbers": 0,
+        "websites": 0,
+        "emails": 0
+      },
+      {
+        "timestamp": "2025-09-20T19:52:38.416Z",
+        "enrichedBusinesses": 4,
+        "phoneNumbers": 0,
+        "websites": 0,
+        "emails": 0
+      },
+      {
+        "timestamp": "2025-09-20T19:57:06.817Z",
+        "enrichedBusinesses": 4,
+        "phoneNumbers": 0,
+        "websites": 0,
+        "emails": 0
+      },
+      {
+        "timestamp": "2025-09-20T20:44:41.682Z",
+        "enrichedBusinesses": 4,
+        "phoneNumbers": 0,
+        "websites": 0,
+        "emails": 0
+      },
+      {
+        "timestamp": "2025-09-20T20:45:23.389Z",
+        "enrichedBusinesses": 4,
+        "phoneNumbers": 0,
+        "websites": 0,
+        "emails": 0
+      },
+      {
+        "timestamp": "2025-09-20T20:49:05.224Z",
+        "enrichedBusinesses": 4,
+        "phoneNumbers": 0,
+        "websites": 0,
+        "emails": 0
+      }
+    ]
+  },
+  {
+    "id": "extraction_1758391644659_ub9h7wl69",
+    "timestamp": "2025-09-20T18:07:24.659Z",
+    "searchCriteria": {
+      "category": "hotel",
+      "location": "Netherlands",
+      "countryCode": "nl"
+    },
+    "statistics": {
+      "businessesFound": 11,
+      "reviewsFound": 11,
+      "avgRating": 2.6,
+      "extractionTime": 305660
+    },
+    "enrichmentHistory": [
+      {
+        "timestamp": "2025-09-20T20:50:36.497Z",
+        "enrichedBusinesses": 11,
+        "phoneNumbers": 10,
+        "websites": 11,
+        "emails": 0
+      },
+      {
+        "timestamp": "2025-09-20T20:57:07.180Z",
+        "enrichedBusinesses": 11,
+        "phoneNumbers": 10,
+        "websites": 11,
+        "emails": 0
+      },
+      {
+        "timestamp": "2025-09-20T21:09:05.336Z",
+        "enrichedBusinesses": 11,
+        "phoneNumbers": 10,
+        "websites": 11,
+        "emails": 0
+      },
+      {
+        "timestamp": "2025-09-20T21:16:34.406Z",
+        "enrichedBusinesses": 11,
+        "phoneNumbers": 10,
+        "websites": 11,
+        "emails": 2
+      }
+    ]
+  },
+  {
+    "id": "extraction_1758391643911_tk8jqcf5u",
+    "timestamp": "2025-09-20T18:07:23.911Z",
+    "searchCriteria": {
+      "category": "tandarts",
+      "location": "Netherlands",
+      "countryCode": "nl"
+    },
+    "statistics": {
+      "businessesFound": 1,
+      "reviewsFound": 1,
+      "avgRating": 2,
+      "extractionTime": 117460
+    },
+    "enrichmentHistory": [
+      {
+        "timestamp": "2025-09-20T19:07:35.493Z",
+        "enrichedBusinesses": 1,
+        "phoneNumbers": 1,
+        "websites": 1,
+        "emails": 0
+      },
+      {
+        "timestamp": "2025-09-20T19:07:45.179Z",
+        "enrichedBusinesses": 1,
+        "phoneNumbers": 1,
+        "websites": 1,
+        "emails": 0
+      },
+      {
+        "timestamp": "2025-09-20T21:39:48.022Z",
+        "enrichedBusinesses": 1,
+        "phoneNumbers": 1,
+        "websites": 1,
+        "emails": 1
+      },
+      {
+        "timestamp": "2025-09-20T21:39:48.682Z",
+        "enrichedBusinesses": 1,
+        "phoneNumbers": 1,
+        "websites": 1,
+        "emails": 1
+      }
+    ]
+  },
+  {
+    "id": "extraction_1758391643152_medza2a2u",
+    "timestamp": "2025-09-20T18:07:23.152Z",
+    "searchCriteria": {
+      "category": "tandarts",
+      "location": "Amsterdam, Netherlands",
+      "countryCode": "nl"
+    },
+    "statistics": {
+      "businessesFound": 1,
+      "reviewsFound": 1,
+      "avgRating": 1,
+      "extractionTime": 114577
+    },
+    "enrichmentHistory": [
+      {
+        "timestamp": "2025-09-20T18:42:33.879Z",
+        "enrichedBusinesses": 1,
+        "phoneNumbers": 0,
+        "websites": 0,
+        "emails": 0
+      },
+      {
+        "timestamp": "2025-09-20T18:42:43.123Z",
+        "enrichedBusinesses": 1,
+        "phoneNumbers": 0,
+        "websites": 0,
+        "emails": 0
+      },
+      {
+        "timestamp": "2025-09-20T21:34:52.944Z",
+        "enrichedBusinesses": 1,
+        "phoneNumbers": 1,
+        "websites": 1,
+        "emails": 1
+      },
+      {
+        "timestamp": "2025-09-20T21:34:53.283Z",
+        "enrichedBusinesses": 1,
+        "phoneNumbers": 1,
+        "websites": 1,
+        "emails": 1
+      }
+    ]
+  }
+]

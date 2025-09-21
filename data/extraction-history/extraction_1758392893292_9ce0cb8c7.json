@@ -1,0 +1,309 @@
+{
+  "id": "extraction_1758392893292_9ce0cb8c7",
+  "timestamp": "2025-09-20T19:28:13.292Z",
+  "searchCriteria": {
+    "category": "clinic",
+    "location": "Netherlands",
+    "maxRating": 4.6,
+    "maxStars": 3,
+    "dayLimit": 14,
+    "businessLimit": 4,
+    "minReviews": 10,
+    "minTextLength": 20,
+    "language": "nl",
+    "countryCode": "nl"
+  },
+  "results": {
+    "businesses": [
+      {
+        "title": "Aphrodite Clinic",
+        "address": "Plein 1944 24, 6511 JC Nijmegen, Nederland",
+        "totalScore": 3,
+        "reviewsCount": 50,
+        "placeId": "extracted_from_csv_aphrodite_clinic",
+        "url": "https://www.google.com/maps/search/?api=1&query=Aphrodite%20Clinic&query_place_id=ChIJf7cwQ4UHx0cR69ILcxTDRuc",
+        "contactEnriched": true,
+        "enrichmentDate": "2025-09-20T19:37:45.111Z"
+      },
+      {
+        "title": "JC Kliniek",
+        "address": "Boermarkeweg 44 C, 7824 AA Emmen, Nederland",
+        "totalScore": 3,
+        "reviewsCount": 50,
+        "placeId": "extracted_from_csv_jc_kliniek",
+        "url": "https://www.google.com/maps/search/?api=1&query=JC%20Kliniek&query_place_id=ChIJ__-_GCHmt0cRc_CMuvsIXmQ",
+        "contactEnriched": true,
+        "enrichmentDate": "2025-09-20T19:37:43.930Z"
+      },
+      {
+        "title": "CWZ (Canisius Wilhelmina Ziekenhuis) Nijmegen",
+        "address": "Weg door Jonkerbos 100, 6532 SZ Nijmegen, Nederland",
+        "totalScore": 3,
+        "reviewsCount": 50,
+        "placeId": "extracted_from_csv_cwz__canisius_wilhelmina_ziekenhuis__nijmegen",
+        "url": "https://www.google.com/maps/search/?api=1&query=CWZ%20(Canisius%20Wilhelmina%20Ziekenhuis)%20Nijmegen&query_place_id=ChIJJxh_OpkIx0cRH49fnwwOTVo",
+        "contactEnriched": true,
+        "enrichmentDate": "2025-09-20T19:37:43.340Z"
+      },
+      {
+        "title": "Faceland Nijmegen",
+        "address": "Ziekerstraat 110, 6511 LK Nijmegen, Nederland",
+        "totalScore": 3,
+        "reviewsCount": 50,
+        "placeId": "extracted_from_csv_faceland_nijmegen",
+        "url": "https://www.google.com/maps/search/?api=1&query=Faceland%20Nijmegen&query_place_id=ChIJK8weikMIx0cRdms6yLawniM",
+        "contactEnriched": true,
+        "enrichmentDate": "2025-09-20T19:37:49.538Z"
+      }
+    ],
+    "reviews": [
+      {
+        "title": "Aphrodite Clinic",
+        "address": "Plein 1944 24, 6511 JC Nijmegen, Nederland",
+        "name": "Angel Korkis",
+        "stars": 1,
+        "publishedAtDate": "2025-09-13T19:31:28.584Z",
+        "text": "ik vond het geen fijne plek en ook heel ongemakkelijk",
+        "reviewerNumberOfReviews": 10,
+        "isLocalGuide": false,
+        "originalLanguage": "nl",
+        "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT2tWTVZHdERiRmRoYlVkbU9HRjRkR3huVW14a2JVRRAB!2m1!1s0x0:0xe746c314730bd2eb!3m1!1s2@1:CAIQACodChtycF9oOkVMVGtDbFdhbUdmOGF4dGxnUmxkbUE%7C%7C?hl=nl",
+        "reviewerUrl": "",
+        "url": "https://www.google.com/maps/search/?api=1&query=Aphrodite%20Clinic&query_place_id=ChIJf7cwQ4UHx0cR69ILcxTDRuc"
+      },
+      {
+        "title": "Aphrodite Clinic",
+        "address": "Plein 1944 24, 6511 JC Nijmegen, Nederland",
+        "name": "Fatima Pipi",
+        "stars": 1,
+        "publishedAtDate": "2025-09-13T18:50:48.808Z",
+        "text": "Na een laser behandeling heb ik overal pukkels en uitslag over mij hele lichaam. Ook moest ik eerst €35 intake kosten betalen. Die de medewerkster direct in haar zak deed.schandalig",
+        "reviewerNumberOfReviews": 10,
+        "isLocalGuide": false,
+        "originalLanguage": "nl",
+        "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT2pnM1FVbFRlWE5EVlZCcVFtcEJhMWd3VG1GRU0zYxAB!2m1!1s0x0:0xe746c314730bd2eb!3m1!1s2@1:CAIQACodChtycF9oOjg3QUlTeXNDVVBqQmpBa1gwTmFEM3c%7C%7C?hl=nl",
+        "reviewerUrl": "",
+        "url": "https://www.google.com/maps/search/?api=1&query=Aphrodite%20Clinic&query_place_id=ChIJf7cwQ4UHx0cR69ILcxTDRuc"
+      },
+      {
+        "title": "Aphrodite Clinic",
+        "address": "Plein 1944 24, 6511 JC Nijmegen, Nederland",
+        "name": "Ant D",
+        "stars": 1,
+        "publishedAtDate": "2025-09-13T18:09:43.427Z",
+        "text": "Slechtste kliniek ever",
+        "reviewerNumberOfReviews": 10,
+        "isLocalGuide": false,
+        "originalLanguage": "nl",
+        "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT25KZk9VVXdkeTA1YjFaSldtRkpMVFZUTldZM1FtYxAB!2m1!1s0x0:0xe746c314730bd2eb!3m1!1s2@1:CAIQACodChtycF9oOnJfOUUwdy05b1ZJWmFJLTVTNWY3Qmc%7C%7C?hl=nl",
+        "reviewerUrl": "",
+        "url": "https://www.google.com/maps/search/?api=1&query=Aphrodite%20Clinic&query_place_id=ChIJf7cwQ4UHx0cR69ILcxTDRuc"
+      },
+      {
+        "title": "Aphrodite Clinic",
+        "address": "Plein 1944 24, 6511 JC Nijmegen, Nederland",
+        "name": "Broula Mourad",
+        "stars": 1,
+        "publishedAtDate": "2025-09-13T17:45:46.715Z",
+        "text": "Echt een kanker plek",
+        "reviewerNumberOfReviews": 10,
+        "isLocalGuide": false,
+        "originalLanguage": "nl",
+        "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT2xSUGNqbG9OekZwVEZaNFpIbFpibmhVT1c1a1VHYxAB!2m1!1s0x0:0xe746c314730bd2eb!3m1!1s2@1:CAIQACodChtycF9oOlRPcjloNzFpTFZ4ZHlZbnhUOW5kUGc%7C%7C?hl=nl",
+        "reviewerUrl": "",
+        "url": "https://www.google.com/maps/search/?api=1&query=Aphrodite%20Clinic&query_place_id=ChIJf7cwQ4UHx0cR69ILcxTDRuc"
+      },
+      {
+        "title": "JC Kliniek",
+        "address": "Boermarkeweg 44 C, 7824 AA Emmen, Nederland",
+        "name": "Jade Roos",
+        "stars": 1,
+        "publishedAtDate": "2025-09-12T14:24:20.996Z",
+        "text": "Nou deze mensen gaan niet leuk met andere mensen om trekken iemand een poot uit\n1 afspraak kon mijn vriendin met reden niet komen had auto pech 1 misschien te laat af gebelt en 1 word zo maar in rekening gebracht terwijl ze nergens van wist het is belachelijk dat ze dan dingen in rekening gebracht worden terwel het niet haar fout is ook niet dat ze van niks wist en ook niet dat als iemand pech heeft met de auto dat je dat ook nog ff lekker moet betalen dat is iemand een poot uit trekken die het niet breed hebben maar ik zal me niet stil houden tegen andere mensen wat julie doen dat kan niet terwel het julie schuld is ! Punt uit !!!",
+        "reviewerNumberOfReviews": 10,
+        "isLocalGuide": false,
+        "originalLanguage": "nl",
+        "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT2tsQ1pGcHNWV2czVVRkNWFHbHRSR3R5TTNnMU4zYxAB!2m1!1s0x0:0x645e08fbba8cf073!3m1!1s2@1:CAIQACodChtycF9oOklCZFpsVWg3UTd5aGltRGtyM3g1N3c%7C%7C?hl=nl",
+        "reviewerUrl": "",
+        "url": "https://www.google.com/maps/search/?api=1&query=JC%20Kliniek&query_place_id=ChIJ__-_GCHmt0cRc_CMuvsIXmQ"
+      },
+      {
+        "title": "CWZ (Canisius Wilhelmina Ziekenhuis) Nijmegen",
+        "address": "Weg door Jonkerbos 100, 6532 SZ Nijmegen, Nederland",
+        "name": "Mcslackert",
+        "stars": 1,
+        "publishedAtDate": "2025-09-09T16:29:00.527Z",
+        "text": "Een uur te laat de patiënt helpen, om vervolgens in 5 minuten het gips te verwijderen. Maar een rekening van 321 euro uitschrijven... Hier ga ik niet meer heen.",
+        "reviewerNumberOfReviews": 10,
+        "isLocalGuide": false,
+        "originalLanguage": "nl",
+        "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT25kcFYzcHVORUpDTlRNMmJGRkxTM0YyZFRnMmIyYxAB!2m1!1s0x0:0x5a4d0e0c9f5f8f1f!3m1!1s2@1:CAIQACodChtycF9oOndpV3puNEJCNTM2bFFLS3F2dTg2b2c%7C%7C?hl=nl",
+        "reviewerUrl": "",
+        "url": "https://www.google.com/maps/search/?api=1&query=CWZ%20(Canisius%20Wilhelmina%20Ziekenhuis)%20Nijmegen&query_place_id=ChIJJxh_OpkIx0cRH49fnwwOTVo"
+      },
+      {
+        "title": "Faceland Nijmegen",
+        "address": "Ziekerstraat 110, 6511 LK Nijmegen, Nederland",
+        "name": "Mark Vroomen",
+        "stars": 1,
+        "publishedAtDate": "2025-09-09T11:23:11.811Z",
+        "text": "Updat3, Faceland reageert en stuurt een aantal maal een mail dat ze het in behandeling nemen maar doen er niets mee. Inmiddels hebben we de instanties ingeschakeld alsmede een klacht ingediend bij klachtencommissie van de NVCG. Dit soort praktijken kunnen niet door de beugel en moet aangepakt worden.\n\nZoals gevraagd een mail gestuurd inmiddels al WEKEN verder en HELEMAAL GEEN! Reactie gekregen. Faceland blijkt wederom dat je hier niet moet komen WAARDELOSS\n\nGoed is goed en slecht is slecht en slecht kan goed worden als je als net bedrijf problemen opgelost zoals nette mensen betaamt.\n\nHele slechte ervaring gehad mbt de behandeling  van mijn vrouw. Op zaterdagochtend een bezoek gebracht aan Faceland Nijmegen aan de bali een meisje wat geen boe of bah zei. Was privé aan het bellen en is blijkbaar normaal tegenwoordig. Zelf maar even het water van het koffie apparaat gevuld en koffie genomen. 20 min gewacht en gedurende 20 min geen boe of bah. De behandeling was netjes ze werd netjes geholpen en voorgelicht welke fillers er waren. Uiteindelijk io de beste genomen. Binnen 10 min klaar en leek allemaal pruma. De lippen zwollen goed op dus flink koelen. Na een week waren alle zwellingen weg en leek het oke. Maar na 1.5 waren haar lippen weer zoals voor de behandeling. Faceland gebeld en ee konden op maandag terecht. Dit keer netjes en vriendelijk ontvangen en haar lippen werden bekeken. De arts zei letterlijk kan me voorstellen dat u teleurgesteld bent er zit wel heel erg weinig vulling in en de bovenlip slap. We dachten dit word netjes bijgevuld voor 320 euro denk je goed te zitten en bij een bedrijf als Faceland moet hoed zijn toch. . De arts zei ja ik doe er niets aan dat is de Policy van het bedrijf  mocht u het er niet mee eens zijn stuur maar een klacht op via het  formulier.\n\nEn mensen dit is dus de Policy van Faceland!!! Half werk leveren en dan vervolgens niets doen. Ze geven hoog op van kwaliteit en als je hun pagina bekijkt en leest dat indien het onverhoopt niet het resultaat geeft wat er verwacht word  io met de klant zal worden opgelost en gekeken naar de beste oplossing.  Maar je kunt beter ergens op een zolderkamer je lippen laten vullen dan bij dit bedrijf. Inmiddels istapp3n gezet Facrland als je werk niet goed is dan los je het op zoals nette bedrijven en mensen het behoren te doen. 5 sterren worden snel gegeven als alles oke is.\n\nDenk dus 2x na alvorens je hier iets laat doen. Een bedrijf leer je pas kennen als er iets tegen zit en dit bedrijf heeft de klant niet hoog zitten..\nJuist door problemen op te lossen krijgt het bedrijf een naam.\n\nEen goede naam ben je zo kwijt.",
+        "reviewerNumberOfReviews": 10,
+        "isLocalGuide": false,
+        "originalLanguage": "nl",
+        "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT2s5UVkxOHhOMFZDWXpOeU9IQlRNa05sUlhJMmNIYxAB!2m1!1s0x0:0x239eb0b6c83a6b76!3m1!1s2@1:CAIQACodChtycF9oOk9QY18xN0VCYzNyOHBTMkNlRXI2cHc%7C%7C?hl=nl",
+        "reviewerUrl": "",
+        "url": "https://www.google.com/maps/search/?api=1&query=Faceland%20Nijmegen&query_place_id=ChIJK8weikMIx0cRdms6yLawniM"
+      },
+      {
+        "title": "CWZ (Canisius Wilhelmina Ziekenhuis) Nijmegen",
+        "address": "Weg door Jonkerbos 100, 6532 SZ Nijmegen, Nederland",
+        "name": "Tim",
+        "stars": 1,
+        "publishedAtDate": "2025-08-30T07:21:27.775Z",
+        "text": "Het bestuur hier is niet helemaal zuiver, vechten over de rug van onschuldige patiënten een ruzie uit met hun cardiologen. Waarom moeten mensen die er niks mee te maken hebben de dupe worden daarvan? Leg me dat maar eens uit.",
+        "reviewerNumberOfReviews": 10,
+        "isLocalGuide": false,
+        "originalLanguage": "nl",
+        "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT25GaVFsOXlTVXN6Y1Y5SGVtcFdUa1JvV1ZoS1UxRRAB!2m1!1s0x0:0x5a4d0e0c9f5f8f1f!3m1!1s2@1:CAIQACodChtycF9oOnFiQl9ySUszcV9HempWTkRoWVhKU1E%7C%7C?hl=nl",
+        "reviewerUrl": "",
+        "url": "https://www.google.com/maps/search/?api=1&query=CWZ%20(Canisius%20Wilhelmina%20Ziekenhuis)%20Nijmegen&query_place_id=ChIJJxh_OpkIx0cRH49fnwwOTVo"
+      },
+      {
+        "title": "JC Kliniek",
+        "address": "Boermarkeweg 44 C, 7824 AA Emmen, Nederland",
+        "name": "A",
+        "stars": 1,
+        "publishedAtDate": "2025-08-23T12:08:23.180Z",
+        "text": "2 jaar geleden langs geweest ivm blauwe kringen onder de ogen. Traangootjes zijn gevuld met filler met canule; voor de behandelaar de eerste keer dat hij de behandeling uitvoerde, “bij wijze van experiment”, gaf hij letterlijk aan, maar dat was vertrouwd, anders zou hij het niet doen, werd tevens aangegeven. Mij had niet uitgemaakt waar de filler werd geplaatst, als mijn probleem maar werd opgelost.\n\nAl snel (enkele weken?) was er een witte waas onder mn 1 oog te zien en zwelling. De witte waas is wat weggetrokken, maar de zwelling zit er permanent sindsdien. Voor de behandeling had ik nooit last van zwelling. Regelmatig neemt de zwelling toe en is er ook onder het andere oog zwelling te zien.\nDe Contini heeft een aantal keer de filler proberen op te lossen, maar de zwelling bleef.\n\nIk ben naar het filler complicatie spreekuur in het Erasmus MC doorverwezen door mijn huisarts. Daar is het gebied onderzocht en met echoapparatuur bekeken. Het oordeel aldaar luidde te veel gevuld, te oppervlakkig en hoogst waarschijnlijk permanente beschadiging door de behandeling van de lymfevaten, waardoor er vochtgehalten blijven ontstaan onder de ogen.\n\nIk ben voor mijn werk afhankelijk van mijn werk (wat bekend is bij de kliniek) en baal dan ook flink van dit hele gebeuren. De kliniek heeft mij nadat ik mijn hele medische dossier van het Filler Complicatie Spreekuur bij Erasmus MC naar hen heb doorgestuurd ter inzage (meer dan) het volledige bedrag van de behandeling terugbetaald, maar geeft aan achter de behandeling te staan en niets fout te hebben gedaan (dan betaal je niet zo snel terug, lijkt mij, dus een wassen neus) en heeft haar deur voor mij gesloten. Prima, ik heb geen vertrouwen meer in deze partij. Lang getwijfeld of ik een eerlijke review plaats, maar wil tbv de patiënt graag deze transparantie bieden.\n\nOp de foto (genomen begin dec ‘24) zo goed mogelijk de vochtwallen proberen vast te leggen. Met net het verkeerde licht erop zijn de schaduwen groter en lijkt het nog veel erger dan wat nu te zien is.\n\nVerder vond ik het niet professioneel dat toen ik voor mijn kringen kwam, dr. Contini ineens achterover leunde terwijl hij mijn gezicht bestudeerde en met een frons z’n assistente vroeg “hey, zie jij wat ik zie? Zie jij ook dat haar kaak aan de ene kant veel dikker is dan de andere kant van haar kaak?”, gevolgd door een geboden oplossing: daar kon wel wat Botox in. Let wel: ik kwam daar totaal niet voor en het had niets met mijn klacht van de kringen te maken.\n\nUpdate 2025: nog steeds een lelijke verdikking onder 1 oog en nog steeds bezig met andere behandelaars om dit weg te krijgen. Er wordt nu gesproken over dat het mogelijke verlittekening is. Ik wordt dus nog dagelijks geconfronteerd met deze (figuurlijke) pijn.",
+        "reviewerNumberOfReviews": 10,
+        "isLocalGuide": false,
+        "originalLanguage": "nl",
+        "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VJQ0FnSUN2MUkyTUN3EAE!2m1!1s0x0:0x645e08fbba8cf073!3m1!1s2@1:CIHM0ogKEICAgICv1I2MCw%7C%7C?hl=nl",
+        "reviewerUrl": "",
+        "url": "https://www.google.com/maps/search/?api=1&query=JC%20Kliniek&query_place_id=ChIJ__-_GCHmt0cRc_CMuvsIXmQ"
+      }
+    ],
+    "extractionDate": "2025-09-20T19:28:13.292Z"
+  },
+  "statistics": {
+    "businessesFound": 4,
+    "reviewsFound": 9,
+    "avgRating": 1,
+    "extractionTime": 141259
+  },
+  "enrichmentHistory": [
+    {
+      "timestamp": "2025-09-20T18:37:29.652Z",
+      "enrichedBusinesses": 4,
+      "phoneNumbers": 0,
+      "websites": 0,
+      "emails": 0
+    },
+    {
+      "timestamp": "2025-09-20T18:38:11.032Z",
+      "enrichedBusinesses": 4,
+      "phoneNumbers": 0,
+      "websites": 0,
+      "emails": 0
+    },
+    {
+      "timestamp": "2025-09-20T18:38:34.550Z",
+      "enrichedBusinesses": 4,
+      "phoneNumbers": 0,
+      "websites": 0,
+      "emails": 0
+    },
+    {
+      "timestamp": "2025-09-20T18:53:31.700Z",
+      "enrichedBusinesses": 4,
+      "phoneNumbers": 0,
+      "websites": 0,
+      "emails": 0
+    },
+    {
+      "timestamp": "2025-09-20T18:53:50.397Z",
+      "enrichedBusinesses": 4,
+      "phoneNumbers": 0,
+      "websites": 0,
+      "emails": 0
+    },
+    {
+      "timestamp": "2025-09-20T18:58:50.457Z",
+      "enrichedBusinesses": 4,
+      "phoneNumbers": 0,
+      "websites": 0,
+      "emails": 0
+    },
+    {
+      "timestamp": "2025-09-20T18:59:15.244Z",
+      "enrichedBusinesses": 4,
+      "phoneNumbers": 0,
+      "websites": 0,
+      "emails": 0
+    },
+    {
+      "timestamp": "2025-09-20T19:37:49.806Z",
+      "enrichedBusinesses": 4,
+      "phoneNumbers": 0,
+      "websites": 0,
+      "emails": 0
+    },
+    {
+      "timestamp": "2025-09-20T19:45:00.856Z",
+      "enrichedBusinesses": 4,
+      "phoneNumbers": 0,
+      "websites": 0,
+      "emails": 0
+    },
+    {
+      "timestamp": "2025-09-20T19:52:38.416Z",
+      "enrichedBusinesses": 4,
+      "phoneNumbers": 0,
+      "websites": 0,
+      "emails": 0
+    },
+    {
+      "timestamp": "2025-09-20T19:57:06.817Z",
+      "enrichedBusinesses": 4,
+      "phoneNumbers": 0,
+      "websites": 0,
+      "emails": 0
+    },
+    {
+      "timestamp": "2025-09-20T20:44:41.682Z",
+      "enrichedBusinesses": 4,
+      "phoneNumbers": 0,
+      "websites": 0,
+      "emails": 0
+    },
+    {
+      "timestamp": "2025-09-20T20:45:23.389Z",
+      "enrichedBusinesses": 4,
+      "phoneNumbers": 0,
+      "websites": 0,
+      "emails": 0
+    },
+    {
+      "timestamp": "2025-09-20T20:49:05.224Z",
+      "enrichedBusinesses": 4,
+      "phoneNumbers": 0,
+      "websites": 0,
+      "emails": 0
+    },
+    {
+      "timestamp": "2025-09-20T22:21:38.511Z",
+      "enrichedBusinesses": 4,
+      "phoneNumbers": 0,
+      "websites": 0,
+      "emails": 0
+    },
+    {
+      "timestamp": "2025-09-20T22:21:39.273Z",
+      "enrichedBusinesses": 4,
+      "phoneNumbers": 0,
+      "websites": 0,
+      "emails": 0
+    }
+  ]
+}
