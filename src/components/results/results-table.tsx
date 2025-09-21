@@ -219,7 +219,7 @@ export function ResultsTable({ results, selectedReviews, onReviewSelect, selectA
                         <div className="space-y-1">
                           {business.phone && (
                             <div className="text-xs flex items-center gap-1">
-                              <Phone className="h-3 w-3 text-green-600" />
+                              <Phone className="h-3 w-3 text-primary" />
                               <a href={`tel:${business.phone}`} className="hover:underline">
                                 {business.phone}
                               </a>
@@ -227,7 +227,7 @@ export function ResultsTable({ results, selectedReviews, onReviewSelect, selectA
                           )}
                           {business.email && (
                             <div className="text-xs flex items-center gap-1">
-                              <Mail className="h-3 w-3 text-blue-600" />
+                              <Mail className="h-3 w-3 text-primary" />
                               <a href={`mailto:${business.email}`} className="hover:underline">
                                 {business.email}
                               </a>
@@ -235,7 +235,7 @@ export function ResultsTable({ results, selectedReviews, onReviewSelect, selectA
                           )}
                           {business.website && (
                             <div className="text-xs flex items-center gap-1">
-                              <Globe className="h-3 w-3 text-purple-600" />
+                              <Globe className="h-3 w-3 text-primary" />
                               <a href={business.website} target="_blank" rel="noopener noreferrer" className="hover:underline">
                                 Website
                               </a>

@@ -156,6 +156,13 @@
         "phoneNumbers": 10,
         "websites": 11,
         "emails": 2
+      },
+      {
+        "timestamp": "2025-09-21T14:31:54.906Z",
+        "enrichedBusinesses": 11,
+        "phoneNumbers": 10,
+        "websites": 11,
+        "emails": 3
       }
     ]
   },

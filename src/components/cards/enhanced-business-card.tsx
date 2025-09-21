@@ -81,10 +81,11 @@ export function EnhancedBusinessCard({
   const trend = getRatingTrend(business.totalScore)
   const TrendIcon = trend.icon
 
+  // Contact fields with unified primary color styling
   const contactFields = [
-    { value: business.phone, icon: Phone, label: 'Phone', color: 'text-blue-400' },
-    { value: business.website, icon: Globe, label: 'Website', color: 'text-purple-400' },
-    { value: business.email, icon: Mail, label: 'Email', color: 'text-green-400' }
+    { value: business.phone, icon: Phone, label: 'Phone', color: 'text-primary' },
+    { value: business.website, icon: Globe, label: 'Website', color: 'text-primary' },
+    { value: business.email, icon: Mail, label: 'Email', color: 'text-primary' }
   ].filter(field => field.value)
 
   return (

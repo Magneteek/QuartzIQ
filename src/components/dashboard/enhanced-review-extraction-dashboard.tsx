@@ -41,7 +41,8 @@ import {
   Building,
   MessageSquare,
   Mail,
-  Globe
+  Globe,
+  Trash2
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
@@ -113,6 +114,9 @@ export function EnhancedReviewExtractionDashboard() {
   const [showLeadSelectionModal, setShowLeadSelectionModal] = useState(false)
   const [darkMode, setDarkMode] = useState(true)
 
+  // Request cleanup ref
+  const abortControllerRef = React.useRef<AbortController | null>(null)
+
   // Contact enrichment state
   const [isEnrichingContacts, setIsEnrichingContacts] = useState(false)
   const [enrichmentProgress, setEnrichmentProgress] = useState(0)
@@ -133,7 +137,24 @@ export function EnhancedReviewExtractionDashboard() {
     document.documentElement.classList.toggle('dark', darkMode)
   }, [darkMode])
 
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      if (abortControllerRef.current) {
+        abortControllerRef.current.abort()
+      }
+    }
+  }, [])
+
   const handleSearch = async (criteria: SearchCriteria) => {
+    // Cancel any existing request
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort()
+    }
+
+    // Create new abort controller
+    abortControllerRef.current = new AbortController()
+
     setIsExtracting(true)
     setProgress(0)
     setCurrentStep('Initializing AI extraction engine...')
@@ -147,6 +168,7 @@ export function EnhancedReviewExtractionDashboard() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(criteria),
+        signal: abortControllerRef.current.signal,
       })
 
       if (!response.ok) {
@@ -214,14 +236,19 @@ export function EnhancedReviewExtractionDashboard() {
       }
 
     } catch (error) {
-      console.error('Extraction error:', error)
-      setCurrentStep('Extraction failed - please try again')
+      if (error instanceof Error && error.name === 'AbortError') {
+        setCurrentStep('Extraction cancelled')
+      } else {
+        console.error('Extraction error:', error)
+        setCurrentStep('Extraction failed - please try again')
+      }
     } finally {
       setIsExtracting(false)
+      abortControllerRef.current = null
     }
   }
 
-  const handleContactEnrichment = async (includeApifyEnrichment = false) => {
+  const handleContactEnrichment = async (includeApifyEnrichment = false, includeLinkedInEnrichment = false) => {
     if (!results || !results.businesses.length || selectedBusinesses.size === 0) {
       alert('Please select at least one business for contact enrichment.')
       return
@@ -247,6 +274,7 @@ export function EnhancedReviewExtractionDashboard() {
           options: {
             includeGooglePlaces: true,
             includeApifyEnrichment,
+            includeLinkedInEnrichment,
             maxConcurrent: 3
           }
         }),
@@ -310,6 +338,183 @@ export function EnhancedReviewExtractionDashboard() {
       setEnrichmentStep('Contact enrichment failed')
     } finally {
       setIsEnrichingContacts(false)
+
+      // Refresh data from history to ensure enriched data is displayed
+      if (currentExtractionId) {
+        setTimeout(async () => {
+          try {
+            console.log('🔄 Refreshing data after enrichment completion...')
+            await handleLoadExtraction(currentExtractionId)
+          } catch (error) {
+            console.error('Failed to refresh data after enrichment:', error)
+          }
+        }, 1000) // Small delay to ensure history is updated
+      }
+    }
+  }
+
+  // LinkedIn Executive Email Enrichment
+  const handleLinkedInEnrichment = async () => {
+    if (!results || !results.businesses.length || selectedBusinesses.size === 0) {
+      alert('Please select at least one business for LinkedIn executive email enrichment.')
+      return
+    }
+
+    const businessesToEnrich = results.businesses.filter((business: any, index) =>
+      selectedBusinesses.has(index.toString())
+    )
+
+    setIsEnrichingContacts(true)
+    setEnrichmentProgress(0)
+    setEnrichmentStep(`🔗 Finding LinkedIn executives for ${businessesToEnrich.length} businesses...`)
+
+    try {
+      const response = await fetch('/api/linkedin-enrich', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          businesses: businessesToEnrich,
+          options: {
+            maxBusinesses: businessesToEnrich.length,
+            includePhones: true,
+            prioritizeEmails: true
+          }
+        }),
+      })
+
+      if (!response.ok) {
+        throw new Error('LinkedIn enrichment failed')
+      }
+
+      // Handle streaming response for real-time updates
+      const reader = response.body?.getReader()
+      if (reader) {
+        while (true) {
+          const { done, value } = await reader.read()
+          if (done) break
+
+          const text = new TextDecoder().decode(value)
+          const lines = text.split('\n').filter(line => line.trim())
+
+          for (const line of lines) {
+            try {
+              const data = JSON.parse(line)
+              if (data.type === 'progress') {
+                setEnrichmentProgress(data.progress)
+                setEnrichmentStep(data.step)
+              } else if (data.type === 'result') {
+                // Update results with enriched businesses
+                setResults(prev => prev ? {
+                  ...prev,
+                  businesses: data.result.enrichedBusinesses,
+                  linkedinEnrichmentSummary: data.result.enrichmentSummary
+                } : null)
+
+                setEnrichmentStep(`✅ LinkedIn enrichment complete! Found ${data.result.newEmailsFound} new executive emails`)
+              } else if (data.type === 'error') {
+                throw new Error(data.error)
+              }
+            } catch (parseError) {
+              // Ignore malformed JSON
+            }
+          }
+        }
+      }
+    } catch (error) {
+      console.error('LinkedIn enrichment error:', error)
+      setEnrichmentStep('LinkedIn enrichment failed - please try again')
+    } finally {
+      setIsEnrichingContacts(false)
+    }
+  }
+
+  // Clean up binary garbage email data
+  const handleCleanupGarbageEmails = async () => {
+    if (!results || !results.businesses.length) {
+      alert('No business data available for cleanup.')
+      return
+    }
+
+    const garbageEmails = results.businesses.filter((business: any) => {
+      if (!business.email) return false
+      // Check for binary garbage patterns (same logic as ContactExtractor)
+      const nonAsciiChars = business.email.replace(/[\x00-\x7F]/g, '').length
+      const binaryRatio = nonAsciiChars / business.email.length
+      return binaryRatio > 0.3
+    })
+
+    if (garbageEmails.length === 0) {
+      alert('No garbage email data found to clean up.')
+      return
+    }
+
+    const confirmCleanup = confirm(
+      `Found ${garbageEmails.length} businesses with garbage email data. ` +
+      `This will remove the invalid emails and reset their enrichment status so they can be re-processed. Continue?`
+    )
+
+    if (!confirmCleanup) return
+
+    try {
+      console.log(`🧹 Cleaning up ${garbageEmails.length} garbage emails...`)
+
+      // Clean up the data locally
+      const cleanedBusinesses = results.businesses.map((business: any) => {
+        if (business.email) {
+          const nonAsciiChars = business.email.replace(/[\x00-\x7F]/g, '').length
+          const binaryRatio = nonAsciiChars / business.email.length
+
+          if (binaryRatio > 0.3) {
+            console.log(`   🗑️ Removing garbage email from ${business.title}: ${business.email}`)
+            const cleaned = { ...business }
+            delete cleaned.email
+            cleaned.contactEnriched = false
+            delete cleaned.enrichmentDate
+            return cleaned
+          }
+        }
+        return business
+      })
+
+      // Update the results
+      setResults(prev => prev ? {
+        ...prev,
+        businesses: cleanedBusinesses
+      } : null)
+
+      // Update the stored extraction if we have an ID
+      if (currentExtractionId) {
+        try {
+          await fetch('/api/history', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              action: 'updateEnrichment',
+              data: {
+                id: currentExtractionId,
+                enrichedBusinesses: cleanedBusinesses,
+                enrichmentStats: {
+                  garbageEmailsRemoved: garbageEmails.length,
+                  cleanupDate: new Date().toISOString()
+                }
+              }
+            }),
+          })
+          console.log('✅ Updated stored extraction with cleaned data')
+        } catch (error) {
+          console.warn('Failed to update stored extraction:', error)
+        }
+      }
+
+      alert(`Successfully cleaned up ${garbageEmails.length} garbage emails. These businesses can now be re-enriched with valid contact data.`)
+
+    } catch (error) {
+      console.error('Cleanup error:', error)
+      alert('Failed to clean up garbage emails. Please try again.')
     }
   }
 
@@ -382,15 +587,40 @@ export function EnhancedReviewExtractionDashboard() {
     setSelectAll(false)
   }, [results])
 
-  const statsData = results ? {
-    businesses: results.businesses.length,
-    reviews: results.reviews.length,
-    enriched: results.businesses.filter((b: any) => b.contactEnriched).length,
-    avgRating: results.businesses.reduce((acc: number, b: any) => acc + (b.totalScore || 0), 0) / results.businesses.length || 0,
-    phoneNumbers: results.businesses.filter((b: any) => b.phone).length,
-    emails: results.businesses.filter((b: any) => b.email).length,
-    websites: results.businesses.filter((b: any) => b.website).length
-  } : null
+  // Memoize expensive computations
+  const statsData = React.useMemo(() => {
+    if (!results) return null
+
+    let enriched = 0, phoneNumbers = 0, emails = 0, websites = 0, garbageEmails = 0
+    let totalRating = 0
+
+    for (const business of results.businesses) {
+      const b = business as any
+      if (b.contactEnriched) enriched++
+      if (b.phone) phoneNumbers++
+      if (b.email) emails++
+      if (b.website) websites++
+      if (b.totalScore) totalRating += b.totalScore
+
+      // Check for garbage emails
+      if (b.email) {
+        const nonAsciiChars = b.email.replace(/[\x00-\x7F]/g, '').length
+        const binaryRatio = nonAsciiChars / b.email.length
+        if (binaryRatio > 0.3) garbageEmails++
+      }
+    }
+
+    return {
+      businesses: results.businesses.length,
+      reviews: results.reviews.length,
+      enriched,
+      avgRating: results.businesses.length > 0 ? totalRating / results.businesses.length : 0,
+      phoneNumbers,
+      emails,
+      websites,
+      garbageEmails
+    }
+  }, [results])
 
   return (
     <div className="min-h-screen bg-background">
@@ -714,6 +944,62 @@ export function EnhancedReviewExtractionDashboard() {
                               animate={{ scale: [1, 1.2, 1] }}
                               transition={{ duration: 2, repeat: Infinity }}
                             />
+                          )}
+                        </motion.div>
+                      )}
+
+                      {/* LinkedIn Executive Email Enrichment Button */}
+                      {!isEnrichingContacts && results.businesses.length > 0 && (
+                        <motion.div
+                          initial={{ scale: 0.9, opacity: 0 }}
+                          animate={{ scale: 1, opacity: 1 }}
+                          className="relative"
+                        >
+                          <Button
+                            variant="secondary"
+                            size="lg"
+                            onClick={handleLinkedInEnrichment}
+                            disabled={isExtracting || selectedBusinesses.size === 0}
+                            className="bg-[#0077b5] hover:bg-[#005885] text-white font-semibold px-6 py-3 rounded-lg shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-200 border-0"
+                          >
+                            <Users className="h-5 w-5 mr-2" />
+                            Find LinkedIn Executives ({selectedBusinesses.size})
+                          </Button>
+                          {selectedBusinesses.size > 0 && (
+                            <motion.div
+                              className="absolute -top-1 -right-1 w-3 h-3 bg-blue-400 rounded-full"
+                              animate={{ scale: [1, 1.2, 1] }}
+                              transition={{ duration: 2, repeat: Infinity }}
+                            />
+                          )}
+                        </motion.div>
+                      )}
+
+                      {/* Cleanup Garbage Emails Button */}
+                      {!isEnrichingContacts && results.businesses.length > 0 && (
+                        <motion.div
+                          initial={{ scale: 0.9, opacity: 0 }}
+                          animate={{ scale: 1, opacity: 1 }}
+                          className="relative"
+                        >
+                          <Button
+                            variant="outline"
+                            size="lg"
+                            onClick={handleCleanupGarbageEmails}
+                            disabled={isExtracting}
+                            className="bg-red-600/20 hover:bg-red-600/30 border-red-500/50 text-red-400 hover:text-red-300 font-semibold px-6 py-3 rounded-lg shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-200"
+                          >
+                            <Trash2 className="h-5 w-5 mr-2" />
+                            Clean Garbage Emails {statsData?.garbageEmails ? `(${statsData.garbageEmails})` : ''}
+                          </Button>
+                          {statsData?.garbageEmails && statsData.garbageEmails > 0 && (
+                            <motion.div
+                              className="absolute -top-1 -right-1 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-xs font-bold"
+                              animate={{ scale: [1, 1.1, 1] }}
+                              transition={{ duration: 2, repeat: Infinity }}
+                            >
+                              {statsData.garbageEmails}
+                            </motion.div>
                           )}
                         </motion.div>
                       )}

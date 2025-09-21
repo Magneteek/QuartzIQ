@@ -322,19 +322,19 @@ export function EnhancedHistorySidebar({ isOpen, onLoadExtraction, onClose, curr
                               >
                                 {latestEnrichment.phoneNumbers > 0 && (
                                   <div className="flex items-center gap-1">
-                                    <Phone className="h-3 w-3 text-blue-400" />
+                                    <Phone className="h-3 w-3 text-primary" />
                                     <span className="font-medium">{latestEnrichment.phoneNumbers}</span>
                                   </div>
                                 )}
                                 {latestEnrichment.emails > 0 && (
                                   <div className="flex items-center gap-1">
-                                    <Mail className="h-3 w-3 text-green-400" />
+                                    <Mail className="h-3 w-3 text-primary" />
                                     <span className="font-medium">{latestEnrichment.emails}</span>
                                   </div>
                                 )}
                                 {latestEnrichment.websites > 0 && (
                                   <div className="flex items-center gap-1">
-                                    <Globe className="h-3 w-3 text-purple-400" />
+                                    <Globe className="h-3 w-3 text-primary" />
                                     <span className="font-medium">{latestEnrichment.websites}</span>
                                   </div>
                                 )}

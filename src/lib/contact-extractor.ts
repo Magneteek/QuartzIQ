@@ -1,6 +1,7 @@
 /**
  * Contact Information Extractor
  * Simplified single-method approach to get phone, website, and email
+ * Updated with binary content detection - v2.1
  */
 
 import https from 'https'
@@ -116,6 +117,56 @@ export class ContactExtractor {
   }
 
   /**
+   * Check if a business already has complete contact information
+   */
+  private hasCompleteContactInfo(business: Business): boolean {
+    // Consider complete if has phone AND email (website is often available from Google Maps)
+    return !!(business.phone && business.email)
+  }
+
+  /**
+   * Filter businesses to only process those that need contact enrichment
+   */
+  private filterBusinessesNeedingEnrichment(businesses: Business[]): {
+    needsEnrichment: Business[]
+    alreadyComplete: Business[]
+    skippedStats: { total: number, alreadyComplete: number, needsWork: number }
+  } {
+    const needsEnrichment: Business[] = []
+    const alreadyComplete: Business[] = []
+
+    console.log(`🔍 Filtering businesses by contact completeness...`)
+
+    for (const business of businesses) {
+      if (this.hasCompleteContactInfo(business)) {
+        alreadyComplete.push(business)
+        console.log(`   ⏭️ SKIP: "${business.title}" - Already has phone (${business.phone}) and email (${business.email})`)
+      } else {
+        needsEnrichment.push(business)
+        const missing = []
+        if (!business.phone) missing.push('phone')
+        if (!business.website) missing.push('website')
+        if (!business.email) missing.push('email')
+        console.log(`   🔄 PROCESS: "${business.title}" - Missing: ${missing.join(', ')}`)
+      }
+    }
+
+    const skippedStats = {
+      total: businesses.length,
+      alreadyComplete: alreadyComplete.length,
+      needsWork: needsEnrichment.length
+    }
+
+    console.log(`📊 Contact enrichment filtering results:`)
+    console.log(`   Total businesses: ${skippedStats.total}`)
+    console.log(`   Already complete: ${skippedStats.alreadyComplete} (${Math.round(skippedStats.alreadyComplete/skippedStats.total*100)}%)`)
+    console.log(`   Need enrichment: ${skippedStats.needsWork} (${Math.round(skippedStats.needsWork/skippedStats.total*100)}%)`)
+    console.log(`   💰 Resource savings: Skipping ${skippedStats.alreadyComplete} API calls/crawls`)
+
+    return { needsEnrichment, alreadyComplete, skippedStats }
+  }
+
+  /**
    * Enrich businesses with complete contact information: phone, website, email
    * Single comprehensive method that gets all contact data
    */
@@ -125,10 +176,17 @@ export class ContactExtractor {
   } = {}): Promise<Business[]> {
     const { maxConcurrent = 3 } = options
 
-    console.log(`🔍 Starting SIMPLIFIED contact enrichment for ${businesses.length} businesses`)
+    console.log(`🔍 Starting OPTIMIZED contact enrichment for ${businesses.length} businesses`)
 
-    // Step 1: Remove duplicates first
-    const { uniqueBusinesses, duplicateStats } = this.deduplicateBusinesses(businesses)
+    // Step 1: Filter out businesses that already have complete contact info
+    const { needsEnrichment, alreadyComplete, skippedStats } = this.filterBusinessesNeedingEnrichment(businesses)
+
+    if (skippedStats.alreadyComplete > 0) {
+      console.log(`⚡ EFFICIENCY BOOST: Skipping ${skippedStats.alreadyComplete} businesses that already have complete contact info`)
+    }
+
+    // Step 2: Remove duplicates from businesses that need enrichment
+    const { uniqueBusinesses, duplicateStats } = this.deduplicateBusinesses(needsEnrichment)
 
     if (duplicateStats.duplicatesRemoved > 0) {
       console.log(`⚡ Efficiency improvement: Avoiding ${duplicateStats.duplicatesRemoved} duplicate crawls`)
@@ -218,24 +276,30 @@ export class ContactExtractor {
       enrichedBusinesses.push(...batchResults)
 
       // Rate limiting delay between batches
-      if (i + maxConcurrent < businesses.length) {
+      if (i + maxConcurrent < uniqueBusinesses.length) {
         console.log(`   ⏳ Rate limiting delay...`)
         await this.delay(2000)
       }
     }
 
-    const emailSuccessCount = enrichedBusinesses.filter(b => b.email).length
-    const phoneSuccessCount = enrichedBusinesses.filter(b => b.phone).length
-    const websiteSuccessCount = enrichedBusinesses.filter(b => b.website).length
-    const enrichedCount = enrichedBusinesses.filter(b => b.contactEnriched).length
+    // Combine newly enriched businesses with those that were already complete
+    const allBusinesses = [...alreadyComplete, ...enrichedBusinesses]
 
-    console.log(`✅ Complete contact enrichment finished!`)
-    console.log(`   📊 Results: ${enrichedCount}/${businesses.length} businesses processed`)
-    console.log(`   📞 Phones: ${phoneSuccessCount}/${businesses.length} found (${Math.round(phoneSuccessCount/businesses.length*100)}%)`)
-    console.log(`   🌐 Websites: ${websiteSuccessCount}/${businesses.length} found (${Math.round(websiteSuccessCount/businesses.length*100)}%)`)
-    console.log(`   📧 Emails: ${emailSuccessCount}/${businesses.length} found (${Math.round(emailSuccessCount/businesses.length*100)}%)`)
+    const emailSuccessCount = allBusinesses.filter(b => b.email).length
+    const phoneSuccessCount = allBusinesses.filter(b => b.phone).length
+    const websiteSuccessCount = allBusinesses.filter(b => b.website).length
+    const enrichedCount = allBusinesses.filter(b => b.contactEnriched).length
 
-    return enrichedBusinesses
+    console.log(`✅ OPTIMIZED contact enrichment finished!`)
+    console.log(`   📊 Total businesses: ${allBusinesses.length}`)
+    console.log(`   ⚡ Skipped (already complete): ${alreadyComplete.length}`)
+    console.log(`   🔄 Processed: ${enrichedBusinesses.length}`)
+    console.log(`   📞 Phones: ${phoneSuccessCount}/${allBusinesses.length} found (${Math.round(phoneSuccessCount/allBusinesses.length*100)}%)`)
+    console.log(`   🌐 Websites: ${websiteSuccessCount}/${allBusinesses.length} found (${Math.round(websiteSuccessCount/allBusinesses.length*100)}%)`)
+    console.log(`   📧 Emails: ${emailSuccessCount}/${allBusinesses.length} found (${Math.round(emailSuccessCount/allBusinesses.length*100)}%)`)
+    console.log(`   💰 Resource efficiency: ${Math.round(alreadyComplete.length/businesses.length*100)}% API calls saved`)
+
+    return allBusinesses
   }
 
   /**
@@ -306,6 +370,12 @@ export class ContactExtractor {
           if (contactData.website) console.log(`     🌐 Website: ${contactData.website}`)
           return contactData
         }
+
+        // If Firecrawl AI extraction didn't find email, it likely doesn't exist or is well-hidden
+        // The new schema-based approach should find emails in footers, contact sections, etc.
+        if (!contactData.email) {
+          console.log(`   ⚠️ Firecrawl AI schema extraction found no email - email may not be publicly available`)
+        }
       }
 
       // Fall back to direct HTTP fetch if Firecrawl fails or finds nothing
@@ -338,7 +408,7 @@ export class ContactExtractor {
   }
 
   /**
-   * Fetch website content directly using HTTPS
+   * Fetch website content directly using HTTPS with compression handling
    */
   private async fetchWebsiteContent(url: string): Promise<string> {
     return new Promise((resolve, reject) => {
@@ -352,7 +422,7 @@ export class ContactExtractor {
           'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
           'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
           'Accept-Language': 'en-US,en;q=0.5',
-          'Accept-Encoding': 'gzip, deflate',
+          'Accept-Encoding': 'identity', // Don't request compression to avoid binary data
           'Connection': 'keep-alive'
         }
       }
@@ -360,20 +430,49 @@ export class ContactExtractor {
       const protocol = urlObj.protocol === 'https:' ? https : http
 
       const req = protocol.request(options, (res) => {
-        let data = ''
-
         // Handle redirects
         if (res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) {
           console.log(`   🔄 Redirecting to: ${res.headers.location}`)
           return this.fetchWebsiteContent(res.headers.location).then(resolve).catch(reject)
         }
 
-        res.on('data', (chunk) => { data += chunk })
+        // Check content type to ensure we're getting HTML/text
+        const contentType = res.headers['content-type'] || ''
+        if (!contentType.includes('text/html') && !contentType.includes('text/plain')) {
+          console.log(`   ⚠️ Non-text content type: ${contentType}, skipping extraction`)
+          return reject(new Error(`Invalid content type: ${contentType}`))
+        }
+
+        let rawData = Buffer.alloc(0)
+
+        res.on('data', (chunk) => {
+          rawData = Buffer.concat([rawData, chunk])
+        })
+
         res.on('end', () => {
-          if (res.statusCode === 200) {
-            resolve(data)
-          } else {
-            reject(new Error(`HTTP ${res.statusCode}: ${res.statusMessage}`))
+          try {
+            if (res.statusCode === 200) {
+              // Convert buffer to string, handling potential encoding issues
+              let data = rawData.toString('utf8')
+
+              // Basic check to see if this looks like binary data
+              const nonPrintableChars = data.replace(/[\x20-\x7E\s]/g, '').length
+              const totalChars = data.length
+              const binaryRatio = nonPrintableChars / totalChars
+
+              if (binaryRatio > 0.3) {
+                console.log(`   ⚠️ Content appears to be binary (${Math.round(binaryRatio * 100)}% non-printable), skipping extraction`)
+                return reject(new Error('Binary content detected'))
+              }
+
+              console.log(`   ✅ Successfully fetched text content (${data.length} chars, ${Math.round(binaryRatio * 100)}% binary) - FIXED VERSION`)
+              resolve(data)
+            } else {
+              reject(new Error(`HTTP ${res.statusCode}: ${res.statusMessage}`))
+            }
+          } catch (error: any) {
+            console.log(`   ❌ Error processing response: ${error.message}`)
+            reject(new Error(`Response processing failed: ${error.message}`))
           }
         })
       })
@@ -674,6 +773,14 @@ export class ContactExtractor {
       return false
     }
 
+    // Detect binary/garbage data by checking for high percentage of non-ASCII characters
+    const nonAsciiChars = email.replace(/[\x00-\x7F]/g, '').length
+    const binaryRatio = nonAsciiChars / email.length
+    if (binaryRatio > 0.3) {
+      console.log(`   ❌ Email appears to be binary garbage (${Math.round(binaryRatio * 100)}% non-ASCII): ${email}`)
+      return false
+    }
+
     // Invalid patterns that suggest it's not a real business email
     const invalidPatterns = [
       'example.com',
@@ -802,21 +909,45 @@ export class ContactExtractor {
       try {
         console.log(`   🔥 Using Firecrawl to scrape: ${url} (attempt ${attempt}/${retries})`)
 
-        const response = await fetch('https://api.firecrawl.dev/v2/scrape', {
+        const response = await fetch('https://api.firecrawl.dev/v2/extract', {
           method: 'POST',
           headers: {
             'Authorization': `Bearer ${this.firecrawlApiKey}`,
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            url: url,
-            formats: [
-              'markdown',
-              {
-                type: 'json',
-                prompt: 'Extract contact information from this webpage including email addresses, phone numbers, and business name.'
-              }
-            ]
+            urls: [url],
+            schema: {
+              type: 'object',
+              properties: {
+                email: {
+                  type: 'string',
+                  description: 'Primary contact email address found on the page (in footer, contact section, or anywhere visible)'
+                },
+                alternativeEmails: {
+                  type: 'array',
+                  items: { type: 'string' },
+                  description: 'Additional email addresses found on the page'
+                },
+                phone: {
+                  type: 'string',
+                  description: 'Primary phone number in any format (international, local, etc.)'
+                },
+                businessName: {
+                  type: 'string',
+                  description: 'Business or company name'
+                },
+                website: {
+                  type: 'string',
+                  description: 'Website URL or domain'
+                },
+                address: {
+                  type: 'string',
+                  description: 'Physical business address if available'
+                }
+              },
+              required: []
+            }
           })
         })
 
@@ -953,9 +1084,26 @@ export class ContactExtractor {
         console.log(`   🏢 AI identified business: ${extractedData.businessName}`)
       }
 
+      // Handle website URL
+      if (extractedData.website && typeof extractedData.website === 'string') {
+        contactData.website = extractedData.website.trim()
+        console.log(`   🌐 AI found website: ${contactData.website}`)
+      }
+
+      // Handle business address
+      if (extractedData.address && typeof extractedData.address === 'string') {
+        console.log(`   📍 AI found address: ${extractedData.address}`)
+      }
+
       // Handle contact page URL for future reference
       if (extractedData.contactPageUrl && typeof extractedData.contactPageUrl === 'string') {
         console.log(`   📄 AI found contact page: ${extractedData.contactPageUrl}`)
+      }
+
+      // Validate extracted email with our business email validator
+      if (contactData.email && !this.isValidBusinessEmail(contactData.email)) {
+        console.log(`   ⚠️ AI-extracted email failed validation, removing: ${contactData.email}`)
+        delete contactData.email
       }
 
     } catch (error: any) {
@@ -1058,6 +1206,64 @@ export class ContactExtractor {
       console.log(`   ❌ Apify Google Maps extraction failed for ${businessName}: ${error.message}`)
       return null
     }
+  }
+
+  /**
+   * Clean up binary garbage email data from business results
+   * This removes emails that contain binary/garbage characters
+   */
+  public cleanupGarbageEmails(businesses: Business[]): Business[] {
+    console.log(`🧹 Starting cleanup of binary garbage emails from ${businesses.length} businesses`)
+
+    let cleanedCount = 0
+    const cleanedBusinesses = businesses.map(business => {
+      if (business.email) {
+        // Use the same validation logic to detect garbage
+        if (!this.isValidBusinessEmail(business.email)) {
+          console.log(`   🗑️ Removing garbage email from ${business.title}: ${business.email}`)
+          const cleaned = { ...business }
+          delete cleaned.email
+          // Reset enrichment status so it gets re-processed
+          cleaned.contactEnriched = false
+          delete cleaned.enrichmentDate
+          cleanedCount++
+          return cleaned
+        }
+      }
+      return business
+    })
+
+    console.log(`✅ Cleanup complete: Removed ${cleanedCount} garbage emails from ${businesses.length} businesses`)
+    return cleanedBusinesses
+  }
+
+  /**
+   * Detect if an email contains binary garbage characters
+   * This is a public method that can be used by the frontend
+   */
+  public isBinaryGarbageEmail(email: string): boolean {
+    if (!email || typeof email !== 'string') return false
+
+    // Check for high percentage of non-ASCII characters (same logic as validation)
+    const nonAsciiChars = email.replace(/[\x00-\x7F]/g, '').length
+    const binaryRatio = nonAsciiChars / email.length
+
+    // If more than 30% non-ASCII, it's likely binary garbage
+    if (binaryRatio > 0.3) {
+      return true
+    }
+
+    // Additional checks for other garbage patterns
+    const hasControlChars = /[\x00-\x1F\x7F-\x9F]/.test(email)
+    const hasExtendedChars = /[^\x00-\x7F]/.test(email)
+    const atCount = (email.match(/@/g) || []).length
+
+    // If it has control characters, extended chars with no normal email structure, or multiple @ signs
+    if (hasControlChars || (hasExtendedChars && atCount !== 1)) {
+      return true
+    }
+
+    return false
   }
 
   /**

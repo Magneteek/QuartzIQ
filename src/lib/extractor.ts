@@ -65,7 +65,7 @@ export class UniversalBusinessReviewExtractor {
   private actorReviewsId: string
 
   constructor() {
-    this.apiToken = process.env.APIFY_API_TOKEN || ''
+    this.apiToken = process.env.APIFY_API_TOKEN
     this.baseUrl = 'https://api.apify.com/v2'
     this.actorMapsId = 'compass~crawler-google-places'
     this.actorReviewsId = 'compass~google-maps-reviews-scraper'
