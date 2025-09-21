@@ -34,9 +34,10 @@ interface LeadSelectionModalProps {
   isOpen: boolean
   onClose: () => void
   enrichedBusinesses: EnrichedBusiness[]
+  selectedClientId: string
 }
 
-export function LeadSelectionModal({ isOpen, onClose, enrichedBusinesses }: LeadSelectionModalProps) {
+export function LeadSelectionModal({ isOpen, onClose, enrichedBusinesses, selectedClientId }: LeadSelectionModalProps) {
   const [selectedLeads, setSelectedLeads] = useState<Set<string>>(new Set())
   const [selectAll, setSelectAll] = useState(false)
   const [sending, setSending] = useState(false)
@@ -83,15 +84,6 @@ export function LeadSelectionModal({ isOpen, onClose, enrichedBusinesses }: Lead
       return
     }
 
-    // Check if Quartz Leads is configured
-    const apiKey = localStorage.getItem('ghl_api_key')
-    const locationId = localStorage.getItem('ghl_location_id')
-
-    if (!apiKey || !locationId) {
-      setError('Please configure your Quartz Leads API credentials in Settings first')
-      return
-    }
-
     setSending(true)
     setError(null)
 
@@ -114,8 +106,7 @@ export function LeadSelectionModal({ isOpen, onClose, enrichedBusinesses }: Lead
             website: business.website,
             source: 'QuartzIQ Review Extraction'
           })),
-          apiKey,
-          locationId
+          clientId: selectedClientId
         })
       })
 

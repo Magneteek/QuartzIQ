@@ -48,6 +48,8 @@ export async function POST(request: NextRequest) {
     const body = await request.json()
     const { action, data } = body
 
+    console.log('📝 History API POST received:', { action, dataKeys: Object.keys(data || {}) })
+
     switch (action) {
       case 'save':
         const { searchCriteria, results, extractionTime } = data

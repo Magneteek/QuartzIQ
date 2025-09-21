@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { getClientConfig } from '../../client-config/route'
 
 interface Contact {
   name: string
@@ -11,14 +12,16 @@ interface Contact {
 
 interface SendContactsRequest {
   contacts: Contact[]
-  apiKey: string
-  locationId: string
+  clientId?: string // Optional - defaults to 'default'
+  // Legacy support - will be deprecated
+  apiKey?: string
+  locationId?: string
 }
 
 export async function POST(request: NextRequest) {
   try {
     const body: SendContactsRequest = await request.json()
-    const { contacts, apiKey, locationId } = body
+    const { contacts, clientId = 'default', apiKey: legacyApiKey, locationId: legacyLocationId } = body
 
     if (!contacts || contacts.length === 0) {
       return NextResponse.json(
@@ -27,11 +30,37 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    if (!apiKey || !locationId) {
-      return NextResponse.json(
-        { error: 'API key and Location ID are required' },
-        { status: 400 }
-      )
+    // Get client configuration
+    let apiKey: string
+    let locationId: string
+    let customFields: { [key: string]: string } = {}
+
+    if (legacyApiKey && legacyLocationId) {
+      // Legacy support - use provided API keys directly
+      apiKey = legacyApiKey
+      locationId = legacyLocationId
+      console.log('🔄 Using legacy API key/location ID (will be deprecated)')
+    } else {
+      // New approach - use client configuration
+      const clientConfig = getClientConfig(clientId)
+      if (!clientConfig) {
+        return NextResponse.json(
+          { error: `Client configuration not found for: ${clientId}` },
+          { status: 404 }
+        )
+      }
+
+      if (!clientConfig.ghlApiKey || !clientConfig.ghlLocationId) {
+        return NextResponse.json(
+          { error: `Client ${clientId} is missing GHL API key or Location ID` },
+          { status: 400 }
+        )
+      }
+
+      apiKey = clientConfig.ghlApiKey
+      locationId = clientConfig.ghlLocationId
+      customFields = clientConfig.customFields || {}
+      console.log(`✅ Using client configuration for: ${clientConfig.clientName}`)
     }
 
     const results = []
@@ -41,7 +70,7 @@ export async function POST(request: NextRequest) {
     for (const contact of contacts) {
       try {
         // Prepare contact data for GoHighLevel API
-        const contactData = {
+        const contactData: any = {
           name: contact.name,
           address1: contact.address,
           phone: contact.phone || '',
@@ -53,6 +82,16 @@ export async function POST(request: NextRequest) {
           firstName: contact.name.split(' ')[0] || contact.name,
           lastName: contact.name.split(' ').slice(1).join(' ') || '',
           tags: ['QuartzIQ-Lead', 'Review-Extraction']
+        }
+
+        // Add custom field mappings if configured
+        if (customFields.businessName && contact.name) {
+          contactData.customFields = contactData.customFields || {}
+          contactData.customFields[customFields.businessName] = contact.name
+        }
+        if (customFields.businessCategory && contact.source) {
+          contactData.customFields = contactData.customFields || {}
+          contactData.customFields[customFields.businessCategory] = contact.source
         }
 
         // Make API call to GoHighLevel

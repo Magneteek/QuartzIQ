@@ -19,6 +19,7 @@ import { ResultsList } from '@/components/results/results-list'
 import { ExportModal } from '@/components/modals/export-modal'
 import { SettingsModal } from '@/components/modals/settings-modal'
 import { LeadSelectionModal } from '@/components/modals/lead-selection-modal'
+import { ClientSelector } from '@/components/client-config/client-selector'
 import {
   Database,
   Download,
@@ -132,6 +133,9 @@ export function EnhancedReviewExtractionDashboard() {
   const [currentExtractionId, setCurrentExtractionId] = useState<string | null>(null)
   const [lastSearchCriteria, setLastSearchCriteria] = useState<SearchCriteria | null>(null)
 
+  // Client configuration state
+  const [selectedClientId, setSelectedClientId] = useState<string>('default')
+
   // Apply dark mode
   useEffect(() => {
     document.documentElement.classList.toggle('dark', darkMode)
@@ -228,10 +232,18 @@ export function EnhancedReviewExtractionDashboard() {
             if (saveData.success) {
               setCurrentExtractionId(saveData.data.id)
               console.log(`📚 Extraction automatically saved to vault: ${saveData.data.id}`)
+            } else {
+              console.error('❌ History save failed:', saveData.error || 'Unknown error')
+              setCurrentStep(`⚠️ Extraction complete but history save failed: ${saveData.error || 'Unknown error'}`)
             }
+          } else {
+            const errorData = await saveResponse.json().catch(() => ({}))
+            console.error('❌ History save request failed:', saveResponse.status, errorData)
+            setCurrentStep(`⚠️ Extraction complete but history save failed: ${saveResponse.status}`)
           }
         } catch (error) {
-          console.warn('Failed to save extraction to history:', error)
+          console.error('❌ Failed to save extraction to history:', error)
+          setCurrentStep(`⚠️ Extraction complete but history save failed: ${error instanceof Error ? error.message : 'Unknown error'}`)
         }
       }
 
@@ -676,6 +688,18 @@ export function EnhancedReviewExtractionDashboard() {
           </Card>
         </motion.div>
 
+        {/* Client Configuration */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.05 }}
+        >
+          <ClientSelector
+            onClientSelect={setSelectedClientId}
+            selectedClientId={selectedClientId}
+          />
+        </motion.div>
+
         {/* Search Configuration */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -1084,6 +1108,7 @@ export function EnhancedReviewExtractionDashboard() {
             isOpen={showLeadSelectionModal}
             onClose={() => setShowLeadSelectionModal(false)}
             enrichedBusinesses={results.businesses}
+            selectedClientId={selectedClientId}
           />
         )}
 
