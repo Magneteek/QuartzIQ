@@ -20,6 +20,15 @@ export async function POST(request: NextRequest) {
   try {
     const { format, fields, data }: ExportRequest = await request.json()
 
+    console.log('🔄 Export API called:', {
+      format,
+      fieldsCount: fields?.length,
+      hasBusinesses: !!data?.businesses,
+      businessesCount: data?.businesses?.length || 0,
+      hasReviews: !!data?.reviews,
+      reviewsCount: data?.reviews?.length || 0
+    })
+
     if (!format || !fields || !data) {
       return NextResponse.json(
         { error: 'Format, fields, and data are required' },
@@ -27,9 +36,39 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Determine which data to export (reviews or businesses)
-    const sourceData = data.businesses || data.reviews || []
-    const dataType = data.businesses ? 'businesses' : 'reviews'
+    // Create combined dataset: each review with its business information
+    let sourceData: ReviewData[] = []
+    let dataType = 'reviews'
+
+    if (data.reviews && data.reviews.length > 0) {
+      // Create business lookup map
+      const businessMap = new Map()
+      if (data.businesses) {
+        data.businesses.forEach((business: ReviewData) => {
+          businessMap.set(business.title, business)
+        })
+      }
+
+      // Combine each review with its business data
+      sourceData = data.reviews.map((review: ReviewData) => {
+        const business = businessMap.get(review.title) || {}
+        return {
+          // Business fields first
+          ...business,
+          // Then review fields (will override any conflicting business fields)
+          ...review
+        }
+      })
+
+      console.log(`📊 Export: Combined ${data.reviews.length} reviews with business data`)
+    } else if (data.businesses && data.businesses.length > 0) {
+      // Fallback to business-only export if no reviews
+      sourceData = data.businesses
+      dataType = 'businesses'
+      console.log(`📊 Export: Business-only data (${data.businesses.length} businesses)`)
+    } else {
+      console.warn('⚠️ Export: No data to export')
+    }
 
     // Filter data to only include selected fields
     const filteredData = sourceData.map((item: ReviewData) => {
@@ -38,8 +77,13 @@ export async function POST(request: NextRequest) {
         // Handle nested fields like socialMedia.facebook
         if (field.includes('.')) {
           const [parent, child] = field.split('.')
-          const parentObj = item[parent] as Record<string, any>
-          filtered[field] = parentObj?.[child] || ''
+          const parentValue = item[parent]
+          if (parentValue && typeof parentValue === 'object') {
+            const parentObj = parentValue as Record<string, any>
+            filtered[field] = parentObj[child] || ''
+          } else {
+            filtered[field] = ''
+          }
         } else {
           filtered[field] = item[field] || ''
         }
