@@ -16,7 +16,8 @@ import {
   Send,
   CheckCircle,
   Loader2,
-  AlertCircle
+  AlertCircle,
+  Database
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
@@ -41,7 +42,9 @@ export function LeadSelectionModal({ isOpen, onClose, enrichedBusinesses, select
   const [selectedLeads, setSelectedLeads] = useState<Set<string>>(new Set())
   const [selectAll, setSelectAll] = useState(false)
   const [sending, setSending] = useState(false)
+  const [sendingAirtable, setSendingAirtable] = useState(false)
   const [sent, setSent] = useState(false)
+  const [sentAirtable, setSentAirtable] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
   // Filter only businesses with contact information
@@ -54,6 +57,7 @@ export function LeadSelectionModal({ isOpen, onClose, enrichedBusinesses, select
       setSelectedLeads(new Set())
       setSelectAll(false)
       setSent(false)
+      setSentAirtable(false)
       setError(null)
     }
   }, [isOpen])
@@ -128,6 +132,55 @@ export function LeadSelectionModal({ isOpen, onClose, enrichedBusinesses, select
     }
   }
 
+  const handleSendToAirtable = async () => {
+    if (selectedLeads.size === 0) {
+      setError('Please select at least one lead to send')
+      return
+    }
+
+    setSendingAirtable(true)
+    setError(null)
+
+    try {
+      const selectedBusinesses = availableLeads.filter((_, index) =>
+        selectedLeads.has(index.toString())
+      )
+
+      const response = await fetch('/api/airtable/send-contacts', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          contacts: selectedBusinesses.map(business => ({
+            name: business.title,
+            address: business.address,
+            phone: business.phone,
+            email: business.email,
+            website: business.website,
+            source: 'QuartzIQ Review Extraction'
+          }))
+        })
+      })
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to send contacts to Airtable')
+      }
+
+      setSentAirtable(true)
+      setTimeout(() => {
+        onClose()
+      }, 2000)
+
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to send contacts to Airtable')
+    } finally {
+      setSendingAirtable(false)
+    }
+  }
+
   if (!isOpen) return null
 
   return (
@@ -158,9 +211,9 @@ export function LeadSelectionModal({ isOpen, onClose, enrichedBusinesses, select
                 <div className="flex items-center gap-3">
                   <Users className="h-6 w-6 text-primary" />
                   <div>
-                    <h2 className="text-xl font-semibold">Send Leads to Quartz Leads</h2>
+                    <h2 className="text-xl font-semibold">Send Leads to CRM</h2>
                     <p className="text-sm text-muted-foreground">
-                      Select enriched contacts to send to your CRM
+                      Select enriched contacts to send to Quartz Leads or Airtable
                     </p>
                   </div>
                 </div>
@@ -295,14 +348,14 @@ export function LeadSelectionModal({ isOpen, onClose, enrichedBusinesses, select
                   )}
 
                   {/* Success Message */}
-                  {sent && (
+                  {(sent || sentAirtable) && (
                     <motion.div
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       className="mb-4 p-3 rounded-lg bg-green-500/10 border border-green-500/20 text-green-300 text-sm"
                     >
                       <CheckCircle className="h-4 w-4 mr-2 inline" />
-                      Successfully sent {selectedLeads.size} contacts to Quartz Leads!
+                      Successfully sent {selectedLeads.size} contacts to {sent ? 'Quartz Leads' : 'Airtable'}!
                     </motion.div>
                   )}
 
@@ -310,13 +363,35 @@ export function LeadSelectionModal({ isOpen, onClose, enrichedBusinesses, select
                     <Button
                       variant="outline"
                       onClick={onClose}
-                      className="flex-1"
                     >
                       Cancel
                     </Button>
                     <Button
+                      onClick={handleSendToAirtable}
+                      disabled={sendingAirtable || selectedLeads.size === 0 || sentAirtable || sent}
+                      variant="outline"
+                      className="flex-1"
+                    >
+                      {sendingAirtable ? (
+                        <>
+                          <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                          Sending...
+                        </>
+                      ) : sentAirtable ? (
+                        <>
+                          <CheckCircle className="h-4 w-4 mr-2" />
+                          Sent!
+                        </>
+                      ) : (
+                        <>
+                          <Database className="h-4 w-4 mr-2" />
+                          Send to Airtable ({selectedLeads.size})
+                        </>
+                      )}
+                    </Button>
+                    <Button
                       onClick={handleSendToQuartzLeads}
-                      disabled={sending || selectedLeads.size === 0 || sent}
+                      disabled={sending || selectedLeads.size === 0 || sent || sentAirtable}
                       className="flex-1"
                     >
                       {sending ? (
