@@ -38,6 +38,8 @@ export interface ExtractionHistoryItem {
     phoneNumbers: number
     websites: number
     emails: number
+    ownerContacts?: number
+    managementContacts?: number
   }[]
 }
 
@@ -283,7 +285,9 @@ export class HistoryManager {
         enrichedBusinesses: enrichmentStats.enrichedBusinesses || 0,
         phoneNumbers: enrichmentStats.phoneNumbers || 0,
         websites: enrichmentStats.websites || 0,
-        emails: enrichmentStats.emails || 0
+        emails: enrichmentStats.emails || 0,
+        ownerContacts: enrichmentStats.ownerContacts || 0,
+        managementContacts: enrichmentStats.managementContacts || 0
       })
 
       // Save updated extraction

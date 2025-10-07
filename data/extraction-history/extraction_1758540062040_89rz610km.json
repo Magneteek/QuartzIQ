@@ -1,0 +1,945 @@
+{
+  "id": "extraction_1758540062040_89rz610km",
+  "timestamp": "2025-09-22T11:21:02.040Z",
+  "searchCriteria": {
+    "category": "doctor",
+    "location": "Netherlands",
+    "minRating": 3.6,
+    "maxRating": 4.9,
+    "maxReviewsPerBusiness": 4,
+    "maxStars": 2,
+    "dayLimit": 14,
+    "businessLimit": 10,
+    "minReviews": 1,
+    "language": "nl",
+    "countryCode": "nl"
+  },
+  "results": {
+    "businesses": [
+      {
+        "title": "Huisartsen-spoedpost Nijmegen",
+        "price": null,
+        "categoryName": "Huisarts",
+        "address": "Weg door Jonkerbos 108, 6532 SZ Nijmegen, Nederland",
+        "neighborhood": "Nijmegen-Midden",
+        "street": "Weg door Jonkerbos 108",
+        "city": "Nijmegen",
+        "postalCode": "6532 SZ",
+        "state": null,
+        "countryCode": "NL",
+        "website": "https://hapnijmegenboxmeer.nl/",
+        "phone": "+31 24 352 3579",
+        "phoneUnformatted": "+31243523579",
+        "claimThisBusiness": false,
+        "location": {
+          "lat": 51.8184823,
+          "lng": 5.8316075
+        },
+        "totalScore": 2.7,
+        "permanentlyClosed": false,
+        "temporarilyClosed": false,
+        "placeId": "ChIJswUPB_EIx0cRsxxITEl4uBw",
+        "categories": [
+          "Huisarts"
+        ],
+        "fid": "0x47c708f1070f05b3:0x1cb878494c481cb3",
+        "cid": "2069536284984482995",
+        "reviewsCount": 102,
+        "imagesCount": 4,
+        "imageCategories": [],
+        "scrapedAt": "2025-09-22T11:16:59.098Z",
+        "googleFoodUrl": null,
+        "hotelAds": [],
+        "openingHours": [
+          {
+            "day": "maandag",
+            "hours": "17:00 to 00:00"
+          },
+          {
+            "day": "dinsdag",
+            "hours": "00:00 to 08:00, 17:00 to 00:00"
+          },
+          {
+            "day": "woensdag",
+            "hours": "00:00 to 08:00, 17:00 to 00:00"
+          },
+          {
+            "day": "donderdag",
+            "hours": "00:00 to 08:00, 17:00 to 00:00"
+          },
+          {
+            "day": "vrijdag",
+            "hours": "00:00 to 08:00, 17:00 to 00:00"
+          },
+          {
+            "day": "zaterdag",
+            "hours": "24 uur geopend"
+          },
+          {
+            "day": "zondag",
+            "hours": "24 uur geopend"
+          }
+        ],
+        "peopleAlsoSearch": [],
+        "placesTags": [],
+        "reviewsTags": [],
+        "additionalInfo": {
+          "Toegankelijkheid": [
+            {
+              "Rolstoeltoegankelijk toilet": true
+            },
+            {
+              "Rolstoeltoegankelijke ingang": true
+            },
+            {
+              "Rolstoeltoegankelijke parking": true
+            }
+          ],
+          "Voorzieningen": [
+            {
+              "Toilet": true
+            }
+          ],
+          "Planning": [
+            {
+              "Afspraak aanbevolen": true
+            }
+          ],
+          "Betalen": [
+            {
+              "Contactloos mobiel betalen": true
+            },
+            {
+              "Pinpassen": true
+            }
+          ]
+        },
+        "gasPrices": [],
+        "url": "https://www.google.com/maps/search/?api=1&query=Huisartsen-spoedpost%20Nijmegen&query_place_id=ChIJswUPB_EIx0cRsxxITEl4uBw",
+        "searchPageUrl": "https://www.google.com/maps/search/doctor%20Nederland/@51.76006340842791,6.182034203767007,11z?hl=nl",
+        "searchString": "doctor Nederland",
+        "language": "nl",
+        "rank": 2,
+        "isAdvertisement": false,
+        "imageUrl": "https://lh3.googleusercontent.com/gps-cs-s/AC9h4nqAZ_gNLBDBPYMqTXZqFVgpIUiCMPYlTjtFClTStUpweJEN_fs-dqSue2ORQBOfUwn5Wr9rXMSpZt_x7kZascBm8es94tZm4Itfv0Inyo2eSBa6gPuR-GJLYWsztzWpDOLaE3k=w532-h240-k-no",
+        "kgmid": "/g/1v7tklqm",
+        "email": "info@hapnijmegenboxmeer.nl",
+        "contactEnriched": true,
+        "enrichmentDate": "2025-09-22T11:42:33.218Z",
+        "leadQuality": {
+          "score": 79,
+          "tier": "Gold",
+          "tierColor": "text-yellow-400",
+          "tierBg": "bg-yellow-500/20 border-yellow-500/30",
+          "factors": [
+            "Review Volume: 102 reviews (+30pts)",
+            "Rating: 2.7/5 (+14pts)",
+            "Recent Activity: 100% (+20pts)",
+            "Review Quality: 119 chars avg (+15pts)"
+          ],
+          "reviewCount": 102,
+          "rating": "2.7",
+          "recentActivityRate": 100,
+          "avgTextLength": 119
+        },
+        "reviewsForBusiness": [
+          {
+            "searchString": "Direct Detail URL: https://www.google.com/maps/search/?api=1&query=ChIJswUPB_EIx0cRsxxITEl4uBw&query_place_id=ChIJswUPB_EIx0cRsxxITEl4uBw",
+            "reviewerId": "103586158682175736896",
+            "reviewerUrl": "https://www.google.com/maps/contrib/103586158682175736896?hl=nl",
+            "name": "Lysanne Rossen",
+            "reviewerNumberOfReviews": 2,
+            "isLocalGuide": false,
+            "reviewerPhotoUrl": "https://lh3.googleusercontent.com/a/ACg8ocKa7nNckJF3l7kwmYzWVPsJ-IF50xtKoHhn-H9jhabNIXzv0w=s1920-c-rp-mo-br100",
+            "text": "Nou net gebeld voor mijn zoontje met een huiduitslag wordt gewoon na 12 min wachten de verbinding verbroken............",
+            "textTranslated": null,
+            "publishAt": "2 dagen geleden",
+            "publishedAtDate": "2025-09-19T19:57:37.405Z",
+            "likesCount": 0,
+            "reviewId": "Ci9DQUlRQUNvZENodHljRjlvT21GcFRuSmZNM0ZuV0RWR01HMUdVall3WkdwcE5GRRAB",
+            "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT21GcFRuSmZNM0ZuV0RWR01HMUdVall3WkdwcE5GRRAB!2m1!1s0x0:0x1cb878494c481cb3!3m1!1s2@1:CAIQACodChtycF9oOmFpTnJfM3FnWDVGMG1GUjYwZGppNFE%7C%7C?hl=nl",
+            "reviewOrigin": "Google",
+            "stars": 1,
+            "rating": null,
+            "responseFromOwnerDate": null,
+            "responseFromOwnerText": null,
+            "reviewImageUrls": [],
+            "reviewContext": {},
+            "reviewDetailedRating": {},
+            "visitedIn": null,
+            "originalLanguage": "nl",
+            "translatedLanguage": null,
+            "isAdvertisement": false,
+            "placeId": "ChIJswUPB_EIx0cRsxxITEl4uBw",
+            "location": {
+              "lat": 51.8184823,
+              "lng": 5.8316075
+            },
+            "address": "Weg door Jonkerbos 108, 6532 SZ Nijmegen, Nederland",
+            "neighborhood": "Nijmegen-Midden",
+            "street": "Weg door Jonkerbos 108",
+            "city": "Nijmegen",
+            "postalCode": "6532 SZ",
+            "state": null,
+            "countryCode": "NL",
+            "categoryName": "Huisarts",
+            "categories": [
+              "Huisarts"
+            ],
+            "title": "Huisartsen-spoedpost Nijmegen",
+            "totalScore": 2.7,
+            "permanentlyClosed": false,
+            "temporarilyClosed": false,
+            "reviewsCount": 102,
+            "url": "https://www.google.com/maps/search/?api=1&query=Huisartsen-spoedpost%20Nijmegen&query_place_id=ChIJswUPB_EIx0cRsxxITEl4uBw",
+            "price": null,
+            "cid": "2069536284984482995",
+            "fid": "0x47c708f1070f05b3:0x1cb878494c481cb3",
+            "imageUrl": "https://lh3.googleusercontent.com/gps-cs-s/AC9h4nqAZ_gNLBDBPYMqTXZqFVgpIUiCMPYlTjtFClTStUpweJEN_fs-dqSue2ORQBOfUwn5Wr9rXMSpZt_x7kZascBm8es94tZm4Itfv0Inyo2eSBa6gPuR-GJLYWsztzWpDOLaE3k=w532-h240-k-no",
+            "scrapedAt": "2025-09-22T11:19:13.868Z",
+            "language": "nl"
+          }
+        ]
+      },
+      {
+        "title": "Medisch Centrum Oud-West 350 🩺",
+        "price": null,
+        "categoryName": "Huisarts",
+        "address": "Marialaan 350, 6541 RR Nijmegen, Nederland",
+        "neighborhood": "Nijmegen-Oud-West",
+        "street": "Marialaan 350",
+        "city": "Nijmegen",
+        "postalCode": "6541 RR",
+        "state": null,
+        "countryCode": "NL",
+        "website": "https://huisartsenmcow.nl/",
+        "phone": "+31 24 377 5696",
+        "phoneUnformatted": "+31243775696",
+        "claimThisBusiness": false,
+        "location": {
+          "lat": 51.8454463,
+          "lng": 5.840911
+        },
+        "totalScore": 3.1,
+        "permanentlyClosed": false,
+        "temporarilyClosed": false,
+        "placeId": "ChIJo_dLcnAIx0cRe7M--wPXczo",
+        "categories": [
+          "Huisarts"
+        ],
+        "fid": "0x47c70870724bf7a3:0x3a73d703fb3eb37b",
+        "cid": "4211946488621609851",
+        "reviewsCount": 32,
+        "imagesCount": 7,
+        "imageCategories": [],
+        "scrapedAt": "2025-09-22T11:16:39.195Z",
+        "googleFoodUrl": null,
+        "hotelAds": [],
+        "openingHours": [
+          {
+            "day": "maandag",
+            "hours": "08:00 to 17:00"
+          },
+          {
+            "day": "dinsdag",
+            "hours": "08:00 to 17:00"
+          },
+          {
+            "day": "woensdag",
+            "hours": "08:00 to 17:00"
+          },
+          {
+            "day": "donderdag",
+            "hours": "08:00 to 17:00"
+          },
+          {
+            "day": "vrijdag",
+            "hours": "08:00 to 17:00"
+          },
+          {
+            "day": "zaterdag",
+            "hours": "Gesloten"
+          },
+          {
+            "day": "zondag",
+            "hours": "Gesloten"
+          }
+        ],
+        "peopleAlsoSearch": [],
+        "placesTags": [],
+        "reviewsTags": [],
+        "additionalInfo": {
+          "Toegankelijkheid": [
+            {
+              "Rolstoeltoegankelijk toilet": true
+            },
+            {
+              "Rolstoeltoegankelijke ingang": true
+            },
+            {
+              "Rolstoeltoegankelijke parking": true
+            }
+          ],
+          "Voorzieningen": [
+            {
+              "Toilet": true
+            }
+          ],
+          "Planning": [
+            {
+              "Afspraak aanbevolen": true
+            }
+          ],
+          "Betalen": [
+            {
+              "Contactloos mobiel betalen": true
+            },
+            {
+              "Pinpassen": true
+            }
+          ]
+        },
+        "gasPrices": [],
+        "url": "https://www.google.com/maps/search/?api=1&query=Medisch%20Centrum%20Oud-West%20350%20%F0%9F%A9%BA&query_place_id=ChIJo_dLcnAIx0cRe7M--wPXczo",
+        "searchPageUrl": "https://www.google.com/maps/search/doctor%20Netherlands/@51.76006340842791,6.182034203767007,11z?hl=nl",
+        "searchString": "doctor Netherlands",
+        "language": "nl",
+        "rank": 1,
+        "isAdvertisement": false,
+        "imageUrl": "https://lh3.googleusercontent.com/gps-cs-s/AC9h4npNErzkhLCOQZTZiQeT6FSyDQfU-fn-CQQtW7KUaohaaqakN_iMVBrFyJeOKiEqpahRuI1ajubApPkHmW8W9unTTQIrBw_sL0QKuRO-EzhyAIPZXmkmIRlV9NfSR0-uHio629Ju=w408-h272-k-no",
+        "kgmid": "/g/11bvvzl1d6",
+        "contactEnriched": true,
+        "enrichmentDate": "2025-09-22T15:41:51.235Z",
+        "leadQuality": {
+          "score": 79,
+          "tier": "Gold",
+          "tierColor": "text-yellow-400",
+          "tierBg": "bg-yellow-500/20 border-yellow-500/30",
+          "factors": [
+            "Review Volume: 32 reviews (+18pts)",
+            "Rating: 3.1/5 (+16pts)",
+            "Recent Activity: 100% (+20pts)",
+            "Review Quality: 835 chars avg (+25pts)"
+          ],
+          "reviewCount": 32,
+          "rating": "3.1",
+          "recentActivityRate": 100,
+          "avgTextLength": 835
+        },
+        "reviewsForBusiness": [
+          {
+            "searchString": "Direct Detail URL: https://www.google.com/maps/search/?api=1&query=ChIJo_dLcnAIx0cRe7M--wPXczo&query_place_id=ChIJo_dLcnAIx0cRe7M--wPXczo",
+            "reviewerId": "109989314207230035184",
+            "reviewerUrl": "https://www.google.com/maps/contrib/109989314207230035184?hl=nl",
+            "name": "Emad karahbi",
+            "reviewerNumberOfReviews": 12,
+            "isLocalGuide": false,
+            "reviewerPhotoUrl": "https://lh3.googleusercontent.com/a-/ALV-UjX9EJvBG7UHJx-5EWwef-ezIfmFoaScu0EPnJiJVbf5OGFKspg=s1920-c-rp-mo-br100",
+            "text": "Belangrijke waarschuwing over deze kliniek\nIk ging naar deze kliniek terwijl ik in slechte gezondheid verkeerde (koorts, benauwdheid, extreme vermoeidheid). De arts zei alleen dat het “griep” was en weigerde volledig om een bloedonderzoek of andere onderzoeken te doen, ondanks mijn aandringen.\nDe arts was bovendien hard en zonder enig medeleven in zijn houding tegenover mij.\nNa enkele dagen van lijden en een ernstige verslechtering van mijn toestand moest ik naar het ziekenhuis. Daar bleek dat ik een ernstige longontsteking had die dringend behandeld moest worden.\nDeze nalatigheid en het gebrek aan empathie hadden mijn leven kunnen kosten. Ik schrijf dit om anderen te waarschuwen en om de directie van de kliniek op te roepen verantwoordelijkheid te nemen en ervoor te zorgen dat dit nooit meer bij een andere patiënt gebeurt.",
+            "textTranslated": null,
+            "publishAt": "6 dagen geleden",
+            "publishedAtDate": "2025-09-16T08:53:20.374Z",
+            "likesCount": 0,
+            "reviewId": "Ci9DQUlRQUNvZENodHljRjlvT25wM01WQktjV056YUhKVlJIUnllbEpHTUVWWVdGRRAB",
+            "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT25wM01WQktjV056YUhKVlJIUnllbEpHTUVWWVdGRRAB!2m1!1s0x0:0x3a73d703fb3eb37b!3m1!1s2@1:CAIQACodChtycF9oOnp3MVBKcWNzaHJVRHRyelJGMEVYWFE%7C%7C?hl=nl",
+            "reviewOrigin": "Google",
+            "stars": 1,
+            "rating": null,
+            "responseFromOwnerDate": null,
+            "responseFromOwnerText": null,
+            "reviewImageUrls": [],
+            "reviewContext": {},
+            "reviewDetailedRating": {},
+            "visitedIn": null,
+            "originalLanguage": "nl",
+            "translatedLanguage": null,
+            "isAdvertisement": false,
+            "placeId": "ChIJo_dLcnAIx0cRe7M--wPXczo",
+            "location": {
+              "lat": 51.8454463,
+              "lng": 5.840911
+            },
+            "address": "Marialaan 350, 6541 RR Nijmegen, Nederland",
+            "neighborhood": "Nijmegen-Oud-West",
+            "street": "Marialaan 350",
+            "city": "Nijmegen",
+            "postalCode": "6541 RR",
+            "state": null,
+            "countryCode": "NL",
+            "categoryName": "Huisarts",
+            "categories": [
+              "Huisarts"
+            ],
+            "title": "Medisch Centrum Oud-West 350 🩺",
+            "totalScore": 3.1,
+            "permanentlyClosed": false,
+            "temporarilyClosed": false,
+            "reviewsCount": 32,
+            "url": "https://www.google.com/maps/search/?api=1&query=Medisch%20Centrum%20Oud-West%20350%20%F0%9F%A9%BA&query_place_id=ChIJo_dLcnAIx0cRe7M--wPXczo",
+            "price": null,
+            "cid": "4211946488621609851",
+            "fid": "0x47c70870724bf7a3:0x3a73d703fb3eb37b",
+            "imageUrl": "https://lh3.googleusercontent.com/gps-cs-s/AC9h4npNErzkhLCOQZTZiQeT6FSyDQfU-fn-CQQtW7KUaohaaqakN_iMVBrFyJeOKiEqpahRuI1ajubApPkHmW8W9unTTQIrBw_sL0QKuRO-EzhyAIPZXmkmIRlV9NfSR0-uHio629Ju=w408-h272-k-no",
+            "scrapedAt": "2025-09-22T11:17:59.580Z",
+            "language": "nl"
+          }
+        ],
+        "email": "info@huisartsenmcow.nl"
+      },
+      {
+        "title": "Radboudumc",
+        "price": null,
+        "categoryName": "Universitair medisch centrum",
+        "address": "Geert Grooteplein Zuid 10, 6525 GA Nijmegen, Nederland",
+        "neighborhood": "Nijmegen-Midden",
+        "street": "Geert Grooteplein Zuid 10",
+        "city": "Nijmegen",
+        "postalCode": "6525 GA",
+        "state": null,
+        "countryCode": "NL",
+        "website": "https://www.radboudumc.nl/",
+        "phone": "+31 24 361 1111",
+        "phoneUnformatted": "+31243611111",
+        "claimThisBusiness": false,
+        "location": {
+          "lat": 51.8234259,
+          "lng": 5.8613923
+        },
+        "locatedIn": "Radboudumc Spoedeisende Hulp🚨",
+        "totalScore": 4.3,
+        "permanentlyClosed": false,
+        "temporarilyClosed": false,
+        "placeId": "ChIJeQuOBvIIx0cRrLAdBVRzWp8",
+        "categories": [
+          "Universitair medisch centrum",
+          "Ziekenhuis"
+        ],
+        "fid": "0x47c708f2068e0b79:0x9f5a7354051db0ac",
+        "cid": "11482617004634779820",
+        "reviewsCount": 394,
+        "imagesCount": 602,
+        "imageCategories": [],
+        "scrapedAt": "2025-09-22T11:16:39.197Z",
+        "googleFoodUrl": null,
+        "hotelAds": [],
+        "openingHours": [
+          {
+            "day": "maandag",
+            "hours": "24 uur geopend"
+          },
+          {
+            "day": "dinsdag",
+            "hours": "24 uur geopend"
+          },
+          {
+            "day": "woensdag",
+            "hours": "24 uur geopend"
+          },
+          {
+            "day": "donderdag",
+            "hours": "24 uur geopend"
+          },
+          {
+            "day": "vrijdag",
+            "hours": "24 uur geopend"
+          },
+          {
+            "day": "zaterdag",
+            "hours": "24 uur geopend"
+          },
+          {
+            "day": "zondag",
+            "hours": "24 uur geopend"
+          }
+        ],
+        "additionalOpeningHours": {
+          "Radboudumc Spoedeisende Hulp🚨": [
+            {
+              "day": "maandag",
+              "hours": "24 uur geopend"
+            },
+            {
+              "day": "dinsdag",
+              "hours": "24 uur geopend"
+            },
+            {
+              "day": "woensdag",
+              "hours": "24 uur geopend"
+            },
+            {
+              "day": "donderdag",
+              "hours": "24 uur geopend"
+            },
+            {
+              "day": "vrijdag",
+              "hours": "24 uur geopend"
+            },
+            {
+              "day": "zaterdag",
+              "hours": "24 uur geopend"
+            },
+            {
+              "day": "zondag",
+              "hours": "24 uur geopend"
+            }
+          ]
+        },
+        "peopleAlsoSearch": [],
+        "placesTags": [],
+        "reviewsTags": [],
+        "additionalInfo": {
+          "Toegankelijkheid": [
+            {
+              "Rolstoeltoegankelijk toilet": true
+            },
+            {
+              "Rolstoeltoegankelijke ingang": true
+            },
+            {
+              "Rolstoeltoegankelijke parking": true
+            }
+          ],
+          "Aanbod": [
+            {
+              "Inleverpunt voor oude geneesmiddelen": true
+            }
+          ],
+          "Voorzieningen": [
+            {
+              "Toilet": true
+            }
+          ],
+          "Betalen": [
+            {
+              "Contactloos mobiel betalen": true
+            },
+            {
+              "Creditcards": true
+            },
+            {
+              "Pinpassen": true
+            },
+            {
+              "Creditcards": true
+            }
+          ]
+        },
+        "gasPrices": [],
+        "url": "https://www.google.com/maps/search/?api=1&query=Radboudumc&query_place_id=ChIJeQuOBvIIx0cRrLAdBVRzWp8",
+        "searchPageUrl": "https://www.google.com/maps/search/doctor%20Netherlands/@51.76006340842791,6.182034203767007,11z?hl=nl",
+        "searchString": "doctor Netherlands",
+        "language": "nl",
+        "rank": 4,
+        "isAdvertisement": false,
+        "imageUrl": "https://lh3.googleusercontent.com/p/AF1QipNnr57VStBJU9p6viYA6eyMW3t8eDjtlidgcIXk=w408-h272-k-no",
+        "kgmid": "/m/02qkwtg",
+        "contactEnriched": true,
+        "enrichmentDate": "2025-09-22T19:12:29.605Z",
+        "leadQuality": {
+          "score": 97,
+          "tier": "Platinum",
+          "tierColor": "text-purple-400",
+          "tierBg": "bg-purple-500/20 border-purple-500/30",
+          "factors": [
+            "Review Volume: 394 reviews (+30pts)",
+            "Rating: 4.3/5 (+22pts)",
+            "Recent Activity: 100% (+20pts)",
+            "Review Quality: 273 chars avg (+25pts)"
+          ],
+          "reviewCount": 394,
+          "rating": "4.3",
+          "recentActivityRate": 100,
+          "avgTextLength": 273
+        },
+        "reviewsForBusiness": [
+          {
+            "searchString": "Direct Detail URL: https://www.google.com/maps/search/?api=1&query=ChIJeQuOBvIIx0cRrLAdBVRzWp8&query_place_id=ChIJeQuOBvIIx0cRrLAdBVRzWp8",
+            "reviewerId": "102533293735855519404",
+            "reviewerUrl": "https://www.google.com/maps/contrib/102533293735855519404?hl=nl",
+            "name": "Textacy",
+            "reviewerNumberOfReviews": 2,
+            "isLocalGuide": false,
+            "reviewerPhotoUrl": "https://lh3.googleusercontent.com/a-/ALV-UjUn3fa2KbNo06qgh8aio6xFkPqlTw82xlF5div1wSJW3G0EjB8b=s1920-c-rp-mo-br100",
+            "text": "Alles moet tegenwoordig via de app. Medicijnen vragen, vragen stellen aan de dokter. Na drie berichten gestuurd te hebben in de app en twee maanden wachten en daarna toch maar eens gebeld te hebben krijg je een reactie van twee woorden zonder tekst en uitleg. Onacceptabel!",
+            "textTranslated": null,
+            "publishAt": "een week geleden",
+            "publishedAtDate": "2025-09-15T10:39:25.670Z",
+            "likesCount": 0,
+            "reviewId": "Ci9DQUlRQUNvZENodHljRjlvT2toQlZHWmtlVEZHYVhkTmIzZFRlVmhITUhOcWVIYxAB",
+            "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT2toQlZHWmtlVEZHYVhkTmIzZFRlVmhITUhOcWVIYxAB!2m1!1s0x0:0x9f5a7354051db0ac!3m1!1s2@1:CAIQACodChtycF9oOkhBVGZkeTFGaXdNb3dTeVhHMHNqeHc%7C%7C?hl=nl",
+            "reviewOrigin": "Google",
+            "stars": 1,
+            "rating": null,
+            "responseFromOwnerDate": null,
+            "responseFromOwnerText": null,
+            "reviewImageUrls": [],
+            "reviewContext": {},
+            "reviewDetailedRating": {},
+            "visitedIn": null,
+            "originalLanguage": "nl",
+            "translatedLanguage": null,
+            "isAdvertisement": false,
+            "placeId": "ChIJeQuOBvIIx0cRrLAdBVRzWp8",
+            "location": {
+              "lat": 51.8234259,
+              "lng": 5.8613923
+            },
+            "address": "Geert Grooteplein Zuid 10, 6525 GA Nijmegen, Nederland",
+            "neighborhood": "Nijmegen-Midden",
+            "street": "Geert Grooteplein Zuid 10",
+            "city": "Nijmegen",
+            "postalCode": "6525 GA",
+            "state": null,
+            "countryCode": "NL",
+            "categoryName": "Universitair medisch centrum",
+            "categories": [
+              "Universitair medisch centrum",
+              "Ziekenhuis"
+            ],
+            "title": "Radboudumc",
+            "totalScore": 4.3,
+            "permanentlyClosed": false,
+            "temporarilyClosed": false,
+            "reviewsCount": 394,
+            "url": "https://www.google.com/maps/search/?api=1&query=Radboudumc&query_place_id=ChIJeQuOBvIIx0cRrLAdBVRzWp8",
+            "price": null,
+            "cid": "11482617004634779820",
+            "fid": "0x47c708f2068e0b79:0x9f5a7354051db0ac",
+            "imageUrl": "https://lh3.googleusercontent.com/p/AF1QipNnr57VStBJU9p6viYA6eyMW3t8eDjtlidgcIXk=w408-h272-k-no",
+            "scrapedAt": "2025-09-22T11:18:49.002Z",
+            "language": "nl"
+          }
+        ]
+      }
+    ],
+    "reviews": [
+      {
+        "searchString": "Direct Detail URL: https://www.google.com/maps/search/?api=1&query=ChIJswUPB_EIx0cRsxxITEl4uBw&query_place_id=ChIJswUPB_EIx0cRsxxITEl4uBw",
+        "reviewerId": "103586158682175736896",
+        "reviewerUrl": "https://www.google.com/maps/contrib/103586158682175736896?hl=nl",
+        "name": "Lysanne Rossen",
+        "reviewerNumberOfReviews": 2,
+        "isLocalGuide": false,
+        "reviewerPhotoUrl": "https://lh3.googleusercontent.com/a/ACg8ocKa7nNckJF3l7kwmYzWVPsJ-IF50xtKoHhn-H9jhabNIXzv0w=s1920-c-rp-mo-br100",
+        "text": "Nou net gebeld voor mijn zoontje met een huiduitslag wordt gewoon na 12 min wachten de verbinding verbroken............",
+        "textTranslated": null,
+        "publishAt": "2 dagen geleden",
+        "publishedAtDate": "2025-09-19T19:57:37.405Z",
+        "likesCount": 0,
+        "reviewId": "Ci9DQUlRQUNvZENodHljRjlvT21GcFRuSmZNM0ZuV0RWR01HMUdVall3WkdwcE5GRRAB",
+        "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT21GcFRuSmZNM0ZuV0RWR01HMUdVall3WkdwcE5GRRAB!2m1!1s0x0:0x1cb878494c481cb3!3m1!1s2@1:CAIQACodChtycF9oOmFpTnJfM3FnWDVGMG1GUjYwZGppNFE%7C%7C?hl=nl",
+        "reviewOrigin": "Google",
+        "stars": 1,
+        "rating": null,
+        "responseFromOwnerDate": null,
+        "responseFromOwnerText": null,
+        "reviewImageUrls": [],
+        "reviewContext": {},
+        "reviewDetailedRating": {},
+        "visitedIn": null,
+        "originalLanguage": "nl",
+        "translatedLanguage": null,
+        "isAdvertisement": false,
+        "placeId": "ChIJswUPB_EIx0cRsxxITEl4uBw",
+        "location": {
+          "lat": 51.8184823,
+          "lng": 5.8316075
+        },
+        "address": "Weg door Jonkerbos 108, 6532 SZ Nijmegen, Nederland",
+        "neighborhood": "Nijmegen-Midden",
+        "street": "Weg door Jonkerbos 108",
+        "city": "Nijmegen",
+        "postalCode": "6532 SZ",
+        "state": null,
+        "countryCode": "NL",
+        "categoryName": "Huisarts",
+        "categories": [
+          "Huisarts"
+        ],
+        "title": "Huisartsen-spoedpost Nijmegen",
+        "totalScore": 2.7,
+        "permanentlyClosed": false,
+        "temporarilyClosed": false,
+        "reviewsCount": 102,
+        "url": "https://www.google.com/maps/search/?api=1&query=Huisartsen-spoedpost%20Nijmegen&query_place_id=ChIJswUPB_EIx0cRsxxITEl4uBw",
+        "price": null,
+        "cid": "2069536284984482995",
+        "fid": "0x47c708f1070f05b3:0x1cb878494c481cb3",
+        "imageUrl": "https://lh3.googleusercontent.com/gps-cs-s/AC9h4nqAZ_gNLBDBPYMqTXZqFVgpIUiCMPYlTjtFClTStUpweJEN_fs-dqSue2ORQBOfUwn5Wr9rXMSpZt_x7kZascBm8es94tZm4Itfv0Inyo2eSBa6gPuR-GJLYWsztzWpDOLaE3k=w532-h240-k-no",
+        "scrapedAt": "2025-09-22T11:19:13.868Z",
+        "language": "nl"
+      },
+      {
+        "searchString": "Direct Detail URL: https://www.google.com/maps/search/?api=1&query=ChIJo_dLcnAIx0cRe7M--wPXczo&query_place_id=ChIJo_dLcnAIx0cRe7M--wPXczo",
+        "reviewerId": "109989314207230035184",
+        "reviewerUrl": "https://www.google.com/maps/contrib/109989314207230035184?hl=nl",
+        "name": "Emad karahbi",
+        "reviewerNumberOfReviews": 12,
+        "isLocalGuide": false,
+        "reviewerPhotoUrl": "https://lh3.googleusercontent.com/a-/ALV-UjX9EJvBG7UHJx-5EWwef-ezIfmFoaScu0EPnJiJVbf5OGFKspg=s1920-c-rp-mo-br100",
+        "text": "Belangrijke waarschuwing over deze kliniek\nIk ging naar deze kliniek terwijl ik in slechte gezondheid verkeerde (koorts, benauwdheid, extreme vermoeidheid). De arts zei alleen dat het “griep” was en weigerde volledig om een bloedonderzoek of andere onderzoeken te doen, ondanks mijn aandringen.\nDe arts was bovendien hard en zonder enig medeleven in zijn houding tegenover mij.\nNa enkele dagen van lijden en een ernstige verslechtering van mijn toestand moest ik naar het ziekenhuis. Daar bleek dat ik een ernstige longontsteking had die dringend behandeld moest worden.\nDeze nalatigheid en het gebrek aan empathie hadden mijn leven kunnen kosten. Ik schrijf dit om anderen te waarschuwen en om de directie van de kliniek op te roepen verantwoordelijkheid te nemen en ervoor te zorgen dat dit nooit meer bij een andere patiënt gebeurt.",
+        "textTranslated": null,
+        "publishAt": "6 dagen geleden",
+        "publishedAtDate": "2025-09-16T08:53:20.374Z",
+        "likesCount": 0,
+        "reviewId": "Ci9DQUlRQUNvZENodHljRjlvT25wM01WQktjV056YUhKVlJIUnllbEpHTUVWWVdGRRAB",
+        "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT25wM01WQktjV056YUhKVlJIUnllbEpHTUVWWVdGRRAB!2m1!1s0x0:0x3a73d703fb3eb37b!3m1!1s2@1:CAIQACodChtycF9oOnp3MVBKcWNzaHJVRHRyelJGMEVYWFE%7C%7C?hl=nl",
+        "reviewOrigin": "Google",
+        "stars": 1,
+        "rating": null,
+        "responseFromOwnerDate": null,
+        "responseFromOwnerText": null,
+        "reviewImageUrls": [],
+        "reviewContext": {},
+        "reviewDetailedRating": {},
+        "visitedIn": null,
+        "originalLanguage": "nl",
+        "translatedLanguage": null,
+        "isAdvertisement": false,
+        "placeId": "ChIJo_dLcnAIx0cRe7M--wPXczo",
+        "location": {
+          "lat": 51.8454463,
+          "lng": 5.840911
+        },
+        "address": "Marialaan 350, 6541 RR Nijmegen, Nederland",
+        "neighborhood": "Nijmegen-Oud-West",
+        "street": "Marialaan 350",
+        "city": "Nijmegen",
+        "postalCode": "6541 RR",
+        "state": null,
+        "countryCode": "NL",
+        "categoryName": "Huisarts",
+        "categories": [
+          "Huisarts"
+        ],
+        "title": "Medisch Centrum Oud-West 350 🩺",
+        "totalScore": 3.1,
+        "permanentlyClosed": false,
+        "temporarilyClosed": false,
+        "reviewsCount": 32,
+        "url": "https://www.google.com/maps/search/?api=1&query=Medisch%20Centrum%20Oud-West%20350%20%F0%9F%A9%BA&query_place_id=ChIJo_dLcnAIx0cRe7M--wPXczo",
+        "price": null,
+        "cid": "4211946488621609851",
+        "fid": "0x47c70870724bf7a3:0x3a73d703fb3eb37b",
+        "imageUrl": "https://lh3.googleusercontent.com/gps-cs-s/AC9h4npNErzkhLCOQZTZiQeT6FSyDQfU-fn-CQQtW7KUaohaaqakN_iMVBrFyJeOKiEqpahRuI1ajubApPkHmW8W9unTTQIrBw_sL0QKuRO-EzhyAIPZXmkmIRlV9NfSR0-uHio629Ju=w408-h272-k-no",
+        "scrapedAt": "2025-09-22T11:17:59.580Z",
+        "language": "nl"
+      },
+      {
+        "searchString": "Direct Detail URL: https://www.google.com/maps/search/?api=1&query=ChIJeQuOBvIIx0cRrLAdBVRzWp8&query_place_id=ChIJeQuOBvIIx0cRrLAdBVRzWp8",
+        "reviewerId": "102533293735855519404",
+        "reviewerUrl": "https://www.google.com/maps/contrib/102533293735855519404?hl=nl",
+        "name": "Textacy",
+        "reviewerNumberOfReviews": 2,
+        "isLocalGuide": false,
+        "reviewerPhotoUrl": "https://lh3.googleusercontent.com/a-/ALV-UjUn3fa2KbNo06qgh8aio6xFkPqlTw82xlF5div1wSJW3G0EjB8b=s1920-c-rp-mo-br100",
+        "text": "Alles moet tegenwoordig via de app. Medicijnen vragen, vragen stellen aan de dokter. Na drie berichten gestuurd te hebben in de app en twee maanden wachten en daarna toch maar eens gebeld te hebben krijg je een reactie van twee woorden zonder tekst en uitleg. Onacceptabel!",
+        "textTranslated": null,
+        "publishAt": "een week geleden",
+        "publishedAtDate": "2025-09-15T10:39:25.670Z",
+        "likesCount": 0,
+        "reviewId": "Ci9DQUlRQUNvZENodHljRjlvT2toQlZHWmtlVEZHYVhkTmIzZFRlVmhITUhOcWVIYxAB",
+        "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT2toQlZHWmtlVEZHYVhkTmIzZFRlVmhITUhOcWVIYxAB!2m1!1s0x0:0x9f5a7354051db0ac!3m1!1s2@1:CAIQACodChtycF9oOkhBVGZkeTFGaXdNb3dTeVhHMHNqeHc%7C%7C?hl=nl",
+        "reviewOrigin": "Google",
+        "stars": 1,
+        "rating": null,
+        "responseFromOwnerDate": null,
+        "responseFromOwnerText": null,
+        "reviewImageUrls": [],
+        "reviewContext": {},
+        "reviewDetailedRating": {},
+        "visitedIn": null,
+        "originalLanguage": "nl",
+        "translatedLanguage": null,
+        "isAdvertisement": false,
+        "placeId": "ChIJeQuOBvIIx0cRrLAdBVRzWp8",
+        "location": {
+          "lat": 51.8234259,
+          "lng": 5.8613923
+        },
+        "address": "Geert Grooteplein Zuid 10, 6525 GA Nijmegen, Nederland",
+        "neighborhood": "Nijmegen-Midden",
+        "street": "Geert Grooteplein Zuid 10",
+        "city": "Nijmegen",
+        "postalCode": "6525 GA",
+        "state": null,
+        "countryCode": "NL",
+        "categoryName": "Universitair medisch centrum",
+        "categories": [
+          "Universitair medisch centrum",
+          "Ziekenhuis"
+        ],
+        "title": "Radboudumc",
+        "totalScore": 4.3,
+        "permanentlyClosed": false,
+        "temporarilyClosed": false,
+        "reviewsCount": 394,
+        "url": "https://www.google.com/maps/search/?api=1&query=Radboudumc&query_place_id=ChIJeQuOBvIIx0cRrLAdBVRzWp8",
+        "price": null,
+        "cid": "11482617004634779820",
+        "fid": "0x47c708f2068e0b79:0x9f5a7354051db0ac",
+        "imageUrl": "https://lh3.googleusercontent.com/p/AF1QipNnr57VStBJU9p6viYA6eyMW3t8eDjtlidgcIXk=w408-h272-k-no",
+        "scrapedAt": "2025-09-22T11:18:49.002Z",
+        "language": "nl"
+      }
+    ],
+    "searchCriteria": {
+      "category": "doctor",
+      "location": "Netherlands",
+      "minRating": 3.6,
+      "maxRating": 4.9,
+      "maxReviewsPerBusiness": 4,
+      "maxStars": 2,
+      "dayLimit": 14,
+      "businessLimit": 10,
+      "minReviews": 1,
+      "language": "nl",
+      "countryCode": "nl",
+      "reviewLimit": 10,
+      "minTextLength": 20
+    },
+    "extractionDate": "2025-09-22T11:21:02.040Z"
+  },
+  "statistics": {
+    "businessesFound": 15,
+    "reviewsFound": 3,
+    "avgRating": 1,
+    "extractionTime": 269689
+  },
+  "enrichmentHistory": [
+    {
+      "timestamp": "2025-09-22T11:43:19.497Z",
+      "enrichedBusinesses": 14,
+      "phoneNumbers": 13,
+      "websites": 13,
+      "emails": 6
+    },
+    {
+      "timestamp": "2025-09-22T11:43:19.631Z",
+      "enrichedBusinesses": 14,
+      "phoneNumbers": 13,
+      "websites": 13,
+      "emails": 6
+    },
+    {
+      "timestamp": "2025-09-22T14:58:33.230Z",
+      "enrichedBusinesses": 3,
+      "phoneNumbers": 3,
+      "websites": 3,
+      "emails": 1
+    },
+    {
+      "timestamp": "2025-09-22T14:58:33.536Z",
+      "enrichedBusinesses": 3,
+      "phoneNumbers": 3,
+      "websites": 3,
+      "emails": 1
+    },
+    {
+      "timestamp": "2025-09-22T15:16:53.190Z",
+      "enrichedBusinesses": 3,
+      "phoneNumbers": 3,
+      "websites": 3,
+      "emails": 1
+    },
+    {
+      "timestamp": "2025-09-22T15:16:53.208Z",
+      "enrichedBusinesses": 3,
+      "phoneNumbers": 3,
+      "websites": 3,
+      "emails": 1
+    },
+    {
+      "timestamp": "2025-09-22T15:17:27.307Z",
+      "enrichedBusinesses": 3,
+      "phoneNumbers": 3,
+      "websites": 3,
+      "emails": 1
+    },
+    {
+      "timestamp": "2025-09-22T15:17:27.320Z",
+      "enrichedBusinesses": 3,
+      "phoneNumbers": 3,
+      "websites": 3,
+      "emails": 1
+    },
+    {
+      "timestamp": "2025-09-22T15:20:02.629Z",
+      "enrichedBusinesses": 3,
+      "phoneNumbers": 3,
+      "websites": 3,
+      "emails": 1
+    },
+    {
+      "timestamp": "2025-09-22T15:20:02.729Z",
+      "enrichedBusinesses": 3,
+      "phoneNumbers": 3,
+      "websites": 3,
+      "emails": 1
+    },
+    {
+      "timestamp": "2025-09-22T15:22:02.567Z",
+      "enrichedBusinesses": 3,
+      "phoneNumbers": 3,
+      "websites": 3,
+      "emails": 1
+    },
+    {
+      "timestamp": "2025-09-22T15:22:03.376Z",
+      "enrichedBusinesses": 3,
+      "phoneNumbers": 3,
+      "websites": 3,
+      "emails": 1
+    },
+    {
+      "timestamp": "2025-09-22T15:43:01.766Z",
+      "enrichedBusinesses": 3,
+      "phoneNumbers": 3,
+      "websites": 3,
+      "emails": 2
+    },
+    {
+      "timestamp": "2025-09-22T15:43:01.944Z",
+      "enrichedBusinesses": 3,
+      "phoneNumbers": 3,
+      "websites": 3,
+      "emails": 2
+    },
+    {
+      "timestamp": "2025-09-22T17:48:29.519Z",
+      "enrichedBusinesses": 3,
+      "phoneNumbers": 3,
+      "websites": 3,
+      "emails": 2,
+      "ownerContacts": 0,
+      "managementContacts": 0
+    },
+    {
+      "timestamp": "2025-09-22T17:48:29.562Z",
+      "enrichedBusinesses": 3,
+      "phoneNumbers": 3,
+      "websites": 3,
+      "emails": 2,
+      "ownerContacts": 0,
+      "managementContacts": 0
+    },
+    {
+      "timestamp": "2025-09-22T19:12:29.623Z",
+      "enrichedBusinesses": 3,
+      "phoneNumbers": 3,
+      "websites": 3,
+      "emails": 2,
+      "ownerContacts": 0,
+      "managementContacts": 0
+    },
+    {
+      "timestamp": "2025-09-22T19:12:29.692Z",
+      "enrichedBusinesses": 3,
+      "phoneNumbers": 3,
+      "websites": 3,
+      "emails": 2,
+      "ownerContacts": 0,
+      "managementContacts": 0
+    }
+  ]
+}

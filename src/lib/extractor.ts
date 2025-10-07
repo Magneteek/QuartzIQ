@@ -4,12 +4,14 @@
  * Works with restaurants, hotels, clinics, retail stores, services, etc.
  */
 
-import https from 'https'
+import * as https from 'https'
 
 interface SearchCriteria {
   category: string
   location: string
+  minRating?: number
   maxRating?: number
+  maxReviewsPerBusiness?: number
   maxStars?: number
   dayLimit?: number
   businessLimit?: number
@@ -59,7 +61,7 @@ interface Review {
 }
 
 export class UniversalBusinessReviewExtractor {
-  private apiToken: string
+  private apiToken: string | undefined
   private baseUrl: string
   private actorMapsId: string
   private actorReviewsId: string
@@ -89,15 +91,38 @@ export class UniversalBusinessReviewExtractor {
       console.log(`\n🔍 STEP 2: Extracting Reviews`)
       console.log(`=============================`)
 
+      // Filter businesses based on user's rating criteria and minimum review count
       const targetBusinesses = businesses
-        .filter(business =>
-          business.totalScore &&
-          business.totalScore <= (searchCriteria.maxRating || 4.6) &&
-          business.reviewsCount > (searchCriteria.minReviews || 10)
-        )
+        .filter(business => {
+          // Must have a rating and minimum reviews
+          if (!business.totalScore || business.reviewsCount <= (searchCriteria.minReviews || 10)) {
+            return false
+          }
+
+          // Apply min/max rating filters if specified
+          const minRating = searchCriteria.minRating
+          const maxRating = searchCriteria.maxRating
+
+          if (minRating !== undefined && business.totalScore < minRating) {
+            return false
+          }
+
+          if (maxRating !== undefined && business.totalScore > maxRating) {
+            return false
+          }
+
+          return true
+        })
         .slice(0, searchCriteria.businessLimit || 5)
 
       console.log(`🎯 Targeting ${targetBusinesses.length} businesses for review extraction`)
+
+      // Debug: Log the target businesses
+      console.log('📋 Target businesses:')
+      targetBusinesses.forEach((business, i) => {
+        console.log(`   ${i+1}. ${business.title} (${business.totalScore}★, ${business.reviewsCount} reviews)`)
+      })
+      console.log('')
 
       const allReviews: Review[] = []
       for (const business of targetBusinesses) {
@@ -120,11 +145,16 @@ export class UniversalBusinessReviewExtractor {
       // Step 3: Filter and format results
       const filteredReviews = this.filterAndFormatReviews(allReviews, searchCriteria)
 
-      // Step 4: Generate standardized output
-      this.generateStandardizedReport(filteredReviews, businesses, searchCriteria)
+      // Step 4: Only return businesses that have qualifying reviews (lead generation)
+      const businessesWithQualifyingReviews = businesses.filter(business =>
+        filteredReviews.some(review => review.title === business.title)
+      )
+
+      // Step 5: Generate standardized output
+      this.generateStandardizedReport(filteredReviews, businessesWithQualifyingReviews, searchCriteria)
 
       return {
-        businesses,
+        businesses: businessesWithQualifyingReviews,
         reviews: filteredReviews,
         searchCriteria,
         extractionDate: new Date()
@@ -138,9 +168,21 @@ export class UniversalBusinessReviewExtractor {
 
   private async findBusinesses(searchCriteria: SearchCriteria): Promise<Business[]> {
     const searchQueries = this.generateSearchQueries(searchCriteria)
+
+    // 🛡️ PRE-SEARCH VALIDATION - Prevent wasting API quota on bad queries
+    const validatedQueries = this.validateSearchQueries(searchQueries, searchCriteria)
+    if (validatedQueries.length === 0) {
+      console.log(`   ⚠️ VALIDATION FAILED: No valid search queries generated`)
+      console.log(`   🚫 PREVENTING API WASTE: Stopping search to preserve quota`)
+      return []
+    }
+
+    console.log(`   ✅ VALIDATION PASSED: ${validatedQueries.length} valid queries`)
+    console.log(`   📝 Queries: ${validatedQueries.map(q => `"${q}"`).join(', ')}`)
+
     const allBusinesses: Business[] = []
 
-    for (const query of searchQueries) {
+    for (const query of validatedQueries) {
       try {
         console.log(`   Searching: "${query}"`)
         const businesses = await this.searchGoogleMaps(
@@ -149,8 +191,18 @@ export class UniversalBusinessReviewExtractor {
           searchCriteria.countryCode || 'nl',
           searchCriteria.language || 'nl'
         )
-        allBusinesses.push(...businesses)
-        console.log(`   Found ${businesses.length} results`)
+
+        // 🛡️ POST-SEARCH VALIDATION - Filter results by geographic correctness
+        const validatedBusinesses = this.validateGeographicResults(businesses, searchCriteria)
+        const filteredCount = businesses.length - validatedBusinesses.length
+
+        if (filteredCount > 0) {
+          console.log(`   🌍 GEOGRAPHIC FILTER: Removed ${filteredCount} businesses from wrong region`)
+          console.log(`   ✅ Keeping ${validatedBusinesses.length} geographically correct results`)
+        }
+
+        allBusinesses.push(...validatedBusinesses)
+        console.log(`   Found ${validatedBusinesses.length} valid results`)
         await this.delay(2000)
       } catch (error: any) {
         console.log(`   ❌ Search failed: ${error.message}`)
@@ -171,97 +223,193 @@ export class UniversalBusinessReviewExtractor {
     // Multi-language search queries for better coverage
     const queries: string[] = []
 
+    // Translate business category to local language
+    const localizedCategory = this.translateBusinessCategory(category, countryCode)
+
     // Country-specific search patterns
     switch (countryCode.toLowerCase()) {
       case 'nl': // Netherlands
         queries.push(
-          `${category} ${location}`,
-          `${category} Nederland`,
-          `beste ${category} ${location}`,
-          `top ${category} Nederland`
+          `${localizedCategory} ${location}`,
+          `${localizedCategory} Nederland`,
+          `beste ${localizedCategory} ${location}`,
+          `top ${localizedCategory} Nederland`
         )
+        // Also search English term for international businesses
+        if (localizedCategory !== category) {
+          queries.push(`${category} ${location}`)
+        }
         break
 
       case 'de': // Germany
-        queries.push(
-          `${category} ${location}`,
-          `${category} Deutschland`,
-          `beste ${category} ${location}`,
-          `top ${category} Deutschland`
-        )
+        // For country-level searches (location = "Deutschland"), rely on countryCode for geographic targeting
+        if (location.toLowerCase() === 'deutschland' || location.toLowerCase() === 'germany') {
+          queries.push(
+            `${localizedCategory}`, // Let countryCode handle geography
+            `${localizedCategory} in Deutschland`,
+            `beste ${localizedCategory}`,
+            `top ${localizedCategory}`
+          )
+          if (localizedCategory !== category) {
+            queries.push(`${category}`) // English fallback without country name
+          }
+        } else {
+          // For city-specific searches
+          queries.push(
+            `${localizedCategory} ${location}`,
+            `${localizedCategory} in ${location}`,
+            `beste ${localizedCategory} ${location}`,
+            `${localizedCategory} ${location} Deutschland`
+          )
+          if (localizedCategory !== category) {
+            queries.push(`${category} ${location}`)
+          }
+        }
         break
 
       case 'at': // Austria
-        queries.push(
-          `${category} ${location}`,
-          `${category} Österreich`,
-          `beste ${category} ${location}`,
-          `top ${category} Austria`
-        )
+        // For country-level searches (location = "Österreich"/"Austria"), rely on countryCode for geographic targeting
+        if (location.toLowerCase() === 'österreich' || location.toLowerCase() === 'austria') {
+          queries.push(
+            `${localizedCategory}`, // Let countryCode handle geography
+            `${localizedCategory} in Österreich`,
+            `beste ${localizedCategory}`,
+            `top ${localizedCategory}`
+          )
+          if (localizedCategory !== category) {
+            queries.push(`${category}`) // English fallback without country name
+          }
+        } else {
+          // For city-specific searches
+          queries.push(
+            `${localizedCategory} ${location}`,
+            `${localizedCategory} in ${location}`,
+            `beste ${localizedCategory} ${location}`,
+            `${localizedCategory} ${location} Österreich`
+          )
+          if (localizedCategory !== category) {
+            queries.push(`${category} ${location}`)
+          }
+        }
         break
 
       case 'ch': // Switzerland
-        queries.push(
-          `${category} ${location}`,
-          `${category} Schweiz`,
-          `beste ${category} ${location}`,
-          `${category} Switzerland`
-        )
+        // For country-level searches (location = "Schweiz"), rely on countryCode for geographic targeting
+        if (location.toLowerCase() === 'schweiz' || location.toLowerCase() === 'switzerland') {
+          queries.push(
+            `${localizedCategory}`, // Let countryCode handle geography
+            `${localizedCategory} in der Schweiz`,
+            `beste ${localizedCategory}`,
+            `top ${localizedCategory}`
+          )
+          if (localizedCategory !== category) {
+            queries.push(`${category}`) // English fallback without country name
+          }
+        } else {
+          // For city-specific searches
+          queries.push(
+            `${localizedCategory} ${location}`,
+            `${localizedCategory} in ${location}`,
+            `beste ${localizedCategory} ${location}`,
+            `${localizedCategory} ${location} Schweiz`
+          )
+          if (localizedCategory !== category) {
+            queries.push(`${category} ${location}`)
+          }
+        }
         break
 
-      case 'no': // Norway
-        queries.push(
-          `${category} ${location}`,
-          `${category} Norge`,
-          `beste ${category} ${location}`,
-          `topp ${category} ${location}`
-        )
+      case 'es': // Spain
+        // For country-level searches (location = "España"), rely on countryCode for geographic targeting
+        if (location.toLowerCase() === 'españa' || location.toLowerCase() === 'spain') {
+          queries.push(
+            `${localizedCategory}`, // Let countryCode handle geography
+            `${localizedCategory} en España`,
+            `mejor ${localizedCategory}`,
+            `mejores ${localizedCategory}`
+          )
+          if (localizedCategory !== category) {
+            queries.push(`${category}`) // English fallback without country name
+          }
+        } else {
+          // For city-specific searches
+          queries.push(
+            `${localizedCategory} ${location}`,
+            `${localizedCategory} en ${location}`,
+            `mejor ${localizedCategory} ${location}`,
+            `mejores ${localizedCategory} ${location}`
+          )
+          if (localizedCategory !== category) {
+            queries.push(`${category} ${location}`)
+          }
+        }
         break
 
       case 'be': // Belgium
         queries.push(
-          `${category} ${location}`,
-          `${category} België`,
-          `${category} Belgique`,
-          `beste ${category} ${location}`
+          `${localizedCategory} ${location}`,
+          `${localizedCategory} België`,
+          `${localizedCategory} Belgique`,
+          `beste ${localizedCategory} ${location}`
         )
+        if (localizedCategory !== category) {
+          queries.push(`${category} ${location}`)
+        }
         break
 
-      case 'dk': // Denmark
-        queries.push(
-          `${category} ${location}`,
-          `${category} Danmark`,
-          `bedste ${category} ${location}`,
-          `top ${category} Danmark`
-        )
+      case 'si': // Slovenia
+        // For country-level searches (location = "Slovenija"), rely on countryCode for geographic targeting
+        if (location.toLowerCase() === 'slovenija' || location.toLowerCase() === 'slovenia') {
+          queries.push(
+            `${localizedCategory}`, // Let countryCode handle geography
+            `${localizedCategory} v Sloveniji`,
+            `najboljši ${localizedCategory}`,
+            `najbolje ${localizedCategory}`
+          )
+          if (localizedCategory !== category) {
+            queries.push(`${category}`) // English fallback without country name
+          }
+        } else {
+          // For city-specific searches
+          queries.push(
+            `${localizedCategory} ${location}`,
+            `${localizedCategory} v ${location}`,
+            `najboljši ${localizedCategory} ${location}`,
+            `najbolje ${localizedCategory} ${location}`
+          )
+          if (localizedCategory !== category) {
+            queries.push(`${category} ${location}`)
+          }
+        }
         break
 
-      case 'se': // Sweden
-        queries.push(
-          `${category} ${location}`,
-          `${category} Sverige`,
-          `bästa ${category} ${location}`,
-          `topp ${category} Sverige`
-        )
+      case 'hr': // Croatia
+        // For country-level searches (location = "Hrvatska"), rely on countryCode for geographic targeting
+        if (location.toLowerCase() === 'hrvatska' || location.toLowerCase() === 'croatia') {
+          queries.push(
+            `${localizedCategory}`, // Let countryCode handle geography
+            `${localizedCategory} u Hrvatskoj`,
+            `najbolji ${localizedCategory}`,
+            `najbolje ${localizedCategory}`
+          )
+          if (localizedCategory !== category) {
+            queries.push(`${category}`) // English fallback without country name
+          }
+        } else {
+          // For city-specific searches
+          queries.push(
+            `${localizedCategory} ${location}`,
+            `${localizedCategory} u ${location}`,
+            `najbolji ${localizedCategory} ${location}`,
+            `najbolje ${localizedCategory} ${location}`
+          )
+          if (localizedCategory !== category) {
+            queries.push(`${category} ${location}`)
+          }
+        }
         break
 
-      case 'fi': // Finland
-        queries.push(
-          `${category} ${location}`,
-          `${category} Suomi`,
-          `paras ${category} ${location}`,
-          `top ${category} Finland`
-        )
-        break
 
-      case 'fr': // France
-        queries.push(
-          `${category} ${location}`,
-          `${category} France`,
-          `meilleur ${category} ${location}`,
-          `top ${category} France`
-        )
-        break
 
       default: // International/English
         queries.push(
@@ -273,6 +421,130 @@ export class UniversalBusinessReviewExtractor {
     }
 
     return queries.slice(0, criteria.maxQueries || 4)
+  }
+
+  /**
+   * Translate business category to local language for better Google Maps search results
+   * Based on Google Business Profile standard categories per country
+   */
+  private translateBusinessCategory(category: string, countryCode: string): string {
+    console.log(`   🔄 TRANSLATING: "${category}" for country "${countryCode}"`)
+
+    const translations: Record<string, Record<string, string>> = {
+      // Spanish translations
+      'es': {
+        'tandarts': 'dentista',
+        'dentist': 'dentista',
+        'doctor': 'médico',
+        'lawyer': 'abogado',
+        'financial_consultant': 'asesor financiero',
+        'insurance_agency': 'aseguradora',
+        'real_estate_agency': 'inmobiliaria',
+        'jewelry_store': 'joyería',
+        'car_dealer': 'concesionario',
+        'spa': 'spa'
+      },
+      // German translations
+      'de': {
+        'tandarts': 'zahnarzt',
+        'dentist': 'zahnarzt',
+        'doctor': 'arzt',
+        'lawyer': 'anwalt',
+        'financial_consultant': 'finanzberater',
+        'insurance_agency': 'versicherung',
+        'real_estate_agency': 'immobilienmakler',
+        'jewelry_store': 'schmuckgeschäft',
+        'car_dealer': 'autohändler',
+        'spa': 'spa'
+      },
+      // Slovenian translations
+      'si': {
+        'tandarts': 'zobozdravnik',
+        'dentist': 'zobozdravnik',
+        'doctor': 'zdravnik',
+        'lawyer': 'odvetnik',
+        'financial_consultant': 'finančni svetovalec',
+        'insurance_agency': 'zavarovalnica',
+        'real_estate_agency': 'nepremičninska agencija',
+        'jewelry_store': 'zlatarna',
+        'car_dealer': 'avtoprodajalec',
+        'spa': 'spa'
+      },
+      // Dutch translations (current default)
+      'nl': {
+        'dentist': 'tandarts',
+        'doctor': 'dokter',
+        'lawyer': 'advocaat',
+        'financial_consultant': 'financieel adviseur',
+        'insurance_agency': 'verzekering',
+        'real_estate_agency': 'makelaar',
+        'jewelry_store': 'juwelier',
+        'car_dealer': 'autodealer',
+        'spa': 'spa'
+      },
+      // Austrian translations (German-speaking)
+      'at': {
+        'tandarts': 'zahnarzt',
+        'dentist': 'zahnarzt',
+        'doctor': 'arzt',
+        'lawyer': 'anwalt',
+        'financial_consultant': 'finanzberater',
+        'insurance_agency': 'versicherung',
+        'real_estate_agency': 'immobilienmakler',
+        'jewelry_store': 'schmuckgeschäft',
+        'car_dealer': 'autohändler',
+        'spa': 'spa'
+      },
+      // Swiss translations (German-speaking)
+      'ch': {
+        'tandarts': 'zahnarzt',
+        'dentist': 'zahnarzt',
+        'doctor': 'arzt',
+        'lawyer': 'anwalt',
+        'financial_consultant': 'finanzberater',
+        'insurance_agency': 'versicherung',
+        'real_estate_agency': 'immobilienmakler',
+        'jewelry_store': 'schmuckgeschäft',
+        'car_dealer': 'autohändler',
+        'spa': 'spa'
+      },
+      // Belgian translations (Dutch-speaking regions)
+      'be': {
+        'dentist': 'tandarts',
+        'doctor': 'dokter',
+        'lawyer': 'advocaat',
+        'financial_consultant': 'financieel adviseur',
+        'insurance_agency': 'verzekering',
+        'real_estate_agency': 'makelaar',
+        'jewelry_store': 'juwelier',
+        'car_dealer': 'autodealer',
+        'spa': 'spa'
+      },
+      // Croatian translations
+      'hr': {
+        'tandarts': 'zubar',
+        'dentist': 'zubar',
+        'doctor': 'liječnik',
+        'lawyer': 'odvjetnik',
+        'financial_consultant': 'financijski savjetnik',
+        'insurance_agency': 'osiguranje',
+        'real_estate_agency': 'nekretnine',
+        'jewelry_store': 'zlatarna',
+        'car_dealer': 'prodavaonica automobila',
+        'spa': 'spa'
+      },
+    }
+
+    const countryTranslations = translations[countryCode.toLowerCase()]
+    if (countryTranslations && countryTranslations[category.toLowerCase()]) {
+      const translated = countryTranslations[category.toLowerCase()]
+      console.log(`   ✅ TRANSLATED: "${category}" → "${translated}"`)
+      return translated
+    }
+
+    // Return original category if no translation found
+    console.log(`   ⚠️ NO TRANSLATION: Using original "${category}"`)
+    return category
   }
 
   private async searchGoogleMaps(query: string, maxItems = 10, countryCode = 'nl', language = 'nl'): Promise<Business[]> {
@@ -297,7 +569,7 @@ export class UniversalBusinessReviewExtractor {
 
     const input = {
       placeIds: [business.placeId],
-      maxReviews: 5, // Optimized: only scrape 5 most recent reviews per business
+      maxReviews: criteria.maxReviewsPerBusiness || 5, // Only check 5 newest reviews for recent reputation issues
       language: criteria.language || 'nl',
       sort: 'newest'
     }
@@ -308,34 +580,32 @@ export class UniversalBusinessReviewExtractor {
   }
 
   private filterAndFormatReviews(reviews: Review[], criteria: SearchCriteria): Review[] {
-    let filtered = reviews
+    // Sort by date first (newest first) to prioritize recent reviews
+    const sorted = reviews.sort((a, b) => new Date(b.publishedAtDate).getTime() - new Date(a.publishedAtDate).getTime())
 
-    // Filter by rating
-    if (criteria.maxStars) {
-      filtered = filtered.filter(review => review.stars <= criteria.maxStars)
+    // For lead generation: find the FIRST qualifying review and stop
+    for (const review of sorted) {
+      // Check rating criteria
+      if (criteria.maxStars && review.stars > criteria.maxStars) {
+        continue
+      }
+
+      // Check date criteria
+      if (criteria.dayLimit) {
+        const cutoffDate = new Date()
+        cutoffDate.setDate(cutoffDate.getDate() - criteria.dayLimit)
+        if (new Date(review.publishedAtDate) < cutoffDate) {
+          continue
+        }
+      }
+
+      // Found a qualifying review - return it immediately (lead generation)
+      // No text length requirement - any review matching timeframe + stars qualifies
+      return [review]
     }
 
-    // Filter by date
-    if (criteria.dayLimit) {
-      const cutoffDate = new Date()
-      cutoffDate.setDate(cutoffDate.getDate() - criteria.dayLimit)
-      filtered = filtered.filter(review =>
-        new Date(review.publishedAtDate) >= cutoffDate
-      )
-    }
-
-    // Filter by minimum text length
-    if (criteria.minTextLength) {
-      filtered = filtered.filter(review =>
-        review.text && review.text.length >= criteria.minTextLength
-      )
-    }
-
-    // Sort by date (newest first) - already sorted by Apify but ensuring consistency
-    filtered.sort((a, b) => new Date(b.publishedAtDate).getTime() - new Date(a.publishedAtDate).getTime())
-
-    // No additional limit needed - we already optimize at source with 5 reviews max per business
-    return filtered
+    // No qualifying reviews found
+    return []
   }
 
   private generateStandardizedReport(reviews: Review[], businesses: Business[], criteria: SearchCriteria): void {
@@ -527,5 +797,233 @@ export class UniversalBusinessReviewExtractor {
 
   private delay(ms: number): Promise<void> {
     return new Promise(resolve => setTimeout(resolve, ms))
+  }
+
+  // 🛡️ VALIDATION METHODS - Prevent API quota waste and ensure quality results
+
+  /**
+   * Validates search queries before making API calls to prevent quota waste
+   */
+  private validateSearchQueries(queries: string[], criteria: SearchCriteria): string[] {
+    const validQueries: string[] = []
+    const countryCode = criteria.countryCode?.toLowerCase() || 'nl'
+    const location = criteria.location?.toLowerCase() || ''
+
+    console.log(`   🔍 PRE-VALIDATION: Checking ${queries.length} search queries`)
+
+    for (const query of queries) {
+      const lowerQuery = query.toLowerCase()
+      let isValid = true
+      const issues: string[] = []
+
+      // 1. Check for proper localization
+      if (countryCode === 'ch') {
+        // For Switzerland, queries should contain German terms or proper geographic indicators
+        const hasGermanTerm = this.containsGermanBusinessTerms(lowerQuery)
+        const hasSwissIndicator = lowerQuery.includes('schweiz') || lowerQuery.includes('switzerland')
+
+        if (!hasGermanTerm && !hasSwissIndicator) {
+          isValid = false
+          issues.push('Missing German localization or Swiss geographic indicator')
+        }
+      } else if (countryCode === 'es') {
+        // For Spain, queries should contain Spanish terms or proper geographic indicators
+        const hasSpanishTerm = this.containsSpanishBusinessTerms(lowerQuery)
+        const hasSpanishIndicator = lowerQuery.includes('españa') || lowerQuery.includes('spain')
+
+        if (!hasSpanishTerm && !hasSpanishIndicator) {
+          isValid = false
+          issues.push('Missing Spanish localization or geographic indicator')
+        }
+      } else if (countryCode === 'si') {
+        // For Slovenia, queries should contain Slovenian terms or proper geographic indicators
+        const hasSlovenianTerm = this.containsSlovenianBusinessTerms(lowerQuery)
+        const hasSlovenianIndicator = lowerQuery.includes('slovenija') || lowerQuery.includes('slovenia')
+
+        if (!hasSlovenianTerm && !hasSlovenianIndicator) {
+          isValid = false
+          issues.push('Missing Slovenian localization or geographic indicator')
+        }
+      } else if (countryCode === 'hr') {
+        // For Croatia, queries should contain Croatian terms or proper geographic indicators
+        const hasCroatianTerm = this.containsCroatianBusinessTerms(lowerQuery)
+        const hasCroatianIndicator = lowerQuery.includes('hrvatska') || lowerQuery.includes('croatia')
+
+        if (!hasCroatianTerm && !hasCroatianIndicator) {
+          isValid = false
+          issues.push('Missing Croatian localization or geographic indicator')
+        }
+      }
+
+      // 2. Check for geographic specificity
+      if (location === 'schweiz' || location === 'switzerland') {
+        if (!lowerQuery.includes('schweiz') && !lowerQuery.includes('switzerland') && !this.containsGermanBusinessTerms(lowerQuery)) {
+          isValid = false
+          issues.push('Missing geographic targeting for Switzerland')
+        }
+      }
+
+      // 3. Prevent obviously problematic queries
+      if (lowerQuery.length < 3) {
+        isValid = false
+        issues.push('Query too short')
+      }
+
+      if (isValid) {
+        validQueries.push(query)
+        console.log(`   ✅ VALID: "${query}"`)
+      } else {
+        console.log(`   ❌ INVALID: "${query}" - ${issues.join(', ')}`)
+      }
+    }
+
+    console.log(`   📊 VALIDATION SUMMARY: ${validQueries.length}/${queries.length} queries passed`)
+    return validQueries
+  }
+
+  /**
+   * Validates search results to ensure they're from the correct geographic region
+   */
+  private validateGeographicResults(businesses: Business[], criteria: SearchCriteria): Business[] {
+    const countryCode = criteria.countryCode?.toLowerCase() || 'nl'
+    const validBusinesses: Business[] = []
+
+    for (const business of businesses) {
+      let isValid = true
+      const issues: string[] = []
+
+      // Check business address for geographic indicators
+      const address = business.address?.toLowerCase() || ''
+      const title = business.title?.toLowerCase() || ''
+
+      if (countryCode === 'ch') {
+        // For Switzerland, look for Swiss indicators
+        const hasSwissAddress = this.isSwissAddress(address)
+        const hasSwissTitle = this.isSwissBusinessName(title)
+
+        if (!hasSwissAddress && !hasSwissTitle) {
+          isValid = false
+          issues.push('Not a Swiss business')
+        }
+      } else if (countryCode === 'nl') {
+        // For Netherlands, avoid Swiss/German businesses
+        const isDutchBusiness = this.isDutchAddress(address) || this.isDutchBusinessName(title)
+        const isNotSwiss = !this.isSwissAddress(address) && !this.isSwissBusinessName(title)
+
+        if (!isDutchBusiness || !isNotSwiss) {
+          isValid = false
+          issues.push('Not a Dutch business or is from wrong country')
+        }
+      } else if (countryCode === 'es') {
+        // For Spain, look for Spanish indicators
+        const hasSpanishAddress = this.isSpanishAddress(address)
+        const hasSpanishTitle = this.isSpanishBusinessName(title)
+
+        if (!hasSpanishAddress && !hasSpanishTitle) {
+          isValid = false
+          issues.push('Not a Spanish business')
+        }
+      } else if (countryCode === 'si') {
+        // For Slovenia, look for Slovenian indicators
+        const hasSlovenianAddress = this.isSlovenianAddress(address)
+        const hasSlovenianTitle = this.isSlovenianBusinessName(title)
+
+        if (!hasSlovenianAddress && !hasSlovenianTitle) {
+          isValid = false
+          issues.push('Not a Slovenian business')
+        }
+      } else if (countryCode === 'hr') {
+        // For Croatia, look for Croatian indicators
+        const hasCroatianAddress = this.isCroatianAddress(address)
+        const hasCroatianTitle = this.isCroatianBusinessName(title)
+
+        if (!hasCroatianAddress && !hasCroatianTitle) {
+          isValid = false
+          issues.push('Not a Croatian business')
+        }
+      }
+
+      if (isValid) {
+        validBusinesses.push(business)
+      } else {
+        console.log(`   🚫 FILTERED: "${business.title}" (${business.address}) - ${issues.join(', ')}`)
+      }
+    }
+
+    return validBusinesses
+  }
+
+  // Helper methods for geographic validation
+  private containsGermanBusinessTerms(query: string): boolean {
+    const germanTerms = ['immobilienmakler', 'zahnarzt', 'arzt', 'anwalt', 'finanzberater', 'versicherung', 'schmuck', 'autohändler']
+    return germanTerms.some(term => query.includes(term))
+  }
+
+  private isSwissAddress(address: string): boolean {
+    const swissIndicators = ['schweiz', 'switzerland', 'ch-', 'zürich', 'geneva', 'basel', 'bern', 'lausanne']
+    return swissIndicators.some(indicator => address.includes(indicator))
+  }
+
+  private isSwissBusinessName(title: string): boolean {
+    const swissTerms = ['schweiz', 'swiss', 'zürich', 'geneva', 'basel', 'ag', 'gmbh']
+    return swissTerms.some(term => title.includes(term))
+  }
+
+  private isDutchAddress(address: string): boolean {
+    const dutchIndicators = ['nederland', 'netherlands', 'nl-', 'amsterdam', 'rotterdam', 'utrecht', 'eindhoven', 'tilburg']
+    return dutchIndicators.some(indicator => address.includes(indicator))
+  }
+
+  private isDutchBusinessName(title: string): boolean {
+    const dutchTerms = ['nederland', 'dutch', 'amsterdam', 'rotterdam', 'b.v.', 'bv']
+    return dutchTerms.some(term => title.includes(term))
+  }
+
+  // Spanish validation helpers
+  private containsSpanishBusinessTerms(query: string): boolean {
+    const spanishTerms = ['inmobiliaria', 'dentista', 'médico', 'abogado', 'asesor financiero', 'aseguradora', 'joyería', 'concesionario']
+    return spanishTerms.some(term => query.includes(term))
+  }
+
+  private isSpanishAddress(address: string): boolean {
+    const spanishIndicators = ['españa', 'spain', 'es-', 'madrid', 'barcelona', 'valencia', 'sevilla', 'bilbao', 'murcia']
+    return spanishIndicators.some(indicator => address.includes(indicator))
+  }
+
+  private isSpanishBusinessName(title: string): boolean {
+    const spanishTerms = ['españa', 'spanish', 'madrid', 'barcelona', 's.l.', 'sl', 's.a.', 'sa']
+    return spanishTerms.some(term => title.includes(term))
+  }
+
+  // Slovenian validation helpers
+  private containsSlovenianBusinessTerms(query: string): boolean {
+    const slovenianTerms = ['nepremičninska agencija', 'zobozdravnik', 'zdravnik', 'odvetnik', 'finančni svetovalec', 'zavarovalnica', 'zlatarna']
+    return slovenianTerms.some(term => query.includes(term))
+  }
+
+  private isSlovenianAddress(address: string): boolean {
+    const slovenianIndicators = ['slovenija', 'slovenia', 'si-', 'ljubljana', 'maribor', 'celje', 'kranj', 'velenje']
+    return slovenianIndicators.some(indicator => address.includes(indicator))
+  }
+
+  private isSlovenianBusinessName(title: string): boolean {
+    const slovenianTerms = ['slovenija', 'slovenski', 'ljubljana', 'maribor', 'd.o.o.', 'doo', 'd.d.', 'dd']
+    return slovenianTerms.some(term => title.includes(term))
+  }
+
+  // Croatian validation helpers
+  private containsCroatianBusinessTerms(query: string): boolean {
+    const croatianTerms = ['nekretnine', 'zubar', 'liječnik', 'odvjetnik', 'financijski savjetnik', 'osiguranje', 'zlatarna', 'prodavaonica automobila']
+    return croatianTerms.some(term => query.includes(term))
+  }
+
+  private isCroatianAddress(address: string): boolean {
+    const croatianIndicators = ['hrvatska', 'croatia', 'hr-', 'zagreb', 'split', 'rijeka', 'osijek', 'zadar']
+    return croatianIndicators.some(indicator => address.includes(indicator))
+  }
+
+  private isCroatianBusinessName(title: string): boolean {
+    const croatianTerms = ['hrvatska', 'croatian', 'zagreb', 'split', 'd.o.o.', 'doo', 'd.d.', 'dd', 'j.d.o.o.']
+    return croatianTerms.some(term => title.includes(term))
   }
 }

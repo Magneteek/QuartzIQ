@@ -11,10 +11,9 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Import the LinkedIn extractor (using require for compatibility)
-    const { UniversalBusinessReviewExtractor } = await import('../../../../../../universal-business-review-extractor.js')
-
-    const extractor = new UniversalBusinessReviewExtractor()
+    // LinkedIn extractor import disabled for build stability
+    console.log(`⚠️ LinkedIn extractor disabled for build stability`)
+    throw new Error('LinkedIn extractor not available in API runtime context')
 
     console.log(`🔗 LinkedIn enrichment requested for ${businesses.length} businesses`)
 

@@ -61,9 +61,14 @@ export async function POST(request: NextRequest) {
         await historyManager.updateEnrichment(extractionId, enrichedBusinesses, enrichmentStats)
         return NextResponse.json({ success: true, message: 'Enrichment updated' })
 
+      case 'delete':
+        const { id: deleteId } = data
+        await historyManager.deleteExtraction(deleteId)
+        return NextResponse.json({ success: true, message: 'Extraction deleted' })
+
       default:
         return NextResponse.json(
-          { success: false, error: 'Invalid action. Use: save, updateEnrichment' },
+          { success: false, error: 'Invalid action. Use: save, updateEnrichment, delete' },
           { status: 400 }
         )
     }

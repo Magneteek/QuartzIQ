@@ -6,7 +6,7 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { Card, CardContent } from '@/components/ui/card'
-import { ExternalLink, Star, MapPin, User, Calendar, MessageSquare, Phone, Mail, Globe, Users } from 'lucide-react'
+import { ExternalLink, Star, MapPin, User, Calendar, MessageSquare, Phone, Mail, Globe, Users, Award } from 'lucide-react'
 import { getValidReviewUrl, getReviewLinkLabel, shouldShowReviewLink } from '@/lib/review-url-utils'
 
 interface Review {
@@ -31,17 +31,24 @@ interface ResultsTableProps {
     searchCriteria: Record<string, unknown>
     extractionDate: Date
   }
+  qualifyingBusinesses: any[]
   selectedReviews: Set<string>
   onReviewSelect: (reviewIndex: number, isSelected: boolean) => void
   selectAll: boolean
   onSelectAll: (selectAll: boolean) => void
 }
 
-export function ResultsTable({ results, selectedReviews, onReviewSelect, selectAll, onSelectAll }: ResultsTableProps) {
+export function ResultsTable({ results, qualifyingBusinesses, selectedReviews, onReviewSelect, selectAll, onSelectAll }: ResultsTableProps) {
   const [currentPage, setCurrentPage] = useState(1)
   const [pageSize, setPageSize] = useState(10)
-  const [sortBy, setSortBy] = useState<'date' | 'rating' | 'business'>('date')
+  const [sortBy, setSortBy] = useState<'date' | 'rating' | 'business' | 'quality'>('date')
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc')
+
+  // Function to get lead quality data for a business
+  const getLeadQuality = (businessTitle: string) => {
+    const qualifyingBusiness = qualifyingBusinesses.find((b: any) => b.title === businessTitle)
+    return qualifyingBusiness?.leadQuality || null
+  }
 
   const sortedReviews = [...results.reviews].sort((a: any, b: any) => {
     let comparison = 0
@@ -56,6 +63,11 @@ export function ResultsTable({ results, selectedReviews, onReviewSelect, selectA
       case 'business':
         comparison = a.title.localeCompare(b.title)
         break
+      case 'quality':
+        const qualityA = getLeadQuality(a.title)?.score || 0
+        const qualityB = getLeadQuality(b.title)?.score || 0
+        comparison = qualityA - qualityB
+        break
     }
 
     return sortOrder === 'asc' ? comparison : -comparison
@@ -68,7 +80,7 @@ export function ResultsTable({ results, selectedReviews, onReviewSelect, selectA
 
   const totalPages = Math.ceil(results.reviews.length / pageSize)
 
-  const handleSort = (field: 'date' | 'rating' | 'business') => {
+  const handleSort = (field: 'date' | 'rating' | 'business' | 'quality') => {
     if (sortBy === field) {
       setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')
     } else {
@@ -144,6 +156,15 @@ export function ResultsTable({ results, selectedReviews, onReviewSelect, selectA
           >
             Business {sortBy === 'business' && (sortOrder === 'asc' ? '↑' : '↓')}
           </Button>
+          <Button
+            variant={sortBy === 'quality' ? 'default' : 'outline'}
+            size="sm"
+            onClick={() => handleSort('quality')}
+            className="gap-1"
+          >
+            <Award className="h-3 w-3" />
+            Quality {sortBy === 'quality' && (sortOrder === 'asc' ? '↑' : '↓')}
+          </Button>
         </div>
         <div className="flex items-center gap-2">
           <span className="text-sm text-muted-foreground">Show:</span>
@@ -171,8 +192,8 @@ export function ResultsTable({ results, selectedReviews, onReviewSelect, selectA
             <TableRow>
               <TableHead className="w-[50px]">Select</TableHead>
               <TableHead className="w-[250px]">Business & Contact</TableHead>
-              <TableHead className="w-[150px]">Reviewer</TableHead>
               <TableHead className="w-[100px]">Rating</TableHead>
+              <TableHead className="w-[110px]">Lead Quality</TableHead>
               <TableHead className="w-[120px]">Date</TableHead>
               <TableHead>Review Text</TableHead>
               <TableHead className="w-[120px]">Actions</TableHead>
@@ -247,28 +268,45 @@ export function ResultsTable({ results, selectedReviews, onReviewSelect, selectA
                   </div>
                 </TableCell>
                 <TableCell>
-                  <div className="space-y-1">
-                    <div className="font-medium text-sm flex items-center gap-1">
-                      <User className="h-3 w-3" />
-                      {review.name || 'Anonymous'}
-                    </div>
-                    <div className="text-xs text-muted-foreground">
-                      {review.reviewerNumberOfReviews || 0} reviews
-                      {review.isLocalGuide && (
-                        <Badge variant="secondary" className="ml-1 text-xs">
-                          Local Guide
-                        </Badge>
-                      )}
-                    </div>
-                  </div>
-                </TableCell>
-                <TableCell>
                   <div className="flex items-center gap-1">
                     {getStarRating(review.stars)}
                   </div>
                   <div className="text-xs text-muted-foreground mt-1">
                     {review.stars}/5
                   </div>
+                </TableCell>
+                <TableCell>
+                  {(() => {
+                    const leadQuality = getLeadQuality(review.title)
+                    if (!leadQuality) {
+                      return (
+                        <div className="text-xs text-muted-foreground">
+                          No quality data
+                        </div>
+                      )
+                    }
+
+                    const getTierColor = (tier: string) => {
+                      switch (tier.toLowerCase()) {
+                        case 'platinum': return 'bg-gradient-to-r from-yellow-500/20 to-orange-500/20 border-yellow-500/30 text-yellow-400'
+                        case 'gold': return 'bg-gradient-to-r from-green-500/20 to-emerald-500/20 border-green-500/30 text-green-400'
+                        case 'silver': return 'bg-gradient-to-r from-blue-500/20 to-cyan-500/20 border-blue-500/30 text-blue-400'
+                        default: return 'bg-gradient-to-r from-gray-500/20 to-slate-500/20 border-gray-500/30 text-gray-400'
+                      }
+                    }
+
+                    return (
+                      <div className="space-y-1">
+                        <div className={`flex items-center gap-1 px-2 py-1 rounded-lg border ${getTierColor(leadQuality.tier)}`}>
+                          <Award className="h-3 w-3" />
+                          <span className="text-xs font-medium">{leadQuality.tier}</span>
+                        </div>
+                        <div className="text-xs text-muted-foreground">
+                          {leadQuality.score}/100
+                        </div>
+                      </div>
+                    )
+                  })()}
                 </TableCell>
                 <TableCell>
                   <div className="space-y-1">

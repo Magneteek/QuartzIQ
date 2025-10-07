@@ -43,7 +43,17 @@ import {
   MessageSquare,
   Mail,
   Globe,
-  Trash2
+  Trash2,
+  MapPin,
+  Calendar,
+  Grid3X3,
+  ExternalLink,
+  Award,
+  ArrowUpDown,
+  ArrowUp,
+  ArrowDown,
+  Info,
+  HelpCircle
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
@@ -51,7 +61,8 @@ interface SearchCriteria {
   [key: string]: unknown
   category: string
   location: string
-  maxRating: number
+  minRating?: number
+  maxRating?: number
   maxStars: number
   dayLimit: number
   businessLimit: number
@@ -109,11 +120,18 @@ export function EnhancedReviewExtractionDashboard() {
   const [results, setResults] = useState<ExtractionResult | null>(null)
   const [progress, setProgress] = useState(0)
   const [currentStep, setCurrentStep] = useState('')
-  const [viewMode, setViewMode] = useState<'table' | 'list' | 'cards'>('table')
+  const [viewMode, setViewMode] = useState<'table' | 'list' | 'cards'>(() => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('quartziq-view-mode') as 'table' | 'list' | 'cards' || 'cards'
+    }
+    return 'cards'
+  })
   const [showExportModal, setShowExportModal] = useState(false)
   const [showSettingsModal, setShowSettingsModal] = useState(false)
   const [showLeadSelectionModal, setShowLeadSelectionModal] = useState(false)
   const [darkMode, setDarkMode] = useState(true)
+  const [qualitySortOrder, setQualitySortOrder] = useState<'desc' | 'asc' | 'none'>('desc')
+  const [showQualityLegend, setShowQualityLegend] = useState(false)
 
   // Request cleanup ref
   const abortControllerRef = React.useRef<AbortController | null>(null)
@@ -132,6 +150,7 @@ export function EnhancedReviewExtractionDashboard() {
   const [showHistory, setShowHistory] = useState(false)
   const [currentExtractionId, setCurrentExtractionId] = useState<string | null>(null)
   const [lastSearchCriteria, setLastSearchCriteria] = useState<SearchCriteria | null>(null)
+  const [historyRefreshTrigger, setHistoryRefreshTrigger] = useState(0)
 
   // Client configuration state
   const [selectedClientId, setSelectedClientId] = useState<string>('default')
@@ -140,6 +159,20 @@ export function EnhancedReviewExtractionDashboard() {
   useEffect(() => {
     document.documentElement.classList.toggle('dark', darkMode)
   }, [darkMode])
+
+  // Debug viewMode changes and save to localStorage
+  useEffect(() => {
+    console.log('ViewMode changed to:', viewMode)
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('quartziq-view-mode', viewMode)
+    }
+  }, [viewMode])
+
+  // Create a wrapper function for setViewMode to ensure consistency
+  const changeViewMode = (newMode: 'table' | 'list' | 'cards') => {
+    console.log('changeViewMode called with:', newMode, 'current viewMode:', viewMode)
+    setViewMode(newMode)
+  }
 
   // Cleanup on unmount
   useEffect(() => {
@@ -261,12 +294,12 @@ export function EnhancedReviewExtractionDashboard() {
   }
 
   const handleContactEnrichment = async (includeApifyEnrichment = false, includeLinkedInEnrichment = false) => {
-    if (!results || !results.businesses.length || selectedBusinesses.size === 0) {
+    if (!qualifyingBusinesses.length || selectedBusinesses.size === 0) {
       alert('Please select at least one business for contact enrichment.')
       return
     }
 
-    const businessesToEnrich = results.businesses.filter((business: any, index) =>
+    const businessesToEnrich = qualifyingBusinesses.filter((business: any, index) =>
       selectedBusinesses.has(index.toString())
     )
 
@@ -351,6 +384,10 @@ export function EnhancedReviewExtractionDashboard() {
     } finally {
       setIsEnrichingContacts(false)
 
+      // Trigger Contact Vault refresh to show updated green icons
+      console.log('🔄 Triggering Contact Vault refresh after enrichment...')
+      setHistoryRefreshTrigger(prev => prev + 1)
+
       // Refresh data from history to ensure enriched data is displayed
       if (currentExtractionId) {
         setTimeout(async () => {
@@ -367,12 +404,12 @@ export function EnhancedReviewExtractionDashboard() {
 
   // LinkedIn Executive Email Enrichment
   const handleLinkedInEnrichment = async () => {
-    if (!results || !results.businesses.length || selectedBusinesses.size === 0) {
+    if (!qualifyingBusinesses.length || selectedBusinesses.size === 0) {
       alert('Please select at least one business for LinkedIn executive email enrichment.')
       return
     }
 
-    const businessesToEnrich = results.businesses.filter((business: any, index) =>
+    const businessesToEnrich = qualifyingBusinesses.filter((business: any, index) =>
       selectedBusinesses.has(index.toString())
     )
 
@@ -439,17 +476,21 @@ export function EnhancedReviewExtractionDashboard() {
       setEnrichmentStep('LinkedIn enrichment failed - please try again')
     } finally {
       setIsEnrichingContacts(false)
+
+      // Trigger Contact Vault refresh to show updated green icons
+      console.log('🔄 Triggering Contact Vault refresh after LinkedIn enrichment...')
+      setHistoryRefreshTrigger(prev => prev + 1)
     }
   }
 
   // Clean up binary garbage email data
   const handleCleanupGarbageEmails = async () => {
-    if (!results || !results.businesses.length) {
+    if (!qualifyingBusinesses.length) {
       alert('No business data available for cleanup.')
       return
     }
 
-    const garbageEmails = results.businesses.filter((business: any) => {
+    const garbageEmails = qualifyingBusinesses.filter((business: any) => {
       if (!business.email) return false
       // Check for binary garbage patterns (same logic as ContactExtractor)
       const nonAsciiChars = business.email.replace(/[\x00-\x7F]/g, '').length
@@ -532,18 +573,21 @@ export function EnhancedReviewExtractionDashboard() {
 
   // Business selection handlers
   const handleBusinessSelect = (businessIndex: number, isSelected: boolean) => {
+    console.log('handleBusinessSelect called:', { businessIndex, isSelected, currentSize: selectedBusinesses.size })
     const newSelected = new Set(selectedBusinesses)
     if (isSelected) {
       newSelected.add(businessIndex.toString())
+      console.log('Adding business', businessIndex, 'new size:', newSelected.size)
     } else {
       newSelected.delete(businessIndex.toString())
+      console.log('Removing business', businessIndex, 'new size:', newSelected.size)
     }
     setSelectedBusinesses(newSelected)
   }
 
   const handleSelectAllBusinesses = (selectAll: boolean) => {
-    if (selectAll && results) {
-      const allBusinessIndices = new Set(results.businesses.map((_, index) => index.toString()))
+    if (selectAll && qualifyingBusinesses.length > 0) {
+      const allBusinessIndices = new Set(qualifyingBusinesses.map((_, index) => index.toString()))
       setSelectedBusinesses(allBusinessIndices)
     } else {
       setSelectedBusinesses(new Set())
@@ -599,16 +643,134 @@ export function EnhancedReviewExtractionDashboard() {
     setSelectAll(false)
   }, [results])
 
-  // Memoize expensive computations
+  // Lead Quality Scoring Algorithm
+  const calculateLeadQuality = (business: any, businessReviews: any[]) => {
+    let score = 0
+    let factors = []
+
+    // Factor 1: Removed - Response Rate (not reliable with partial review scraping)
+
+    // Factor 1: Review Volume (0-30 points) - Increased weight
+    const reviewCount = business.reviewsCount || businessReviews.length
+    let volumeScore = 0
+    if (reviewCount >= 100) volumeScore = 30
+    else if (reviewCount >= 50) volumeScore = 24
+    else if (reviewCount >= 20) volumeScore = 18
+    else if (reviewCount >= 10) volumeScore = 12
+    else if (reviewCount >= 5) volumeScore = 6
+    score += volumeScore
+    factors.push(`Review Volume: ${reviewCount} reviews (+${volumeScore}pts)`)
+
+    // Factor 2: Average Rating (0-25 points) - Increased weight
+    const rating = business.totalScore || 0
+    const ratingScore = Math.round((rating / 5) * 25)
+    score += ratingScore
+    factors.push(`Rating: ${rating.toFixed(1)}/5 (+${ratingScore}pts)`)
+
+    // Factor 3: Recent Activity (0-20 points) - Increased weight
+    const recentReviews = businessReviews.filter(review => {
+      const reviewDate = new Date(review.publishedAtDate)
+      const sixMonthsAgo = new Date()
+      sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6)
+      return reviewDate > sixMonthsAgo
+    }).length
+    const recentActivityRate = businessReviews.length > 0 ? recentReviews / businessReviews.length : 0
+    const activityScore = Math.round(recentActivityRate * 20)
+    score += activityScore
+    factors.push(`Recent Activity: ${Math.round(recentActivityRate * 100)}% (+${activityScore}pts)`)
+
+    // Factor 4: Review Quality - Average text length (0-25 points) - Increased weight
+    const avgTextLength = businessReviews.length > 0
+      ? businessReviews.reduce((sum, review) => sum + (review.text?.length || 0), 0) / businessReviews.length
+      : 0
+    let qualityScore = 0
+    if (avgTextLength >= 200) qualityScore = 25
+    else if (avgTextLength >= 150) qualityScore = 20
+    else if (avgTextLength >= 100) qualityScore = 15
+    else if (avgTextLength >= 50) qualityScore = 10
+    else if (avgTextLength >= 25) qualityScore = 5
+    score += qualityScore
+    factors.push(`Review Quality: ${Math.round(avgTextLength)} chars avg (+${qualityScore}pts)`)
+
+    // Determine quality tier
+    let tier = 'Bronze'
+    let tierColor = 'text-orange-600'
+    let tierBg = 'bg-orange-500/20 border-orange-500/30'
+
+    if (score >= 80) {
+      tier = 'Platinum'
+      tierColor = 'text-purple-400'
+      tierBg = 'bg-purple-500/20 border-purple-500/30'
+    } else if (score >= 70) {
+      tier = 'Gold'
+      tierColor = 'text-yellow-400'
+      tierBg = 'bg-yellow-500/20 border-yellow-500/30'
+    } else if (score >= 60) {
+      tier = 'Silver'
+      tierColor = 'text-gray-300'
+      tierBg = 'bg-gray-500/20 border-gray-500/30'
+    }
+
+    return {
+      score,
+      tier,
+      tierColor,
+      tierBg,
+      factors,
+      reviewCount,
+      rating: rating.toFixed(1),
+      recentActivityRate: Math.round(recentActivityRate * 100),
+      avgTextLength: Math.round(avgTextLength)
+    }
+  }
+
+  // Filter businesses to only show those with qualifying reviews and add quality scores
+  const qualifyingBusinesses = React.useMemo(() => {
+    if (!results) return []
+
+    // Get unique business titles that have qualifying reviews
+    const businessesWithReviews = new Set(results.reviews.map((review: any) => review.title))
+
+    // Filter businesses to only include those with qualifying reviews
+    const filteredBusinesses = results.businesses.filter((business: any) =>
+      businessesWithReviews.has(business.title)
+    )
+
+    // Add quality scores to each business
+    const businessesWithQuality = filteredBusinesses.map((business: any) => {
+      const businessReviews = results.reviews.filter((review: any) =>
+        review.title === business.title
+      )
+      const qualityData = calculateLeadQuality(business, businessReviews)
+
+      return {
+        ...business,
+        leadQuality: qualityData,
+        reviewsForBusiness: businessReviews
+      }
+    })
+
+    // Apply sorting based on quality sort order
+    if (qualitySortOrder === 'desc') {
+      return businessesWithQuality.sort((a, b) => b.leadQuality.score - a.leadQuality.score)
+    } else if (qualitySortOrder === 'asc') {
+      return businessesWithQuality.sort((a, b) => a.leadQuality.score - b.leadQuality.score)
+    } else {
+      // 'none' - sort by review count descending as fallback
+      return businessesWithQuality.sort((a, b) => b.reviewsCount - a.reviewsCount)
+    }
+  }, [results, qualitySortOrder])
+
+  // Memoize expensive computations based on qualifying businesses only
   const statsData = React.useMemo(() => {
     if (!results) return null
 
     let enriched = 0, phoneNumbers = 0, emails = 0, websites = 0, garbageEmails = 0
     let totalRating = 0
 
-    for (const business of results.businesses) {
+    for (const business of qualifyingBusinesses) {
       const b = business as any
-      if (b.contactEnriched) enriched++
+      if (b.phone || b.website || b.email) enriched++
       if (b.phone) phoneNumbers++
       if (b.email) emails++
       if (b.website) websites++
@@ -623,16 +785,16 @@ export function EnhancedReviewExtractionDashboard() {
     }
 
     return {
-      businesses: results.businesses.length,
+      businesses: qualifyingBusinesses.length,
       reviews: results.reviews.length,
       enriched,
-      avgRating: results.businesses.length > 0 ? totalRating / results.businesses.length : 0,
+      avgRating: qualifyingBusinesses.length > 0 ? totalRating / qualifyingBusinesses.length : 0,
       phoneNumbers,
       emails,
       websites,
       garbageEmails
     }
-  }, [results])
+  }, [results, qualifyingBusinesses])
 
   return (
     <div className="min-h-screen bg-background">
@@ -642,6 +804,7 @@ export function EnhancedReviewExtractionDashboard() {
         onLoadExtraction={handleLoadExtraction}
         onClose={() => setShowHistory(false)}
         currentExtractionId={currentExtractionId}
+        refreshTrigger={historyRefreshTrigger}
       />
 
       {/* Main Content */}
@@ -688,17 +851,6 @@ export function EnhancedReviewExtractionDashboard() {
           </Card>
         </motion.div>
 
-        {/* Client Configuration */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.05 }}
-        >
-          <ClientSelector
-            onClientSelect={setSelectedClientId}
-            selectedClientId={selectedClientId}
-          />
-        </motion.div>
 
         {/* Search Configuration */}
         <motion.div
@@ -727,7 +879,7 @@ export function EnhancedReviewExtractionDashboard() {
                   </motion.div>
                 )}
               </div>
-              
+
               <div className="flex items-center gap-2">
                 <Button
                   variant="outline"
@@ -743,6 +895,84 @@ export function EnhancedReviewExtractionDashboard() {
             <EnhancedSearchForm onSearch={handleSearch} isExtracting={isExtracting} />
           </Card>
         </motion.div>
+
+        {/* Search Criteria Overview */}
+        <AnimatePresence>
+          {lastSearchCriteria && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ delay: 0.15 }}
+            >
+              <Card className="p-4">
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-3">
+                    <Target className="h-5 w-5 text-primary" />
+                    <div>
+                      <h3 className="text-lg font-semibold text-foreground">Search Criteria</h3>
+                      <p className="text-sm text-muted-foreground">Current extraction parameters</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+                  <div className="space-y-1">
+                    <div className="text-xs text-muted-foreground">Category</div>
+                    <div className="font-medium text-sm">{lastSearchCriteria.category}</div>
+                  </div>
+
+                  <div className="space-y-1">
+                    <div className="text-xs text-muted-foreground">Target Location</div>
+                    <div className="font-medium text-sm flex items-center gap-1">
+                      <MapPin className="h-3 w-3 text-primary" />
+                      {lastSearchCriteria.location}
+                    </div>
+                  </div>
+
+                  {(lastSearchCriteria.minRating || lastSearchCriteria.maxRating) && (
+                    <div className="space-y-1">
+                      <div className="text-xs text-muted-foreground">Business Rating</div>
+                      <div className="font-medium text-sm flex items-center gap-1">
+                        <Star className="h-3 w-3 text-primary" />
+                        {lastSearchCriteria.minRating && lastSearchCriteria.maxRating
+                          ? `${lastSearchCriteria.minRating} - ${lastSearchCriteria.maxRating}`
+                          : lastSearchCriteria.minRating
+                            ? `≥ ${lastSearchCriteria.minRating}`
+                            : `≤ ${lastSearchCriteria.maxRating}`
+                        }
+                      </div>
+                    </div>
+                  )}
+
+                  <div className="space-y-1">
+                    <div className="text-xs text-muted-foreground">Max Review Stars</div>
+                    <div className="font-medium text-sm flex items-center gap-1">
+                      <Star className="h-3 w-3 text-primary" />
+                      ≤ {lastSearchCriteria.maxStars}
+                    </div>
+                  </div>
+
+                  <div className="space-y-1">
+                    <div className="text-xs text-muted-foreground">Time Window</div>
+                    <div className="font-medium text-sm flex items-center gap-1">
+                      <Calendar className="h-3 w-3 text-primary" />
+                      {lastSearchCriteria.dayLimit} days
+                    </div>
+                  </div>
+
+                  <div className="space-y-1">
+                    <div className="text-xs text-muted-foreground">Business Limit</div>
+                    <div className="font-medium text-sm flex items-center gap-1">
+                      <Building className="h-3 w-3 text-primary" />
+                      {lastSearchCriteria.businessLimit}
+                    </div>
+                  </div>
+                </div>
+              </Card>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {/* Progress Indicators */}
         <AnimatePresence>
@@ -857,15 +1087,15 @@ export function EnhancedReviewExtractionDashboard() {
                           </TooltipProvider>
                         </div>
                         <p className="text-sm text-muted-foreground">
-                          Found {results.businesses.length} businesses • {results.reviews.length} reviews analyzed
-                          {results.businesses.filter((b: any) => b.contactEnriched).length > 0 && (
+                          Found {qualifyingBusinesses.length} qualifying businesses • {results.reviews.length} reviews analyzed
+                          {statsData?.enriched && statsData.enriched > 0 && (
                             <span className="ml-2 text-green-400 font-medium">
-                              • {results.businesses.filter((b: any) => b.contactEnriched).length} contacts enriched
+                              • {statsData.enriched} contacts available
                             </span>
                           )}
-                          {results.businesses.length > 0 && results.businesses.filter((b: any) => b.contactEnriched).length === 0 && (
+                          {qualifyingBusinesses.length > 0 && (!statsData?.enriched || statsData.enriched === 0) && (
                             <span className="ml-2 text-amber-400 font-medium">
-                              • Contact enrichment attempted but failed (API quota may be exceeded)
+                              • No contact information found in scraped data
                             </span>
                           )}
                         </p>
@@ -879,27 +1109,110 @@ export function EnhancedReviewExtractionDashboard() {
                         <Button
                           variant={viewMode === 'cards' ? 'default' : 'ghost'}
                           size="sm"
-                          onClick={() => setViewMode('cards')}
-                          className="border-0"
+                          onClick={() => {
+                            console.log('Clicking cards button, current viewMode:', viewMode)
+                            changeViewMode('cards')
+                          }}
+                          className={cn(
+                            "border-0",
+                            viewMode === 'cards' && "bg-primary text-primary-foreground"
+                          )}
                         >
-                          <BarChart3 className="h-4 w-4" />
+                          <Grid3X3 className="h-4 w-4" />
                         </Button>
                         <Button
                           variant={viewMode === 'table' ? 'default' : 'ghost'}
                           size="sm"
-                          onClick={() => setViewMode('table')}
-                          className="border-0"
+                          onClick={() => {
+                            console.log('Clicking table button, current viewMode:', viewMode)
+                            changeViewMode('table')
+                          }}
+                          className={cn(
+                            "border-0",
+                            viewMode === 'table' && "bg-primary text-primary-foreground"
+                          )}
                         >
                           <Table className="h-4 w-4" />
                         </Button>
                         <Button
                           variant={viewMode === 'list' ? 'default' : 'ghost'}
                           size="sm"
-                          onClick={() => setViewMode('list')}
-                          className="border-0"
+                          onClick={() => {
+                            console.log('Clicking list button, current viewMode:', viewMode)
+                            changeViewMode('list')
+                          }}
+                          className={cn(
+                            "border-0",
+                            viewMode === 'list' && "bg-primary text-primary-foreground"
+                          )}
                         >
                           <List className="h-4 w-4" />
                         </Button>
+                      </div>
+
+                      {/* Quality Sort Controls */}
+                      <div className="flex items-center border rounded-lg bg-white/10 backdrop-blur-sm border border-white/20">
+                        <TooltipProvider>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <Button
+                                variant={qualitySortOrder === 'desc' ? 'default' : 'ghost'}
+                                size="sm"
+                                onClick={() => setQualitySortOrder(qualitySortOrder === 'desc' ? 'none' : 'desc')}
+                                className={cn(
+                                  "border-0 gap-1",
+                                  qualitySortOrder === 'desc' && "bg-primary text-primary-foreground"
+                                )}
+                              >
+                                <Award className="h-4 w-4" />
+                                <ArrowDown className="h-3 w-3" />
+                              </Button>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                              <p>Sort by Lead Quality (High to Low)</p>
+                            </TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
+
+                        <TooltipProvider>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <Button
+                                variant={qualitySortOrder === 'asc' ? 'default' : 'ghost'}
+                                size="sm"
+                                onClick={() => setQualitySortOrder(qualitySortOrder === 'asc' ? 'none' : 'asc')}
+                                className={cn(
+                                  "border-0 gap-1",
+                                  qualitySortOrder === 'asc' && "bg-primary text-primary-foreground"
+                                )}
+                              >
+                                <Award className="h-4 w-4" />
+                                <ArrowUp className="h-3 w-3" />
+                              </Button>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                              <p>Sort by Lead Quality (Low to High)</p>
+                            </TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
+
+                        <TooltipProvider>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => setShowQualityLegend(!showQualityLegend)}
+                                className="border-0"
+                              >
+                                <HelpCircle className="h-4 w-4" />
+                              </Button>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                              <p>Lead Quality Scoring Guide</p>
+                            </TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
                       </div>
 
                       <Button
@@ -914,8 +1227,8 @@ export function EnhancedReviewExtractionDashboard() {
 
                       {/* Send to Quartz Leads Button */}
                       {(() => {
-                        const enrichedCount = results.businesses.filter((b: any) =>
-                          b.contactEnriched && (b.phone || b.email || b.website)
+                        const enrichedCount = qualifyingBusinesses.filter((b: any) =>
+                          b.phone || b.email || b.website
                         ).length
 
                         return enrichedCount > 0 && (
@@ -959,8 +1272,8 @@ export function EnhancedReviewExtractionDashboard() {
                             disabled={isExtracting || selectedBusinesses.size === 0}
                             className="bg-[#d97757] hover:bg-[#c66946] text-white font-semibold px-6 py-3 rounded-lg shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-200 border-0"
                           >
-                            <Mail className="h-5 w-5 mr-2" />
-                            Get Email Info ({selectedBusinesses.size})
+                            <Phone className="h-5 w-5 mr-2" />
+                            Get Contact Info ({selectedBusinesses.size})
                           </Button>
                           {selectedBusinesses.size > 0 && (
                             <motion.div
@@ -972,64 +1285,10 @@ export function EnhancedReviewExtractionDashboard() {
                         </motion.div>
                       )}
 
-                      {/* LinkedIn Executive Email Enrichment Button */}
-                      {!isEnrichingContacts && results.businesses.length > 0 && (
-                        <motion.div
-                          initial={{ scale: 0.9, opacity: 0 }}
-                          animate={{ scale: 1, opacity: 1 }}
-                          className="relative"
-                        >
-                          <Button
-                            variant="secondary"
-                            size="lg"
-                            onClick={handleLinkedInEnrichment}
-                            disabled={isExtracting || selectedBusinesses.size === 0}
-                            className="bg-[#0077b5] hover:bg-[#005885] text-white font-semibold px-6 py-3 rounded-lg shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-200 border-0"
-                          >
-                            <Users className="h-5 w-5 mr-2" />
-                            Find LinkedIn Executives ({selectedBusinesses.size})
-                          </Button>
-                          {selectedBusinesses.size > 0 && (
-                            <motion.div
-                              className="absolute -top-1 -right-1 w-3 h-3 bg-blue-400 rounded-full"
-                              animate={{ scale: [1, 1.2, 1] }}
-                              transition={{ duration: 2, repeat: Infinity }}
-                            />
-                          )}
-                        </motion.div>
-                      )}
 
-                      {/* Cleanup Garbage Emails Button */}
-                      {!isEnrichingContacts && results.businesses.length > 0 && (
-                        <motion.div
-                          initial={{ scale: 0.9, opacity: 0 }}
-                          animate={{ scale: 1, opacity: 1 }}
-                          className="relative"
-                        >
-                          <Button
-                            variant="outline"
-                            size="lg"
-                            onClick={handleCleanupGarbageEmails}
-                            disabled={isExtracting}
-                            className="bg-red-600/20 hover:bg-red-600/30 border-red-500/50 text-red-400 hover:text-red-300 font-semibold px-6 py-3 rounded-lg shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-200"
-                          >
-                            <Trash2 className="h-5 w-5 mr-2" />
-                            Clean Garbage Emails {statsData?.garbageEmails ? `(${statsData.garbageEmails})` : ''}
-                          </Button>
-                          {statsData?.garbageEmails && statsData.garbageEmails > 0 && (
-                            <motion.div
-                              className="absolute -top-1 -right-1 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-xs font-bold"
-                              animate={{ scale: [1, 1.1, 1] }}
-                              transition={{ duration: 2, repeat: Infinity }}
-                            >
-                              {statsData.garbageEmails}
-                            </motion.div>
-                          )}
-                        </motion.div>
-                      )}
 
                       <span className="text-sm text-muted-foreground">
-                        {selectedBusinesses.size} of {results.businesses.length} businesses selected
+                        {selectedBusinesses.size} of {qualifyingBusinesses.length} qualifying businesses selected
                       </span>
                     </div>
 
@@ -1043,16 +1302,21 @@ export function EnhancedReviewExtractionDashboard() {
 
                   {/* Results Display */}
                   <div className="space-y-4">
+                    {console.log('Rendering view, current viewMode:', viewMode) || null}
+
                     {viewMode === 'cards' && (
                       <motion.div
+                        key="cards-view"
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
                       >
-                        {results.businesses.map((business: any, index) => (
+                        {console.log('Rendering CARDS view - Qualifying Business Grid') || null}
+                        {qualifyingBusinesses.map((business: any, index) => (
                           <EnhancedBusinessCard
                             key={business.placeId || index}
                             business={business}
+                            searchCriteria={results?.searchCriteria}
                             index={index}
                             isSelected={selectedBusinesses.has(index.toString())}
                             onToggleSelect={() => handleBusinessSelect(index, !selectedBusinesses.has(index.toString()))}
@@ -1062,23 +1326,34 @@ export function EnhancedReviewExtractionDashboard() {
                     )}
 
                     {viewMode === 'table' && (
-                      <ResultsTable
-                        results={results}
-                        selectedReviews={selectedReviews}
-                        onReviewSelect={handleReviewSelect}
-                        selectAll={selectAll}
-                        onSelectAll={handleSelectAllReviews}
-                      />
+                      <motion.div
+                        key="table-view"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                      >
+                        {console.log('Rendering TABLE view - Reviews Table') || null}
+                        <ResultsTable
+                          results={results}
+                          qualifyingBusinesses={qualifyingBusinesses}
+                          selectedReviews={selectedReviews}
+                          onReviewSelect={handleReviewSelect}
+                          selectAll={selectAll}
+                          onSelectAll={handleSelectAllReviews}
+                        />
+                      </motion.div>
                     )}
 
                     {viewMode === 'list' && (
-                      <ResultsList
-                        results={results}
-                        selectedReviews={selectedReviews}
-                        onReviewSelect={handleReviewSelect}
-                        selectAll={selectAll}
-                        onSelectAll={handleSelectAllReviews}
-                      />
+                      <motion.div
+                        key="list-view"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                      >
+                        {console.log('Rendering LIST view - Reviews List') || null}
+                        <ResultsList
+                          results={results}
+                        />
+                      </motion.div>
                     )}
                   </div>
                 </div>
@@ -1103,14 +1378,153 @@ export function EnhancedReviewExtractionDashboard() {
         />
 
         {/* Lead Selection Modal */}
-        {results && (
+        {qualifyingBusinesses.length > 0 && (
           <LeadSelectionModal
             isOpen={showLeadSelectionModal}
             onClose={() => setShowLeadSelectionModal(false)}
-            enrichedBusinesses={results.businesses}
+            enrichedBusinesses={qualifyingBusinesses}
             selectedClientId={selectedClientId}
           />
         )}
+
+        {/* Quality Legend Modal */}
+        <AnimatePresence>
+          {showQualityLegend && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+              onClick={() => setShowQualityLegend(false)}
+            >
+              <motion.div
+                initial={{ scale: 0.9, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.9, opacity: 0 }}
+                className="bg-background rounded-xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto border"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <div className="p-6">
+                  <div className="flex items-center justify-between mb-6">
+                    <div className="flex items-center gap-3">
+                      <div className="p-2 bg-primary/10 rounded-lg">
+                        <Award className="h-6 w-6 text-primary" />
+                      </div>
+                      <div>
+                        <h2 className="text-xl font-semibold">Lead Quality Scoring Guide</h2>
+                        <p className="text-sm text-muted-foreground">Understanding how businesses are ranked</p>
+                      </div>
+                    </div>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => setShowQualityLegend(false)}
+                      className="rounded-full"
+                    >
+                      ×
+                    </Button>
+                  </div>
+
+                  {/* Quality Tiers */}
+                  <div className="space-y-4 mb-6">
+                    <h3 className="font-semibold text-lg flex items-center gap-2">
+                      <Star className="h-5 w-5 text-primary" />
+                      Quality Tiers
+                    </h3>
+                    <div className="grid gap-3">
+                      <div className="flex items-center gap-3 p-3 rounded-lg bg-gradient-to-r from-yellow-500/20 to-orange-500/20 border border-yellow-500/30">
+                        <Award className="h-5 w-5 text-yellow-400" />
+                        <div className="flex-1">
+                          <div className="font-medium text-yellow-400">Platinum (80-100 points)</div>
+                          <div className="text-sm text-muted-foreground">Exceptional leads - highly responsive, established businesses</div>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-3 p-3 rounded-lg bg-gradient-to-r from-green-500/20 to-emerald-500/20 border border-green-500/30">
+                        <Award className="h-5 w-5 text-green-400" />
+                        <div className="flex-1">
+                          <div className="font-medium text-green-400">Gold (70-79 points)</div>
+                          <div className="text-sm text-muted-foreground">High-quality leads with good engagement patterns</div>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-3 p-3 rounded-lg bg-gradient-to-r from-blue-500/20 to-cyan-500/20 border border-blue-500/30">
+                        <Award className="h-5 w-5 text-blue-400" />
+                        <div className="flex-1">
+                          <div className="font-medium text-blue-400">Silver (60-69 points)</div>
+                          <div className="text-sm text-muted-foreground">Solid leads worth pursuing with moderate engagement</div>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-3 p-3 rounded-lg bg-gradient-to-r from-gray-500/20 to-slate-500/20 border border-gray-500/30">
+                        <Award className="h-5 w-5 text-gray-400" />
+                        <div className="flex-1">
+                          <div className="font-medium text-gray-400">Bronze (0-59 points)</div>
+                          <div className="text-sm text-muted-foreground">Entry-level leads that may require more nurturing</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Scoring Factors */}
+                  <div className="space-y-4">
+                    <h3 className="font-semibold text-lg flex items-center gap-2">
+                      <BarChart3 className="h-5 w-5 text-primary" />
+                      Scoring Factors
+                    </h3>
+                    <div className="space-y-3">
+                      <div className="flex items-start gap-3 p-3 rounded-lg bg-white/5 border border-white/10">
+                        <MessageSquare className="h-5 w-5 text-primary mt-0.5" />
+                        <div>
+                          <div className="font-medium">Response Rate (0-25 points)</div>
+                          <div className="text-sm text-muted-foreground">How often the business responds to customer reviews</div>
+                        </div>
+                      </div>
+                      <div className="flex items-start gap-3 p-3 rounded-lg bg-white/5 border border-white/10">
+                        <Users className="h-5 w-5 text-primary mt-0.5" />
+                        <div>
+                          <div className="font-medium">Review Volume (0-20 points)</div>
+                          <div className="text-sm text-muted-foreground">Total number of reviews indicates business maturity</div>
+                        </div>
+                      </div>
+                      <div className="flex items-start gap-3 p-3 rounded-lg bg-white/5 border border-white/10">
+                        <Star className="h-5 w-5 text-primary mt-0.5" />
+                        <div>
+                          <div className="font-medium">Average Rating (0-20 points)</div>
+                          <div className="text-sm text-muted-foreground">Higher ratings suggest better service quality</div>
+                        </div>
+                      </div>
+                      <div className="flex items-start gap-3 p-3 rounded-lg bg-white/5 border border-white/10">
+                        <Calendar className="h-5 w-5 text-primary mt-0.5" />
+                        <div>
+                          <div className="font-medium">Recent Activity (0-15 points)</div>
+                          <div className="text-sm text-muted-foreground">Recent reviews indicate active, growing business</div>
+                        </div>
+                      </div>
+                      <div className="flex items-start gap-3 p-3 rounded-lg bg-white/5 border border-white/10">
+                        <Building className="h-5 w-5 text-primary mt-0.5" />
+                        <div>
+                          <div className="font-medium">Review Quality (0-20 points)</div>
+                          <div className="text-sm text-muted-foreground">Detailed reviews suggest engaged customer base</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="mt-6 p-4 rounded-lg bg-primary/10 border border-primary/20">
+                    <div className="flex items-start gap-3">
+                      <Info className="h-5 w-5 text-primary mt-0.5" />
+                      <div>
+                        <div className="font-medium text-primary">Pro Tip</div>
+                        <div className="text-sm text-muted-foreground mt-1">
+                          Focus your outreach efforts on Platinum and Gold leads first - they have the highest likelihood
+                          of engagement and conversion based on their digital behavior patterns.
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {/* Floating Action Button */}
         <motion.div

@@ -1,0 +1,2022 @@
+{
+  "id": "extraction_1759234424026_w1effbnpo",
+  "timestamp": "2025-09-30T12:13:44.026Z",
+  "searchCriteria": {
+    "category": "tandarts",
+    "location": "Netherlands",
+    "minRating": 3.5,
+    "maxRating": 4.6,
+    "maxReviewsPerBusiness": 5,
+    "maxStars": 3,
+    "dayLimit": 14,
+    "businessLimit": 5,
+    "minReviews": 10,
+    "language": "nl",
+    "countryCode": "nl"
+  },
+  "results": {
+    "businesses": [
+      {
+        "title": "Samenwerkende Tandartsen Nijmegen - de Tandarts",
+        "price": null,
+        "categoryName": "Tandarts",
+        "address": "Groenewoudseweg 315, 6524 TX Nijmegen, Nederland",
+        "neighborhood": "Nijmegen-Oost",
+        "street": "Groenewoudseweg 315",
+        "city": "Nijmegen",
+        "postalCode": "6524 TX",
+        "state": null,
+        "countryCode": "NL",
+        "website": "https://www.nijmegendetandarts.nl/?utm_medium=organic&utm_source=local&utm_campaign=google+my+business&utm_content=website&utm_term=Samenwerkende+Tandartsen+Nijmegen",
+        "phone": "+31 24 323 2928",
+        "phoneUnformatted": "+31243232928",
+        "claimThisBusiness": false,
+        "location": {
+          "lat": 51.8296182,
+          "lng": 5.8646853
+        },
+        "totalScore": 4.1,
+        "permanentlyClosed": false,
+        "temporarilyClosed": false,
+        "placeId": "ChIJN-6UbPcIx0cRNPj2Fec3Hn0",
+        "categories": [
+          "Tandarts"
+        ],
+        "fid": "0x47c708f76c94ee37:0x7d1e37e715f6f834",
+        "cid": "9015704969687791668",
+        "reviewsCount": 91,
+        "imagesCount": 22,
+        "imageCategories": [],
+        "scrapedAt": "2025-09-30T12:11:23.337Z",
+        "googleFoodUrl": null,
+        "hotelAds": [],
+        "openingHours": [
+          {
+            "day": "dinsdag",
+            "hours": "08:00 to 22:00"
+          },
+          {
+            "day": "woensdag",
+            "hours": "08:00 to 22:00"
+          },
+          {
+            "day": "donderdag",
+            "hours": "08:00 to 18:00"
+          },
+          {
+            "day": "vrijdag",
+            "hours": "08:00 to 18:00"
+          },
+          {
+            "day": "zaterdag",
+            "hours": "08:00 to 13:00"
+          },
+          {
+            "day": "zondag",
+            "hours": "Gesloten"
+          },
+          {
+            "day": "maandag",
+            "hours": "08:00 to 22:00"
+          }
+        ],
+        "peopleAlsoSearch": [],
+        "placesTags": [],
+        "reviewsTags": [],
+        "additionalInfo": {
+          "Toegankelijkheid": [
+            {
+              "Rolstoeltoegankelijk toilet": true
+            },
+            {
+              "Rolstoeltoegankelijke parking": true
+            }
+          ],
+          "Voorzieningen": [
+            {
+              "Toilet": true
+            }
+          ],
+          "Planning": [
+            {
+              "Afspraak aanbevolen": true
+            }
+          ],
+          "Betalen": [
+            {
+              "Contactloos mobiel betalen": true
+            },
+            {
+              "Creditcards": true
+            },
+            {
+              "Pinpassen": true
+            }
+          ]
+        },
+        "gasPrices": [],
+        "url": "https://www.google.com/maps/search/?api=1&query=Samenwerkende%20Tandartsen%20Nijmegen%20-%20de%20Tandarts&query_place_id=ChIJN-6UbPcIx0cRNPj2Fec3Hn0",
+        "searchPageUrl": "https://www.google.com/maps/search/tandarts%20Netherlands/@51.76006340842791,6.182034203767007,11z?hl=nl",
+        "searchString": "tandarts Netherlands",
+        "language": "nl",
+        "rank": 1,
+        "isAdvertisement": false,
+        "imageUrl": "https://lh3.googleusercontent.com/p/AF1QipPSJFDxTkrW_-r5u1MF2VXFQgfgwcLyM6AY7KiR=w426-h240-k-no",
+        "kgmid": "/g/11b6d9460d"
+      },
+      {
+        "title": "Mondzorgpraktijk Nijmegen",
+        "price": null,
+        "categoryName": "Tandartspraktijk",
+        "address": "Groesbeekseweg 20, 6524 DB Nijmegen, Nederland",
+        "neighborhood": "Nijmegen-Oost",
+        "street": "Groesbeekseweg 20",
+        "city": "Nijmegen",
+        "postalCode": "6524 DB",
+        "state": null,
+        "countryCode": "NL",
+        "website": "http://www.mondzorgpraktijknijmegen.nl/",
+        "phone": "+31 24 360 9825",
+        "phoneUnformatted": "+31243609825",
+        "claimThisBusiness": false,
+        "location": {
+          "lat": 51.8401673,
+          "lng": 5.8617164
+        },
+        "totalScore": 4.9,
+        "permanentlyClosed": false,
+        "temporarilyClosed": false,
+        "placeId": "ChIJ941lXeEJx0cRDzUjnPk0gzA",
+        "categories": [
+          "Tandartspraktijk"
+        ],
+        "fid": "0x47c709e15d658df7:0x308334f99c23350f",
+        "cid": "3495695982440690959",
+        "reviewsCount": 108,
+        "imagesCount": 7,
+        "imageCategories": [],
+        "scrapedAt": "2025-09-30T12:11:23.338Z",
+        "googleFoodUrl": null,
+        "hotelAds": [],
+        "openingHours": [
+          {
+            "day": "dinsdag",
+            "hours": "08:00 to 17:00"
+          },
+          {
+            "day": "woensdag",
+            "hours": "08:00 to 17:00"
+          },
+          {
+            "day": "donderdag",
+            "hours": "08:00 to 17:00"
+          },
+          {
+            "day": "vrijdag",
+            "hours": "08:00 to 17:00"
+          },
+          {
+            "day": "zaterdag",
+            "hours": "Gesloten"
+          },
+          {
+            "day": "zondag",
+            "hours": "Gesloten"
+          },
+          {
+            "day": "maandag",
+            "hours": "08:00 to 17:00"
+          }
+        ],
+        "peopleAlsoSearch": [],
+        "placesTags": [],
+        "reviewsTags": [],
+        "additionalInfo": {
+          "Aangeleverd door het bedrijf": [
+            {
+              "Gerund door een vrouwelijke ondernemer": true
+            }
+          ],
+          "Toegankelijkheid": [
+            {
+              "Rolstoeltoegankelijk toilet": false
+            },
+            {
+              "Rolstoeltoegankelijke zitplaatsen": false
+            }
+          ],
+          "Voorzieningen": [
+            {
+              "Toilet": true
+            }
+          ],
+          "Planning": [
+            {
+              "Afspraak verplicht": true
+            },
+            {
+              "Afspraak aanbevolen": true
+            }
+          ]
+        },
+        "gasPrices": [],
+        "url": "https://www.google.com/maps/search/?api=1&query=Mondzorgpraktijk%20Nijmegen&query_place_id=ChIJ941lXeEJx0cRDzUjnPk0gzA",
+        "searchPageUrl": "https://www.google.com/maps/search/tandarts%20Netherlands/@51.76006340842791,6.182034203767007,11z?hl=nl",
+        "searchString": "tandarts Netherlands",
+        "language": "nl",
+        "rank": 2,
+        "isAdvertisement": false,
+        "imageUrl": "https://lh3.googleusercontent.com/p/AF1QipNPPBuepDk7gYLNmdUzyqE8jhfR95mMusHG1URL=w408-h544-k-no",
+        "kgmid": "/g/11frslvm4q"
+      },
+      {
+        "title": "Fortuna Kliniek voor Tandheelkunde",
+        "price": null,
+        "categoryName": "Tandartspraktijk",
+        "address": "Dick Boerrigterplein 2, 6663 RC Nijmegen, Nederland",
+        "neighborhood": "Waalsprong",
+        "street": "Dick Boerrigterplein 2",
+        "city": "Nijmegen",
+        "postalCode": "6663 RC",
+        "state": null,
+        "countryCode": "NL",
+        "website": "http://www.fortunakliniek.nl/",
+        "phone": "+31 24 203 6180",
+        "phoneUnformatted": "+31242036180",
+        "claimThisBusiness": false,
+        "location": {
+          "lat": 51.8652476,
+          "lng": 5.8510261
+        },
+        "totalScore": 4.8,
+        "permanentlyClosed": false,
+        "temporarilyClosed": false,
+        "placeId": "ChIJL5tuUa8Jx0cRTTXI0ULlNZg",
+        "categories": [
+          "Tandartspraktijk"
+        ],
+        "fid": "0x47c709af516e9b2f:0x9835e542d1c8354d",
+        "cid": "10967924542680872269",
+        "reviewsCount": 34,
+        "imagesCount": 22,
+        "imageCategories": [],
+        "scrapedAt": "2025-09-30T12:11:23.338Z",
+        "googleFoodUrl": null,
+        "hotelAds": [],
+        "openingHours": [
+          {
+            "day": "dinsdag",
+            "hours": "08:00 to 17:00"
+          },
+          {
+            "day": "woensdag",
+            "hours": "08:00 to 17:00"
+          },
+          {
+            "day": "donderdag",
+            "hours": "07:00 to 20:00"
+          },
+          {
+            "day": "vrijdag",
+            "hours": "08:00 to 16:30"
+          },
+          {
+            "day": "zaterdag",
+            "hours": "Gesloten"
+          },
+          {
+            "day": "zondag",
+            "hours": "Gesloten"
+          },
+          {
+            "day": "maandag",
+            "hours": "08:00 to 16:00"
+          }
+        ],
+        "peopleAlsoSearch": [],
+        "placesTags": [],
+        "reviewsTags": [],
+        "additionalInfo": {
+          "Toegankelijkheid": [
+            {
+              "Rolstoeltoegankelijke ingang": true
+            },
+            {
+              "Rolstoeltoegankelijke parking": true
+            }
+          ],
+          "Voorzieningen": [
+            {
+              "Toilet": true
+            }
+          ],
+          "Planning": [
+            {
+              "Afspraak aanbevolen": true
+            }
+          ]
+        },
+        "gasPrices": [],
+        "url": "https://www.google.com/maps/search/?api=1&query=Fortuna%20Kliniek%20voor%20Tandheelkunde&query_place_id=ChIJL5tuUa8Jx0cRTTXI0ULlNZg",
+        "searchPageUrl": "https://www.google.com/maps/search/tandarts%20Netherlands/@51.76006340842791,6.182034203767007,11z?hl=nl",
+        "searchString": "tandarts Netherlands",
+        "language": "nl",
+        "rank": 3,
+        "isAdvertisement": false,
+        "imageUrl": "https://lh3.googleusercontent.com/p/AF1QipP9F97YKo3Q_YAQenFr-j1d0TEjeGTJkB_5bize=w408-h306-k-no",
+        "kgmid": "/g/11sd0tq0jy"
+      },
+      {
+        "title": "Tandarts praktijk Villa Westhof Nijmegen Oost",
+        "price": null,
+        "categoryName": "Tandarts",
+        "address": "Berg en Dalseweg 172, 6522 CC Nijmegen, Nederland",
+        "neighborhood": "Nijmegen-Oost",
+        "street": "Berg en Dalseweg 172",
+        "city": "Nijmegen",
+        "postalCode": "6522 CC",
+        "state": null,
+        "countryCode": "NL",
+        "website": "http://www.tandartsnijmegenoost.nl/",
+        "phone": "+31 24 323 3366",
+        "phoneUnformatted": "+31243233366",
+        "claimThisBusiness": false,
+        "location": {
+          "lat": 51.8377309,
+          "lng": 5.8828221
+        },
+        "totalScore": 4.9,
+        "permanentlyClosed": false,
+        "temporarilyClosed": false,
+        "placeId": "ChIJ_TXUoawJx0cRdJOQKXHG3qQ",
+        "categories": [
+          "Tandarts",
+          "Cosmetische tandarts",
+          "mondhygiënist",
+          "Parodontoloog voor implantaten",
+          "Tandartspraktijk",
+          "Kindertandarts",
+          "Parodontoloog"
+        ],
+        "fid": "0x47c709aca1d435fd:0xa4dec67129909374",
+        "cid": "11880151056380892020",
+        "reviewsCount": 43,
+        "imagesCount": 15,
+        "imageCategories": [],
+        "scrapedAt": "2025-09-30T12:11:23.338Z",
+        "googleFoodUrl": null,
+        "hotelAds": [],
+        "openingHours": [
+          {
+            "day": "dinsdag",
+            "hours": "08:00 to 17:00"
+          },
+          {
+            "day": "woensdag",
+            "hours": "08:00 to 17:00"
+          },
+          {
+            "day": "donderdag",
+            "hours": "08:00 to 17:00"
+          },
+          {
+            "day": "vrijdag",
+            "hours": "08:00 to 16:00"
+          },
+          {
+            "day": "zaterdag",
+            "hours": "Gesloten"
+          },
+          {
+            "day": "zondag",
+            "hours": "Gesloten"
+          },
+          {
+            "day": "maandag",
+            "hours": "08:00 to 17:00"
+          }
+        ],
+        "peopleAlsoSearch": [],
+        "placesTags": [],
+        "reviewsTags": [],
+        "additionalInfo": {
+          "Aangeleverd door het bedrijf": [
+            {
+              "Gerund door een vrouwelijke ondernemer": true
+            }
+          ],
+          "Toegankelijkheid": [
+            {
+              "Rolstoeltoegankelijk toilet": true
+            }
+          ],
+          "Aanbod": [
+            {
+              "Medische kinderzorg": true
+            }
+          ],
+          "Voorzieningen": [
+            {
+              "Genderneutraal toilet": true
+            },
+            {
+              "Toilet": true
+            }
+          ],
+          "Publiek": [
+            {
+              "LGBTQ+ vriendelijk": true
+            },
+            {
+              "Veilige omgeving voor transgenders": true
+            }
+          ],
+          "Planning": [
+            {
+              "Afspraak verplicht": true
+            },
+            {
+              "Afspraak aanbevolen": true
+            }
+          ]
+        },
+        "gasPrices": [],
+        "url": "https://www.google.com/maps/search/?api=1&query=Tandarts%20praktijk%20Villa%20Westhof%20Nijmegen%20Oost&query_place_id=ChIJ_TXUoawJx0cRdJOQKXHG3qQ",
+        "searchPageUrl": "https://www.google.com/maps/search/tandarts%20Netherlands/@51.76006340842791,6.182034203767007,11z?hl=nl",
+        "searchString": "tandarts Netherlands",
+        "language": "nl",
+        "rank": 4,
+        "isAdvertisement": false,
+        "imageUrl": "https://lh3.googleusercontent.com/p/AF1QipOUmTBQACAjkoVcKKwpvB89pzcphPfQEZOw9pRq=w408-h272-k-no",
+        "kgmid": "/g/1hm56t8wl"
+      },
+      {
+        "title": "Mondzorg Oost",
+        "price": null,
+        "categoryName": "Tandarts",
+        "address": "Berg en Dalseweg 63, 6522 BB Nijmegen, Nederland",
+        "neighborhood": "Nijmegen-Oost",
+        "street": "Berg en Dalseweg 63",
+        "city": "Nijmegen",
+        "postalCode": "6522 BB",
+        "state": null,
+        "countryCode": "NL",
+        "website": "http://www.mondzorgoost.nl/",
+        "phone": "+31 24 329 4238",
+        "phoneUnformatted": "+31243294238",
+        "claimThisBusiness": false,
+        "location": {
+          "lat": 51.8413894,
+          "lng": 5.8769079
+        },
+        "totalScore": 4.3,
+        "permanentlyClosed": false,
+        "temporarilyClosed": false,
+        "placeId": "ChIJ3WRkOFIIx0cRfOvum6DRHu0",
+        "categories": [
+          "Tandarts"
+        ],
+        "fid": "0x47c70852386464dd:0xed1ed1a09beeeb7c",
+        "cid": "17086324524031339388",
+        "reviewsCount": 43,
+        "imagesCount": 4,
+        "imageCategories": [],
+        "scrapedAt": "2025-09-30T12:11:23.338Z",
+        "googleFoodUrl": null,
+        "hotelAds": [],
+        "openingHours": [
+          {
+            "day": "dinsdag",
+            "hours": "08:00 to 17:00"
+          },
+          {
+            "day": "woensdag",
+            "hours": "08:00 to 17:00"
+          },
+          {
+            "day": "donderdag",
+            "hours": "08:00 to 17:00"
+          },
+          {
+            "day": "vrijdag",
+            "hours": "08:00 to 17:00"
+          },
+          {
+            "day": "zaterdag",
+            "hours": "Gesloten"
+          },
+          {
+            "day": "zondag",
+            "hours": "Gesloten"
+          },
+          {
+            "day": "maandag",
+            "hours": "08:00 to 17:00"
+          }
+        ],
+        "peopleAlsoSearch": [],
+        "placesTags": [],
+        "reviewsTags": [],
+        "additionalInfo": {
+          "Toegankelijkheid": [
+            {
+              "Rolstoeltoegankelijk toilet": true
+            },
+            {
+              "Rolstoeltoegankelijke ingang": true
+            },
+            {
+              "Rolstoeltoegankelijke parking": true
+            }
+          ],
+          "Voorzieningen": [
+            {
+              "Toilet": true
+            }
+          ],
+          "Planning": [
+            {
+              "Afspraak aanbevolen": true
+            }
+          ],
+          "Betalen": [
+            {
+              "Contactloos mobiel betalen": true
+            },
+            {
+              "Creditcards": true
+            },
+            {
+              "Pinpassen": true
+            }
+          ]
+        },
+        "gasPrices": [],
+        "url": "https://www.google.com/maps/search/?api=1&query=Mondzorg%20Oost&query_place_id=ChIJ3WRkOFIIx0cRfOvum6DRHu0",
+        "searchPageUrl": "https://www.google.com/maps/search/tandarts%20Netherlands/@51.76006340842791,6.182034203767007,11z?hl=nl",
+        "searchString": "tandarts Netherlands",
+        "language": "nl",
+        "rank": 5,
+        "isAdvertisement": false,
+        "imageUrl": "https://lh3.googleusercontent.com/p/AF1QipNfKB0Fiv4umt3nItA4vL_ORF_ErH3o2AS-bUkW=w408-h271-k-no",
+        "kgmid": "/g/1tj7_5w6"
+      },
+      {
+        "title": "Dental Clinics Klazienaveen",
+        "price": null,
+        "categoryName": "Tandarts",
+        "address": "Koriander 10, 7891 WS Klazienaveen, Nederland",
+        "neighborhood": null,
+        "street": "Koriander 10",
+        "city": "Klazienaveen",
+        "postalCode": "7891 WS",
+        "state": null,
+        "countryCode": "NL",
+        "website": "https://www.dentalclinics.nl/tandarts/klazienaveen/?utm_source=google&utm_medium=organic&utm_campaign=gmb&utm_content=main_button",
+        "phone": "+31 591 312 747",
+        "phoneUnformatted": "+31591312747",
+        "claimThisBusiness": false,
+        "location": {
+          "lat": 52.7311744,
+          "lng": 6.9785609
+        },
+        "totalScore": 4.7,
+        "permanentlyClosed": false,
+        "temporarilyClosed": false,
+        "placeId": "ChIJG55cy-zut0cR3t23jJYOUOE",
+        "categories": [
+          "Tandarts"
+        ],
+        "fid": "0x47b7eeeccb5c9e1b:0xe1500e968cb7ddde",
+        "cid": "16235492696439381470",
+        "reviewsCount": 307,
+        "imagesCount": 19,
+        "imageCategories": [],
+        "scrapedAt": "2025-09-30T12:11:43.142Z",
+        "googleFoodUrl": null,
+        "hotelAds": [],
+        "openingHours": [
+          {
+            "day": "dinsdag",
+            "hours": "08:00 to 20:00"
+          },
+          {
+            "day": "woensdag",
+            "hours": "08:00 to 20:00"
+          },
+          {
+            "day": "donderdag",
+            "hours": "08:00 to 16:30"
+          },
+          {
+            "day": "vrijdag",
+            "hours": "08:00 to 16:30"
+          },
+          {
+            "day": "zaterdag",
+            "hours": "Gesloten"
+          },
+          {
+            "day": "zondag",
+            "hours": "Gesloten"
+          },
+          {
+            "day": "maandag",
+            "hours": "08:00 to 16:30"
+          }
+        ],
+        "peopleAlsoSearch": [],
+        "placesTags": [],
+        "reviewsTags": [],
+        "additionalInfo": {
+          "Noodhulp": [
+            {
+              "Biedt kosteloze producten of services": true
+            },
+            {
+              "Neemt ontheemden in dienst": true
+            }
+          ],
+          "Aangeleverd door het bedrijf": [
+            {
+              "Gerund door een vrouwelijke ondernemer": true
+            }
+          ],
+          "Toegankelijkheid": [
+            {
+              "Rolstoeltoegankelijk toilet": true
+            },
+            {
+              "Rolstoeltoegankelijke ingang": true
+            },
+            {
+              "Rolstoeltoegankelijke parking": true
+            }
+          ],
+          "Voorzieningen": [
+            {
+              "Toilet": true
+            }
+          ],
+          "Publiek": [
+            {
+              "LGBTQ+ vriendelijk": true
+            }
+          ],
+          "Planning": [
+            {
+              "Afspraak verplicht": true
+            },
+            {
+              "Afspraak aanbevolen": true
+            }
+          ],
+          "Betalen": [
+            {
+              "Contactloos mobiel betalen": true
+            },
+            {
+              "Pinpassen": true
+            },
+            {
+              "Creditcards": true
+            }
+          ]
+        },
+        "gasPrices": [],
+        "url": "https://www.google.com/maps/search/?api=1&query=Dental%20Clinics%20Klazienaveen&query_place_id=ChIJG55cy-zut0cR3t23jJYOUOE",
+        "searchPageUrl": "https://www.google.com/maps/search/tandarts%20Nederland/@52.73573209157206,7.210238657534013,11z?hl=nl",
+        "searchString": "tandarts Nederland",
+        "language": "nl",
+        "rank": 1,
+        "isAdvertisement": false,
+        "imageUrl": "https://lh3.googleusercontent.com/p/AF1QipOL7TwmB2jXgqK70cRdfQOrfW9-FhM7Gx3aNQEs=w408-h272-k-no",
+        "kgmid": "/g/119tdyqvp"
+      },
+      {
+        "title": "Tandartspraktijk J.R. Vastenburg",
+        "price": null,
+        "categoryName": "Tandarts",
+        "address": "Boermarkeweg 50H, 7824 AA Emmen, Nederland",
+        "neighborhood": null,
+        "street": "Boermarkeweg 50H",
+        "city": "Emmen",
+        "postalCode": "7824 AA",
+        "state": null,
+        "countryCode": "NL",
+        "website": "http://www.mondzorgscheperpark.nl/",
+        "phone": "+31 591 618 755",
+        "phoneUnformatted": "+31591618755",
+        "claimThisBusiness": true,
+        "location": {
+          "lat": 52.7841848,
+          "lng": 6.9138711
+        },
+        "totalScore": 5,
+        "permanentlyClosed": false,
+        "temporarilyClosed": false,
+        "placeId": "ChIJKVnzYDvmt0cRITrVmLLl5aY",
+        "categories": [
+          "Tandarts"
+        ],
+        "fid": "0x47b7e63b60f35929:0xa6e5e5b298d53a21",
+        "cid": "12026270935193827873",
+        "reviewsCount": 3,
+        "imagesCount": 21,
+        "imageCategories": [],
+        "scrapedAt": "2025-09-30T12:11:43.144Z",
+        "googleFoodUrl": null,
+        "hotelAds": [],
+        "openingHours": [
+          {
+            "day": "dinsdag",
+            "hours": "08:30 to 17:00"
+          },
+          {
+            "day": "woensdag",
+            "hours": "08:30 to 17:00"
+          },
+          {
+            "day": "donderdag",
+            "hours": "08:30 to 17:00"
+          },
+          {
+            "day": "vrijdag",
+            "hours": "08:30 to 17:00"
+          },
+          {
+            "day": "zaterdag",
+            "hours": "Gesloten"
+          },
+          {
+            "day": "zondag",
+            "hours": "Gesloten"
+          },
+          {
+            "day": "maandag",
+            "hours": "08:30 to 17:00"
+          }
+        ],
+        "peopleAlsoSearch": [],
+        "placesTags": [],
+        "reviewsTags": [],
+        "additionalInfo": {
+          "Toegankelijkheid": [
+            {
+              "Rolstoeltoegankelijk toilet": true
+            },
+            {
+              "Rolstoeltoegankelijke ingang": true
+            },
+            {
+              "Rolstoeltoegankelijke parking": true
+            }
+          ],
+          "Voorzieningen": [
+            {
+              "Toilet": true
+            }
+          ],
+          "Planning": [
+            {
+              "Afspraak aanbevolen": true
+            }
+          ]
+        },
+        "gasPrices": [],
+        "url": "https://www.google.com/maps/search/?api=1&query=Tandartspraktijk%20J.R.%20Vastenburg&query_place_id=ChIJKVnzYDvmt0cRITrVmLLl5aY",
+        "searchPageUrl": "https://www.google.com/maps/search/tandarts%20Nederland/@52.73573209157206,7.210238657534013,11z?hl=nl",
+        "searchString": "tandarts Nederland",
+        "language": "nl",
+        "rank": 2,
+        "isAdvertisement": false,
+        "imageUrl": "https://lh3.googleusercontent.com/gps-cs-s/AC9h4nqcYF46BX8XDtgPHmtoJZh5EpBBlIWmL2JydevhETSLuT5P0YKzo1IwO1wJ7Ngs5bzJG1Aw1qFMYFGsLoV1ew6ZDtBZXd3dUoDmVR2DjswoFbRib6dCXm32wC3SOoLb_WMfH64R=w408-h240-k-no-pi-0-ya202.92339-ro-0-fo100",
+        "kgmid": "/g/1tf1mxd9"
+      },
+      {
+        "title": "Mondzorg Drenthe Erica",
+        "price": null,
+        "categoryName": "Tandarts",
+        "address": "Kerkweg 4a, 7887 BG Erica, Nederland",
+        "neighborhood": null,
+        "street": "Kerkweg 4a",
+        "city": "Erica",
+        "postalCode": "7887 BG",
+        "state": null,
+        "countryCode": "NL",
+        "website": "https://mondzorgdrenthe.nl/",
+        "phone": "+31 591 301 292",
+        "phoneUnformatted": "+31591301292",
+        "claimThisBusiness": false,
+        "location": {
+          "lat": 52.7099242,
+          "lng": 6.9363296
+        },
+        "totalScore": 4.3,
+        "permanentlyClosed": false,
+        "temporarilyClosed": false,
+        "placeId": "ChIJcWisSJ7vt0cRi3W1IH7SaPw",
+        "categories": [
+          "Tandarts"
+        ],
+        "fid": "0x47b7ef9e48ac6871:0xfc68d27e20b5758b",
+        "cid": "18188018534292223371",
+        "reviewsCount": 9,
+        "imagesCount": 1,
+        "imageCategories": [],
+        "scrapedAt": "2025-09-30T12:11:43.144Z",
+        "googleFoodUrl": null,
+        "hotelAds": [],
+        "openingHours": [
+          {
+            "day": "dinsdag",
+            "hours": "08:00 to 17:00"
+          },
+          {
+            "day": "woensdag",
+            "hours": "08:00 to 17:00"
+          },
+          {
+            "day": "donderdag",
+            "hours": "08:00 to 17:00"
+          },
+          {
+            "day": "vrijdag",
+            "hours": "08:00 to 17:00"
+          },
+          {
+            "day": "zaterdag",
+            "hours": "Gesloten"
+          },
+          {
+            "day": "zondag",
+            "hours": "Gesloten"
+          },
+          {
+            "day": "maandag",
+            "hours": "08:00 to 17:00"
+          }
+        ],
+        "peopleAlsoSearch": [],
+        "placesTags": [],
+        "reviewsTags": [],
+        "additionalInfo": {
+          "Toegankelijkheid": [
+            {
+              "Rolstoeltoegankelijk toilet": true
+            },
+            {
+              "Rolstoeltoegankelijke ingang": true
+            },
+            {
+              "Rolstoeltoegankelijke parking": true
+            }
+          ],
+          "Voorzieningen": [
+            {
+              "Toilet": true
+            }
+          ],
+          "Planning": [
+            {
+              "Afspraak aanbevolen": true
+            }
+          ],
+          "Betalen": [
+            {
+              "Contactloos mobiel betalen": true
+            },
+            {
+              "Pinpassen": true
+            },
+            {
+              "Creditcards": true
+            }
+          ]
+        },
+        "gasPrices": [],
+        "url": "https://www.google.com/maps/search/?api=1&query=Mondzorg%20Drenthe%20Erica&query_place_id=ChIJcWisSJ7vt0cRi3W1IH7SaPw",
+        "searchPageUrl": "https://www.google.com/maps/search/tandarts%20Nederland/@52.73573209157206,7.210238657534013,11z?hl=nl",
+        "searchString": "tandarts Nederland",
+        "language": "nl",
+        "rank": 3,
+        "isAdvertisement": false,
+        "imageUrl": "https://streetviewpixels-pa.googleapis.com/v1/thumbnail?panoid=jCAhrCkQs8AlEDxLLhvy7w&cb_client=search.gws-prod.gps&w=408&h=240&yaw=72.036606&pitch=0&thumbfov=100",
+        "kgmid": "/g/1thsqg8n"
+      },
+      {
+        "title": "Mondzorg Scheperpark",
+        "price": null,
+        "categoryName": "Tandarts",
+        "address": "Boermarkeweg 50H, 7824 AA Emmen, Nederland",
+        "neighborhood": null,
+        "street": "Boermarkeweg 50H",
+        "city": "Emmen",
+        "postalCode": "7824 AA",
+        "state": null,
+        "countryCode": "NL",
+        "website": "http://mondzorgscheperpark.nl/",
+        "phone": "+31 591 647 330",
+        "phoneUnformatted": "+31591647330",
+        "claimThisBusiness": false,
+        "location": {
+          "lat": 52.7842521,
+          "lng": 6.9136657
+        },
+        "totalScore": 4.7,
+        "permanentlyClosed": false,
+        "temporarilyClosed": false,
+        "placeId": "ChIJd1XIMjrmt0cRGbaz1o--e4s",
+        "categories": [
+          "Tandarts"
+        ],
+        "fid": "0x47b7e63a32c85577:0x8b7bbe8fd6b3b619",
+        "cid": "10050836518399096345",
+        "reviewsCount": 7,
+        "imagesCount": 8,
+        "imageCategories": [],
+        "scrapedAt": "2025-09-30T12:11:43.144Z",
+        "googleFoodUrl": null,
+        "hotelAds": [],
+        "openingHours": [
+          {
+            "day": "dinsdag",
+            "hours": "08:30 to 17:00"
+          },
+          {
+            "day": "woensdag",
+            "hours": "08:30 to 17:00"
+          },
+          {
+            "day": "donderdag",
+            "hours": "08:30 to 17:00"
+          },
+          {
+            "day": "vrijdag",
+            "hours": "08:30 to 17:00"
+          },
+          {
+            "day": "zaterdag",
+            "hours": "Gesloten"
+          },
+          {
+            "day": "zondag",
+            "hours": "Gesloten"
+          },
+          {
+            "day": "maandag",
+            "hours": "08:30 to 17:00"
+          }
+        ],
+        "peopleAlsoSearch": [],
+        "placesTags": [],
+        "reviewsTags": [],
+        "additionalInfo": {
+          "Toegankelijkheid": [
+            {
+              "Rolstoeltoegankelijk toilet": true
+            },
+            {
+              "Rolstoeltoegankelijke ingang": true
+            },
+            {
+              "Rolstoeltoegankelijke parking": true
+            }
+          ],
+          "Voorzieningen": [
+            {
+              "Toilet": true
+            }
+          ],
+          "Planning": [
+            {
+              "Afspraak verplicht": true
+            },
+            {
+              "Afspraak aanbevolen": true
+            }
+          ]
+        },
+        "gasPrices": [],
+        "url": "https://www.google.com/maps/search/?api=1&query=Mondzorg%20Scheperpark&query_place_id=ChIJd1XIMjrmt0cRGbaz1o--e4s",
+        "searchPageUrl": "https://www.google.com/maps/search/tandarts%20Nederland/@52.73573209157206,7.210238657534013,11z?hl=nl",
+        "searchString": "tandarts Nederland",
+        "language": "nl",
+        "rank": 4,
+        "isAdvertisement": false,
+        "imageUrl": "https://lh3.googleusercontent.com/gps-cs-s/AC9h4npFT9AWk2ern0f0FpMobvhqw-XVRi3aGRE18KN-tLN6eBptPvg6dewSl2W7NccYgDnnRHY0qNaAqeWtHVwSemGQQJiT2AEULADxA2VoAhByAyIpXPMDl7TUfH8hCD5VI6ORC2xe8A=w408-h271-k-no",
+        "kgmid": "/g/1tcydjs_"
+      },
+      {
+        "title": "Mondzorg Molenplein",
+        "price": null,
+        "categoryName": "Tandarts",
+        "address": "Molenplein 49c, 9561 JC Ter Apel, Nederland",
+        "neighborhood": null,
+        "street": "Molenplein 49c",
+        "city": "Ter Apel",
+        "postalCode": "9561 JC",
+        "state": null,
+        "countryCode": "NL",
+        "website": "https://www.mondzorgmolenplein.nl/",
+        "phone": "+31 599 582 654",
+        "phoneUnformatted": "+31599582654",
+        "claimThisBusiness": true,
+        "location": {
+          "lat": 52.8746291,
+          "lng": 7.0615507
+        },
+        "totalScore": 4.2,
+        "permanentlyClosed": false,
+        "temporarilyClosed": false,
+        "placeId": "ChIJPY1siYPBt0cRTaGjlsrH40U",
+        "categories": [
+          "Tandarts"
+        ],
+        "fid": "0x47b7c183896c8d3d:0x45e3c7ca96a3a14d",
+        "cid": "5036088481254973773",
+        "reviewsCount": 25,
+        "imagesCount": 2,
+        "imageCategories": [],
+        "scrapedAt": "2025-09-30T12:11:43.144Z",
+        "googleFoodUrl": null,
+        "hotelAds": [],
+        "openingHours": [
+          {
+            "day": "dinsdag",
+            "hours": "08:00 to 17:00"
+          },
+          {
+            "day": "woensdag",
+            "hours": "08:00 to 17:00"
+          },
+          {
+            "day": "donderdag",
+            "hours": "08:00 to 17:00"
+          },
+          {
+            "day": "vrijdag",
+            "hours": "08:00 to 12:00"
+          },
+          {
+            "day": "zaterdag",
+            "hours": "Gesloten"
+          },
+          {
+            "day": "zondag",
+            "hours": "Gesloten"
+          },
+          {
+            "day": "maandag",
+            "hours": "08:00 to 17:00"
+          }
+        ],
+        "peopleAlsoSearch": [],
+        "placesTags": [],
+        "reviewsTags": [],
+        "additionalInfo": {
+          "Toegankelijkheid": [
+            {
+              "Rolstoeltoegankelijke ingang": true
+            },
+            {
+              "Rolstoeltoegankelijke parking": true
+            }
+          ],
+          "Voorzieningen": [
+            {
+              "Toilet": true
+            }
+          ],
+          "Planning": [
+            {
+              "Afspraak aanbevolen": true
+            }
+          ]
+        },
+        "gasPrices": [],
+        "url": "https://www.google.com/maps/search/?api=1&query=Mondzorg%20Molenplein&query_place_id=ChIJPY1siYPBt0cRTaGjlsrH40U",
+        "searchPageUrl": "https://www.google.com/maps/search/tandarts%20Nederland/@52.73573209157206,7.210238657534013,11z?hl=nl",
+        "searchString": "tandarts Nederland",
+        "language": "nl",
+        "rank": 5,
+        "isAdvertisement": false,
+        "imageUrl": "https://streetviewpixels-pa.googleapis.com/v1/thumbnail?panoid=T_c__16Dg8SUsf6cWbE4Sg&cb_client=search.gws-prod.gps&w=408&h=240&yaw=181.89874&pitch=0&thumbfov=100",
+        "kgmid": "/g/11fmtlhr2l"
+      },
+      {
+        "title": "Tandheelkundig Centrum Nederland",
+        "price": null,
+        "categoryName": "Tandarts",
+        "address": "Spaarne 72, 2011 CL Haarlem, Nederland",
+        "neighborhood": "Oude Stad",
+        "street": "Spaarne 72",
+        "city": "Haarlem",
+        "postalCode": "2011 CL",
+        "state": null,
+        "countryCode": "NL",
+        "website": "https://tcn.nl/tandarts-haarlem/",
+        "phone": "+31 23 534 3178",
+        "phoneUnformatted": "+31235343178",
+        "claimThisBusiness": false,
+        "location": {
+          "lat": 52.3794535,
+          "lng": 4.6377932
+        },
+        "totalScore": 4.6,
+        "permanentlyClosed": false,
+        "temporarilyClosed": false,
+        "placeId": "ChIJI87z_6rvxUcREsYV5GrePmU",
+        "categories": [
+          "Tandarts"
+        ],
+        "fid": "0x47c5efaafff3ce23:0x653ede6ae415c612",
+        "cid": "7295512997061314066",
+        "reviewsCount": 23,
+        "imagesCount": 5,
+        "imageCategories": [],
+        "scrapedAt": "2025-09-30T12:12:01.987Z",
+        "googleFoodUrl": null,
+        "hotelAds": [],
+        "openingHours": [
+          {
+            "day": "dinsdag",
+            "hours": "08:00 to 17:00"
+          },
+          {
+            "day": "woensdag",
+            "hours": "08:00 to 17:00"
+          },
+          {
+            "day": "donderdag",
+            "hours": "08:00 to 17:00"
+          },
+          {
+            "day": "vrijdag",
+            "hours": "08:30 to 16:30"
+          },
+          {
+            "day": "zaterdag",
+            "hours": "Gesloten"
+          },
+          {
+            "day": "zondag",
+            "hours": "Gesloten"
+          },
+          {
+            "day": "maandag",
+            "hours": "08:00 to 17:00"
+          }
+        ],
+        "peopleAlsoSearch": [],
+        "placesTags": [],
+        "reviewsTags": [],
+        "additionalInfo": {
+          "Voorzieningen": [
+            {
+              "Toilet": true
+            }
+          ],
+          "Planning": [
+            {
+              "Afspraak aanbevolen": true
+            }
+          ]
+        },
+        "gasPrices": [],
+        "url": "https://www.google.com/maps/search/?api=1&query=Tandheelkundig%20Centrum%20Nederland&query_place_id=ChIJI87z_6rvxUcREsYV5GrePmU",
+        "searchPageUrl": "https://www.google.com/maps/search/tandarts%20Dutch/@52.41050919719068,4.125625296232993,11z?hl=nl",
+        "searchString": "tandarts Dutch",
+        "language": "nl",
+        "rank": 1,
+        "isAdvertisement": false,
+        "imageUrl": "https://lh3.googleusercontent.com/p/AF1QipMWx3OjulJZCcqrbwcLhOPW3Q4mI2Dq1g9R8h1w=w408-h319-k-no",
+        "kgmid": "/g/11shqcm7xc"
+      },
+      {
+        "title": "Tandartspraktijk Klein",
+        "price": null,
+        "categoryName": "Tandarts",
+        "address": "Forum 10, 2211 LX Noordwijkerhout, Nederland",
+        "neighborhood": null,
+        "street": "Forum 10",
+        "city": "Noordwijkerhout",
+        "postalCode": "2211 LX",
+        "state": null,
+        "countryCode": "NL",
+        "website": "http://www.tandartsnoordwijkerhout.nl/",
+        "phone": "+31 252 375 973",
+        "phoneUnformatted": "+31252375973",
+        "claimThisBusiness": false,
+        "location": {
+          "lat": 52.261282,
+          "lng": 4.500671
+        },
+        "totalScore": 4.7,
+        "permanentlyClosed": false,
+        "temporarilyClosed": false,
+        "placeId": "ChIJ0-5QjMPBxUcRtlcCtKXrp90",
+        "categories": [
+          "Tandarts"
+        ],
+        "fid": "0x47c5c1c38c50eed3:0xdda7eba5b40257b6",
+        "cid": "15971993700414937014",
+        "reviewsCount": 29,
+        "imagesCount": 2,
+        "imageCategories": [],
+        "scrapedAt": "2025-09-30T12:12:01.988Z",
+        "googleFoodUrl": null,
+        "hotelAds": [],
+        "openingHours": [
+          {
+            "day": "dinsdag",
+            "hours": "08:30 to 17:00"
+          },
+          {
+            "day": "woensdag",
+            "hours": "08:30 to 11:30, 16:00 to 20:00"
+          },
+          {
+            "day": "donderdag",
+            "hours": "08:30 to 17:00"
+          },
+          {
+            "day": "vrijdag",
+            "hours": "Gesloten"
+          },
+          {
+            "day": "zaterdag",
+            "hours": "Gesloten"
+          },
+          {
+            "day": "zondag",
+            "hours": "Gesloten"
+          },
+          {
+            "day": "maandag",
+            "hours": "08:30 to 17:30"
+          }
+        ],
+        "peopleAlsoSearch": [],
+        "placesTags": [],
+        "reviewsTags": [],
+        "additionalInfo": {
+          "Toegankelijkheid": [
+            {
+              "Rolstoeltoegankelijke ingang": true
+            },
+            {
+              "Rolstoeltoegankelijke parking": true
+            }
+          ],
+          "Voorzieningen": [
+            {
+              "Genderneutraal toilet": true
+            },
+            {
+              "Toilet": true
+            }
+          ],
+          "Planning": [
+            {
+              "Afspraak verplicht": true
+            },
+            {
+              "Afspraak aanbevolen": true
+            }
+          ],
+          "Betalen": [
+            {
+              "Contactloos mobiel betalen": true
+            }
+          ]
+        },
+        "gasPrices": [],
+        "url": "https://www.google.com/maps/search/?api=1&query=Tandartspraktijk%20Klein&query_place_id=ChIJ0-5QjMPBxUcRtlcCtKXrp90",
+        "searchPageUrl": "https://www.google.com/maps/search/tandarts%20Dutch/@52.41050919719068,4.125625296232993,11z?hl=nl",
+        "searchString": "tandarts Dutch",
+        "language": "nl",
+        "rank": 2,
+        "isAdvertisement": false,
+        "imageUrl": "https://lh3.googleusercontent.com/p/AF1QipNnVMklyMXwckSd8rCXJ5WjRwQCHdmo6yvgv97L=w408-h306-k-no",
+        "kgmid": "/g/1hdznx685"
+      },
+      {
+        "title": "Dental4U tandartsenpraktijk",
+        "price": null,
+        "categoryName": "Tandarts",
+        "address": "Weteringkade 3, 2201 SK Noordwijk, Nederland",
+        "neighborhood": null,
+        "street": "Weteringkade 3",
+        "city": "Noordwijk",
+        "postalCode": "2201 SK",
+        "state": null,
+        "countryCode": "NL",
+        "website": "https://dental4u.nl/",
+        "phone": "+31 71 361 2640",
+        "phoneUnformatted": "+31713612640",
+        "claimThisBusiness": false,
+        "location": {
+          "lat": 52.2400332,
+          "lng": 4.4453043
+        },
+        "totalScore": 4.3,
+        "permanentlyClosed": false,
+        "temporarilyClosed": false,
+        "placeId": "ChIJyxuGRmHAxUcRgVtexEpjQng",
+        "categories": [
+          "Tandarts"
+        ],
+        "fid": "0x47c5c06146861bcb:0x7842634ac45e5b81",
+        "cid": "8665597805787503489",
+        "reviewsCount": 52,
+        "imagesCount": 9,
+        "imageCategories": [],
+        "scrapedAt": "2025-09-30T12:12:01.988Z",
+        "googleFoodUrl": null,
+        "hotelAds": [],
+        "openingHours": [
+          {
+            "day": "dinsdag",
+            "hours": "07:00 to 21:00"
+          },
+          {
+            "day": "woensdag",
+            "hours": "07:00 to 21:00"
+          },
+          {
+            "day": "donderdag",
+            "hours": "07:00 to 21:00"
+          },
+          {
+            "day": "vrijdag",
+            "hours": "08:00 to 15:00"
+          },
+          {
+            "day": "zaterdag",
+            "hours": "Gesloten"
+          },
+          {
+            "day": "zondag",
+            "hours": "Gesloten"
+          },
+          {
+            "day": "maandag",
+            "hours": "07:00 to 21:00"
+          }
+        ],
+        "peopleAlsoSearch": [],
+        "placesTags": [],
+        "reviewsTags": [],
+        "additionalInfo": {
+          "Toegankelijkheid": [
+            {
+              "Rolstoeltoegankelijk toilet": true
+            },
+            {
+              "Rolstoeltoegankelijke ingang": true
+            },
+            {
+              "Rolstoeltoegankelijke parking": true
+            }
+          ],
+          "Voorzieningen": [
+            {
+              "Toilet": true
+            }
+          ],
+          "Planning": [
+            {
+              "Afspraak aanbevolen": true
+            }
+          ],
+          "Betalen": [
+            {
+              "Contactloos mobiel betalen": true
+            },
+            {
+              "Pinpassen": true
+            },
+            {
+              "Creditcards": true
+            }
+          ],
+          "Parkeren": [
+            {
+              "Gratis parkeerplaats": true
+            },
+            {
+              "Gratis parkeren op straat": true
+            }
+          ]
+        },
+        "gasPrices": [],
+        "url": "https://www.google.com/maps/search/?api=1&query=Dental4U%20tandartsenpraktijk&query_place_id=ChIJyxuGRmHAxUcRgVtexEpjQng",
+        "searchPageUrl": "https://www.google.com/maps/search/tandarts%20Dutch/@52.41050919719068,4.125625296232993,11z?hl=nl",
+        "searchString": "tandarts Dutch",
+        "language": "nl",
+        "rank": 3,
+        "isAdvertisement": false,
+        "imageUrl": "https://lh3.googleusercontent.com/p/AF1QipO6lhXD8mlLJ4mgMWrf4CqyCPx2X25Vhcxhfezj=w408-h272-k-no",
+        "kgmid": "/g/1hhw6rw0f"
+      },
+      {
+        "title": "Tandartspraktijk ConDent",
+        "price": null,
+        "categoryName": "Tandarts",
+        "address": "Amsterdamstraat 49, 2032 PN Haarlem, Nederland",
+        "neighborhood": "Haarlem-Oost",
+        "street": "Amsterdamstraat 49",
+        "city": "Haarlem",
+        "postalCode": "2032 PN",
+        "state": null,
+        "countryCode": "NL",
+        "website": "http://www.condent-tandarts.nl/",
+        "phone": "+31 23 844 8084",
+        "phoneUnformatted": "+31238448084",
+        "claimThisBusiness": false,
+        "location": {
+          "lat": 52.3786971,
+          "lng": 4.6483868
+        },
+        "totalScore": 4.6,
+        "permanentlyClosed": false,
+        "temporarilyClosed": false,
+        "placeId": "ChIJX2vO80LvxUcRUjNCFWeK928",
+        "categories": [
+          "Tandarts",
+          "mondhygiënist"
+        ],
+        "fid": "0x47c5ef42f3ce6b5f:0x6ff78a6715423352",
+        "cid": "8068069432800457554",
+        "reviewsCount": 61,
+        "imagesCount": 11,
+        "imageCategories": [],
+        "scrapedAt": "2025-09-30T12:12:01.988Z",
+        "googleFoodUrl": null,
+        "hotelAds": [],
+        "openingHours": [
+          {
+            "day": "dinsdag",
+            "hours": "08:00 to 17:00"
+          },
+          {
+            "day": "woensdag",
+            "hours": "08:00 to 17:00"
+          },
+          {
+            "day": "donderdag",
+            "hours": "08:00 to 17:00"
+          },
+          {
+            "day": "vrijdag",
+            "hours": "08:00 to 17:00"
+          },
+          {
+            "day": "zaterdag",
+            "hours": "Gesloten"
+          },
+          {
+            "day": "zondag",
+            "hours": "Gesloten"
+          },
+          {
+            "day": "maandag",
+            "hours": "08:00 to 17:00"
+          }
+        ],
+        "peopleAlsoSearch": [],
+        "placesTags": [],
+        "reviewsTags": [],
+        "additionalInfo": {
+          "Toegankelijkheid": [
+            {
+              "Rolstoeltoegankelijke ingang": true
+            },
+            {
+              "Rolstoeltoegankelijke parking": true
+            }
+          ],
+          "Voorzieningen": [
+            {
+              "Toilet": true
+            }
+          ],
+          "Planning": [
+            {
+              "Afspraak verplicht": true
+            },
+            {
+              "Afspraak aanbevolen": true
+            }
+          ],
+          "Betalen": [
+            {
+              "Contactloos mobiel betalen": true
+            },
+            {
+              "Pinpassen": true
+            },
+            {
+              "Creditcards": true
+            }
+          ],
+          "Parkeren": [
+            {
+              "Gratis parkeren op straat": true
+            }
+          ]
+        },
+        "gasPrices": [],
+        "url": "https://www.google.com/maps/search/?api=1&query=Tandartspraktijk%20ConDent&query_place_id=ChIJX2vO80LvxUcRUjNCFWeK928",
+        "searchPageUrl": "https://www.google.com/maps/search/tandarts%20Dutch/@52.41050919719068,4.125625296232993,11z?hl=nl",
+        "searchString": "tandarts Dutch",
+        "language": "nl",
+        "rank": 4,
+        "isAdvertisement": false,
+        "imageUrl": "https://lh3.googleusercontent.com/gps-cs-s/AC9h4nroh59-dbe9X0oqK3vy0cEl2lJHOWINeWgdgSsjVO9_D7ZXzzIaZtiHpKwvdYJPX3ZS15UpswhERTUkQDH5itfREuh1b8s7jMKU-v8HAL7p3EZriPLzpIVFubfiKg76FOmChxBPhQ=w408-h240-k-no-pi0-ya349.00586-ro-0-fo100",
+        "kgmid": "/g/11g0ldsb44"
+      },
+      {
+        "title": "KatwijkDental",
+        "price": null,
+        "categoryName": "Tandarts",
+        "address": "Tramstraat 110, 2225 CK Katwijk aan Zee, Nederland",
+        "neighborhood": null,
+        "street": "Tramstraat 110",
+        "city": "Katwijk aan Zee",
+        "postalCode": "2225 CK",
+        "state": null,
+        "countryCode": "NL",
+        "website": "http://www.katwijkdental.nl/",
+        "phone": "+31 71 407 1000",
+        "phoneUnformatted": "+31714071000",
+        "claimThisBusiness": false,
+        "location": {
+          "lat": 52.204186,
+          "lng": 4.39956
+        },
+        "totalScore": 4.7,
+        "permanentlyClosed": false,
+        "temporarilyClosed": false,
+        "placeId": "ChIJ73YaRU-_xUcRZLrAYvzXOEI",
+        "categories": [
+          "Tandarts"
+        ],
+        "fid": "0x47c5bf4f451a76ef:0x4238d7fc62c0ba64",
+        "cid": "4771801284187568740",
+        "reviewsCount": 60,
+        "imagesCount": 26,
+        "imageCategories": [],
+        "scrapedAt": "2025-09-30T12:12:01.989Z",
+        "googleFoodUrl": null,
+        "hotelAds": [],
+        "openingHours": [
+          {
+            "day": "dinsdag",
+            "hours": "09:00 to 17:00"
+          },
+          {
+            "day": "woensdag",
+            "hours": "09:00 to 17:00"
+          },
+          {
+            "day": "donderdag",
+            "hours": "08:30 to 17:00"
+          },
+          {
+            "day": "vrijdag",
+            "hours": "09:00 to 13:00"
+          },
+          {
+            "day": "zaterdag",
+            "hours": "Gesloten"
+          },
+          {
+            "day": "zondag",
+            "hours": "Gesloten"
+          },
+          {
+            "day": "maandag",
+            "hours": "10:00 to 18:00"
+          }
+        ],
+        "peopleAlsoSearch": [],
+        "placesTags": [],
+        "reviewsTags": [],
+        "additionalInfo": {
+          "Toegankelijkheid": [
+            {
+              "Rolstoeltoegankelijke ingang": true
+            },
+            {
+              "Rolstoeltoegankelijke parking": true
+            },
+            {
+              "Rolstoeltoegankelijke zitplaatsen": true
+            }
+          ],
+          "Voorzieningen": [
+            {
+              "Toilet": true
+            }
+          ],
+          "Planning": [
+            {
+              "Afspraak aanbevolen": true
+            }
+          ]
+        },
+        "gasPrices": [],
+        "url": "https://www.google.com/maps/search/?api=1&query=KatwijkDental&query_place_id=ChIJ73YaRU-_xUcRZLrAYvzXOEI",
+        "searchPageUrl": "https://www.google.com/maps/search/tandarts%20Dutch/@52.41050919719068,4.125625296232993,11z?hl=nl",
+        "searchString": "tandarts Dutch",
+        "language": "nl",
+        "rank": 5,
+        "isAdvertisement": false,
+        "imageUrl": "https://lh3.googleusercontent.com/gps-cs-s/AC9h4nowt2neLcwIMpEKban5NPz-85kodLccCtOB1mjhaPtTW2Z7s0eQ0MVBk6qUtpi0uareL9kIMV5gu1fKp8GJYLl2cuic2ZVrxaXiLFNs8suDS40I6umgsxaYHO9kTcySx0DqqKMu=w408-h544-k-no",
+        "kgmid": "/g/1tdfgwmm"
+      },
+      {
+        "title": "Tandrijk Mondzorg",
+        "price": null,
+        "categoryName": "Tandartspraktijk",
+        "address": "Berg en Dalseweg 101, 6522 BC Nijmegen, Nederland",
+        "neighborhood": "Nijmegen-Oost",
+        "street": "Berg en Dalseweg 101",
+        "city": "Nijmegen",
+        "postalCode": "6522 BC",
+        "state": null,
+        "countryCode": "NL",
+        "website": "https://tandrijkmondzorg.nl/",
+        "phone": "+31 24 323 8062",
+        "phoneUnformatted": "+31243238062",
+        "claimThisBusiness": false,
+        "location": {
+          "lat": 51.8395623,
+          "lng": 5.8802127
+        },
+        "totalScore": 4.8,
+        "permanentlyClosed": false,
+        "temporarilyClosed": false,
+        "placeId": "ChIJ5YLZw7cJx0cR_bPAD8Ojy1g",
+        "categories": [
+          "Tandartspraktijk",
+          "mondhygiënist",
+          "Tandarts"
+        ],
+        "fid": "0x47c709b7c3d982e5:0x58cba3c30fc0b3fd",
+        "cid": "6398387753788158973",
+        "reviewsCount": 47,
+        "imagesCount": 2,
+        "imageCategories": [],
+        "scrapedAt": "2025-09-30T12:12:21.807Z",
+        "googleFoodUrl": null,
+        "hotelAds": [],
+        "openingHours": [
+          {
+            "day": "dinsdag",
+            "hours": "08:00 to 12:00, 13:00 to 17:00"
+          },
+          {
+            "day": "woensdag",
+            "hours": "Gesloten"
+          },
+          {
+            "day": "donderdag",
+            "hours": "08:00 to 12:00, 13:00 to 17:00"
+          },
+          {
+            "day": "vrijdag",
+            "hours": "08:00 to 12:00, 13:00 to 17:00"
+          },
+          {
+            "day": "zaterdag",
+            "hours": "Gesloten"
+          },
+          {
+            "day": "zondag",
+            "hours": "Gesloten"
+          },
+          {
+            "day": "maandag",
+            "hours": "08:00 to 12:00, 13:00 to 17:00"
+          }
+        ],
+        "peopleAlsoSearch": [],
+        "placesTags": [],
+        "reviewsTags": [],
+        "additionalInfo": {
+          "Aangeleverd door het bedrijf": [
+            {
+              "Gerund door een vrouwelijke ondernemer": true
+            }
+          ],
+          "Voorzieningen": [
+            {
+              "Toilet": true
+            }
+          ],
+          "Planning": [
+            {
+              "Afspraak verplicht": true
+            },
+            {
+              "Afspraak aanbevolen": true
+            }
+          ]
+        },
+        "gasPrices": [],
+        "url": "https://www.google.com/maps/search/?api=1&query=Tandrijk%20Mondzorg&query_place_id=ChIJ5YLZw7cJx0cR_bPAD8Ojy1g",
+        "searchPageUrl": "https://www.google.com/maps/search/beste%20tandarts%20Netherlands/@51.76006340842791,6.182034203767007,11z?hl=nl",
+        "searchString": "beste tandarts Netherlands",
+        "language": "nl",
+        "rank": 2,
+        "isAdvertisement": false,
+        "imageUrl": "https://streetviewpixels-pa.googleapis.com/v1/thumbnail?panoid=RmpqRZJstt_VhCViig2u0w&cb_client=search.gws-prod.gps&w=408&h=240&yaw=36.735603&pitch=0&thumbfov=100",
+        "kgmid": "/g/11mhcglh0s"
+      },
+      {
+        "title": "Tandartsenpraktijk Bertholet en Van de Ven",
+        "price": null,
+        "categoryName": "Tandartspraktijk",
+        "address": "Sint Annastraat 12, 6524 GB Nijmegen, Nederland",
+        "neighborhood": "Nijmegen-Oost",
+        "street": "Sint Annastraat 12",
+        "city": "Nijmegen",
+        "postalCode": "6524 GB",
+        "state": null,
+        "countryCode": "NL",
+        "website": "http://www.sintanna12.nl/",
+        "phone": "+31 24 322 2555",
+        "phoneUnformatted": "+31243222555",
+        "claimThisBusiness": false,
+        "location": {
+          "lat": 51.8407577,
+          "lng": 5.8599925
+        },
+        "totalScore": 4.8,
+        "permanentlyClosed": false,
+        "temporarilyClosed": false,
+        "placeId": "ChIJ2cVZXVwIx0cR4FHuevhkMlw",
+        "categories": [
+          "Tandartspraktijk",
+          "Tandarts"
+        ],
+        "fid": "0x47c7085c5d59c5d9:0x5c3264f87aee51e0",
+        "cid": "6643483418702008800",
+        "reviewsCount": 140,
+        "imagesCount": 9,
+        "imageCategories": [],
+        "scrapedAt": "2025-09-30T12:12:21.807Z",
+        "googleFoodUrl": null,
+        "hotelAds": [],
+        "openingHours": [
+          {
+            "day": "dinsdag",
+            "hours": "08:00 to 17:00"
+          },
+          {
+            "day": "woensdag",
+            "hours": "08:00 to 17:00"
+          },
+          {
+            "day": "donderdag",
+            "hours": "08:00 to 17:00"
+          },
+          {
+            "day": "vrijdag",
+            "hours": "08:30 to 17:00"
+          },
+          {
+            "day": "zaterdag",
+            "hours": "Gesloten"
+          },
+          {
+            "day": "zondag",
+            "hours": "Gesloten"
+          },
+          {
+            "day": "maandag",
+            "hours": "08:00 to 17:00"
+          }
+        ],
+        "peopleAlsoSearch": [],
+        "placesTags": [],
+        "reviewsTags": [],
+        "additionalInfo": {
+          "Voorzieningen": [
+            {
+              "Toilet": true
+            }
+          ],
+          "Planning": [
+            {
+              "Afspraak verplicht": true
+            },
+            {
+              "Afspraak aanbevolen": true
+            }
+          ]
+        },
+        "gasPrices": [],
+        "url": "https://www.google.com/maps/search/?api=1&query=Tandartsenpraktijk%20Bertholet%20en%20Van%20de%20Ven&query_place_id=ChIJ2cVZXVwIx0cR4FHuevhkMlw",
+        "searchPageUrl": "https://www.google.com/maps/search/beste%20tandarts%20Netherlands/@51.76006340842791,6.182034203767007,11z?hl=nl",
+        "searchString": "beste tandarts Netherlands",
+        "language": "nl",
+        "rank": 3,
+        "isAdvertisement": false,
+        "imageUrl": "https://lh3.googleusercontent.com/p/AF1QipPvTgKGvfoKP8B3Fvm5d8i1pOL6G5lTg9qtW_yZ=w408-h306-k-no",
+        "kgmid": "/g/1tf74rkn"
+      },
+      {
+        "title": "Tandarts Smile🦷",
+        "price": null,
+        "categoryName": "Tandarts",
+        "address": "Daalseweg 221, 6521 GJ Nijmegen, Nederland",
+        "neighborhood": "Nijmegen-Oost",
+        "street": "Daalseweg 221",
+        "city": "Nijmegen",
+        "postalCode": "6521 GJ",
+        "state": null,
+        "countryCode": "NL",
+        "website": "http://www.tandartssmile.nl/",
+        "phone": "+31 24 663 6916",
+        "phoneUnformatted": "+31246636916",
+        "claimThisBusiness": true,
+        "location": {
+          "lat": 51.839319,
+          "lng": 5.8740682
+        },
+        "totalScore": 4.8,
+        "permanentlyClosed": false,
+        "temporarilyClosed": false,
+        "placeId": "ChIJvRS1QlEIx0cRnj9wUO2QbFc",
+        "categories": [
+          "Tandarts"
+        ],
+        "fid": "0x47c7085142b514bd:0x576c90ed50703f9e",
+        "cid": "6299569327715663774",
+        "reviewsCount": 42,
+        "imagesCount": 1,
+        "imageCategories": [],
+        "scrapedAt": "2025-09-30T12:12:21.807Z",
+        "googleFoodUrl": null,
+        "hotelAds": [],
+        "openingHours": [
+          {
+            "day": "dinsdag",
+            "hours": "08:00 to 17:00"
+          },
+          {
+            "day": "woensdag",
+            "hours": "08:00 to 21:00"
+          },
+          {
+            "day": "donderdag",
+            "hours": "08:00 to 20:30"
+          },
+          {
+            "day": "vrijdag",
+            "hours": "08:00 to 17:00"
+          },
+          {
+            "day": "zaterdag",
+            "hours": "08:00 to 13:00"
+          },
+          {
+            "day": "zondag",
+            "hours": "Gesloten"
+          },
+          {
+            "day": "maandag",
+            "hours": "08:00 to 17:00"
+          }
+        ],
+        "peopleAlsoSearch": [],
+        "placesTags": [],
+        "reviewsTags": [],
+        "additionalInfo": {
+          "Toegankelijkheid": [
+            {
+              "Rolstoeltoegankelijke ingang": true
+            },
+            {
+              "Rolstoeltoegankelijke parking": true
+            }
+          ],
+          "Voorzieningen": [
+            {
+              "Toilet": true
+            }
+          ],
+          "Planning": [
+            {
+              "Afspraak aanbevolen": true
+            }
+          ],
+          "Betalen": [
+            {
+              "Contactloos mobiel betalen": true
+            },
+            {
+              "Pinpassen": true
+            },
+            {
+              "Creditcards": true
+            }
+          ]
+        },
+        "gasPrices": [],
+        "url": "https://www.google.com/maps/search/?api=1&query=Tandarts%20Smile%F0%9F%A6%B7&query_place_id=ChIJvRS1QlEIx0cRnj9wUO2QbFc",
+        "searchPageUrl": "https://www.google.com/maps/search/beste%20tandarts%20Netherlands/@51.76006340842791,6.182034203767007,11z?hl=nl",
+        "searchString": "beste tandarts Netherlands",
+        "language": "nl",
+        "rank": 5,
+        "isAdvertisement": false,
+        "imageUrl": "https://streetviewpixels-pa.googleapis.com/v1/thumbnail?panoid=F0OrvqiZixHq-SVSd2vfRw&cb_client=search.gws-prod.gps&w=408&h=240&yaw=29.524546&pitch=0&thumbfov=100",
+        "kgmid": "/g/1tdk4dch"
+      }
+    ],
+    "reviews": [
+      {
+        "searchString": "Direct Detail URL: https://www.google.com/maps/search/?api=1&query=ChIJI87z_6rvxUcREsYV5GrePmU&query_place_id=ChIJI87z_6rvxUcREsYV5GrePmU",
+        "reviewerId": "118248775629739952767",
+        "reviewerUrl": "https://www.google.com/maps/contrib/118248775629739952767?hl=nl",
+        "name": "M Van riet",
+        "reviewerNumberOfReviews": 0,
+        "isLocalGuide": false,
+        "reviewerPhotoUrl": "https://lh3.googleusercontent.com/a/ACg8ocKqrCEsVUqM20C3-B8g-vu9fhp3hCYI8WhYulXMwkG7bYaEsw=s1920-c-rp-mo-br100",
+        "text": "Bij mijn eerste afspraak werd meteen een dure foto aangeraden en een behandelplan opgesteld voor ingrijpende behandelingen. Een second opinion bevestigde dat dit niet nodig was. Later bleek dat de behandelaar niet BIG-geregistreerd is en dat dit vooraf niet is vermeld. Dat roept serieuze vragen op over de zorgvuldigheid en betrouwbaarheid van de praktijk. Communicatie was bovendien gebrekkig. Ik raad deze praktijk niet aan.",
+        "textTranslated": null,
+        "publishAt": "18 uur geleden",
+        "publishedAtDate": "2025-09-29T17:33:11.085Z",
+        "likesCount": 0,
+        "reviewId": "Ci9DQUlRQUNvZENodHljRjlvT21KRWEzcEtPVkE0VmpOeGJYWlpTamxUVFRoMVlYYxAB",
+        "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT21KRWEzcEtPVkE0VmpOeGJYWlpTamxUVFRoMVlYYxAB!2m1!1s0x0:0x653ede6ae415c612!3m1!1s2@1:CAIQACodChtycF9oOmJEa3pKOVA4VjNxbXZZSjlTTTh1YXc%7C%7C?hl=nl",
+        "reviewOrigin": "Google",
+        "stars": 1,
+        "rating": null,
+        "responseFromOwnerDate": null,
+        "responseFromOwnerText": null,
+        "reviewImageUrls": [],
+        "reviewContext": {},
+        "reviewDetailedRating": {},
+        "visitedIn": null,
+        "originalLanguage": "nl",
+        "translatedLanguage": null,
+        "isAdvertisement": false,
+        "placeId": "ChIJI87z_6rvxUcREsYV5GrePmU",
+        "location": {
+          "lat": 52.3794535,
+          "lng": 4.6377932
+        },
+        "address": "Spaarne 72, 2011 CL Haarlem, Nederland",
+        "neighborhood": "Oude Stad",
+        "street": "Spaarne 72",
+        "city": "Haarlem",
+        "postalCode": "2011 CL",
+        "state": null,
+        "countryCode": "NL",
+        "categoryName": "Tandarts",
+        "categories": [
+          "Tandarts"
+        ],
+        "title": "Tandheelkundig Centrum Nederland",
+        "totalScore": 4.6,
+        "permanentlyClosed": false,
+        "temporarilyClosed": false,
+        "reviewsCount": 23,
+        "url": "https://www.google.com/maps/search/?api=1&query=Tandheelkundig%20Centrum%20Nederland&query_place_id=ChIJI87z_6rvxUcREsYV5GrePmU",
+        "price": null,
+        "cid": "7295512997061314066",
+        "fid": "0x47c5efaafff3ce23:0x653ede6ae415c612",
+        "imageUrl": "https://lh3.googleusercontent.com/p/AF1QipMWx3OjulJZCcqrbwcLhOPW3Q4mI2Dq1g9R8h1w=w408-h319-k-no",
+        "scrapedAt": "2025-09-30T12:13:19.642Z",
+        "language": "nl"
+      }
+    ],
+    "searchCriteria": {
+      "category": "tandarts",
+      "location": "Netherlands",
+      "minRating": 3.5,
+      "maxRating": 4.6,
+      "maxReviewsPerBusiness": 5,
+      "maxStars": 3,
+      "dayLimit": 14,
+      "businessLimit": 5,
+      "minReviews": 10,
+      "language": "nl",
+      "countryCode": "nl",
+      "reviewLimit": 10,
+      "minTextLength": 20
+    },
+    "extractionDate": "2025-09-30T12:13:44.026Z"
+  },
+  "statistics": {
+    "businessesFound": 18,
+    "reviewsFound": 1,
+    "avgRating": 1,
+    "extractionTime": 150362
+  }
+}

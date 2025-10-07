@@ -96,13 +96,11 @@ const countries = [
   { label: 'Netherlands 🇳🇱', value: 'nl', language: 'nl', defaultLocation: 'Netherlands' },
   { label: 'Germany 🇩🇪', value: 'de', language: 'de', defaultLocation: 'Deutschland' },
   { label: 'Switzerland 🇨🇭', value: 'ch', language: 'de', defaultLocation: 'Schweiz' },
-  { label: 'Norway 🇳🇴', value: 'no', language: 'no', defaultLocation: 'Norge' },
   { label: 'Belgium 🇧🇪', value: 'be', language: 'nl', defaultLocation: 'België' },
   { label: 'Austria 🇦🇹', value: 'at', language: 'de', defaultLocation: 'Österreich' },
-  { label: 'France 🇫🇷', value: 'fr', language: 'fr', defaultLocation: 'France' },
-  { label: 'Denmark 🇩🇰', value: 'dk', language: 'da', defaultLocation: 'Danmark' },
-  { label: 'Sweden 🇸🇪', value: 'se', language: 'sv', defaultLocation: 'Sverige' },
-  { label: 'Finland 🇫🇮', value: 'fi', language: 'fi', defaultLocation: 'Suomi' },
+  { label: 'Spain 🇪🇸', value: 'es', language: 'es', defaultLocation: 'España' },
+  { label: 'Slovenia 🇸🇮', value: 'si', language: 'sl', defaultLocation: 'Slovenija' },
+  { label: 'Croatia 🇭🇷', value: 'hr', language: 'hr', defaultLocation: 'Hrvatska' },
 ]
 
 

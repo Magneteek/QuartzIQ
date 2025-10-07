@@ -1,0 +1,815 @@
+{
+  "id": "extraction_1759483349399_bcn9r6ht0",
+  "timestamp": "2025-10-03T09:22:29.399Z",
+  "searchCriteria": {
+    "category": "tandarts",
+    "location": "Netherlands",
+    "minRating": 3.5,
+    "maxRating": 4.9,
+    "maxReviewsPerBusiness": 5,
+    "maxStars": 3,
+    "dayLimit": 14,
+    "businessLimit": 30,
+    "minReviews": 5,
+    "language": "nl",
+    "countryCode": "nl"
+  },
+  "results": {
+    "businesses": [
+      {
+        "title": "PUUR Mondzorg Emmen",
+        "price": null,
+        "categoryName": "Tandarts",
+        "address": "Boermarkeweg 44-D, 7824 AA Emmen, Nederland",
+        "neighborhood": null,
+        "street": "Boermarkeweg 44-D",
+        "city": "Emmen",
+        "postalCode": "7824 AA",
+        "state": null,
+        "countryCode": "NL",
+        "website": "https://puurmondzorg.nl/emmen/",
+        "phone": "+31 591 641 444",
+        "phoneUnformatted": "+31591641444",
+        "claimThisBusiness": false,
+        "location": {
+          "lat": 52.7841033,
+          "lng": 6.9127191
+        },
+        "totalScore": 4,
+        "permanentlyClosed": false,
+        "temporarilyClosed": false,
+        "placeId": "ChIJB4reaiHmt0cRHM0ikxTiXpc",
+        "categories": [
+          "Tandarts",
+          "mondhygiënist",
+          "Tandartspraktijk"
+        ],
+        "fid": "0x47b7e6216ade8a07:0x975ee2149322cd1c",
+        "cid": "10907403925533674780",
+        "reviewsCount": 206,
+        "imagesCount": 9,
+        "imageCategories": [],
+        "scrapedAt": "2025-10-03T09:11:57.552Z",
+        "googleFoodUrl": null,
+        "hotelAds": [],
+        "openingHours": [
+          {
+            "day": "vrijdag",
+            "hours": "08:00 to 17:00"
+          },
+          {
+            "day": "zaterdag",
+            "hours": "Gesloten"
+          },
+          {
+            "day": "zondag",
+            "hours": "Gesloten"
+          },
+          {
+            "day": "maandag",
+            "hours": "08:00 to 21:00"
+          },
+          {
+            "day": "dinsdag",
+            "hours": "08:00 to 17:00"
+          },
+          {
+            "day": "woensdag",
+            "hours": "08:00 to 17:00"
+          },
+          {
+            "day": "donderdag",
+            "hours": "08:00 to 17:00"
+          }
+        ],
+        "peopleAlsoSearch": [],
+        "placesTags": [],
+        "reviewsTags": [],
+        "additionalInfo": {
+          "Toegankelijkheid": [
+            {
+              "Rolstoeltoegankelijk toilet": true
+            },
+            {
+              "Rolstoeltoegankelijke ingang": true
+            },
+            {
+              "Rolstoeltoegankelijke parking": true
+            }
+          ],
+          "Voorzieningen": [
+            {
+              "Toilet": true
+            }
+          ],
+          "Planning": [
+            {
+              "Afspraak aanbevolen": true
+            }
+          ],
+          "Betalen": [
+            {
+              "Contactloos mobiel betalen": true
+            },
+            {
+              "Pinpassen": true
+            },
+            {
+              "Creditcards": true
+            }
+          ]
+        },
+        "gasPrices": [],
+        "url": "https://www.google.com/maps/search/?api=1&query=PUUR%20Mondzorg%20Emmen&query_place_id=ChIJB4reaiHmt0cRHM0ikxTiXpc",
+        "searchPageUrl": "https://www.google.com/maps/search/tandarts%20Dutch/@52.73573209157206,7.210238657534013,11z?hl=nl",
+        "searchString": "tandarts Dutch",
+        "language": "nl",
+        "rank": 1,
+        "isAdvertisement": false,
+        "imageUrl": "https://lh3.googleusercontent.com/p/AF1QipPTd26kJ0CPtpYX5GRLQGnOuYwX2Eco12462u67=w408-h271-k-no",
+        "kgmid": "/g/1tc_k6hp",
+        "leadQuality": {
+          "score": 95,
+          "tier": "Platinum",
+          "tierColor": "text-purple-400",
+          "tierBg": "bg-purple-500/20 border-purple-500/30",
+          "factors": [
+            "Review Volume: 206 reviews (+30pts)",
+            "Rating: 4.0/5 (+20pts)",
+            "Recent Activity: 100% (+20pts)",
+            "Review Quality: 215 chars avg (+25pts)"
+          ],
+          "reviewCount": 206,
+          "rating": "4.0",
+          "recentActivityRate": 100,
+          "avgTextLength": 215
+        },
+        "reviewsForBusiness": [
+          {
+            "searchString": "Direct Detail URL: https://www.google.com/maps/search/?api=1&query=ChIJB4reaiHmt0cRHM0ikxTiXpc&query_place_id=ChIJB4reaiHmt0cRHM0ikxTiXpc",
+            "reviewerId": "110961436185956714999",
+            "reviewerUrl": "https://www.google.com/maps/contrib/110961436185956714999?hl=nl",
+            "name": "Monique bos",
+            "reviewerNumberOfReviews": 3,
+            "isLocalGuide": false,
+            "reviewerPhotoUrl": "https://lh3.googleusercontent.com/a/ACg8ocIIn9Z8eYmBuLXZVjkGwDLBQxYxmW2lDfMpxDTPYH9jZUh99Q=s1920-c-rp-mo-br100",
+            "text": "Ik vondt de behandeling wel wat ruig. Moest een mondstuk in. Mijn eigen tandarts heb ik dat soort dingen  niet. De hele mond waar dat mondstuk zat doet me nu nog zeer. Lippen en daarboven schuurdeur zo met dat ding.",
+            "textTranslated": null,
+            "publishAt": "2 uur geleden",
+            "publishedAtDate": "2025-10-03T06:52:39.533Z",
+            "likesCount": 0,
+            "reviewId": "Ci9DQUlRQUNvZENodHljRjlvT2pSUGJtaE5PR1JEUnpReWVIcFpUbkp3VDJVMGJFRRAB",
+            "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT2pSUGJtaE5PR1JEUnpReWVIcFpUbkp3VDJVMGJFRRAB!2m1!1s0x0:0x975ee2149322cd1c!3m1!1s2@1:CAIQACodChtycF9oOjRPbmhNOGRDRzQyeHpZTnJwT2U0bEE%7C0crr9rUozLx%7C?hl=nl",
+            "reviewOrigin": "Google",
+            "stars": 3,
+            "rating": null,
+            "responseFromOwnerDate": null,
+            "responseFromOwnerText": null,
+            "reviewImageUrls": [],
+            "reviewContext": {},
+            "reviewDetailedRating": {},
+            "visitedIn": null,
+            "originalLanguage": "nl",
+            "translatedLanguage": null,
+            "isAdvertisement": false,
+            "placeId": "ChIJB4reaiHmt0cRHM0ikxTiXpc",
+            "location": {
+              "lat": 52.7841033,
+              "lng": 6.9127191
+            },
+            "address": "Boermarkeweg 44-D, 7824 AA Emmen, Nederland",
+            "neighborhood": null,
+            "street": "Boermarkeweg 44-D",
+            "city": "Emmen",
+            "postalCode": "7824 AA",
+            "state": null,
+            "countryCode": "NL",
+            "categoryName": "Tandartspraktijk",
+            "categories": [
+              "Tandartspraktijk",
+              "mondhygiënist",
+              "Tandarts"
+            ],
+            "title": "PUUR Mondzorg Emmen",
+            "totalScore": 4,
+            "permanentlyClosed": false,
+            "temporarilyClosed": false,
+            "reviewsCount": 206,
+            "url": "https://www.google.com/maps/search/?api=1&query=PUUR%20Mondzorg%20Emmen&query_place_id=ChIJB4reaiHmt0cRHM0ikxTiXpc",
+            "price": null,
+            "cid": "10907403925533674780",
+            "fid": "0x47b7e6216ade8a07:0x975ee2149322cd1c",
+            "imageUrl": "https://lh3.googleusercontent.com/p/AF1QipPTd26kJ0CPtpYX5GRLQGnOuYwX2Eco12462u67=w408-h271-k-no",
+            "scrapedAt": "2025-10-03T09:18:43.106Z",
+            "language": "nl"
+          }
+        ],
+        "contactEnriched": true,
+        "enrichmentDate": "2025-10-04T07:10:58.351Z"
+      },
+      {
+        "title": "Dental Clinics Klazienaveen",
+        "price": null,
+        "categoryName": "Tandarts",
+        "address": "Koriander 10, 7891 WS Klazienaveen, Nederland",
+        "neighborhood": null,
+        "street": "Koriander 10",
+        "city": "Klazienaveen",
+        "postalCode": "7891 WS",
+        "state": null,
+        "countryCode": "NL",
+        "website": "https://www.dentalclinics.nl/tandarts/klazienaveen/?utm_source=google&utm_medium=organic&utm_campaign=gmb&utm_content=main_button",
+        "phone": "+31 591 312 747",
+        "phoneUnformatted": "+31591312747",
+        "claimThisBusiness": false,
+        "location": {
+          "lat": 52.7311744,
+          "lng": 6.9785609
+        },
+        "totalScore": 4.7,
+        "permanentlyClosed": false,
+        "temporarilyClosed": false,
+        "placeId": "ChIJG55cy-zut0cR3t23jJYOUOE",
+        "categories": [
+          "Tandarts"
+        ],
+        "fid": "0x47b7eeeccb5c9e1b:0xe1500e968cb7ddde",
+        "cid": "16235492696439381470",
+        "reviewsCount": 307,
+        "imagesCount": 19,
+        "imageCategories": [],
+        "scrapedAt": "2025-10-03T09:11:17.791Z",
+        "googleFoodUrl": null,
+        "hotelAds": [],
+        "openingHours": [
+          {
+            "day": "vrijdag",
+            "hours": "08:00 to 16:30"
+          },
+          {
+            "day": "zaterdag",
+            "hours": "Gesloten"
+          },
+          {
+            "day": "zondag",
+            "hours": "Gesloten"
+          },
+          {
+            "day": "maandag",
+            "hours": "08:00 to 16:30"
+          },
+          {
+            "day": "dinsdag",
+            "hours": "08:00 to 20:00"
+          },
+          {
+            "day": "woensdag",
+            "hours": "08:00 to 20:00"
+          },
+          {
+            "day": "donderdag",
+            "hours": "08:00 to 16:30"
+          }
+        ],
+        "peopleAlsoSearch": [],
+        "placesTags": [],
+        "reviewsTags": [],
+        "additionalInfo": {
+          "Noodhulp": [
+            {
+              "Biedt kosteloze producten of services": true
+            },
+            {
+              "Neemt ontheemden in dienst": true
+            }
+          ],
+          "Aangeleverd door het bedrijf": [
+            {
+              "Gerund door een vrouwelijke ondernemer": true
+            }
+          ],
+          "Toegankelijkheid": [
+            {
+              "Rolstoeltoegankelijk toilet": true
+            },
+            {
+              "Rolstoeltoegankelijke ingang": true
+            },
+            {
+              "Rolstoeltoegankelijke parking": true
+            }
+          ],
+          "Voorzieningen": [
+            {
+              "Toilet": true
+            }
+          ],
+          "Publiek": [
+            {
+              "LGBTQ+ vriendelijk": true
+            }
+          ],
+          "Planning": [
+            {
+              "Afspraak verplicht": true
+            },
+            {
+              "Afspraak aanbevolen": true
+            }
+          ],
+          "Betalen": [
+            {
+              "Contactloos mobiel betalen": true
+            },
+            {
+              "Pinpassen": true
+            },
+            {
+              "Creditcards": true
+            }
+          ]
+        },
+        "gasPrices": [],
+        "url": "https://www.google.com/maps/search/?api=1&query=Dental%20Clinics%20Klazienaveen&query_place_id=ChIJG55cy-zut0cR3t23jJYOUOE",
+        "searchPageUrl": "https://www.google.com/maps/search/tandarts%20Netherlands/@52.73573209157206,7.210238657534013,11z?hl=nl",
+        "searchString": "tandarts Netherlands",
+        "language": "nl",
+        "rank": 1,
+        "isAdvertisement": false,
+        "imageUrl": "https://lh3.googleusercontent.com/p/AF1QipMFiqq12lFnV7iuhh2UEQIFOCzkQx0ozcjt7NiL=w408-h272-k-no",
+        "kgmid": "/g/119tdyqvp",
+        "leadQuality": {
+          "score": 94,
+          "tier": "Platinum",
+          "tierColor": "text-purple-400",
+          "tierBg": "bg-purple-500/20 border-purple-500/30",
+          "factors": [
+            "Review Volume: 307 reviews (+30pts)",
+            "Rating: 4.7/5 (+24pts)",
+            "Recent Activity: 100% (+20pts)",
+            "Review Quality: 150 chars avg (+20pts)"
+          ],
+          "reviewCount": 307,
+          "rating": "4.7",
+          "recentActivityRate": 100,
+          "avgTextLength": 150
+        },
+        "reviewsForBusiness": [
+          {
+            "searchString": "Direct Detail URL: https://www.google.com/maps/search/?api=1&query=ChIJG55cy-zut0cR3t23jJYOUOE&query_place_id=ChIJG55cy-zut0cR3t23jJYOUOE",
+            "reviewerId": "114695981694228193321",
+            "reviewerUrl": "https://www.google.com/maps/contrib/114695981694228193321?hl=nl",
+            "name": "caby zondag",
+            "reviewerNumberOfReviews": 22,
+            "isLocalGuide": true,
+            "reviewerPhotoUrl": "https://lh3.googleusercontent.com/a/ACg8ocJBxD8XFzHuhHur_zRVQpJgrtTyBKYQpaHjp_C_nUMwW4j0BA=s1920-c-rp-mo-ba2-br100",
+            "text": "Nog geen ster waard  !!!\nKneuzen vereeniging een andere tandarts moet het herstellen wat zei hebben verkloot !!!\nIk heb er geen goed woord voor over .",
+            "textTranslated": null,
+            "publishAt": "3 dagen geleden",
+            "publishedAtDate": "2025-09-29T13:59:48.060Z",
+            "likesCount": 0,
+            "reviewId": "Ci9DQUlRQUNvZENodHljRjlvT21kQ01uUlVNWFpTVmtZNGFFWjZXRkpvZFd4S1kyYxAB",
+            "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT21kQ01uUlVNWFpTVmtZNGFFWjZXRkpvZFd4S1kyYxAB!2m1!1s0x0:0xe1500e968cb7ddde!3m1!1s2@1:CAIQACodChtycF9oOmdCMnRUMXZSVkY4aEZ6WFJodWxKY2c%7C0cqd2J2a00u%7C?hl=nl",
+            "reviewOrigin": "Google",
+            "stars": 1,
+            "rating": null,
+            "responseFromOwnerDate": null,
+            "responseFromOwnerText": null,
+            "reviewImageUrls": [],
+            "reviewContext": {},
+            "reviewDetailedRating": {},
+            "visitedIn": null,
+            "originalLanguage": "nl",
+            "translatedLanguage": null,
+            "isAdvertisement": false,
+            "placeId": "ChIJG55cy-zut0cR3t23jJYOUOE",
+            "location": {
+              "lat": 52.7311744,
+              "lng": 6.9785609
+            },
+            "address": "Koriander 10, 7891 WS Klazienaveen, Nederland",
+            "neighborhood": null,
+            "street": "Koriander 10",
+            "city": "Klazienaveen",
+            "postalCode": "7891 WS",
+            "state": null,
+            "countryCode": "NL",
+            "categoryName": "Tandarts",
+            "categories": [
+              "Tandarts"
+            ],
+            "title": "Dental Clinics Klazienaveen",
+            "totalScore": 4.7,
+            "permanentlyClosed": false,
+            "temporarilyClosed": false,
+            "reviewsCount": 307,
+            "url": "https://www.google.com/maps/search/?api=1&query=Dental%20Clinics%20Klazienaveen&query_place_id=ChIJG55cy-zut0cR3t23jJYOUOE",
+            "price": null,
+            "cid": "16235492696439381470",
+            "fid": "0x47b7eeeccb5c9e1b:0xe1500e968cb7ddde",
+            "imageUrl": "https://lh3.googleusercontent.com/p/AF1QipNDYw1mr0rLIapKC0ZIJWh6qXRUTMV0-0Auz6bd=w426-h240-k-no",
+            "scrapedAt": "2025-10-03T09:12:33.862Z",
+            "language": "nl"
+          }
+        ],
+        "email": "klazienaveen@dentalclinics.nl",
+        "contactEnriched": true,
+        "enrichmentDate": "2025-10-04T07:10:56.095Z"
+      },
+      {
+        "title": "Tandrijk Mondzorg",
+        "price": null,
+        "categoryName": "Tandartspraktijk",
+        "address": "Berg en Dalseweg 101, 6522 BC Nijmegen, Nederland",
+        "neighborhood": "Nijmegen-Oost",
+        "street": "Berg en Dalseweg 101",
+        "city": "Nijmegen",
+        "postalCode": "6522 BC",
+        "state": null,
+        "countryCode": "NL",
+        "website": "https://tandrijkmondzorg.nl/",
+        "phone": "+31 24 323 8062",
+        "phoneUnformatted": "+31243238062",
+        "claimThisBusiness": false,
+        "location": {
+          "lat": 51.8395623,
+          "lng": 5.8802127
+        },
+        "totalScore": 4.8,
+        "permanentlyClosed": false,
+        "temporarilyClosed": false,
+        "placeId": "ChIJ5YLZw7cJx0cR_bPAD8Ojy1g",
+        "categories": [
+          "Tandartspraktijk",
+          "mondhygiënist",
+          "Tandarts"
+        ],
+        "fid": "0x47c709b7c3d982e5:0x58cba3c30fc0b3fd",
+        "cid": "6398387753788158973",
+        "reviewsCount": 47,
+        "imagesCount": 2,
+        "imageCategories": [],
+        "scrapedAt": "2025-10-03T09:12:18.263Z",
+        "googleFoodUrl": null,
+        "hotelAds": [],
+        "openingHours": [
+          {
+            "day": "vrijdag",
+            "hours": "08:00 to 12:00, 13:00 to 17:00"
+          },
+          {
+            "day": "zaterdag",
+            "hours": "Gesloten"
+          },
+          {
+            "day": "zondag",
+            "hours": "Gesloten"
+          },
+          {
+            "day": "maandag",
+            "hours": "08:00 to 12:00, 13:00 to 17:00"
+          },
+          {
+            "day": "dinsdag",
+            "hours": "08:00 to 12:00, 13:00 to 17:00"
+          },
+          {
+            "day": "woensdag",
+            "hours": "Gesloten"
+          },
+          {
+            "day": "donderdag",
+            "hours": "08:00 to 12:00, 13:00 to 17:00"
+          }
+        ],
+        "peopleAlsoSearch": [],
+        "placesTags": [],
+        "reviewsTags": [],
+        "additionalInfo": {
+          "Aangeleverd door het bedrijf": [
+            {
+              "Gerund door een vrouwelijke ondernemer": true
+            }
+          ],
+          "Voorzieningen": [
+            {
+              "Toilet": true
+            }
+          ],
+          "Planning": [
+            {
+              "Afspraak verplicht": true
+            },
+            {
+              "Afspraak aanbevolen": true
+            }
+          ]
+        },
+        "gasPrices": [],
+        "url": "https://www.google.com/maps/search/?api=1&query=Tandrijk%20Mondzorg&query_place_id=ChIJ5YLZw7cJx0cR_bPAD8Ojy1g",
+        "searchPageUrl": "https://www.google.com/maps/search/beste%20tandarts%20Netherlands/@51.76006340842791,6.182034203767007,11z?hl=nl",
+        "searchString": "beste tandarts Netherlands",
+        "language": "nl",
+        "rank": 2,
+        "isAdvertisement": false,
+        "imageUrl": "https://streetviewpixels-pa.googleapis.com/v1/thumbnail?panoid=RmpqRZJstt_VhCViig2u0w&cb_client=search.gws-prod.gps&w=408&h=240&yaw=36.735603&pitch=0&thumbfov=100",
+        "kgmid": "/g/11mhcglh0s",
+        "leadQuality": {
+          "score": 72,
+          "tier": "Gold",
+          "tierColor": "text-yellow-400",
+          "tierBg": "bg-yellow-500/20 border-yellow-500/30",
+          "factors": [
+            "Review Volume: 47 reviews (+18pts)",
+            "Rating: 4.8/5 (+24pts)",
+            "Recent Activity: 100% (+20pts)",
+            "Review Quality: 67 chars avg (+10pts)"
+          ],
+          "reviewCount": 47,
+          "rating": "4.8",
+          "recentActivityRate": 100,
+          "avgTextLength": 67
+        },
+        "reviewsForBusiness": [
+          {
+            "searchString": "Direct Detail URL: https://www.google.com/maps/search/?api=1&query=ChIJ5YLZw7cJx0cR_bPAD8Ojy1g&query_place_id=ChIJ5YLZw7cJx0cR_bPAD8Ojy1g",
+            "reviewerId": "106309733973325084786",
+            "reviewerUrl": "https://www.google.com/maps/contrib/106309733973325084786?hl=nl",
+            "name": "Fong Leng",
+            "reviewerNumberOfReviews": 1,
+            "isLocalGuide": false,
+            "reviewerPhotoUrl": "https://lh3.googleusercontent.com/a/ACg8ocKiPtPuYaAXBTp3mxSiL1TItMIFD86WvsKnNrbTnloJ7DAXOA=s1920-c-rp-mo-br100",
+            "text": "Was erg teleurgesteld in de onprofessionele aanpak van de tandarts.",
+            "textTranslated": null,
+            "publishAt": "een week geleden",
+            "publishedAtDate": "2025-09-22T07:15:50.300Z",
+            "likesCount": 0,
+            "reviewId": "Ci9DQUlRQUNvZENodHljRjlvT201cFIyZEJia0pmZUVsb1lqTnlhMmg1VGxoQmJGRRAB",
+            "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT201cFIyZEJia0pmZUVsb1lqTnlhMmg1VGxoQmJGRRAB!2m1!1s0x0:0x58cba3c30fc0b3fd!3m1!1s2@1:CAIQACodChtycF9oOm5pR2dBbkJfeEloYjNya2h5TlhBbFE%7C0coETaGuP17%7C?hl=nl",
+            "reviewOrigin": "Google",
+            "stars": 1,
+            "rating": null,
+            "responseFromOwnerDate": "2025-09-22T09:58:05.000Z",
+            "responseFromOwnerText": "Beste reviewer,\nWij hebben geen gegevens, die erop wijzen dat u bij ons onder behandeling bent geweest. Zou u telefonisch met ons contact op willen nemen (024-3238062), zodat we dit misverstand uit de wereld kunnen helpen? Het lijkt erop dat u de verkeerde praktijk hebt beoordeeld.\n\nMet vriendelijke groet,\nTandrijk Mondzorg\n",
+            "reviewImageUrls": [],
+            "reviewContext": {},
+            "reviewDetailedRating": {},
+            "visitedIn": null,
+            "originalLanguage": "nl",
+            "translatedLanguage": null,
+            "isAdvertisement": false,
+            "placeId": "ChIJ5YLZw7cJx0cR_bPAD8Ojy1g",
+            "location": {
+              "lat": 51.8395623,
+              "lng": 5.8802127
+            },
+            "address": "Berg en Dalseweg 101, 6522 BC Nijmegen, Nederland",
+            "neighborhood": "Nijmegen-Oost",
+            "street": "Berg en Dalseweg 101",
+            "city": "Nijmegen",
+            "postalCode": "6522 BC",
+            "state": null,
+            "countryCode": "NL",
+            "categoryName": "Tandartspraktijk",
+            "categories": [
+              "Tandartspraktijk",
+              "mondhygiënist",
+              "Tandarts"
+            ],
+            "title": "Tandrijk Mondzorg",
+            "totalScore": 4.8,
+            "permanentlyClosed": false,
+            "temporarilyClosed": false,
+            "reviewsCount": 47,
+            "url": "https://www.google.com/maps/search/?api=1&query=Tandrijk%20Mondzorg&query_place_id=ChIJ5YLZw7cJx0cR_bPAD8Ojy1g",
+            "price": null,
+            "cid": "6398387753788158973",
+            "fid": "0x47c709b7c3d982e5:0x58cba3c30fc0b3fd",
+            "imageUrl": "https://streetviewpixels-pa.googleapis.com/v1/thumbnail?panoid=RmpqRZJstt_VhCViig2u0w&cb_client=search.gws-prod.gps&w=408&h=240&yaw=36.735603&pitch=0&thumbfov=100",
+            "scrapedAt": "2025-10-03T09:20:41.054Z",
+            "language": "nl"
+          }
+        ],
+        "email": "info@tandrijkmondzorg.nl",
+        "contactEnriched": true,
+        "enrichmentDate": "2025-10-04T07:10:57.409Z"
+      }
+    ],
+    "reviews": [
+      {
+        "searchString": "Direct Detail URL: https://www.google.com/maps/search/?api=1&query=ChIJB4reaiHmt0cRHM0ikxTiXpc&query_place_id=ChIJB4reaiHmt0cRHM0ikxTiXpc",
+        "reviewerId": "110961436185956714999",
+        "reviewerUrl": "https://www.google.com/maps/contrib/110961436185956714999?hl=nl",
+        "name": "Monique bos",
+        "reviewerNumberOfReviews": 3,
+        "isLocalGuide": false,
+        "reviewerPhotoUrl": "https://lh3.googleusercontent.com/a/ACg8ocIIn9Z8eYmBuLXZVjkGwDLBQxYxmW2lDfMpxDTPYH9jZUh99Q=s1920-c-rp-mo-br100",
+        "text": "Ik vondt de behandeling wel wat ruig. Moest een mondstuk in. Mijn eigen tandarts heb ik dat soort dingen  niet. De hele mond waar dat mondstuk zat doet me nu nog zeer. Lippen en daarboven schuurdeur zo met dat ding.",
+        "textTranslated": null,
+        "publishAt": "2 uur geleden",
+        "publishedAtDate": "2025-10-03T06:52:39.533Z",
+        "likesCount": 0,
+        "reviewId": "Ci9DQUlRQUNvZENodHljRjlvT2pSUGJtaE5PR1JEUnpReWVIcFpUbkp3VDJVMGJFRRAB",
+        "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT2pSUGJtaE5PR1JEUnpReWVIcFpUbkp3VDJVMGJFRRAB!2m1!1s0x0:0x975ee2149322cd1c!3m1!1s2@1:CAIQACodChtycF9oOjRPbmhNOGRDRzQyeHpZTnJwT2U0bEE%7C0crr9rUozLx%7C?hl=nl",
+        "reviewOrigin": "Google",
+        "stars": 3,
+        "rating": null,
+        "responseFromOwnerDate": null,
+        "responseFromOwnerText": null,
+        "reviewImageUrls": [],
+        "reviewContext": {},
+        "reviewDetailedRating": {},
+        "visitedIn": null,
+        "originalLanguage": "nl",
+        "translatedLanguage": null,
+        "isAdvertisement": false,
+        "placeId": "ChIJB4reaiHmt0cRHM0ikxTiXpc",
+        "location": {
+          "lat": 52.7841033,
+          "lng": 6.9127191
+        },
+        "address": "Boermarkeweg 44-D, 7824 AA Emmen, Nederland",
+        "neighborhood": null,
+        "street": "Boermarkeweg 44-D",
+        "city": "Emmen",
+        "postalCode": "7824 AA",
+        "state": null,
+        "countryCode": "NL",
+        "categoryName": "Tandartspraktijk",
+        "categories": [
+          "Tandartspraktijk",
+          "mondhygiënist",
+          "Tandarts"
+        ],
+        "title": "PUUR Mondzorg Emmen",
+        "totalScore": 4,
+        "permanentlyClosed": false,
+        "temporarilyClosed": false,
+        "reviewsCount": 206,
+        "url": "https://www.google.com/maps/search/?api=1&query=PUUR%20Mondzorg%20Emmen&query_place_id=ChIJB4reaiHmt0cRHM0ikxTiXpc",
+        "price": null,
+        "cid": "10907403925533674780",
+        "fid": "0x47b7e6216ade8a07:0x975ee2149322cd1c",
+        "imageUrl": "https://lh3.googleusercontent.com/p/AF1QipPTd26kJ0CPtpYX5GRLQGnOuYwX2Eco12462u67=w408-h271-k-no",
+        "scrapedAt": "2025-10-03T09:18:43.106Z",
+        "language": "nl"
+      },
+      {
+        "searchString": "Direct Detail URL: https://www.google.com/maps/search/?api=1&query=ChIJG55cy-zut0cR3t23jJYOUOE&query_place_id=ChIJG55cy-zut0cR3t23jJYOUOE",
+        "reviewerId": "114695981694228193321",
+        "reviewerUrl": "https://www.google.com/maps/contrib/114695981694228193321?hl=nl",
+        "name": "caby zondag",
+        "reviewerNumberOfReviews": 22,
+        "isLocalGuide": true,
+        "reviewerPhotoUrl": "https://lh3.googleusercontent.com/a/ACg8ocJBxD8XFzHuhHur_zRVQpJgrtTyBKYQpaHjp_C_nUMwW4j0BA=s1920-c-rp-mo-ba2-br100",
+        "text": "Nog geen ster waard  !!!\nKneuzen vereeniging een andere tandarts moet het herstellen wat zei hebben verkloot !!!\nIk heb er geen goed woord voor over .",
+        "textTranslated": null,
+        "publishAt": "3 dagen geleden",
+        "publishedAtDate": "2025-09-29T13:59:48.060Z",
+        "likesCount": 0,
+        "reviewId": "Ci9DQUlRQUNvZENodHljRjlvT21kQ01uUlVNWFpTVmtZNGFFWjZXRkpvZFd4S1kyYxAB",
+        "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT21kQ01uUlVNWFpTVmtZNGFFWjZXRkpvZFd4S1kyYxAB!2m1!1s0x0:0xe1500e968cb7ddde!3m1!1s2@1:CAIQACodChtycF9oOmdCMnRUMXZSVkY4aEZ6WFJodWxKY2c%7C0cqd2J2a00u%7C?hl=nl",
+        "reviewOrigin": "Google",
+        "stars": 1,
+        "rating": null,
+        "responseFromOwnerDate": null,
+        "responseFromOwnerText": null,
+        "reviewImageUrls": [],
+        "reviewContext": {},
+        "reviewDetailedRating": {},
+        "visitedIn": null,
+        "originalLanguage": "nl",
+        "translatedLanguage": null,
+        "isAdvertisement": false,
+        "placeId": "ChIJG55cy-zut0cR3t23jJYOUOE",
+        "location": {
+          "lat": 52.7311744,
+          "lng": 6.9785609
+        },
+        "address": "Koriander 10, 7891 WS Klazienaveen, Nederland",
+        "neighborhood": null,
+        "street": "Koriander 10",
+        "city": "Klazienaveen",
+        "postalCode": "7891 WS",
+        "state": null,
+        "countryCode": "NL",
+        "categoryName": "Tandarts",
+        "categories": [
+          "Tandarts"
+        ],
+        "title": "Dental Clinics Klazienaveen",
+        "totalScore": 4.7,
+        "permanentlyClosed": false,
+        "temporarilyClosed": false,
+        "reviewsCount": 307,
+        "url": "https://www.google.com/maps/search/?api=1&query=Dental%20Clinics%20Klazienaveen&query_place_id=ChIJG55cy-zut0cR3t23jJYOUOE",
+        "price": null,
+        "cid": "16235492696439381470",
+        "fid": "0x47b7eeeccb5c9e1b:0xe1500e968cb7ddde",
+        "imageUrl": "https://lh3.googleusercontent.com/p/AF1QipNDYw1mr0rLIapKC0ZIJWh6qXRUTMV0-0Auz6bd=w426-h240-k-no",
+        "scrapedAt": "2025-10-03T09:12:33.862Z",
+        "language": "nl"
+      },
+      {
+        "searchString": "Direct Detail URL: https://www.google.com/maps/search/?api=1&query=ChIJ5YLZw7cJx0cR_bPAD8Ojy1g&query_place_id=ChIJ5YLZw7cJx0cR_bPAD8Ojy1g",
+        "reviewerId": "106309733973325084786",
+        "reviewerUrl": "https://www.google.com/maps/contrib/106309733973325084786?hl=nl",
+        "name": "Fong Leng",
+        "reviewerNumberOfReviews": 1,
+        "isLocalGuide": false,
+        "reviewerPhotoUrl": "https://lh3.googleusercontent.com/a/ACg8ocKiPtPuYaAXBTp3mxSiL1TItMIFD86WvsKnNrbTnloJ7DAXOA=s1920-c-rp-mo-br100",
+        "text": "Was erg teleurgesteld in de onprofessionele aanpak van de tandarts.",
+        "textTranslated": null,
+        "publishAt": "een week geleden",
+        "publishedAtDate": "2025-09-22T07:15:50.300Z",
+        "likesCount": 0,
+        "reviewId": "Ci9DQUlRQUNvZENodHljRjlvT201cFIyZEJia0pmZUVsb1lqTnlhMmg1VGxoQmJGRRAB",
+        "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT201cFIyZEJia0pmZUVsb1lqTnlhMmg1VGxoQmJGRRAB!2m1!1s0x0:0x58cba3c30fc0b3fd!3m1!1s2@1:CAIQACodChtycF9oOm5pR2dBbkJfeEloYjNya2h5TlhBbFE%7C0coETaGuP17%7C?hl=nl",
+        "reviewOrigin": "Google",
+        "stars": 1,
+        "rating": null,
+        "responseFromOwnerDate": "2025-09-22T09:58:05.000Z",
+        "responseFromOwnerText": "Beste reviewer,\nWij hebben geen gegevens, die erop wijzen dat u bij ons onder behandeling bent geweest. Zou u telefonisch met ons contact op willen nemen (024-3238062), zodat we dit misverstand uit de wereld kunnen helpen? Het lijkt erop dat u de verkeerde praktijk hebt beoordeeld.\n\nMet vriendelijke groet,\nTandrijk Mondzorg\n",
+        "reviewImageUrls": [],
+        "reviewContext": {},
+        "reviewDetailedRating": {},
+        "visitedIn": null,
+        "originalLanguage": "nl",
+        "translatedLanguage": null,
+        "isAdvertisement": false,
+        "placeId": "ChIJ5YLZw7cJx0cR_bPAD8Ojy1g",
+        "location": {
+          "lat": 51.8395623,
+          "lng": 5.8802127
+        },
+        "address": "Berg en Dalseweg 101, 6522 BC Nijmegen, Nederland",
+        "neighborhood": "Nijmegen-Oost",
+        "street": "Berg en Dalseweg 101",
+        "city": "Nijmegen",
+        "postalCode": "6522 BC",
+        "state": null,
+        "countryCode": "NL",
+        "categoryName": "Tandartspraktijk",
+        "categories": [
+          "Tandartspraktijk",
+          "mondhygiënist",
+          "Tandarts"
+        ],
+        "title": "Tandrijk Mondzorg",
+        "totalScore": 4.8,
+        "permanentlyClosed": false,
+        "temporarilyClosed": false,
+        "reviewsCount": 47,
+        "url": "https://www.google.com/maps/search/?api=1&query=Tandrijk%20Mondzorg&query_place_id=ChIJ5YLZw7cJx0cR_bPAD8Ojy1g",
+        "price": null,
+        "cid": "6398387753788158973",
+        "fid": "0x47c709b7c3d982e5:0x58cba3c30fc0b3fd",
+        "imageUrl": "https://streetviewpixels-pa.googleapis.com/v1/thumbnail?panoid=RmpqRZJstt_VhCViig2u0w&cb_client=search.gws-prod.gps&w=408&h=240&yaw=36.735603&pitch=0&thumbfov=100",
+        "scrapedAt": "2025-10-03T09:20:41.054Z",
+        "language": "nl"
+      }
+    ],
+    "searchCriteria": {
+      "category": "tandarts",
+      "location": "Netherlands",
+      "minRating": 3.5,
+      "maxRating": 4.9,
+      "maxReviewsPerBusiness": 5,
+      "maxStars": 3,
+      "dayLimit": 14,
+      "businessLimit": 30,
+      "minReviews": 5,
+      "language": "nl",
+      "countryCode": "nl",
+      "reviewLimit": 10,
+      "minTextLength": 20
+    },
+    "extractionDate": "2025-10-03T09:22:29.399Z"
+  },
+  "statistics": {
+    "businessesFound": 16,
+    "reviewsFound": 3,
+    "avgRating": 1.6666666666666667,
+    "extractionTime": 679694
+  },
+  "enrichmentHistory": [
+    {
+      "timestamp": "2025-10-04T07:10:58.358Z",
+      "enrichedBusinesses": 3,
+      "phoneNumbers": 3,
+      "websites": 3,
+      "emails": 2,
+      "ownerContacts": 0,
+      "managementContacts": 0
+    },
+    {
+      "timestamp": "2025-10-04T07:10:58.795Z",
+      "enrichedBusinesses": 3,
+      "phoneNumbers": 3,
+      "websites": 3,
+      "emails": 2,
+      "ownerContacts": 0,
+      "managementContacts": 0
+    }
+  ]
+}

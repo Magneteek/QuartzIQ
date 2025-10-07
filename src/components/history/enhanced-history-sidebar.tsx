@@ -20,7 +20,10 @@ import {
   ChevronRight,
   Database,
   Star,
-  TrendingUp
+  TrendingUp,
+  Trash2,
+  User,
+  Crown
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
@@ -30,6 +33,8 @@ interface EnrichmentData {
   phoneNumbers: number
   websites: number
   emails: number
+  ownerContacts?: number
+  managementContacts?: number
 }
 
 interface ExtractionHistoryItem {
@@ -39,6 +44,9 @@ interface ExtractionHistoryItem {
     category: string
     location: string
     countryCode: string
+    minRating?: number
+    maxRating?: number
+    maxStars?: number
   }
   statistics: {
     businessesFound: number
@@ -54,20 +62,30 @@ interface HistorySidebarProps {
   onLoadExtraction: (id: string) => void
   onClose: () => void
   currentExtractionId?: string | null
+  refreshTrigger?: number // Add a trigger prop for forcing refresh
 }
 
-export function EnhancedHistorySidebar({ isOpen, onLoadExtraction, onClose, currentExtractionId }: HistorySidebarProps) {
+export function EnhancedHistorySidebar({ isOpen, onLoadExtraction, onClose, currentExtractionId, refreshTrigger }: HistorySidebarProps) {
   const [history, setHistory] = useState<ExtractionHistoryItem[]>([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [isCollapsed, setIsCollapsed] = useState(false)
   const [hoveredId, setHoveredId] = useState<string | null>(null)
+  const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null)
 
   useEffect(() => {
     if (isOpen && !loading && history.length === 0) {
       loadHistory()
     }
   }, [isOpen])
+
+  // Add separate effect for refresh trigger
+  useEffect(() => {
+    if (refreshTrigger && refreshTrigger > 0 && isOpen) {
+      console.log('🔄 Contact Vault refresh triggered')
+      loadHistory()
+    }
+  }, [refreshTrigger, isOpen])
 
   const loadHistory = async () => {
     try {
@@ -86,6 +104,27 @@ export function EnhancedHistorySidebar({ isOpen, onLoadExtraction, onClose, curr
       console.error('Contact vault load error:', err)
     } finally {
       setLoading(false)
+    }
+  }
+
+  const deleteExtraction = async (id: string) => {
+    try {
+      const response = await fetch('/api/history', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'delete', data: { id } })
+      })
+
+      const result = await response.json()
+      if (result.success) {
+        // Remove from local state
+        setHistory(prev => prev.filter(item => item.id !== id))
+        setDeleteConfirmId(null)
+      } else {
+        console.error('Failed to delete extraction:', result.error)
+      }
+    } catch (error) {
+      console.error('Delete error:', error)
     }
   }
 
@@ -115,7 +154,7 @@ export function EnhancedHistorySidebar({ isOpen, onLoadExtraction, onClose, curr
 
   const hasContactData = (enrichmentHistory: EnrichmentData[] | undefined) => {
     const latest = getLatestEnrichment(enrichmentHistory)
-    return latest && (latest.phoneNumbers > 0 || latest.emails > 0 || latest.websites > 0)
+    return latest && (latest.phoneNumbers > 0 || latest.emails > 0 || latest.websites > 0 || (latest.ownerContacts && latest.ownerContacts > 0) || (latest.managementContacts && latest.managementContacts > 0))
   }
 
   if (!isOpen) return null
@@ -274,12 +313,27 @@ export function EnhancedHistorySidebar({ isOpen, onLoadExtraction, onClose, curr
                                     animate={{ scale: 1 }}
                                     transition={{ delay: 0.2 }}
                                   >
-                                    <CheckCircle className="h-4 w-4 status-success" />
+                                    <CheckCircle className="h-4 w-4 text-green-500" />
                                   </motion.div>
                                 )}
                               </div>
-                              <div className="text-xs text-muted-foreground">
-                                {formatDate(item.timestamp)}
+                              <div className="flex items-center gap-2">
+                                <div className="text-xs text-muted-foreground">
+                                  {formatDate(item.timestamp)}
+                                </div>
+                                {hoveredId === item.id && (
+                                  <Button
+                                    size="sm"
+                                    variant="ghost"
+                                    className="h-6 w-6 p-0 text-destructive hover:text-destructive hover:bg-destructive/10"
+                                    onClick={(e) => {
+                                      e.stopPropagation()
+                                      setDeleteConfirmId(item.id)
+                                    }}
+                                  >
+                                    <Trash2 className="h-3 w-3" />
+                                  </Button>
+                                )}
                               </div>
                             </div>
 
@@ -294,52 +348,75 @@ export function EnhancedHistorySidebar({ isOpen, onLoadExtraction, onClose, curr
                             {/* Compact Statistics Row */}
                             <div className="flex items-center gap-1 text-xs mb-1">
                               <div className="flex items-center gap-1 px-2 py-1 rounded bg-card/50">
-                                <Building className="h-3 w-3 text-blue-400" />
+                                <Building className="h-3 w-3 text-primary" />
                                 <span className="font-medium text-foreground">
                                   {item.statistics?.businessesFound || 0}
                                 </span>
                               </div>
                               <div className="flex items-center gap-1 px-2 py-1 rounded bg-card/50">
-                                <MessageSquare className="h-3 w-3 text-green-400" />
+                                <MessageSquare className="h-3 w-3 text-primary" />
                                 <span className="font-medium text-foreground">
                                   {item.statistics?.reviewsFound || 0}
                                 </span>
                               </div>
                               <div className="flex items-center gap-1 px-2 py-1 rounded bg-card/50">
-                                <Star className="h-3 w-3 text-yellow-400" />
+                                <Star className="h-3 w-3 text-primary" />
                                 <span className="font-medium text-foreground">
                                   {item.statistics?.avgRating?.toFixed(1) || '0'}
                                 </span>
                               </div>
+                              {/* Contact Enrichment Indicators */}
+                              {latestEnrichment && latestEnrichment.phoneNumbers > 0 && (
+                                <div className="flex items-center gap-1 px-2 py-1 rounded bg-card/50">
+                                  <Phone className="h-3 w-3 text-green-400" />
+                                  <span className="font-medium text-foreground">{latestEnrichment.phoneNumbers}</span>
+                                </div>
+                              )}
+                              {latestEnrichment && latestEnrichment.emails > 0 && (
+                                <div className="flex items-center gap-1 px-2 py-1 rounded bg-card/50">
+                                  <Mail className="h-3 w-3 text-green-400" />
+                                  <span className="font-medium text-foreground">{latestEnrichment.emails}</span>
+                                </div>
+                              )}
+                              {latestEnrichment && latestEnrichment.websites > 0 && (
+                                <div className="flex items-center gap-1 px-2 py-1 rounded bg-card/50">
+                                  <Globe className="h-3 w-3 text-green-400" />
+                                  <span className="font-medium text-foreground">{latestEnrichment.websites}</span>
+                                </div>
+                              )}
+                              {latestEnrichment && latestEnrichment.ownerContacts && latestEnrichment.ownerContacts > 0 && (
+                                <div className="flex items-center gap-1 px-2 py-1 rounded bg-card/50">
+                                  <Crown className="h-3 w-3 text-amber-400" />
+                                  <span className="font-medium text-foreground">{latestEnrichment.ownerContacts}</span>
+                                </div>
+                              )}
+                              {latestEnrichment && latestEnrichment.managementContacts && latestEnrichment.managementContacts > 0 && (
+                                <div className="flex items-center gap-1 px-2 py-1 rounded bg-card/50">
+                                  <User className="h-3 w-3 text-blue-400" />
+                                  <span className="font-medium text-foreground">{latestEnrichment.managementContacts}</span>
+                                </div>
+                              )}
                             </div>
 
-                            {/* Contact Enrichment Stats */}
-                            {latestEnrichment && (
-                              <motion.div
-                                initial={{ opacity: 0, height: 0 }}
-                                animate={{ opacity: 1, height: 'auto' }}
-                                className="flex items-center gap-2 text-xs p-1.5 rounded-lg bg-primary/10 border border-primary/20"
-                              >
-                                {latestEnrichment.phoneNumbers > 0 && (
-                                  <div className="flex items-center gap-1">
-                                    <Phone className="h-3 w-3 text-primary" />
-                                    <span className="font-medium">{latestEnrichment.phoneNumbers}</span>
-                                  </div>
-                                )}
-                                {latestEnrichment.emails > 0 && (
-                                  <div className="flex items-center gap-1">
-                                    <Mail className="h-3 w-3 text-primary" />
-                                    <span className="font-medium">{latestEnrichment.emails}</span>
-                                  </div>
-                                )}
-                                {latestEnrichment.websites > 0 && (
-                                  <div className="flex items-center gap-1">
-                                    <Globe className="h-3 w-3 text-primary" />
-                                    <span className="font-medium">{latestEnrichment.websites}</span>
-                                  </div>
-                                )}
-                              </motion.div>
-                            )}
+                            {/* Rating Criteria */}
+                            <div className="flex items-center gap-2 text-xs mt-1">
+                              {item.searchCriteria?.minRating && (
+                                <div className="flex items-center gap-1 px-1.5 py-0.5 rounded bg-primary/10 text-primary">
+                                  <span>≥{item.searchCriteria.minRating}⭐</span>
+                                </div>
+                              )}
+                              {item.searchCriteria?.maxRating && (
+                                <div className="flex items-center gap-1 px-1.5 py-0.5 rounded bg-primary/10 text-primary">
+                                  <span>≤{item.searchCriteria.maxRating}⭐</span>
+                                </div>
+                              )}
+                              {item.searchCriteria?.maxStars && (
+                                <div className="flex items-center gap-1 px-1.5 py-0.5 rounded bg-primary/10 text-primary">
+                                  <span>Reviews ≤{item.searchCriteria.maxStars}⭐</span>
+                                </div>
+                              )}
+                            </div>
+
 
                             {/* Action Button */}
                             <div className="mt-2">
@@ -352,12 +429,12 @@ export function EnhancedHistorySidebar({ isOpen, onLoadExtraction, onClose, curr
                                     onLoadExtraction(item.id)
                                   }}
                                 >
-                                  <TrendingUp className="h-3 w-3 mr-1" />
+                                  <TrendingUp className="h-3 w-3 mr-1 text-primary-foreground" />
                                   Load Extraction
                                 </Button>
                               ) : (
                                 <div className="w-full h-8 text-xs text-center text-primary font-medium flex items-center justify-center bg-primary/10 rounded-md">
-                                  <CheckCircle className="h-3 w-3 mr-1" />
+                                  <CheckCircle className="h-3 w-3 mr-1 text-primary" />
                                   Currently Active
                                 </div>
                               )}
@@ -394,7 +471,7 @@ export function EnhancedHistorySidebar({ isOpen, onLoadExtraction, onClose, curr
                       title={`${item.searchCriteria?.category || 'Unknown'} - ${item.searchCriteria?.location || 'Unknown location'}`}
                     >
                       {hasContacts ? (
-                        <CheckCircle className="h-5 w-5 status-success" />
+                        <CheckCircle className="h-5 w-5 text-green-500" />
                       ) : (
                         <Building className="h-4 w-4 text-muted-foreground" />
                       )}
@@ -405,6 +482,56 @@ export function EnhancedHistorySidebar({ isOpen, onLoadExtraction, onClose, curr
             )}
           </motion.div>
         </>
+      )}
+
+      {/* Delete Confirmation Dialog */}
+      {deleteConfirmId && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 bg-black/50 z-[60] flex items-center justify-center p-4"
+          onClick={() => setDeleteConfirmId(null)}
+        >
+          <motion.div
+            initial={{ scale: 0.95, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.95, opacity: 0 }}
+            className="bg-background border border-border rounded-lg p-6 max-w-sm w-full"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center gap-3 mb-4">
+              <div className="h-10 w-10 rounded-full bg-destructive/10 flex items-center justify-center">
+                <Trash2 className="h-5 w-5 text-destructive" />
+              </div>
+              <div>
+                <h3 className="font-semibold text-foreground">Delete Extraction</h3>
+                <p className="text-sm text-muted-foreground">This action cannot be undone</p>
+              </div>
+            </div>
+            <p className="text-sm text-muted-foreground mb-6">
+              Are you sure you want to delete this extraction and all its associated data?
+            </p>
+            <div className="flex gap-3">
+              <Button
+                variant="outline"
+                size="sm"
+                className="flex-1"
+                onClick={() => setDeleteConfirmId(null)}
+              >
+                Cancel
+              </Button>
+              <Button
+                variant="destructive"
+                size="sm"
+                className="flex-1"
+                onClick={() => deleteExtraction(deleteConfirmId)}
+              >
+                Delete
+              </Button>
+            </div>
+          </motion.div>
+        </motion.div>
       )}
     </AnimatePresence>
   )

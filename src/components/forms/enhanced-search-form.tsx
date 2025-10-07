@@ -16,10 +16,9 @@ import { cn } from '@/lib/utils'
 const formSchema = z.object({
   category: z.string().min(1, 'Category is required'),
   location: z.string().min(1, 'Location is required'),
-  ratingFilter: z.object({
-    type: z.enum(['min', 'max']),
-    value: z.number().min(1).max(5)
-  }),
+  minRating: z.number().min(1).max(5).optional(),
+  maxRating: z.number().min(1).max(5).optional(),
+  maxReviewsPerBusiness: z.number().min(1).max(20).default(5),
   maxStars: z.number().min(1).max(5),
   dayLimit: z.number().min(1),
   businessLimit: z.number().min(1),
@@ -111,13 +110,11 @@ const countries = [
   { label: 'Netherlands 🇳🇱', value: 'nl', language: 'nl', defaultLocation: 'Netherlands' },
   { label: 'Germany 🇩🇪', value: 'de', language: 'de', defaultLocation: 'Deutschland' },
   { label: 'Switzerland 🇨🇭', value: 'ch', language: 'de', defaultLocation: 'Schweiz' },
-  { label: 'Norway 🇳🇴', value: 'no', language: 'no', defaultLocation: 'Norge' },
   { label: 'Belgium 🇧🇪', value: 'be', language: 'nl', defaultLocation: 'België' },
   { label: 'Austria 🇦🇹', value: 'at', language: 'de', defaultLocation: 'Österreich' },
-  { label: 'France 🇫🇷', value: 'fr', language: 'fr', defaultLocation: 'France' },
-  { label: 'Denmark 🇩🇰', value: 'dk', language: 'da', defaultLocation: 'Danmark' },
-  { label: 'Sweden 🇸🇪', value: 'se', language: 'sv', defaultLocation: 'Sverige' },
-  { label: 'Finland 🇫🇮', value: 'fi', language: 'fi', defaultLocation: 'Suomi' },
+  { label: 'Spain 🇪🇸', value: 'es', language: 'es', defaultLocation: 'España' },
+  { label: 'Slovenia 🇸🇮', value: 'si', language: 'sl', defaultLocation: 'Slovenija' },
+  { label: 'Croatia 🇭🇷', value: 'hr', language: 'hr', defaultLocation: 'Hrvatska' },
 ]
 
 export function EnhancedSearchForm({ onSearch, isExtracting }: SearchFormProps) {
@@ -135,10 +132,9 @@ export function EnhancedSearchForm({ onSearch, isExtracting }: SearchFormProps) 
     defaultValues: {
       category: 'tandarts',
       location: 'Netherlands',
-      ratingFilter: {
-        type: 'max',
-        value: 4.6
-      },
+      minRating: undefined,
+      maxRating: 4.6,
+      maxReviewsPerBusiness: 5,
       maxStars: 3,
       dayLimit: 14,
       businessLimit: 5,      // Optimized default - 5 businesses × 5 reviews = 25 total calls
@@ -161,9 +157,9 @@ export function EnhancedSearchForm({ onSearch, isExtracting }: SearchFormProps) 
       ...data,
       category: data.category === 'custom' ? customCategory : data.category,
       location: locationValue || data.location,
-      // Convert ratingFilter back to expected API format
-      maxRating: data.ratingFilter.type === 'max' ? data.ratingFilter.value : 5,
-      minRating: data.ratingFilter.type === 'min' ? data.ratingFilter.value : 1,
+      // Clean undefined values for API
+      minRating: data.minRating || undefined,
+      maxRating: data.maxRating || undefined,
     };
     onSearch(finalData);
   };
@@ -185,7 +181,7 @@ export function EnhancedSearchForm({ onSearch, isExtracting }: SearchFormProps) 
   }
 
   const selectedCategory = businessCategories.find(cat => cat.id === form.watch('category'))
-  const estimatedCalls = form.watch('businessLimit') * 5
+  const estimatedCalls = form.watch('businessLimit') * form.watch('maxReviewsPerBusiness')
   const estimatedCost = estimatedCalls * 0.001
 
   return (
@@ -324,37 +320,32 @@ export function EnhancedSearchForm({ onSearch, isExtracting }: SearchFormProps) 
                 {/* Summary Card - Stacked Below Form Fields */}
                 <Card className="p-3 bg-white/5 backdrop-blur-sm border border-white/10 w-fit max-w-md">
                   <div className="space-y-3">
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-1 text-xs text-foreground flex-wrap">
                       {(() => {
                         const selectedCategory = businessCategories.find(cat => cat.id === form.watch('category'))
-                        return (
-                          <>
-                            <span className="text-lg">{selectedCategory?.icon || '🔍'}</span>
-                            <div className="text-sm font-medium text-foreground">
-                              {selectedCategory?.label || 'Select Category'}
-                            </div>
-                          </>
-                        )
-                      })()}
-                    </div>
+                        const country = countries.find(c => c.value === form.watch('countryCode'))
+                        const location = locationValue || form.watch('location')
+                        const targetLocation = location !== country?.defaultLocation ? location : country?.flag || '🌍'
 
-                    <div className="space-y-2 text-xs text-muted-foreground">
-                      <div className="flex justify-between">
-                        <span>API calls:</span>
-                        <span className="font-medium">{estimatedCalls}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span>Est. cost:</span>
-                        <span className="font-medium">${estimatedCost.toFixed(3)}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span>Businesses:</span>
-                        <span className="font-medium">{form.watch('businessLimit')}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span>Reviews each:</span>
-                        <span className="font-medium">5</span>
-                      </div>
+                        const parts = [
+                          `${selectedCategory?.icon || '🔍'} ${selectedCategory?.label || 'Select Category'}`,
+                          `Target: ${targetLocation}`,
+                          `Min rating: ${form.watch('minRating') ? `≥${form.watch('minRating')}⭐` : 'Any'}`,
+                          `Max rating: ${form.watch('maxRating') ? `≤${form.watch('maxRating')}⭐` : 'Any'}`,
+                          `Review stars: ≤${form.watch('maxStars')}⭐`,
+                          `Timeframe: ${form.watch('dayLimit')} days`,
+                          `API calls: ${estimatedCalls}`
+                        ]
+
+                        return parts.map((part, index) => (
+                          <span key={index} className="inline-flex items-center">
+                            {part}
+                            {index < parts.length - 1 && (
+                              <span className="mx-2 text-muted-foreground">|</span>
+                            )}
+                          </span>
+                        ))
+                      })()}
                     </div>
                   </div>
                 </Card>
@@ -402,62 +393,79 @@ export function EnhancedSearchForm({ onSearch, isExtracting }: SearchFormProps) 
                     )}
                   />
 
-                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-                    {/* Rating Filter (Min/Max Toggle) */}
+                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-7 gap-4">
+                    {/* Min Rating */}
                     <FormField
                       control={form.control}
-                      name="ratingFilter"
+                      name="minRating"
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel className="flex items-center gap-1 text-xs font-medium">
                             <Star className="h-3 w-3" />
-                            Rating Filter
+                            Min Rating
                           </FormLabel>
-                          <div className="space-y-2">
-                            {/* Toggle buttons */}
-                            <div className="flex rounded-lg bg-white/5 p-1">
-                              <button
-                                type="button"
-                                onClick={() => field.onChange({ ...field.value, type: 'min' })}
-                                className={cn(
-                                  "flex-1 px-2 py-1 text-xs rounded transition-all",
-                                  field.value?.type === 'min'
-                                    ? "bg-primary text-primary-foreground"
-                                    : "text-muted-foreground hover:text-foreground"
-                                )}
-                              >
-                                Min
-                              </button>
-                              <button
-                                type="button"
-                                onClick={() => field.onChange({ ...field.value, type: 'max' })}
-                                className={cn(
-                                  "flex-1 px-2 py-1 text-xs rounded transition-all",
-                                  field.value?.type === 'max'
-                                    ? "bg-primary text-primary-foreground"
-                                    : "text-muted-foreground hover:text-foreground"
-                                )}
-                              >
-                                Max
-                              </button>
-                            </div>
-                            {/* Value input */}
-                            <FormControl>
-                              <Input
-                                type="number"
-                                min="1"
-                                max="5"
-                                step="0.1"
-                                value={field.value?.value || ''}
-                                onChange={(e) => field.onChange({
-                                  ...field.value,
-                                  value: parseFloat(e.target.value) || 1
-                                })}
-                                className="h-9 bg-white/10 backdrop-blur-sm border border-white/20 text-sm"
-                                placeholder={field.value?.type === 'min' ? 'Min rating' : 'Max rating'}
-                              />
-                            </FormControl>
-                          </div>
+                          <FormControl>
+                            <Input
+                              type="number"
+                              min="1"
+                              max="5"
+                              step="0.1"
+                              value={field.value || ''}
+                              onChange={(e) => field.onChange(parseFloat(e.target.value) || undefined)}
+                              className="h-9 bg-white/10 backdrop-blur-sm border border-white/20 text-sm"
+                              placeholder="e.g. 3.5"
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    {/* Max Rating */}
+                    <FormField
+                      control={form.control}
+                      name="maxRating"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="flex items-center gap-1 text-xs font-medium">
+                            <Star className="h-3 w-3" />
+                            Max Rating
+                          </FormLabel>
+                          <FormControl>
+                            <Input
+                              type="number"
+                              min="1"
+                              max="5"
+                              step="0.1"
+                              value={field.value || ''}
+                              onChange={(e) => field.onChange(parseFloat(e.target.value) || undefined)}
+                              className="h-9 bg-white/10 backdrop-blur-sm border border-white/20 text-sm"
+                              placeholder="e.g. 4.5"
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    {/* Max Reviews Per Business */}
+                    <FormField
+                      control={form.control}
+                      name="maxReviewsPerBusiness"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-xs font-medium">Reviews to Check</FormLabel>
+                          <FormControl>
+                            <Input
+                              type="number"
+                              min="1"
+                              max="20"
+                              value={field.value || ''}
+                              onChange={(e) => field.onChange(parseInt(e.target.value) || 5)}
+                              className="h-9 bg-white/10 backdrop-blur-sm border border-white/20 text-sm"
+                              placeholder="5"
+                            />
+                          </FormControl>
                           <FormMessage />
                         </FormItem>
                       )}

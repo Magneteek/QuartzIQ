@@ -78,6 +78,8 @@ export async function POST(request: NextRequest) {
           const phoneCount = enrichedBusinesses.filter(b => b.phone).length
           const websiteCount = enrichedBusinesses.filter(b => b.website).length
           const emailCount = enrichedBusinesses.filter(b => b.email).length
+          const ownerContactCount = enrichedBusinesses.filter((b: any) => b.ownerFirstName || b.ownerLastName || b.ownerEmail).length
+          const managementContactCount = enrichedBusinesses.filter((b: any) => b.managementTeam && b.managementTeam.length > 0).length
 
           sendUpdate('progress', {
             progress: 90,
@@ -86,7 +88,7 @@ export async function POST(request: NextRequest) {
           })
 
           // Check if enrichment was actually successful
-          const hasAnyResults = phoneCount > 0 || websiteCount > 0 || emailCount > 0
+          const hasAnyResults = phoneCount > 0 || websiteCount > 0 || emailCount > 0 || ownerContactCount > 0 || managementContactCount > 0
 
           // Send the final results with proper status
           sendUpdate('result', {
@@ -97,6 +99,8 @@ export async function POST(request: NextRequest) {
               phoneNumbers: phoneCount,
               websites: websiteCount,
               emails: emailCount,
+              ownerContacts: ownerContactCount,
+              managementContacts: managementContactCount,
               enrichmentDate: new Date(),
               success: hasAnyResults,
               message: hasAnyResults
@@ -117,7 +121,9 @@ export async function POST(request: NextRequest) {
                   enrichedBusinesses: enrichedCount,
                   phoneNumbers: phoneCount,
                   websites: websiteCount,
-                  emails: emailCount
+                  emails: emailCount,
+                  ownerContacts: ownerContactCount,
+                  managementContacts: managementContactCount
                 }
               )
               console.log(`✅ Enrichment data saved to history successfully`)
@@ -132,7 +138,7 @@ export async function POST(request: NextRequest) {
           sendUpdate('progress', {
             progress: 100,
             step: hasAnyResults
-              ? `Contact enrichment completed! Found ${phoneCount} phones, ${websiteCount} websites, ${emailCount} emails`
+              ? `Contact enrichment completed! Found ${phoneCount} phones, ${websiteCount} websites, ${emailCount} emails, ${ownerContactCount} owners`
               : 'Contact enrichment completed - No contacts found (API quota may be exceeded)',
             businessesTotal: businesses.length
           })
