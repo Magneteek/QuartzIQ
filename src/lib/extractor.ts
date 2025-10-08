@@ -9,14 +9,11 @@ import * as https from 'https'
 interface SearchCriteria {
   category: string
   location: string
-  minRating?: number
-  maxRating?: number
-  maxReviewsPerBusiness?: number
-  maxStars?: number
-  dayLimit?: number
-  businessLimit?: number
-  minReviews?: number
-  minTextLength?: number
+  minRating?: number // Business overall rating filter (user-controlled)
+  maxReviewsPerBusiness?: number // Max reviews to check per business
+  maxStars?: number // Review star rating filter
+  dayLimit?: number // Review age limit in days
+  businessLimit?: number // Max businesses to crawl
   language?: string
   maxQueries?: number
   resultsPerQuery?: number
@@ -91,23 +88,17 @@ export class UniversalBusinessReviewExtractor {
       console.log(`\n🔍 STEP 2: Extracting Reviews`)
       console.log(`=============================`)
 
-      // Filter businesses based on user's rating criteria and minimum review count
+      // Filter businesses based on user's rating criteria only
       const targetBusinesses = businesses
         .filter(business => {
-          // Must have a rating and minimum reviews
-          if (!business.totalScore || business.reviewsCount <= (searchCriteria.minReviews || 10)) {
+          // Must have a rating
+          if (!business.totalScore) {
             return false
           }
 
-          // Apply min/max rating filters if specified
+          // Apply minimum rating filter if specified
           const minRating = searchCriteria.minRating
-          const maxRating = searchCriteria.maxRating
-
           if (minRating !== undefined && business.totalScore < minRating) {
-            return false
-          }
-
-          if (maxRating !== undefined && business.totalScore > maxRating) {
             return false
           }
 
@@ -184,10 +175,12 @@ export class UniversalBusinessReviewExtractor {
 
     for (const query of validatedQueries) {
       try {
-        console.log(`   Searching: "${query}"`)
+        // Calculate results per query based on businessLimit to maximize coverage
+        const resultsPerQuery = Math.ceil((searchCriteria.businessLimit || 50) / 4) // Divide by 4 queries
+        console.log(`   Searching: "${query}" (requesting ${resultsPerQuery} results)`)
         const businesses = await this.searchGoogleMaps(
           query,
-          searchCriteria.resultsPerQuery || 5,
+          resultsPerQuery,
           searchCriteria.countryCode || 'nl',
           searchCriteria.language || 'nl'
         )
@@ -583,7 +576,9 @@ export class UniversalBusinessReviewExtractor {
     // Sort by date first (newest first) to prioritize recent reviews
     const sorted = reviews.sort((a, b) => new Date(b.publishedAtDate).getTime() - new Date(a.publishedAtDate).getTime())
 
-    // For lead generation: find the FIRST qualifying review and stop
+    // Return ALL qualifying reviews from all businesses (not just first one)
+    const qualifyingReviews: Review[] = []
+
     for (const review of sorted) {
       // Check rating criteria
       if (criteria.maxStars && review.stars > criteria.maxStars) {
@@ -599,13 +594,11 @@ export class UniversalBusinessReviewExtractor {
         }
       }
 
-      // Found a qualifying review - return it immediately (lead generation)
-      // No text length requirement - any review matching timeframe + stars qualifies
-      return [review]
+      // This review qualifies - add it to results
+      qualifyingReviews.push(review)
     }
 
-    // No qualifying reviews found
-    return []
+    return qualifyingReviews
   }
 
   private generateStandardizedReport(reviews: Review[], businesses: Business[], criteria: SearchCriteria): void {

@@ -37,15 +37,11 @@ export async function POST(request: NextRequest) {
           // Run the real extraction
           const results = await extractor.extractBusinessReviews({
             ...searchCriteria,
-            // Ensure we have sensible defaults for the search
-            maxRating: searchCriteria.maxRating || 4.6,
+            // Simplified filter defaults - only user-controlled filters
             maxStars: searchCriteria.maxStars || 3,
             dayLimit: searchCriteria.dayLimit || 14,
-            businessLimit: searchCriteria.businessLimit || 5,
-            reviewLimit: searchCriteria.reviewLimit || 10,
-            minReviews: searchCriteria.minReviews || 10,
-            maxReviewsPerBusiness: searchCriteria.maxReviewsPerBusiness || 50,
-            minTextLength: searchCriteria.minTextLength || 20,
+            businessLimit: searchCriteria.businessLimit || 50,
+            maxReviewsPerBusiness: searchCriteria.maxReviewsPerBusiness || 1, // Only need 1 review per business for lead qualification
             language: searchCriteria.language || 'nl',
             countryCode: searchCriteria.countryCode || 'nl'
           })

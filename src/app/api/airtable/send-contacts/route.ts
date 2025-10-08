@@ -1,11 +1,74 @@
 import { NextRequest, NextResponse } from 'next/server'
 
+// Map common search terms to Airtable category values
+function mapToAirtableCategory(businessName: string, searchTerm?: string): string | undefined {
+  const nameAndSearch = `${businessName} ${searchTerm || ''}`.toLowerCase()
+
+  // Dental practices
+  if (nameAndSearch.includes('tandarts') || nameAndSearch.includes('dental') ||
+      nameAndSearch.includes('orthodont') || nameAndSearch.includes('mondzorg')) {
+    return 'Dental'
+  }
+
+  // Car dealers (matches "Car dealer" in Airtable)
+  if (nameAndSearch.includes('auto') || nameAndSearch.includes('car dealer') ||
+      nameAndSearch.includes('autobedrijf') || nameAndSearch.includes('garage') ||
+      nameAndSearch.includes('car ')) {
+    return 'Car dealer'
+  }
+
+  // Real estate (matches "Real estate agency" in Airtable)
+  if (nameAndSearch.includes('makelaar') || nameAndSearch.includes('real estate') ||
+      nameAndSearch.includes('vastgoed') || nameAndSearch.includes('makelaardij')) {
+    return 'Real estate agency'
+  }
+
+  // Legal services (matches "Legal services" or "Lawyers" in Airtable)
+  if (nameAndSearch.includes('advocat') || nameAndSearch.includes('lawyer') ||
+      nameAndSearch.includes('legal') || nameAndSearch.includes('advocaten')) {
+    return 'Lawyers'
+  }
+
+  // Insurance (matches "Insurance broker" or "Insurance Agency" in Airtable)
+  if (nameAndSearch.includes('verzeker') || nameAndSearch.includes('insurance') ||
+      nameAndSearch.includes('assurantie')) {
+    return 'Insurance Agency'
+  }
+
+  // Medical & Cosmetic
+  if (nameAndSearch.includes('clinic') || nameAndSearch.includes('medical') ||
+      nameAndSearch.includes('cosmetic') || nameAndSearch.includes('beauty')) {
+    return 'Medical & Cosmetic'
+  }
+
+  // Wellness & Lifestyle
+  if (nameAndSearch.includes('wellness') || nameAndSearch.includes('spa') ||
+      nameAndSearch.includes('fitness') || nameAndSearch.includes('lifestyle')) {
+    return 'Wellness & Lifestyle'
+  }
+
+  // Luxury Retail
+  if (nameAndSearch.includes('jewel') || nameAndSearch.includes('luxury') ||
+      nameAndSearch.includes('juwel')) {
+    return 'Luxury Retail & Jewelers'
+  }
+
+  // Financial & Business
+  if (nameAndSearch.includes('bank') || nameAndSearch.includes('financial') ||
+      nameAndSearch.includes('accountant') || nameAndSearch.includes('business')) {
+    return 'Financial & Business'
+  }
+
+  return undefined // Leave blank if can't determine
+}
+
 interface Contact {
   name: string
   address: string
   phone?: string
   email?: string
   website?: string
+  url?: string  // Google Maps URL
   source: string
   // Owner/Management Information
   ownerFirstName?: string
@@ -19,6 +82,11 @@ interface Contact {
     title: string
     email?: string
   }>
+  // Review Information
+  reviewUrl?: string
+  reviewStars?: number
+  reviewDate?: string
+  reviewText?: string
 }
 
 interface SendContactsRequest {
@@ -38,7 +106,15 @@ export async function POST(request: NextRequest) {
       airtableTableName = process.env.AIRTABLE_TABLE_NAME || 'Leads'
     } = body
 
+    console.log('📥 Airtable API request received')
+    console.log('📊 Request body keys:', Object.keys(body))
+    console.log('📋 Contacts count:', contacts?.length || 0)
+    console.log('🔑 Has API Key:', !!airtableApiKey)
+    console.log('🆔 Has Base ID:', !!airtableBaseId)
+    console.log('📁 Table Name:', airtableTableName)
+
     if (!contacts || contacts.length === 0) {
+      console.error('❌ Error: No contacts provided')
       return NextResponse.json(
         { error: 'No contacts provided' },
         { status: 400 }
@@ -46,6 +122,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (!airtableApiKey) {
+      console.error('❌ Error: Airtable API key not configured')
       return NextResponse.json(
         { error: 'Airtable API key not configured. Set AIRTABLE_API_KEY environment variable or provide in request.' },
         { status: 400 }
@@ -53,6 +130,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (!airtableBaseId) {
+      console.error('❌ Error: Airtable Base ID not configured')
       return NextResponse.json(
         { error: 'Airtable Base ID not configured. Set AIRTABLE_BASE_ID environment variable or provide in request.' },
         { status: 400 }
@@ -73,29 +151,59 @@ export async function POST(request: NextRequest) {
 
     for (const batch of batches) {
       try {
-        // Prepare records for Airtable
-        const records = batch.map(contact => ({
-          fields: {
+        // Prepare records for Airtable with complete field mapping
+        const records = batch.map(contact => {
+          const fields: Record<string, any> = {
             'Business Name': contact.name,
-            'Address': contact.address || '',
-            'Phone': contact.phone || '',
-            'Email': contact.email || '',
-            'Website': contact.website || '',
-            'Source': contact.source,
-            'Date Added': new Date().toISOString(),
-            'Status': 'New Lead',
-            // Owner Information (if available)
-            'Owner First Name': contact.ownerFirstName || '',
-            'Owner Last Name': contact.ownerLastName || '',
-            'Owner Title': contact.ownerTitle || '',
-            'Owner Email': contact.ownerEmail || '',
-            'Owner Email Generated': contact.ownerEmailGenerated ? 'Yes' : 'No',
-            // Management Team (as JSON string for now)
-            'Management Team': contact.managementTeam && contact.managementTeam.length > 0
-              ? JSON.stringify(contact.managementTeam)
-              : ''
+            'Import Status': 'Waiting for enrichment',
+            'Import Date': new Date().toISOString().split('T')[0], // YYYY-MM-DD format
           }
-        }))
+
+          // Auto-detect Category from business name
+          const category = mapToAirtableCategory(contact.name, contact.source)
+          if (category) fields['Category'] = category
+
+          // Owner/Contact Information
+          if (contact.ownerFirstName) fields['First Name'] = contact.ownerFirstName
+          if (contact.ownerLastName) fields['Last Name'] = contact.ownerLastName
+
+          // Email - prioritize owner email, fallback to business email
+          const emailToUse = contact.ownerEmail || contact.email
+          if (emailToUse) fields['Email'] = emailToUse
+
+          // Contact Details
+          if (contact.phone) fields['Phone'] = contact.phone
+          if (contact.website) fields['Website'] = contact.website
+          if (contact.url) fields['Google Profile'] = contact.url
+          if (contact.address) fields['Location'] = contact.address
+
+          // Auto-detect Country from address
+          if (contact.address) {
+            const addressLower = contact.address.toLowerCase()
+            if (addressLower.includes('nederland') || addressLower.includes('netherlands') || addressLower.includes('nl')) {
+              fields['Country'] = 'Netherlands'
+            } else if (addressLower.includes('belgi') || addressLower.includes('belgium')) {
+              fields['Country'] = 'Belgium'
+            }
+          }
+
+          // Review Information
+          if (contact.reviewUrl) fields['Link to the negative review(s)'] = contact.reviewUrl
+          if (contact.reviewStars !== undefined) fields['Stars'] = contact.reviewStars.toString()
+          if (contact.reviewDate) {
+            // Airtable expects ISO 8601 format (YYYY-MM-DD)
+            const date = new Date(contact.reviewDate)
+            const year = date.getFullYear()
+            const month = String(date.getMonth() + 1).padStart(2, '0')
+            const day = String(date.getDate()).padStart(2, '0')
+            fields['Review Date'] = `${year}-${month}-${day}`
+          }
+          if (contact.reviewText) fields['Review Content'] = contact.reviewText
+
+          return { fields }
+        })
+
+        console.log('📦 Sending records to Airtable:', JSON.stringify(records, null, 2))
 
         // Make API call to Airtable
         const response = await fetch(
@@ -112,8 +220,12 @@ export async function POST(request: NextRequest) {
 
         const responseData = await response.json()
 
+        console.log('📊 Airtable API Response Status:', response.status)
+        console.log('📊 Airtable API Response Data:', JSON.stringify(responseData, null, 2))
+
         if (response.ok && responseData.records) {
           // Airtable returns created records
+          console.log('✅ Successfully created records:', responseData.records.length)
           responseData.records.forEach((record: any, index: number) => {
             results.push({
               contact: batch[index].name,
@@ -124,6 +236,7 @@ export async function POST(request: NextRequest) {
           })
         } else {
           // Handle errors
+          console.error('❌ Airtable API Error:', responseData.error)
           batch.forEach(contact => {
             errors.push({
               contact: contact.name,

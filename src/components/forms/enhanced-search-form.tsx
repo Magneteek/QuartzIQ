@@ -17,12 +17,9 @@ const formSchema = z.object({
   category: z.string().min(1, 'Category is required'),
   location: z.string().min(1, 'Location is required'),
   minRating: z.number().min(1).max(5).optional(),
-  maxRating: z.number().min(1).max(5).optional(),
-  maxReviewsPerBusiness: z.number().min(1).max(20).default(5),
   maxStars: z.number().min(1).max(5),
   dayLimit: z.number().min(1),
-  businessLimit: z.number().min(1),
-  minReviews: z.number().min(1),
+  businessLimit: z.number().min(1), // No upper limit - user can set as high as needed
   language: z.string(),
   countryCode: z.string(),
 })
@@ -132,13 +129,10 @@ export function EnhancedSearchForm({ onSearch, isExtracting }: SearchFormProps) 
     defaultValues: {
       category: 'tandarts',
       location: 'Netherlands',
-      minRating: undefined,
-      maxRating: 4.6,
-      maxReviewsPerBusiness: 5,
-      maxStars: 3,
-      dayLimit: 14,
-      businessLimit: 5,      // Optimized default - 5 businesses × 5 reviews = 25 total calls
-      minReviews: 10,
+      minRating: 3.5,        // Default: filter out businesses with poor overall ratings
+      maxStars: 3,           // Default: capture only negative reviews (3 stars or lower)
+      dayLimit: 14,          // Default: last 14 days
+      businessLimit: 50,     // Safeguard: stop after 50 businesses crawled
       language: 'nl',
       countryCode: 'nl',
     },
@@ -159,7 +153,6 @@ export function EnhancedSearchForm({ onSearch, isExtracting }: SearchFormProps) 
       location: locationValue || data.location,
       // Clean undefined values for API
       minRating: data.minRating || undefined,
-      maxRating: data.maxRating || undefined,
     };
     onSearch(finalData);
   };
@@ -181,8 +174,6 @@ export function EnhancedSearchForm({ onSearch, isExtracting }: SearchFormProps) 
   }
 
   const selectedCategory = businessCategories.find(cat => cat.id === form.watch('category'))
-  const estimatedCalls = form.watch('businessLimit') * form.watch('maxReviewsPerBusiness')
-  const estimatedCost = estimatedCalls * 0.001
 
   return (
     <div className="space-y-4">
@@ -330,11 +321,10 @@ export function EnhancedSearchForm({ onSearch, isExtracting }: SearchFormProps) 
                         const parts = [
                           `${selectedCategory?.icon || '🔍'} ${selectedCategory?.label || 'Select Category'}`,
                           `Target: ${targetLocation}`,
-                          `Min rating: ${form.watch('minRating') ? `≥${form.watch('minRating')}⭐` : 'Any'}`,
-                          `Max rating: ${form.watch('maxRating') ? `≤${form.watch('maxRating')}⭐` : 'Any'}`,
+                          `Business score: ${form.watch('minRating') ? `≥${form.watch('minRating')}⭐` : 'Any'}`,
                           `Review stars: ≤${form.watch('maxStars')}⭐`,
                           `Timeframe: ${form.watch('dayLimit')} days`,
-                          `API calls: ${estimatedCalls}`
+                          `Max businesses: ${form.watch('businessLimit')}`
                         ]
 
                         return parts.map((part, index) => (
@@ -393,16 +383,16 @@ export function EnhancedSearchForm({ onSearch, isExtracting }: SearchFormProps) 
                     )}
                   />
 
-                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-7 gap-4">
-                    {/* Min Rating */}
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    {/* Min Business Score */}
                     <FormField
                       control={form.control}
                       name="minRating"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="flex items-center gap-1 text-xs font-medium">
-                            <Star className="h-3 w-3" />
-                            Min Rating
+                          <FormLabel className="flex items-center gap-1 text-sm font-medium">
+                            <Star className="h-4 w-4" />
+                            Min Business Score
                           </FormLabel>
                           <FormControl>
                             <Input
@@ -412,60 +402,13 @@ export function EnhancedSearchForm({ onSearch, isExtracting }: SearchFormProps) 
                               step="0.1"
                               value={field.value || ''}
                               onChange={(e) => field.onChange(parseFloat(e.target.value) || undefined)}
-                              className="h-9 bg-white/10 backdrop-blur-sm border border-white/20 text-sm"
+                              className="h-11 bg-white/10 backdrop-blur-sm border border-white/20"
                               placeholder="e.g. 3.5"
                             />
                           </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-
-                    {/* Max Rating */}
-                    <FormField
-                      control={form.control}
-                      name="maxRating"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className="flex items-center gap-1 text-xs font-medium">
-                            <Star className="h-3 w-3" />
-                            Max Rating
-                          </FormLabel>
-                          <FormControl>
-                            <Input
-                              type="number"
-                              min="1"
-                              max="5"
-                              step="0.1"
-                              value={field.value || ''}
-                              onChange={(e) => field.onChange(parseFloat(e.target.value) || undefined)}
-                              className="h-9 bg-white/10 backdrop-blur-sm border border-white/20 text-sm"
-                              placeholder="e.g. 4.5"
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-
-                    {/* Max Reviews Per Business */}
-                    <FormField
-                      control={form.control}
-                      name="maxReviewsPerBusiness"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className="text-xs font-medium">Reviews to Check</FormLabel>
-                          <FormControl>
-                            <Input
-                              type="number"
-                              min="1"
-                              max="20"
-                              value={field.value || ''}
-                              onChange={(e) => field.onChange(parseInt(e.target.value) || 5)}
-                              className="h-9 bg-white/10 backdrop-blur-sm border border-white/20 text-sm"
-                              placeholder="5"
-                            />
-                          </FormControl>
+                          <FormDescription className="text-xs">
+                            Filter out businesses with poor overall ratings
+                          </FormDescription>
                           <FormMessage />
                         </FormItem>
                       )}
@@ -477,9 +420,9 @@ export function EnhancedSearchForm({ onSearch, isExtracting }: SearchFormProps) 
                       name="maxStars"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="flex items-center gap-1 text-xs font-medium">
-                            <Star className="h-3 w-3" />
-                            Max Stars
+                          <FormLabel className="flex items-center gap-1 text-sm font-medium">
+                            <Star className="h-4 w-4" />
+                            Max Review Stars
                           </FormLabel>
                           <FormControl>
                             <Input
@@ -488,9 +431,12 @@ export function EnhancedSearchForm({ onSearch, isExtracting }: SearchFormProps) 
                               max="5"
                               {...field}
                               onChange={(e) => field.onChange(parseInt(e.target.value))}
-                              className="h-9 bg-white/10 backdrop-blur-sm border border-white/20 text-sm"
+                              className="h-11 bg-white/10 backdrop-blur-sm border border-white/20"
                             />
                           </FormControl>
+                          <FormDescription className="text-xs">
+                            Capture only negative reviews (3 or lower)
+                          </FormDescription>
                           <FormMessage />
                         </FormItem>
                       )}
@@ -502,13 +448,13 @@ export function EnhancedSearchForm({ onSearch, isExtracting }: SearchFormProps) 
                       name="dayLimit"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="flex items-center gap-1 text-xs font-medium">
-                            <Calendar className="h-3 w-3" />
-                            Time Range
+                          <FormLabel className="flex items-center gap-1 text-sm font-medium">
+                            <Calendar className="h-4 w-4" />
+                            Review Age
                           </FormLabel>
                           <Select onValueChange={(value) => field.onChange(parseInt(value))} defaultValue={field.value.toString()}>
                             <FormControl>
-                              <SelectTrigger className="h-9 bg-white/10 backdrop-blur-sm border border-white/20 text-sm">
+                              <SelectTrigger className="h-11 bg-white/10 backdrop-blur-sm border border-white/20">
                                 <SelectValue />
                               </SelectTrigger>
                             </FormControl>
@@ -520,54 +466,41 @@ export function EnhancedSearchForm({ onSearch, isExtracting }: SearchFormProps) 
                               ))}
                             </SelectContent>
                           </Select>
+                          <FormDescription className="text-xs">
+                            How recent the reviews should be
+                          </FormDescription>
                           <FormMessage />
                         </FormItem>
                       )}
                     />
 
-                    {/* Business Limit */}
+                    {/* Max Businesses to Crawl */}
                     <FormField
                       control={form.control}
                       name="businessLimit"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="text-xs font-medium">Max Businesses</FormLabel>
+                          <FormLabel className="flex items-center gap-1 text-sm font-medium">
+                            <Building className="h-4 w-4" />
+                            Max Businesses
+                          </FormLabel>
                           <FormControl>
                             <Input
                               type="number"
+                              min="1"
+                              max="200"
                               {...field}
                               value={field.value || ''}
                               onChange={(e) => {
                                 const value = e.target.value
                                 field.onChange(value === '' ? undefined : parseInt(value) || 1)
                               }}
-                              className="h-9 bg-white/10 backdrop-blur-sm border border-white/20 text-sm"
+                              className="h-11 bg-white/10 backdrop-blur-sm border border-white/20"
                             />
                           </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-
-                    {/* Min Reviews */}
-                    <FormField
-                      control={form.control}
-                      name="minReviews"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className="text-xs font-medium">Min Reviews</FormLabel>
-                          <FormControl>
-                            <Input
-                              type="number"
-                              {...field}
-                              value={field.value || ''}
-                              onChange={(e) => {
-                                const value = e.target.value
-                                field.onChange(value === '' ? undefined : parseInt(value) || 0)
-                              }}
-                              className="h-9 bg-white/10 backdrop-blur-sm border border-white/20 text-sm"
-                            />
-                          </FormControl>
+                          <FormDescription className="text-xs">
+                            Safeguard to stop crawl (default: 50)
+                          </FormDescription>
                           <FormMessage />
                         </FormItem>
                       )}

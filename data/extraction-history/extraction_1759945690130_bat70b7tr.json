@@ -1,0 +1,2066 @@
+{
+  "id": "extraction_1759945690130_bat70b7tr",
+  "timestamp": "2025-10-08T17:48:10.130Z",
+  "searchCriteria": {
+    "category": "spa",
+    "location": "Netherlands",
+    "minRating": 3.4,
+    "maxStars": 3,
+    "dayLimit": 14,
+    "businessLimit": 200,
+    "language": "nl",
+    "countryCode": "nl"
+  },
+  "results": {
+    "businesses": [
+      {
+        "title": "Vitae Wellnessresort Roosendaal",
+        "price": null,
+        "categoryName": "Wellnesscentrum",
+        "address": "De Stok 6, 4703 SZ Roosendaal, Nederland",
+        "neighborhood": "West",
+        "street": "De Stok 6",
+        "city": "Roosendaal",
+        "postalCode": "4703 SZ",
+        "state": null,
+        "countryCode": "NL",
+        "website": "https://wellnessresortroosendaal.nl/",
+        "phone": "+31 165 870 262",
+        "phoneUnformatted": "+31165870262",
+        "claimThisBusiness": false,
+        "location": {
+          "lat": 51.5365702,
+          "lng": 4.4337961
+        },
+        "totalScore": 4.4,
+        "permanentlyClosed": false,
+        "temporarilyClosed": false,
+        "placeId": "ChIJe2_GFJYWxEcRESuTwJVQPgc",
+        "categories": [
+          "Wellnesscentrum",
+          "Dagspa",
+          "Sauna"
+        ],
+        "fid": "0x47c4169614c66f7b:0x73e5095c0932b11",
+        "cid": "521943210932775697",
+        "reviewsCount": 672,
+        "imagesCount": 43,
+        "imageCategories": [],
+        "scrapedAt": "2025-10-08T17:44:42.722Z",
+        "googleFoodUrl": null,
+        "hotelAds": [],
+        "openingHours": [
+          {
+            "day": "woensdag",
+            "hours": "10:30 to 22:00"
+          },
+          {
+            "day": "donderdag",
+            "hours": "10:30 to 22:00"
+          },
+          {
+            "day": "vrijdag",
+            "hours": "10:30 to 22:00"
+          },
+          {
+            "day": "zaterdag",
+            "hours": "10:30 to 22:00"
+          },
+          {
+            "day": "zondag",
+            "hours": "10:30 to 22:00"
+          },
+          {
+            "day": "maandag",
+            "hours": "10:30 to 22:00"
+          },
+          {
+            "day": "dinsdag",
+            "hours": "10:30 to 22:00"
+          }
+        ],
+        "peopleAlsoSearch": [],
+        "placesTags": [],
+        "reviewsTags": [],
+        "additionalInfo": {
+          "Toegankelijkheid": [
+            {
+              "Rolstoeltoegankelijke ingang": true
+            },
+            {
+              "Rolstoeltoegankelijke parking": true
+            },
+            {
+              "Ondersteunende ringleiding": false
+            },
+            {
+              "Rolstoeltoegankelijke zitplaatsen": false
+            }
+          ],
+          "Aanbod": [
+            {
+              "Sauna": true
+            }
+          ],
+          "Voorzieningen": [
+            {
+              "Restaurants": true
+            }
+          ],
+          "Betalen": [
+            {
+              "Contactloos mobiel betalen": true
+            },
+            {
+              "Creditcards": true
+            },
+            {
+              "Pinpassen": true
+            }
+          ]
+        },
+        "gasPrices": [],
+        "url": "https://www.google.com/maps/search/?api=1&query=Vitae%20Wellnessresort%20Roosendaal&query_place_id=ChIJe2_GFJYWxEcRESuTwJVQPgc",
+        "searchPageUrl": "https://www.google.com/maps/search/spa%20Dutch/@51.43484051404653,4.6397275231164965,11z?hl=nl",
+        "searchString": "spa Dutch",
+        "language": "nl",
+        "rank": 1,
+        "isAdvertisement": false,
+        "imageUrl": "https://lh3.googleusercontent.com/p/AF1QipNaPCUbOZoWrKC0L6tB9Kned_97HdBkro-Kq5TX=w408-h408-k-no",
+        "kgmid": "/g/12j5swjmd",
+        "leadQuality": {
+          "score": 97,
+          "tier": "Platinum",
+          "tierColor": "text-purple-400",
+          "tierBg": "bg-purple-500/20 border-purple-500/30",
+          "factors": [
+            "Review Volume: 672 reviews (+30pts)",
+            "Rating: 4.4/5 (+22pts)",
+            "Recent Activity: 100% (+20pts)",
+            "Review Quality: 253 chars avg (+25pts)"
+          ],
+          "reviewCount": 672,
+          "rating": "4.4",
+          "recentActivityRate": 100,
+          "avgTextLength": 253
+        },
+        "reviewsForBusiness": [
+          {
+            "searchString": "Direct Detail URL: https://www.google.com/maps/search/?api=1&query=ChIJe2_GFJYWxEcRESuTwJVQPgc&query_place_id=ChIJe2_GFJYWxEcRESuTwJVQPgc",
+            "reviewerId": "111906678175106045208",
+            "reviewerUrl": "https://www.google.com/maps/contrib/111906678175106045208?hl=nl",
+            "name": "Hans Hendriks",
+            "reviewerNumberOfReviews": 12,
+            "isLocalGuide": true,
+            "reviewerPhotoUrl": "https://lh3.googleusercontent.com/a/ACg8ocLJ_DGGlPF9HPkESDt0TXwIlMT6zkKAGb-sC5yrJalzy-YM7A=s1920-c-rp-mo-ba2-br100",
+            "text": "de sauna's zijn prima. maar de smootys zijn niet lekker. wat is het probleem om vers fruit te gebruiken i.p.v. bevroren. bevroren banaan is zijn smaak helemaal kwijt. ook een milkshake wordt gemaakt met bevroren water i.p.v. melk. verder wel ontspannen.",
+            "textTranslated": null,
+            "publishAt": "4 dagen geleden",
+            "publishedAtDate": "2025-10-04T15:42:52.790Z",
+            "likesCount": 0,
+            "reviewId": "Ci9DQUlRQUNvZENodHljRjlvT25SamVsOTJaamhVZEU5NFR6ZzRhRVJuVDNKdFIxRRAB",
+            "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT25SamVsOTJaamhVZEU5NFR6ZzRhRVJuVDNKdFIxRRAB!2m1!1s0x0:0x73e5095c0932b11!3m1!1s2@1:CAIQACodChtycF9oOnRjel92ZjhUdE94Tzg4aERnT3JtR1E%7C0csJ0wj59Go%7C?hl=nl",
+            "reviewOrigin": "Google",
+            "stars": 3,
+            "rating": null,
+            "responseFromOwnerDate": "2025-10-04T19:27:05.000Z",
+            "responseFromOwnerText": "Beste Hans, hartelijk dank voor de review en wat vervelend om te horen dat onze smoothies niet aan de smaak vielen. Wij nemen uw feedback zeker mee en hopelijk mogen wij u in de toekomst nog een keer ontvangen! Met vriendelijke groet, Hanna",
+            "reviewImageUrls": [],
+            "reviewContext": {},
+            "reviewDetailedRating": {},
+            "visitedIn": null,
+            "originalLanguage": "nl",
+            "translatedLanguage": null,
+            "isAdvertisement": false,
+            "placeId": "ChIJe2_GFJYWxEcRESuTwJVQPgc",
+            "location": {
+              "lat": 51.5365702,
+              "lng": 4.4337961
+            },
+            "address": "De Stok 6, 4703 SZ Roosendaal, Nederland",
+            "neighborhood": "West",
+            "street": "De Stok 6",
+            "city": "Roosendaal",
+            "postalCode": "4703 SZ",
+            "state": null,
+            "countryCode": "NL",
+            "categoryName": "Wellnesscentrum",
+            "categories": [
+              "Wellnesscentrum",
+              "Dagspa",
+              "Sauna"
+            ],
+            "title": "Vitae Wellnessresort Roosendaal",
+            "totalScore": 4.4,
+            "permanentlyClosed": false,
+            "temporarilyClosed": false,
+            "reviewsCount": 672,
+            "url": "https://www.google.com/maps/search/?api=1&query=Vitae%20Wellnessresort%20Roosendaal&query_place_id=ChIJe2_GFJYWxEcRESuTwJVQPgc",
+            "price": null,
+            "cid": "521943210932775697",
+            "fid": "0x47c4169614c66f7b:0x73e5095c0932b11",
+            "imageUrl": "https://lh3.googleusercontent.com/p/AF1QipNaPCUbOZoWrKC0L6tB9Kned_97HdBkro-Kq5TX=w408-h408-k-no",
+            "scrapedAt": "2025-10-08T17:47:24.538Z",
+            "language": "nl"
+          }
+        ],
+        "email": "wellnessroosendaal@vitaewellnessresorts.nl",
+        "contactEnriched": true,
+        "enrichmentDate": "2025-10-08T17:50:26.900Z"
+      },
+      {
+        "title": "BLUE Wellnessboot Mill",
+        "price": null,
+        "categoryName": "Sauna",
+        "address": "Hoogveldseweg 1, 5451 AA Mill, Nederland",
+        "neighborhood": null,
+        "street": "Hoogveldseweg 1",
+        "city": "Mill",
+        "postalCode": "5451 AA",
+        "state": null,
+        "countryCode": "NL",
+        "website": "https://www.bluewellnessboot.nl/nl/?utm_campaign=blue-wellnessboot-mill_business-listening-maps&utm_medium=organic&utm_source=google-mijn-bedrijf",
+        "phone": "+31 347 754 760",
+        "phoneUnformatted": "+31347754760",
+        "claimThisBusiness": false,
+        "location": {
+          "lat": 51.6872815,
+          "lng": 5.7784149
+        },
+        "totalScore": 4.1,
+        "permanentlyClosed": false,
+        "temporarilyClosed": false,
+        "placeId": "ChIJUQA0QpYax0cRAmYRowe0vOI",
+        "categories": [
+          "Sauna",
+          "Gezichtsbehandelingsspa",
+          "Restaurant",
+          "Wellnesscentrum",
+          "Spa- en gezondheidsclub",
+          "Wellnesstuin"
+        ],
+        "fid": "0x47c71a9642340051:0xe2bcb407a3116602",
+        "cid": "16338131493086914050",
+        "reviewsCount": 2175,
+        "imagesCount": 758,
+        "imageCategories": [],
+        "scrapedAt": "2025-10-08T17:44:02.933Z",
+        "googleFoodUrl": null,
+        "hotelAds": [],
+        "openingHours": [
+          {
+            "day": "woensdag",
+            "hours": "10:00 to 22:30"
+          },
+          {
+            "day": "donderdag",
+            "hours": "10:00 to 22:30"
+          },
+          {
+            "day": "vrijdag",
+            "hours": "10:00 to 22:30"
+          },
+          {
+            "day": "zaterdag",
+            "hours": "10:00 to 22:30"
+          },
+          {
+            "day": "zondag",
+            "hours": "10:00 to 22:30"
+          },
+          {
+            "day": "maandag",
+            "hours": "10:00 to 22:30"
+          },
+          {
+            "day": "dinsdag",
+            "hours": "10:00 to 22:30"
+          }
+        ],
+        "peopleAlsoSearch": [],
+        "placesTags": [],
+        "reviewsTags": [],
+        "additionalInfo": {
+          "Toegankelijkheid": [
+            {
+              "Rolstoeltoegankelijk toilet": false
+            },
+            {
+              "Rolstoeltoegankelijke ingang": false
+            },
+            {
+              "Rolstoeltoegankelijke parking": false
+            },
+            {
+              "Rolstoeltoegankelijke zitplaatsen": false
+            }
+          ],
+          "Aanbod": [
+            {
+              "Sauna": true
+            }
+          ],
+          "Voorzieningen": [
+            {
+              "Restaurants": true
+            }
+          ],
+          "Betalen": [
+            {
+              "Contactloos mobiel betalen": true
+            },
+            {
+              "Creditcards": true
+            },
+            {
+              "Pinpassen": true
+            }
+          ],
+          "Kinderen": [
+            {
+              "Borstvoedingsruimte": true
+            }
+          ],
+          "Parkeren": [
+            {
+              "Gratis parkeergarage": true
+            },
+            {
+              "Gratis parkeerplaats": true
+            },
+            {
+              "Gratis parkeren op straat": true
+            }
+          ]
+        },
+        "gasPrices": [],
+        "url": "https://www.google.com/maps/search/?api=1&query=BLUE%20Wellnessboot%20Mill&query_place_id=ChIJUQA0QpYax0cRAmYRowe0vOI",
+        "searchPageUrl": "https://www.google.com/maps/search/spa%20Netherlands/@51.76006340842791,6.182034203767007,11z?hl=nl",
+        "searchString": "spa Netherlands",
+        "language": "nl",
+        "rank": 3,
+        "isAdvertisement": false,
+        "imageUrl": "https://lh3.googleusercontent.com/p/AF1QipM4V13QcTggJIF2X45uxcmiLOgAiwtmtBsbMTh8=w408-h274-k-no",
+        "kgmid": "/g/11h0qk88x",
+        "leadQuality": {
+          "score": 96,
+          "tier": "Platinum",
+          "tierColor": "text-purple-400",
+          "tierBg": "bg-purple-500/20 border-purple-500/30",
+          "factors": [
+            "Review Volume: 2175 reviews (+30pts)",
+            "Rating: 4.1/5 (+21pts)",
+            "Recent Activity: 100% (+20pts)",
+            "Review Quality: 689 chars avg (+25pts)"
+          ],
+          "reviewCount": 2175,
+          "rating": "4.1",
+          "recentActivityRate": 100,
+          "avgTextLength": 689
+        },
+        "reviewsForBusiness": [
+          {
+            "searchString": "Direct Detail URL: https://www.google.com/maps/search/?api=1&query=ChIJUQA0QpYax0cRAmYRowe0vOI&query_place_id=ChIJUQA0QpYax0cRAmYRowe0vOI",
+            "reviewerId": "113612368917256525938",
+            "reviewerUrl": "https://www.google.com/maps/contrib/113612368917256525938?hl=nl",
+            "name": "Julia Schriks",
+            "reviewerNumberOfReviews": 4,
+            "isLocalGuide": true,
+            "reviewerPhotoUrl": "https://lh3.googleusercontent.com/a/ACg8ocKX6gEtJczkaFVPrdswmP8vilbh-SkhCsxXKF39HdBHlJ1jrQ=s1920-c-rp-mo-ba2-br100",
+            "text": "Kan enige verbetering gebruiken",
+            "textTranslated": null,
+            "publishAt": "een uur geleden",
+            "publishedAtDate": "2025-10-08T16:06:29.601Z",
+            "likesCount": 0,
+            "reviewId": "Ci9DQUlRQUNvZENodHljRjlvT2xoVFdtaHhNR2RwYUVsQ1dqRjVWbXQxWTFoQlgzYxAB",
+            "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT2xoVFdtaHhNR2RwYUVsQ1dqRjVWbXQxWTFoQlgzYxAB!2m1!1s0x0:0xe2bcb407a3116602!3m1!1s2@1:CAIQACodChtycF9oOlhTWmhxMGdpaElCWjF5Vmt1Y1hBX3c%7C0ctck4Yptpd%7C?hl=nl",
+            "reviewOrigin": "Google",
+            "stars": 3,
+            "rating": null,
+            "responseFromOwnerDate": null,
+            "responseFromOwnerText": null,
+            "reviewImageUrls": [],
+            "reviewContext": {},
+            "reviewDetailedRating": {},
+            "visitedIn": null,
+            "originalLanguage": "nl",
+            "translatedLanguage": null,
+            "isAdvertisement": false,
+            "placeId": "ChIJUQA0QpYax0cRAmYRowe0vOI",
+            "location": {
+              "lat": 51.6872815,
+              "lng": 5.7784149
+            },
+            "address": "Hoogveldseweg 1, 5451 AA Mill, Nederland",
+            "neighborhood": null,
+            "street": "Hoogveldseweg 1",
+            "city": "Mill",
+            "postalCode": "5451 AA",
+            "state": null,
+            "countryCode": "NL",
+            "categoryName": "Wellnesscentrum",
+            "categories": [
+              "Wellnesscentrum",
+              "Gezichtsbehandelingsspa",
+              "Restaurant",
+              "Sauna",
+              "Spa- en gezondheidsclub",
+              "Wellnesstuin"
+            ],
+            "title": "BLUE Wellnessboot Mill",
+            "totalScore": 4.1,
+            "permanentlyClosed": false,
+            "temporarilyClosed": false,
+            "reviewsCount": 2175,
+            "url": "https://www.google.com/maps/search/?api=1&query=BLUE%20Wellnessboot%20Mill&query_place_id=ChIJUQA0QpYax0cRAmYRowe0vOI",
+            "price": null,
+            "cid": "16338131493086914050",
+            "fid": "0x47c71a9642340051:0xe2bcb407a3116602",
+            "imageUrl": "https://lh3.googleusercontent.com/p/AF1QipNA0g6dxMwTGRuoLsRd05EpbGluWdf9uS7U3JPG=w426-h240-k-no",
+            "scrapedAt": "2025-10-08T17:46:31.730Z",
+            "language": "nl"
+          },
+          {
+            "searchString": "Direct Detail URL: https://www.google.com/maps/search/?api=1&query=ChIJUQA0QpYax0cRAmYRowe0vOI&query_place_id=ChIJUQA0QpYax0cRAmYRowe0vOI",
+            "reviewerId": "101268631197944334810",
+            "reviewerUrl": "https://www.google.com/maps/contrib/101268631197944334810?hl=nl",
+            "name": "Astrid Hagendijk",
+            "reviewerNumberOfReviews": 11,
+            "isLocalGuide": false,
+            "reviewerPhotoUrl": "https://lh3.googleusercontent.com/a/ACg8ocIxQ4dLz4tqqUoO6LSFgGHifnCwaHcyg9NAq4GKxNosqFOTEw=s1920-c-rp-mo-br100",
+            "text": "kwamen binnen en wilden gelijk het bubbelbad in....om technische redenen deden ze het allebei niet....echt heel slecht....dit hadden jullie moeten melden bij binnenkomst....temperaturen van alle andere baden en hot tub is niet oké...in de hottub ook nog een aanvoer niet afgedekt stond ook een bordje bij....de douches ook weinig waterdruk....ik denk dat ze aan het bezuinigen zijn....in het restaurant hangen er plafonddelen los en in de stoomsauna zit een gat in het plafond....ook bij weggaan werd er gevraagd of alles naar wens gewenst....ze gaf aan het door te geven....er kon geen excuus vanaf....we hadden all inclusive geboekt....en hadden een extra ijs koffie erbij genomen....die moesten we gewoon extra afrekenen....ik had gezegd laat maar zitten als goed makertje voor het ongemak....maar we moesten toch nog 13,50 afrekenen....jammer!!",
+            "textTranslated": null,
+            "publishAt": "Bewerkt: een dag geleden",
+            "publishedAtDate": "2025-10-07T17:37:40.026Z",
+            "likesCount": 0,
+            "reviewId": "ChdDSUhNMG9nS0VJQ0FnSURHMDVYXzhBRRAB",
+            "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VJQ0FnSURHMDVYXzhBRRAB!2m1!1s0x0:0xe2bcb407a3116602!3m1!1s2@1:CIHM0ogKEICAgIDG05X_8AE%7CCgwI5PDDjQYQ-Ny32QE%7C?hl=nl",
+            "reviewOrigin": "Google",
+            "stars": 1,
+            "rating": null,
+            "responseFromOwnerDate": null,
+            "responseFromOwnerText": null,
+            "reviewImageUrls": [],
+            "reviewContext": {},
+            "reviewDetailedRating": {},
+            "visitedIn": null,
+            "originalLanguage": "nl",
+            "translatedLanguage": null,
+            "isAdvertisement": false,
+            "placeId": "ChIJUQA0QpYax0cRAmYRowe0vOI",
+            "location": {
+              "lat": 51.6872815,
+              "lng": 5.7784149
+            },
+            "address": "Hoogveldseweg 1, 5451 AA Mill, Nederland",
+            "neighborhood": null,
+            "street": "Hoogveldseweg 1",
+            "city": "Mill",
+            "postalCode": "5451 AA",
+            "state": null,
+            "countryCode": "NL",
+            "categoryName": "Wellnesscentrum",
+            "categories": [
+              "Wellnesscentrum",
+              "Gezichtsbehandelingsspa",
+              "Restaurant",
+              "Sauna",
+              "Spa- en gezondheidsclub",
+              "Wellnesstuin"
+            ],
+            "title": "BLUE Wellnessboot Mill",
+            "totalScore": 4.1,
+            "permanentlyClosed": false,
+            "temporarilyClosed": false,
+            "reviewsCount": 2175,
+            "url": "https://www.google.com/maps/search/?api=1&query=BLUE%20Wellnessboot%20Mill&query_place_id=ChIJUQA0QpYax0cRAmYRowe0vOI",
+            "price": null,
+            "cid": "16338131493086914050",
+            "fid": "0x47c71a9642340051:0xe2bcb407a3116602",
+            "imageUrl": "https://lh3.googleusercontent.com/p/AF1QipNA0g6dxMwTGRuoLsRd05EpbGluWdf9uS7U3JPG=w426-h240-k-no",
+            "scrapedAt": "2025-10-08T17:46:31.730Z",
+            "language": "nl"
+          },
+          {
+            "searchString": "Direct Detail URL: https://www.google.com/maps/search/?api=1&query=ChIJUQA0QpYax0cRAmYRowe0vOI&query_place_id=ChIJUQA0QpYax0cRAmYRowe0vOI",
+            "reviewerId": "116991813853217532889",
+            "reviewerUrl": "https://www.google.com/maps/contrib/116991813853217532889?hl=nl",
+            "name": "Moon B",
+            "reviewerNumberOfReviews": 4,
+            "isLocalGuide": false,
+            "reviewerPhotoUrl": "https://lh3.googleusercontent.com/a/ACg8ocJZ6p17r9qWukR7PPFQdKTWfQ_UQBbxlIn2mE_8C3m3F6DuNQ=s1920-c-rp-mo-br100",
+            "text": "Drie weken terug vouchers gewonnen via de staatsloterij.deze geboekt bij de saunaboot. Mijn dochter van 15 jaar bijna 16 was ook mee en gaat al vaker mee naar sauna’s. Vantevoren nog gebeld voordat ik boekte of tieners ook welkom waren en toen werdt gezegd,zeker wel onder begeleiding en U hoort bij haar te blijven.Toen ik de voucher afgaf aan de balie zei een meid die ons helemaal niet hielp tegen mijn dochter’hoe oud ben jij…? Waarop mijn dochter zei 15 jaar. Dan mag jij niet naar binnen.ik zei gek want ik kom hier vaker en ook bij andere sauna’s . Ik moest eens goed hun huisregels lezen. Onze voucher werdt wel gescand. Dus weg 4 kaarten. Maar zelf wel het geld krijgen en niet zeggen van wat rot maar helaas,helemaal niets.toen ik zei kan ik mijn kaarten omboeken nee dat gaat niet,wij hebben ze gescand en u had ze toch gratis.triest dat wij 155 km voor deze sauna hebben gereden, ik ga vaak naar Blue Wellnes Sittard,maar ik heb mij nu voorgenomen dat ik niet meer ga.\nWaarom als je boekt met de namen krijg je geen melding hoe oud je bent …niemand gaat toch vantevoren huisregels lezen,. Vooral niet omdat de algemene leeftijd voor de sauna vanaf 12 jaar is,onder begeleiding",
+            "textTranslated": null,
+            "publishAt": "3 dagen geleden",
+            "publishedAtDate": "2025-10-05T17:16:10.967Z",
+            "likesCount": 0,
+            "reviewId": "Ci9DQUlRQUNvZENodHljRjlvT2tSU1dEWnBlbVUzUmpsemRuQkZXbTVuWkV0ek4yYxAB",
+            "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT2tSU1dEWnBlbVUzUmpsemRuQkZXbTVuWkV0ek4yYxAB!2m1!1s0x0:0xe2bcb407a3116602!3m1!1s2@1:CAIQACodChtycF9oOkRSWDZpemU3RjlzdnBFWm5nZEtzN2c%7C0cseUPteqNG%7C?hl=nl",
+            "reviewOrigin": "Google",
+            "stars": 1,
+            "rating": null,
+            "responseFromOwnerDate": null,
+            "responseFromOwnerText": null,
+            "reviewImageUrls": [],
+            "reviewContext": {},
+            "reviewDetailedRating": {},
+            "visitedIn": null,
+            "originalLanguage": "nl",
+            "translatedLanguage": null,
+            "isAdvertisement": false,
+            "placeId": "ChIJUQA0QpYax0cRAmYRowe0vOI",
+            "location": {
+              "lat": 51.6872815,
+              "lng": 5.7784149
+            },
+            "address": "Hoogveldseweg 1, 5451 AA Mill, Nederland",
+            "neighborhood": null,
+            "street": "Hoogveldseweg 1",
+            "city": "Mill",
+            "postalCode": "5451 AA",
+            "state": null,
+            "countryCode": "NL",
+            "categoryName": "Wellnesscentrum",
+            "categories": [
+              "Wellnesscentrum",
+              "Gezichtsbehandelingsspa",
+              "Restaurant",
+              "Sauna",
+              "Spa- en gezondheidsclub",
+              "Wellnesstuin"
+            ],
+            "title": "BLUE Wellnessboot Mill",
+            "totalScore": 4.1,
+            "permanentlyClosed": false,
+            "temporarilyClosed": false,
+            "reviewsCount": 2175,
+            "url": "https://www.google.com/maps/search/?api=1&query=BLUE%20Wellnessboot%20Mill&query_place_id=ChIJUQA0QpYax0cRAmYRowe0vOI",
+            "price": null,
+            "cid": "16338131493086914050",
+            "fid": "0x47c71a9642340051:0xe2bcb407a3116602",
+            "imageUrl": "https://lh3.googleusercontent.com/p/AF1QipNA0g6dxMwTGRuoLsRd05EpbGluWdf9uS7U3JPG=w426-h240-k-no",
+            "scrapedAt": "2025-10-08T17:46:31.730Z",
+            "language": "nl"
+          }
+        ],
+        "contactEnriched": true,
+        "enrichmentDate": "2025-10-08T17:50:30.005Z"
+      },
+      {
+        "title": "Sanadome Hotel & Spa Nijmegen",
+        "description": "Elegant hotel met moderne kamers, gratis ontbijt, twee formele restaurants en een luxe spa.",
+        "price": "US$ 164",
+        "categoryName": "Dagspa",
+        "address": "Weg door Jonkerbos 90, 6532 SZ Nijmegen, Nederland",
+        "neighborhood": "Nijmegen-Midden",
+        "street": "Weg door Jonkerbos 90",
+        "city": "Nijmegen",
+        "postalCode": "6532 SZ",
+        "state": null,
+        "countryCode": "NL",
+        "website": "https://sanadome.nl/",
+        "phone": "+31 24 359 7280",
+        "phoneUnformatted": "+31243597280",
+        "claimThisBusiness": false,
+        "location": {
+          "lat": 51.8203548,
+          "lng": 5.8318575
+        },
+        "totalScore": 3.9,
+        "permanentlyClosed": false,
+        "temporarilyClosed": false,
+        "placeId": "ChIJ-Q2xZ5wIx0cRcOOV87qTxJw",
+        "categories": [
+          "Dagspa",
+          "Cadeauwinkel",
+          "Hotel",
+          "Fitnessprogramma",
+          "Fysiotherapiepraktijk",
+          "Wellnesscentrum",
+          "Badmodewinkel"
+        ],
+        "fid": "0x47c7089c67b10df9:0x9cc493baf395e370",
+        "cid": "11296316196511933296",
+        "reviewsCount": 3538,
+        "imagesCount": 1590,
+        "imageCategories": [],
+        "scrapedAt": "2025-10-08T17:44:02.929Z",
+        "googleFoodUrl": null,
+        "hotelStars": "4-sterrenhotel",
+        "hotelDescription": "Dit elegante spahotel ligt op nog geen 1,5 km van het dichtstbijzijnde treinstation en op 7 minuten lopen van de tuinen en de openluchtconcerten in het Goffertpark.\n De lichte, moderne kamers hebben een flatscreen-tv, wifi en een minikoelkast. De meeste kamers hebben ook een balkon met uitzicht op het park of de tuin. De luxere kamers hebben airconditioning, een dubbele spiegel en een regendouche.\n Het hotel biedt een ontbijt, een fitnessruimte, 2 formele restaurants en een hippe bar. Er is ook een luxe spa met thermische baden, bubbelbaden met aromatherapie, een hamam en een stoomkamer met munt. Andere voorzieningen zijn een restaurant met uitzicht op het zwembad en een lounge met open haard en terras. Kinderen zijn welkom vanaf 8 jaar.",
+        "checkInDate": "2025-10-12",
+        "checkOutDate": "2025-10-13",
+        "hotelAds": [
+          {
+            "title": "Super.com",
+            "googleUrl": "https://www.google.com/travel/clk?pc=AA80OswdESLR8ZLPPRWsysCBpSsEfpdBYcBf0r83499Od8_YwQRzVntdEr7prpV6LOQgboNoeIUO3KIX13hR9AMXllyoLwLyIGsqFGrNteIkZK4JiMwgerWzeQ4F6dEYsabLBbEp6K0ohpivvLmM2KPK7g&pcurl=https://www.super.com/travel/transition/?data%3Dprice%3D116.61%2526total_price%3D127.11%2526surcharge%3D6.26%2526request_id%3Dab74c8f3-eff8-4423-b8ce-36a0baf9fc45%2526ps%3D296306%2526pp%3Dxch4SdwA_Ba7TeHfri9K8w%2526pb%3DSLZjnsiny6WezeDmD_6FLVH0wuDhCTT4AZxoTYxpJcEmL86KfHuQqoPBdGCBHO7u-EQniJUv3SwMqsRpvUu0JRwT2krwwfB67vmVsOLaFxEZyjlB1txx2dgFO7C4v322SI9Z3IbcvDO1K3KNhjbTpB4G_Rbt6kamd-OuPvvanSwQ2lB8uSijFObMENTU421gGPVov07K5yBwx2u7aCnYYzxxBu4_S3ianffUXfCBLxtzUfcClpZk1jxhtKsNOBjJXS5OjCIM34A7bwcUAw3Mrmnpn7ZaUEfcipdnPLbsXig71pZf69ARZLZORV-3U7dm4ZEvFhL3TrrQHGL9luxCH-nCN3_TBwT1-1QGa1fshqD0n4PlGGA_UQG0LdVPf6tV%2526gha_pull_request%3DTrue%2526rtp%3DSdTUqdR7wIew8aRS9esAtw%25253D%25253D%2526risk_lk_1%3Dtrue%2526alwd_risk%3Dfalse%2526alwd_rand%3Dfalse%2526gt%3D1759942164%2526sg%3D_ExdY%2526sid%3DGHA_MD6%2526cmab_id%3D12%2526ttl_bkt%3Dnone%2526ru%3D1760054340%26utm_source%3Dgha%26utm_content%3Dmapresults%26currency%3DGBP%26user_country%3DUS%26verification%3Dfalse%26rate_rule_ids%3D%26date_type%3Ddefault%26rate_rule_id%3Dsignedout_desktop%26display_currency%3DUSD%26display_all_inclusive_price%3D178.47%26checkin_at%3D2025-10-12%26checkout_at%3D2025-10-13%26provider_hotel_id%3D10004088562%26provider%3Dean%26num_adults%3D2%26children%3D%5B%5D%26hotel_campaign%3D%26utm_campaign%3D%26user_locale%3Dnl-US%26user_list_id%3D%26utm_medium%3Dorganic%26utm_id%3Dgha_organic&s=AD1XQnkUawAHyMQPnU2C_mRl1NiW",
+            "isOfficialSite": false,
+            "price": "US$ 178",
+            "url": "https://www.super.com/travel/transition/?data=price=116.61&total_price=127.11&surcharge=6.26&request_id=ab74c8f3-eff8-4423-b8ce-36a0baf9fc45&ps=296306&pp=xch4SdwA_Ba7TeHfri9K8w&pb=SLZjnsiny6WezeDmD_6FLVH0wuDhCTT4AZxoTYxpJcEmL86KfHuQqoPBdGCBHO7u-EQniJUv3SwMqsRpvUu0JRwT2krwwfB67vmVsOLaFxEZyjlB1txx2dgFO7C4v322SI9Z3IbcvDO1K3KNhjbTpB4G_Rbt6kamd-OuPvvanSwQ2lB8uSijFObMENTU421gGPVov07K5yBwx2u7aCnYYzxxBu4_S3ianffUXfCBLxtzUfcClpZk1jxhtKsNOBjJXS5OjCIM34A7bwcUAw3Mrmnpn7ZaUEfcipdnPLbsXig71pZf69ARZLZORV-3U7dm4ZEvFhL3TrrQHGL9luxCH-nCN3_TBwT1-1QGa1fshqD0n4PlGGA_UQG0LdVPf6tV&gha_pull_request=True&rtp=SdTUqdR7wIew8aRS9esAtw%3D%3D&risk_lk_1=true&alwd_risk=false&alwd_rand=false&gt=1759942164&sg=_ExdY&sid=GHA_MD6&cmab_id=12&ttl_bkt=none&ru=1760054340&utm_source=gha&utm_content=mapresults&currency=GBP&user_country=US&verification=false&rate_rule_ids=&date_type=default&rate_rule_id=signedout_desktop&display_currency=USD&display_all_inclusive_price=178.47&checkin_at=2025-10-12&checkout_at=2025-10-13&provider_hotel_id=10004088562&provider=ean&num_adults=2&children=[]&hotel_campaign=&utm_campaign=&user_locale=nl-US&user_list_id=&utm_medium=organic&utm_id=gha_organic"
+          },
+          {
+            "title": "Reserving",
+            "googleUrl": "https://www.google.com/travel/clk?pc=AA80OswUALeZ28dUFw-uY_0pmcySfKs8iEQRuPAHkoJSnA60HFAsWyhwrlIF2xoOfoctilmch0lO15PdcaYpkJ5uRc9II6pniURcL7ehwJpv6J4GS3Rz2tIQKp9FiA-XeXQbN_7TdanlGtDegh9h9aa-jfY5f7pe3w&pcurl=https://h-en.reserving.com/search?i%3D7103%26rf%3DGOOGLEHOTELS%26portal%3Drsvcom%26lang%3Dnl%26auto%3D1%26tipo%3DS%26id%3D149380%26numero_habs%3D1%26no_adultos_hab1%3D2%26no_ninos_hab1%3D0%26fecha_entrada%3D12%252F10%252F2025%26fecha_salida%3D13%252F10%252F2025%26refp%3D189.82%26campaing-id%3D%26tp%3D%26moneda%3DUSD%26device%3Ddesktop%26pais_dom%3DUS%26sg%3Db%3D156.37,bclx%3D1,big%3D2025-10-11,bmid%3D95,bpd%3Des,bpt%3D11.09,breg%3D12,bt%3D7.16,bwp%3DWqJXcxf7RlE,ts%3D2025-10-08T19:09:43%2B02:00/B:DF2431B86C41CB68C01900BA1B3FDEB4BD818509F3CF98FB32AD9698%26c3%3Dmode%3DP,d%3D2,ts_id%3D9433831652689221%26r%3DCAMPAIGN-ID%3D;TRACKING-PARAM%3D;CUSTOM1%3D;PRICE-DISPLAYED-TOTAL%3D189.82;DEFAULT-DATE%3D1;CLICK-TYPE%3Dhotel;USER-COUNTRY%3DUS;DEVICE%3Ddesktop;SITE%3Dmapresults;USER-LANGUAGE%3Dnl;USER-CURRENCY%3DUSD;POS%3DALL-ALL-ALL-RSVCOM;AD-CLICK%3D0;PAYMENT-ID%3Dfree;C2%3Db%3D156.37,bclx%3D1,big%3D2025-10-11,bmid%3D95,bpd%3Des,bpt%3D11.09,breg%3D12,bt%3D7.16,bwp%3DWqJXcxf7RlE,ts%3D2025-10-08T19:09:43%2B02:00/B:DF2431B86C41CB68C01900BA1B3FDEB4BD818509F3CF98FB32AD9698;C3%3Dmode%3DP,d%3D2,ts_id%3D9433831652689221&s=AD1XQnnbTAldLcAMWbtmbhHMlqTo",
+            "isOfficialSite": false,
+            "price": "US$ 190",
+            "url": "https://h-en.reserving.com/search?i=7103&rf=GOOGLEHOTELS&portal=rsvcom&lang=nl&auto=1&tipo=S&id=149380&numero_habs=1&no_adultos_hab1=2&no_ninos_hab1=0&fecha_entrada=12/10/2025&fecha_salida=13/10/2025&refp=189.82&campaing-id=&tp=&moneda=USD&device=desktop&pais_dom=US&sg=b=156.37,bclx=1,big=2025-10-11,bmid=95,bpd=es,bpt=11.09,breg=12,bt=7.16,bwp=WqJXcxf7RlE,ts=2025-10-08T19:09:43+02:00/B:DF2431B86C41CB68C01900BA1B3FDEB4BD818509F3CF98FB32AD9698&c3=mode=P,d=2,ts_id=9433831652689221&r=CAMPAIGN-ID=;TRACKING-PARAM=;CUSTOM1=;PRICE-DISPLAYED-TOTAL=189.82;DEFAULT-DATE=1;CLICK-TYPE=hotel;USER-COUNTRY=US;DEVICE=desktop;SITE=mapresults;USER-LANGUAGE=nl;USER-CURRENCY=USD;POS=ALL-ALL-ALL-RSVCOM;AD-CLICK=0;PAYMENT-ID=free;C2=b=156.37,bclx=1,big=2025-10-11,bmid=95,bpd=es,bpt=11.09,breg=12,bt=7.16,bwp=WqJXcxf7RlE,ts=2025-10-08T19:09:43+02:00/B:DF2431B86C41CB68C01900BA1B3FDEB4BD818509F3CF98FB32AD9698;C3=mode=P,d=2,ts_id=9433831652689221"
+          },
+          {
+            "title": "Vio.com",
+            "googleUrl": "https://www.google.com/travel/clk?pc=AA80OszMrf2tLknHPNig7OJlebgjJJBikCVBf3d0mrvFcRo__OoZVBP7jbAT-Hd5gGQRqb2yHktmgTGY1cxKAxw6UE5xiOsyGhH5hDP3SK1e_ONmOADKHJvwIxf2mzbItbG8hRUYnoAlq-EY2tjm67bW&pcurl=https://deals.vio.com/?sig%3D73aca13c7f952d2641c156f3e69125e1eb497c325f122828ee5aa8797168b9a12d32303331333438363233%26turl%3Dhttps%253A%252F%252Fwww.vio.com%252FHotel%252FSearch%253FcheckIn%253D2025-10-12%2526checkOut%253D2025-10-13%2526curr%253DUSD%2526forceCurrencyChange%253D1%2526lang%253Dnl%2526forceLanguageChange%253D1%2526rooms%253D2%253A%2526utm_source%253Dgha%2526utm_medium%253Dcpc%2526hotelId%253D44393500%2526userCountry%253DUS%2526profile%253Dr2d2m73kn8%2526preferredRate%253D188.46%2526label%253Dsrc%25253Dgha%252526cltype%25253Dhotel%252526datype%25253Ddefault%252526gsite%25253Dmapresults%252526vf%25253D0%252526ucountry%25253DUS%252526udevice%25253Ddesktop%252526hotel%25253D44393500%252526day%25253D12%252526month%25253D10%252526year%25253D2025%252526los%25253D1%252526price%25253D188.46%252526currency%25253DUSD%252526cid%25253D%252526listid%25253D%252526rateid%25253DUS_D%252526closerateid%25253D%252526promo%25253D0%252526isPrivateRate%25253D0%252526isAudienceUser%25253D0%252526isPaidClick%25253D0%252526%2526cp%253Di_R3Be6Zmw0Cgs2enlhT1RzWWctNBjll5rHBiADONb4nuILQhkIsr7j4Nv90cbFARCfbxjMBSCBCioDRVVS&s=AD1XQnmjnqDln90lnXLqzAzvy2RS",
+            "isOfficialSite": false,
+            "price": "US$ 188",
+            "url": "https://deals.vio.com/?sig=73aca13c7f952d2641c156f3e69125e1eb497c325f122828ee5aa8797168b9a12d32303331333438363233&turl=https://www.vio.com/Hotel/Search?checkIn=2025-10-12&checkOut=2025-10-13&curr=USD&forceCurrencyChange=1&lang=nl&forceLanguageChange=1&rooms=2:&utm_source=gha&utm_medium=cpc&hotelId=44393500&userCountry=US&profile=r2d2m73kn8&preferredRate=188.46&label=src%3Dgha%26cltype%3Dhotel%26datype%3Ddefault%26gsite%3Dmapresults%26vf%3D0%26ucountry%3DUS%26udevice%3Ddesktop%26hotel%3D44393500%26day%3D12%26month%3D10%26year%3D2025%26los%3D1%26price%3D188.46%26currency%3DUSD%26cid%3D%26listid%3D%26rateid%3DUS_D%26closerateid%3D%26promo%3D0%26isPrivateRate%3D0%26isAudienceUser%3D0%26isPaidClick%3D0%26&cp=i_R3Be6Zmw0Cgs2enlhT1RzWWctNBjll5rHBiADONb4nuILQhkIsr7j4Nv90cbFARCfbxjMBSCBCioDRVVS"
+          },
+          {
+            "title": "Reservation Day",
+            "googleUrl": "https://www.google.com/travel/clk?pc=AA80Osxuz0p5UWgpIxq8ReCkty7JYRtZTObwoqXS4UoVzGBZ8VYmSveyEXWDyohH_v-3stSXfa--n_tgwKfCpxp09SKT8mkfOGH8Rbns2tDGRazOQ3wLS-8EHWuWTG3rHvbq4PdLMocUzVA8F2Tac0xwbQYC7Hg6LoQwt0A5CO6q&pcurl=https://www.reservationday.com/transition/?data%3Dprice%3D167.16%2526total_price%3D182.21%2526retail_price%3D202.33%2526retail_total_price%3D220.54%2526surcharge%3D8.4%2526request_id%3De56bb3bf-11ff-4f5c-89ce-e7e79cdcf2a7%2526ps%3D296306%2526pp%3Dg9aBDe5rxXttMC1vN00RgQ%2526pb%3Dmzu8snijeyKsVsJLX9Mcwhsn8K1pO6ubDyEGhTvhWbEQFJl-xVet6HYhK5QPlm5Zm33jwvqNFFpfchnj_DqH5lOY6UY6OgGQXdCRv-bIn3aGGPmZrMYqgxDZq_tip47pPdCybcz1-qvzH43ovzMXXywNyOFvEGY1QM2HKgFcoOjv0geKZCILcZ10QUMJppBu_L-V5pm-eSZOSPscXHexUiYNAZLW0sStAlgU5i8xcJ5HrNX7Xl3EoOlIOcM0lr-x4iI-bxjA-tssW9o7UQoxGnRm0kWPL-dOPiGLnREjUWg%25253D%2526gha_rd_pull_request%3DTrue%2526rtp%3DSdTUqdR7wIew8aRS9esAtw%25253D%25253D%2526risk_lk_1%3Dfalse%2526alwd_risk%3Dfalse%2526alwd_rand%3Dfalse%2526gt%3D1759943140%2526sg%3DreIIl%2526ttl_bkt%3Dnone%2526ru%3D1760054340%26utm_source%3Dgha_rd%26utm_content%3Dmapresults%26currency%3DUSD%26user_country%3DUS%26verification%3Dfalse%26rate_rule_ids%3D%26date_type%3Ddefault%26rate_rule_id%3Dsignedout_desktop%26display_currency%3DUSD%26display_all_inclusive_price%3D190.60%26checkin_at%3D2025-10-12%26checkout_at%3D2025-10-13%26provider_hotel_id%3D10004088562%26provider%3Dean%26num_adults%3D2%26children%3D%5B%5D%26hotel_campaign%3D%26user_locale%3Dnl-US%26user_list_id%3D%26utm_medium%3Dorganic%26utm_id%3Dgha_organic_rd&s=AD1XQnkaS5wtBDtjpBUB2h8A4Z9i",
+            "isOfficialSite": false,
+            "price": "US$ 191",
+            "url": "https://www.reservationday.com/transition/?data=price=167.16&total_price=182.21&retail_price=202.33&retail_total_price=220.54&surcharge=8.4&request_id=e56bb3bf-11ff-4f5c-89ce-e7e79cdcf2a7&ps=296306&pp=g9aBDe5rxXttMC1vN00RgQ&pb=mzu8snijeyKsVsJLX9Mcwhsn8K1pO6ubDyEGhTvhWbEQFJl-xVet6HYhK5QPlm5Zm33jwvqNFFpfchnj_DqH5lOY6UY6OgGQXdCRv-bIn3aGGPmZrMYqgxDZq_tip47pPdCybcz1-qvzH43ovzMXXywNyOFvEGY1QM2HKgFcoOjv0geKZCILcZ10QUMJppBu_L-V5pm-eSZOSPscXHexUiYNAZLW0sStAlgU5i8xcJ5HrNX7Xl3EoOlIOcM0lr-x4iI-bxjA-tssW9o7UQoxGnRm0kWPL-dOPiGLnREjUWg%3D&gha_rd_pull_request=True&rtp=SdTUqdR7wIew8aRS9esAtw%3D%3D&risk_lk_1=false&alwd_risk=false&alwd_rand=false&gt=1759943140&sg=reIIl&ttl_bkt=none&ru=1760054340&utm_source=gha_rd&utm_content=mapresults&currency=USD&user_country=US&verification=false&rate_rule_ids=&date_type=default&rate_rule_id=signedout_desktop&display_currency=USD&display_all_inclusive_price=190.60&checkin_at=2025-10-12&checkout_at=2025-10-13&provider_hotel_id=10004088562&provider=ean&num_adults=2&children=[]&hotel_campaign=&user_locale=nl-US&user_list_id=&utm_medium=organic&utm_id=gha_organic_rd"
+          },
+          {
+            "title": "Etrip.net",
+            "googleUrl": "https://www.google.com/travel/clk?pc=AA80Osyp-4N-VHJVFjMzcDMQWNk5MLyIQLinZTyrzz5WiGAolgPLrtKSvDSpZAwgChekRRws9zN0AxuaSpegmb4NU40ygeaPV84670a_GfnGFVMiEy4_e8BMXFLhQUQCZ17gcSFxMLUrZN4k2og&pcurl=https://deals.etrip.net/?sig%3De9cc68956712e1e5d60f579a67e54afadd83f5d631dc9782cc50d47864de2f2c2d32303330363031313335%26turl%3Dhttps%253A%252F%252Fsearch.etrip.net%252FHotel%252FSearch%253FcheckIn%253D2025-10-12%2526checkOut%253D2025-10-13%2526curr%253DUSD%2526forceCurrencyChange%253D1%2526lang%253Dnl%2526forceLanguageChange%253D1%2526rooms%253D2%253A%2526utm_source%253Dgha%2526utm_medium%253Dcpc%2526hotelId%253D44393500%2526userCountry%253DUS%2526profile%253Dr2d2m73kn8%2526preferredRate%253D188.46%2526label%253Dsrc%25253Dgha%252526cltype%25253Dhotel%252526datype%25253Ddefault%252526gsite%25253Dmapresults%252526vf%25253D0%252526ucountry%25253DUS%252526udevice%25253Ddesktop%252526hotel%25253D44393500%252526day%25253D12%252526month%25253D10%252526year%25253D2025%252526los%25253D1%252526price%25253D188.46%252526currency%25253DUSD%252526cid%25253D%252526listid%25253D%252526rateid%25253DUS_D%252526closerateid%25253D%252526promo%25253D0%252526isPrivateRate%25253D0%252526isAudienceUser%25253D0%252526isPaidClick%25253D0%252526%2526cp%253Di_R3Be6Zmw0Cgs2enlhT1RzWWctNBjll5rHBiADONb4nuILQhkIsr7j4Nv90cbFARCfbxjMBSCBCioDRVVS&s=AD1XQnm7DHV4cO-XUOMqwZfhNhN2",
+            "isOfficialSite": false,
+            "price": "US$ 188",
+            "url": "https://deals.etrip.net/?sig=e9cc68956712e1e5d60f579a67e54afadd83f5d631dc9782cc50d47864de2f2c2d32303330363031313335&turl=https://search.etrip.net/Hotel/Search?checkIn=2025-10-12&checkOut=2025-10-13&curr=USD&forceCurrencyChange=1&lang=nl&forceLanguageChange=1&rooms=2:&utm_source=gha&utm_medium=cpc&hotelId=44393500&userCountry=US&profile=r2d2m73kn8&preferredRate=188.46&label=src%3Dgha%26cltype%3Dhotel%26datype%3Ddefault%26gsite%3Dmapresults%26vf%3D0%26ucountry%3DUS%26udevice%3Ddesktop%26hotel%3D44393500%26day%3D12%26month%3D10%26year%3D2025%26los%3D1%26price%3D188.46%26currency%3DUSD%26cid%3D%26listid%3D%26rateid%3DUS_D%26closerateid%3D%26promo%3D0%26isPrivateRate%3D0%26isAudienceUser%3D0%26isPaidClick%3D0%26&cp=i_R3Be6Zmw0Cgs2enlhT1RzWWctNBjll5rHBiADONb4nuILQhkIsr7j4Nv90cbFARCfbxjMBSCBCioDRVVS"
+          },
+          {
+            "title": "müvTravel.com",
+            "googleUrl": "https://www.google.com/travel/clk?pc=AA80Osy-b7OG0Jnt1J8KxkFGeJGVEEAlwksG9QxLFBiX-G-ilsYei9NXPMgPkJmg6qYRdIRsofluzbKq3pR0pbY_XgI0vej4qdgX6xoJdZHwjJ-LP5DCBdNIdN5UkSUzk6Vx7QU8jY2koPcRUs5WrUo8JjjibA&pcurl=https://muvtravel.com/xp-hotel?hotelID%3D88426755%26checkinDay%3D12%26checkinMonth%3D10%26checkinYear%3D2025%26nights%3D1%26num-guests%3D2%26checkoutDay%3D13%26checkoutMonth%3D10%26checkoutYear%3D2025%26PROMO-CODE%3D98010&s=AD1XQnm_DiwVXTOm0Z_RXKHakP4k",
+            "isOfficialSite": false,
+            "price": "US$ 191",
+            "url": "https://muvtravel.com/xp-hotel?hotelID=88426755&checkinDay=12&checkinMonth=10&checkinYear=2025&nights=1&num-guests=2&checkoutDay=13&checkoutMonth=10&checkoutYear=2025&PROMO-CODE=98010"
+          },
+          {
+            "title": "Bluepillow.com",
+            "googleUrl": "https://www.google.com/travel/clk?pc=AA80OsxPIl7AqrCYIqZB3vZQriGCo_WzpFMTf56Zogvammd2MTgju7qwfEOOy3oQ5iV4sU1eJh4C5DxL8d8RfrOS9MA2Lh9zGQjBBQhXWz9r1oWwin6zR0d6uFbJYT4ndOr_4E63Py96UYxximVZcAt1eg&pcurl=https://www.bluepillow.com/search/618288e39e3163a56a258b89?begin%3D2025-10-12%26end%3D2025-10-13%26block_id%3D-b,KIWJOmwlqX3dK-OX51TIuVpU1j8d48qfwhAfTzDaN_ljLlO4en9qdl1xghVE2lCc,-bpag-Hotel%26adults%3D2%26childs%3D0%26infants%3D0%26childrens%3D0%26country%3DUS%26currency%3DUSD%26language%3Dnl%26source%3Dmapresults%26utm_campaign%3Dhotel%26prid%3D&s=AD1XQnkAfHswffXiGB3Do0JQUCwx",
+            "isOfficialSite": false,
+            "price": "US$ 193",
+            "url": "https://www.bluepillow.com/search/618288e39e3163a56a258b89?begin=2025-10-12&end=2025-10-13&block_id=-b,KIWJOmwlqX3dK-OX51TIuVpU1j8d48qfwhAfTzDaN_ljLlO4en9qdl1xghVE2lCc,-bpag-Hotel&adults=2&childs=0&infants=0&childrens=0&country=US&currency=USD&language=nl&source=mapresults&utm_campaign=hotel&prid="
+          },
+          {
+            "title": "Bookhotel.direct",
+            "googleUrl": "https://www.google.com/travel/clk?pc=AA80OszFk1K4pZyM0c31P0KvQzU1qlqXowQGlT7_J7yDkfmd4IpCUfvFrdNjKYc4xtXMfqCGIsCbnAii211DhQQfbkSnFPr94m8zABfEVUnU1rVN0_JEitdi4Q0N8OkvMJsGUBLOImgsjh64pmreiRrKzqw&pcurl=https://always.bookhotel.direct/85434/?checkin%3D2025-10-12%26checkout%3D2025-10-13%26nb_adult%3D2%26nb_child%3D0%26campaign%3Dmapresults%26tracker_id%3D%26device%3Ddesktop%26currency_code%3DUSD&s=AD1XQnlUHxKABX1VP4_abhfemJZb",
+            "isOfficialSite": false,
+            "price": "US$ 196",
+            "url": "https://always.bookhotel.direct/85434/?checkin=2025-10-12&checkout=2025-10-13&nb_adult=2&nb_child=0&campaign=mapresults&tracker_id=&device=desktop&currency_code=USD"
+          },
+          {
+            "title": "Trip.com",
+            "googleUrl": "https://www.google.com/travel/clk?pc=AA80Osw9TjwjqB4AAbtcZAzWCxArZbtccZk4ZN0BJoNeSXzs26FzHI09POkYneWKGkyZ_vTRko1TNAjvidP7_ffkluX9Y7iUhwuMF8VT6kUaqSKlQztJBRD6QL94FpIvzK0vjJN810sZziOYmbU&pcurl=https://us.trip.com/hotels/redirect?hotelid%3D2547238%26city%3D10021%26shoppingid%3DMi8GkBW2qPgy%26adult%3D2%26children%3D0%26ages%3D%26checkin%3D2025-10-12%26checkout%3D2025-10-13%26curr%3DUSD%26Allianceid%3D15214%26Sid%3D1209572%26prid%3DLANG_US%26trip_sub1%3D12_10_2025_1_mapresults_2547238_US_desktop_default___0_0-LANG_US-landing%26hpaopts%3Dstand%5BH4sIAAAAAAAA_-MK4mKSYBJi4mCU8uC4smLmbGYhRiODJ4wW66MDOGYwLtszm3EFI-MORqYDjEwXGatF1rk_PJXq8BDKynB4wTj_5t4Gpk4W-dbXgTvmKTgsYGGU4vHNtHDPdgo3KgxIr1Rg1Hi1ddZxNg_GIDYDUxdLF8coGS5m19AgwXnvlx_zbldwkGIODXZRZP8g5hFQI-OQxJqapxsanLFGuIuRyYNxFSM7F7OBkaEA0ydGfmRz443MAcztqni9AAAA%5Dfgt%5B1%5D%26br%3D198.34%26tf%3D24.00%26display%3Dexavg%26locale%3Den_us%26crn%3D1%26roomid%3D862344276%26allianceid%3D15214%26sid%3D1209572&s=AD1XQnmbP2nldw3adGiDfu18K4WY",
+            "isOfficialSite": false,
+            "price": "US$ 198",
+            "url": "https://us.trip.com/hotels/redirect?hotelid=2547238&city=10021&shoppingid=Mi8GkBW2qPgy&adult=2&children=0&ages=&checkin=2025-10-12&checkout=2025-10-13&curr=USD&Allianceid=15214&Sid=1209572&prid=LANG_US&trip_sub1=12_10_2025_1_mapresults_2547238_US_desktop_default___0_0-LANG_US-landing&hpaopts=stand[H4sIAAAAAAAA_-MK4mKSYBJi4mCU8uC4smLmbGYhRiODJ4wW66MDOGYwLtszm3EFI-MORqYDjEwXGatF1rk_PJXq8BDKynB4wTj_5t4Gpk4W-dbXgTvmKTgsYGGU4vHNtHDPdgo3KgxIr1Rg1Hi1ddZxNg_GIDYDUxdLF8coGS5m19AgwXnvlx_zbldwkGIODXZRZP8g5hFQI-OQxJqapxsanLFGuIuRyYNxFSM7F7OBkaEA0ydGfmRz443MAcztqni9AAAA]fgt[1]&br=198.34&tf=24.00&display=exavg&locale=en_us&crn=1&roomid=862344276&allianceid=15214&sid=1209572"
+          },
+          {
+            "title": "goseek.com",
+            "googleUrl": "https://www.google.com/travel/clk?pc=AA80OsyWbqWSVmr30C2hYZdyBNZeVa6kgtTwRlVqjd4oEJN54ISSJoTaY7Crka7PsH2G7yVwMT5qLZyA_TMbW4IywLoUAWTbiE-1k4d8CDwvJRs3xR2t9qAFKZC-2G4lTKqpJZh1mLLhQy0WLgDls3YxAh53TmwEfQ&pcurl=https://deals.goseek.com/?sig%3D34c47a49c3e8320dca5a5dda0da2a460c1bc23afde972e2894a4ff0b6052fb53383131303836353931%26turl%3Dhttps%253A%252F%252Fwww.goseek.com%252FHotel%252FSearch%253FcheckIn%253D2025-10-12%2526checkOut%253D2025-10-13%2526curr%253DUSD%2526forceCurrencyChange%253D1%2526lang%253Dnl%2526forceLanguageChange%253D1%2526rooms%253D2%253A%2526utm_source%253Dgha%2526utm_medium%253Dcpc%2526hotelId%253D44393500%2526userCountry%253DUS%2526profile%253Dr2d2m73kn8%2526preferredRate%253D198.36%2526label%253Dsrc%25253Dgha%252526cltype%25253Dhotel%252526datype%25253Ddefault%252526gsite%25253Dmapresults%252526vf%25253D0%252526ucountry%25253DUS%252526udevice%25253Ddesktop%252526hotel%25253D44393500%252526day%25253D12%252526month%25253D10%252526year%25253D2025%252526los%25253D1%252526price%25253D198.36%252526currency%25253DUSD%252526cid%25253D%252526listid%25253D%252526rateid%25253DUS_D%252526closerateid%25253D%252526promo%25253D0%252526isPrivateRate%25253D0%252526isAudienceUser%25253D0%252526isPaidClick%25253D0%252526%2526cp%253D2_pxEeXjOHUCgtJZkxxOUg0cUxzTRjVtZrHBiACOOmNuK0IQiEIsr7j4Nv90cbFARCtdRjMBSDICioDRVVSMAE4gP6pxwY&s=AD1XQnnYXzdp5ndzmY2Vx75Hsw1f",
+            "isOfficialSite": false,
+            "price": "US$ 198",
+            "url": "https://deals.goseek.com/?sig=34c47a49c3e8320dca5a5dda0da2a460c1bc23afde972e2894a4ff0b6052fb53383131303836353931&turl=https://www.goseek.com/Hotel/Search?checkIn=2025-10-12&checkOut=2025-10-13&curr=USD&forceCurrencyChange=1&lang=nl&forceLanguageChange=1&rooms=2:&utm_source=gha&utm_medium=cpc&hotelId=44393500&userCountry=US&profile=r2d2m73kn8&preferredRate=198.36&label=src%3Dgha%26cltype%3Dhotel%26datype%3Ddefault%26gsite%3Dmapresults%26vf%3D0%26ucountry%3DUS%26udevice%3Ddesktop%26hotel%3D44393500%26day%3D12%26month%3D10%26year%3D2025%26los%3D1%26price%3D198.36%26currency%3DUSD%26cid%3D%26listid%3D%26rateid%3DUS_D%26closerateid%3D%26promo%3D0%26isPrivateRate%3D0%26isAudienceUser%3D0%26isPaidClick%3D0%26&cp=2_pxEeXjOHUCgtJZkxxOUg0cUxzTRjVtZrHBiACOOmNuK0IQiEIsr7j4Nv90cbFARCtdRjMBSDICioDRVVSMAE4gP6pxwY"
+          },
+          {
+            "title": "Closest Hotel",
+            "googleUrl": "https://www.google.com/travel/clk?pc=AA80Osxb3jfuTbKRD8oVbUVNSmru2Y5EH4kgMmYdhl_exWiRgF6RDXN_BD26kwp4z8y-aPHF8hyMboVJwVuMPbnHiD5tK_NMxpCL7pgdONnsKT_EgYSdKHn48I0SJPGO9ycBU3YAoGOCLJOXTBJnxcz0QtTEx2432QspTffgKWiptSZMhh_9&pcurl=https://closesthotel.com/googleRedirMainSearch.php?checkInYear%3D2025%26checkInMonth%3D10%26checkInDay%3D12%26checkOutYear%3D2025%26checkOutMonth%3D10%26checkOutDay%3D13%26numberOfNights%3D1%26numberOfAdults%3D2%26numberOfChildren%3D0%26numberOfGuests%3D2%26hotelID%3D687277%26roomID%3D200891089%26currency%3DUSD%26deviceType%3Ddesktop&s=AD1XQnmTlhzqjv2aYzPs8jXMQcQ0",
+            "isOfficialSite": false,
+            "price": "US$ 199",
+            "url": "https://closesthotel.com/googleRedirMainSearch.php?checkInYear=2025&checkInMonth=10&checkInDay=12&checkOutYear=2025&checkOutMonth=10&checkOutDay=13&numberOfNights=1&numberOfAdults=2&numberOfChildren=0&numberOfGuests=2&hotelID=687277&roomID=200891089&currency=USD&deviceType=desktop"
+          },
+          {
+            "title": "Hotels.com",
+            "googleUrl": "https://www.google.com/travel/clk?pc=AA80OswINrSgXzD4ICveTMomsFZxULakCGwDsrB2o0oP1bng_ltfKLv1HrYKJ1L3McAFXnqD2N4wchSgbts7EYAYszPqRgMtMGDqQ8109tPbBiQeECvQiNf7JBlLaCpBO6L0wNzoptJLo_0VXipAcaBb3fRkboU&pcurl=https://nl.hotels.com/Hotel-Search?selected%3D687277%26startDate%3D2025-10-12%26endDate%3D2025-10-13%26mdpcid%3DHCOM-US.META.HPA.HOTEL-ORGANIC-desktop.HOTEL%26MDPDTL%3DHTL.687277.20251012.20251013.DDT.4.CID..AUDID.%26adults%3D2%26children%3D%26mctc%3D10%26mpf%3D199.24%26mpg%3DUSD%26mpl%3DUSD%26mpj%3D24.11%26rffrid%3Dsem.hcom.US.156.024.mapresults.02.desktop-1.kwrd%3DGGMETA.687277USnl-20251012-D-ABW%3D4-camp%3D-aud%3D-N%26rateplanid%3D204521243%26mpm%3D24%26mpn%3D200891089%26mpo%3DEC%26mpp%3D1&s=AD1XQnmjBlmxzN7meSOeyEiHVkw4",
+            "isOfficialSite": false,
+            "price": "US$ 199",
+            "url": "https://nl.hotels.com/Hotel-Search?selected=687277&startDate=2025-10-12&endDate=2025-10-13&mdpcid=HCOM-US.META.HPA.HOTEL-ORGANIC-desktop.HOTEL&MDPDTL=HTL.687277.20251012.20251013.DDT.4.CID..AUDID.&adults=2&children=&mctc=10&mpf=199.24&mpg=USD&mpl=USD&mpj=24.11&rffrid=sem.hcom.US.156.024.mapresults.02.desktop-1.kwrd=GGMETA.687277USnl-20251012-D-ABW=4-camp=-aud=-N&rateplanid=204521243&mpm=24&mpn=200891089&mpo=EC&mpp=1"
+          },
+          {
+            "title": "Travelocity.com",
+            "googleUrl": "https://www.google.com/travel/clk?pc=AA80OsylvbZVRB6L40liO7LJJzdtd_zugp-vCGzWumo4Qwx31Esq7rg-F-cDmnaBy2QQf1QRiLQuMtaiP4Bh-xO_-EJrdrnzGVU6u6Vbv973-zvSxsVYB92mx7sygYtROx4q-GT4oNuDtNF7Dh9BMZ6FkVTEYub1&pcurl=https://www.travelocity.com/Hotel-Search?selected%3D687277%26startDate%3D2025-10-12%26endDate%3D2025-10-13%26adults%3D2%26children%3D%26MDPCID%3Dtravelocity-US.META.HPA.ORGANIC.HOTEL%26MDPDTL%3DHTL.687277.20251012.20251013.DDT.4.CID..AUDID..mapresults%26exp_curr%3DUSD%26exp_dp%3D199.24%26exp_tx%3D24.11%26mctc%3D10%26rateplanid%3D204521243%26mpm%3D24%26mpn%3D200891089%26mpo%3DEC%26mpp%3D1&s=AD1XQnk7u_euPhMorgo7nOtNo4sO",
+            "isOfficialSite": false,
+            "price": "US$ 199",
+            "url": "https://www.travelocity.com/Hotel-Search?selected=687277&startDate=2025-10-12&endDate=2025-10-13&adults=2&children=&MDPCID=travelocity-US.META.HPA.ORGANIC.HOTEL&MDPDTL=HTL.687277.20251012.20251013.DDT.4.CID..AUDID..mapresults&exp_curr=USD&exp_dp=199.24&exp_tx=24.11&mctc=10&rateplanid=204521243&mpm=24&mpn=200891089&mpo=EC&mpp=1"
+          },
+          {
+            "title": "Expedia.be",
+            "googleUrl": "https://www.google.com/travel/clk?pc=AA80OsyFkvP-eKUPGGPbV3EdggpegQwVsVsA6qiYbBoobpdqADy1UTmHK8dYqugrBZeBRXSQUq4f_jV3x1fTCS2Q9VC-lNGGJG_pgIHTDKlPVvzH-cdf5SfSk9wQSi7rg_1K51Z14M2G7s0Si27tOl02W0EBuywf&pcurl=https://www.expedia.be/Hotel-Search?selected%3D687277%26startDate%3D2025-10-12%26endDate%3D2025-10-13%26MDPCID%3DUS.META.HPA.HOTEL-ORGANIC-desktop.HOTEL%26MDPDTL%3DHTL.687277.20251012.20251013.DDT.4.CID..AUDID..RRID.bex_us_desktop%26adults%3D2%26children%3D%26mctc%3D10%26ct%3Dhotel%26mpg%3DUSD%26mpf%3D199.24%26mpj%3D24.11%26mpl%3DUSD%26exp_pg%3Dgoogle%26langid%3Dnl%26ad%3D2%26tp%3D%26utm_source%3Dgoogle%26utm_medium%3Dcpc%26utm_term%3D687277%26utm_content%3Dmapresults%26utm_campaign%3DHotelAds%26rateplanid%3D204521243%26mpm%3D24%26mpn%3D200891089%26mpo%3DEC%26mpp%3D1&s=AD1XQnllKJoxy8DhtjAkduxQfwW1",
+            "isOfficialSite": false,
+            "price": "US$ 199",
+            "url": "https://www.expedia.be/Hotel-Search?selected=687277&startDate=2025-10-12&endDate=2025-10-13&MDPCID=US.META.HPA.HOTEL-ORGANIC-desktop.HOTEL&MDPDTL=HTL.687277.20251012.20251013.DDT.4.CID..AUDID..RRID.bex_us_desktop&adults=2&children=&mctc=10&ct=hotel&mpg=USD&mpf=199.24&mpj=24.11&mpl=USD&exp_pg=google&langid=nl&ad=2&tp=&utm_source=google&utm_medium=cpc&utm_term=687277&utm_content=mapresults&utm_campaign=HotelAds&rateplanid=204521243&mpm=24&mpn=200891089&mpo=EC&mpp=1"
+          },
+          {
+            "title": "eDreams",
+            "googleUrl": "https://www.google.com/travel/clk?pc=AA80OsyXIcEB_Exlz7mIzBnyQmdNqa3kzlYcXgvoEFr-MJPoM4hwP6EBDTNQFkeHuK8NH0tCPzodOSyOor5XFbxs_rUWyGt4zW0ZQ1Z7NOtFTmkNo7zJsyjyKwjrwxIUvYi8NIIVVdsdm1C_SDhp&pcurl=https://accommodation.edreams.net/Hotel-Search?selected%3D687277%26startDate%3D2025-10-12%26endDate%3D2025-10-13%26adults%3D2%26children%3D%26mpf%3D199.24%26cur%3DUSD%26mpj%3D24.11%26wapb3%3D%7Cc.506950%7Cl.en_US%7Ct.meta%7Cs.ghs%26MDPCID%3DeDreams-US.DPS.Edreams.MetaSearch-GHA.HOTEL%26mpl%3DUSD%26numberOfRooms%3D1%26locale%3Den_US%26rffrid%3Dh4p.hcom.US.ghaodigeo.000.000.kwrd%3D%26pos%3DEDREAMS_US%26rateplanid%3D204521243%26mctc%3D10%26utm_medium%3Dmetasearch%26utm_campaign%3D212682%26utm_term%3Dhotel%26utm_source%3DFREEBOOKING&s=AD1XQnnBrnkNAu1ToY3ZWEv3n9JV",
+            "isOfficialSite": false,
+            "price": "US$ 199",
+            "url": "https://accommodation.edreams.net/Hotel-Search?selected=687277&startDate=2025-10-12&endDate=2025-10-13&adults=2&children=&mpf=199.24&cur=USD&mpj=24.11&wapb3=|c.506950|l.en_US|t.meta|s.ghs&MDPCID=eDreams-US.DPS.Edreams.MetaSearch-GHA.HOTEL&mpl=USD&numberOfRooms=1&locale=en_US&rffrid=h4p.hcom.US.ghaodigeo.000.000.kwrd=&pos=EDREAMS_US&rateplanid=204521243&mctc=10&utm_medium=metasearch&utm_campaign=212682&utm_term=hotel&utm_source=FREEBOOKING"
+          },
+          {
+            "title": "Wego",
+            "googleUrl": "https://www.google.com/travel/clk?pc=AA80Osz7Iy4SVEIRi8fCYejmzAFFZX8n8oRNH96ZV8Q-_lJVAI5z8fliNC6Uuy1LnNo_Bv4k_YmNNFOOUcyjr6M_eXMIFK2ZSaUFIe_yj1WlfYP2r3MfzkPLNj-YsXlwaiidEx7awKB2Ltzmrg&pcurl=https://www.wego.com/hotels-handoff/searches/QNQ/2025-10-12/2025-10-13/477512?guests%3D2%26wego_hotel_id%3D477512%26bow_only%3Dtrue%26ts_code%3D2f2fc%26wg_source%3Dmeta_distribution%26wg_medium%3Dgha%26wg_campaign%3Dfbl%26wego_currency%3DUSD%26ulang%3Dnl%26wego_price%3DVVNEOjIxOS40NDpmMTJlYjg1MzI5Yjk4NDg4NzZkYjdkMDBkZGRkZTY2M2RlMzUxZTQ1OTNhYjI3ZjljZDY3OGU0ODRkMDk1MzZjOmJvb2duaWs2OXFzYToxNzU5OTMwMzIwOkQ6VVM6YjAwMmI3NGU0MzNhZDQ3YzoyOjA6dHJ1ZTp0cnVlOkI%253D%26provider%3DaG90ZWxzLndlZ28uY29t&s=AD1XQnkqpvc-HCwt3MDgR_vvSZ_t",
+            "isOfficialSite": false,
+            "price": "US$ 219",
+            "url": "https://www.wego.com/hotels-handoff/searches/QNQ/2025-10-12/2025-10-13/477512?guests=2&wego_hotel_id=477512&bow_only=true&ts_code=2f2fc&wg_source=meta_distribution&wg_medium=gha&wg_campaign=fbl&wego_currency=USD&ulang=nl&wego_price=VVNEOjIxOS40NDpmMTJlYjg1MzI5Yjk4NDg4NzZkYjdkMDBkZGRkZTY2M2RlMzUxZTQ1OTNhYjI3ZjljZDY3OGU0ODRkMDk1MzZjOmJvb2duaWs2OXFzYToxNzU5OTMwMzIwOkQ6VVM6YjAwMmI3NGU0MzNhZDQ3YzoyOjA6dHJ1ZTp0cnVlOkI=&provider=aG90ZWxzLndlZ28uY29t"
+          },
+          {
+            "title": "dealbase.com",
+            "googleUrl": "https://www.google.com/travel/clk?pc=AA80Oszr6pbxQd-KcAYlxfV80bm9fo3MlI-Pr4OrRzZtRopBMMPTgSXizpB4MGfMDJbIuGNAX5zGmkSAyL0RZco3a-1fCtQJowei2SGE_ZbqbUKG6TqhpOJESO9hbfNShGPituTRcHcAulqHYXRYj2AM9TpN_pyLGapZ4w&pcurl=https://deals.dealbase.com/?sig%3Dd24b78db5ff27b2a7633c125e8c1eb65fcdd29bfbe8d2468da3702f8e475011131373338383435313339%26turl%3Dhttps%253A%252F%252Fwww.dealbase.com%252FHotel%252FSearch%253FcheckIn%253D2025-10-12%2526checkOut%253D2025-10-13%2526curr%253DUSD%2526forceCurrencyChange%253D1%2526lang%253Dnl%2526forceLanguageChange%253D1%2526rooms%253D2%253A%2526utm_source%253Dgha%2526utm_medium%253Dcpc%2526hotelId%253D44393500%2526userCountry%253DUS%2526profile%253Dr2d2m73kn8%2526preferredRate%253D219.48%2526label%253Dsrc%25253Dgha%252526cltype%25253Dhotel%252526datype%25253Ddefault%252526gsite%25253Dmapresults%252526vf%25253D0%252526ucountry%25253DUS%252526udevice%25253Ddesktop%252526hotel%25253D44393500%252526day%25253D12%252526month%25253D10%252526year%25253D2025%252526los%25253D1%252526price%25253D219.48%252526currency%25253DUSD%252526cid%25253D%252526listid%25253D%252526rateid%25253DUS_D%252526closerateid%25253D%252526promo%25253D0%252526isPrivateRate%25253D0%252526isAudienceUser%25253D0%252526isPaidClick%25253D0%252526%2526cp%253DxEMuWCF2EmQCgsxYVdULTZ6eF9rTRjznZrHBiACONHd_Y4IQhoIsr7j4Nv90cbFARCyggEYzAUg3gsqA0VVUg&s=AD1XQnnDZUQO_5ABudBcPcOQQRZw",
+            "isOfficialSite": false,
+            "price": "US$ 219",
+            "url": "https://deals.dealbase.com/?sig=d24b78db5ff27b2a7633c125e8c1eb65fcdd29bfbe8d2468da3702f8e475011131373338383435313339&turl=https://www.dealbase.com/Hotel/Search?checkIn=2025-10-12&checkOut=2025-10-13&curr=USD&forceCurrencyChange=1&lang=nl&forceLanguageChange=1&rooms=2:&utm_source=gha&utm_medium=cpc&hotelId=44393500&userCountry=US&profile=r2d2m73kn8&preferredRate=219.48&label=src%3Dgha%26cltype%3Dhotel%26datype%3Ddefault%26gsite%3Dmapresults%26vf%3D0%26ucountry%3DUS%26udevice%3Ddesktop%26hotel%3D44393500%26day%3D12%26month%3D10%26year%3D2025%26los%3D1%26price%3D219.48%26currency%3DUSD%26cid%3D%26listid%3D%26rateid%3DUS_D%26closerateid%3D%26promo%3D0%26isPrivateRate%3D0%26isAudienceUser%3D0%26isPaidClick%3D0%26&cp=xEMuWCF2EmQCgsxYVdULTZ6eF9rTRjznZrHBiACONHd_Y4IQhoIsr7j4Nv90cbFARCyggEYzAUg3gsqA0VVUg"
+          },
+          {
+            "title": "Agoda",
+            "googleUrl": "https://www.google.com/travel/clk?pc=AA80Osxsh30Goe7ZgYvuhx0kI5XknC60ZHHbMTEe30qUwF2CG3vL-CQtjXgvlXs5iDNbttXxGmJSe6-de77NZKUqIVDFOWt9pX7N2Nr2H8PSCQUhX43uEAr9sH6pW3Dt9j6lZyvSa6a6TrY280ubXC3dEWjzaA&pcurl=https://www.agoda.com/nl-nl/partners/partnersearch.aspx?site_id%3D1917614%26CkInDay%3D12%26CkInMonth%3D10%26CkInYear%3D2025%26CkOutDay%3D13%26campaignid%3D%26CkOutMonth%3D10%26CkOutYear%3D2025%26SearchDateType%3Ddefault%26NumberOfAdults%3D2%26LT%3D4%26NumberOfChildren%3D0%26childages%3D%26NumberOfRooms%3D1%26gsite%3Dmapresults%26los%3D1%26PartnerCurrency%3DEUR%26hid%3D152684%26RoomID%3D566515046%26masterRoomId%3D566515046%26PriceTax%3D25.75%26PriceTotal%3D219.48%26RatePlan%3D8bfda564-8b32-e5f6-3faa-388b0bc3d7dc%26UserCountry%3DUS%26Currency%3DUSD%26UserDevice%3Ddesktop%26Verif%3Dfalse%26rr%3Drow_desktop%26audience_list%3D%26mcid%3D3038%26booking_source%3Dcpc%26adType%3D0%26mpt%3DSDNLdkg3RGJsQnZwa3hEQ0tLQzZWZ2lHTWV0S09LMFlsLzh3TkNOM0NKTXhEL05sRW9HYjRmNGh1L3hFY3Z3NFUyVSs%26original_rr%3D&s=AD1XQnk0xypeNdr2ZjDRl8vmsyeO",
+            "isOfficialSite": false,
+            "price": "US$ 219",
+            "url": "https://www.agoda.com/nl-nl/partners/partnersearch.aspx?site_id=1917614&CkInDay=12&CkInMonth=10&CkInYear=2025&CkOutDay=13&campaignid=&CkOutMonth=10&CkOutYear=2025&SearchDateType=default&NumberOfAdults=2&LT=4&NumberOfChildren=0&childages=&NumberOfRooms=1&gsite=mapresults&los=1&PartnerCurrency=EUR&hid=152684&RoomID=566515046&masterRoomId=566515046&PriceTax=25.75&PriceTotal=219.48&RatePlan=8bfda564-8b32-e5f6-3faa-388b0bc3d7dc&UserCountry=US&Currency=USD&UserDevice=desktop&Verif=false&rr=row_desktop&audience_list=&mcid=3038&booking_source=cpc&adType=0&mpt=SDNLdkg3RGJsQnZwa3hEQ0tLQzZWZ2lHTWV0S09LMFlsLzh3TkNOM0NKTXhEL05sRW9HYjRmNGh1L3hFY3Z3NFUyVSs&original_rr="
+          },
+          {
+            "title": "Booking.com",
+            "googleUrl": "https://www.google.com/travel/clk?pc=AA80OswwbAIyqXZuU8KQi4LMD5vLoQe0pbxsc2qGZZWptWBhH-8YLYEE7Bff0f-6-z02id7LgmqeGur7PBePqocedvGdUZmC800FI02dDkOulQztOT8mLyzbAMLhr1GuawfO4IwgvxHy6cH63lu6t2uJVfVekGA66O8Zsw&pcurl=https://www.booking.com/hotel/nl/scandic-sanadome-nijmegen.html?checkin%3D2025-10-12%26checkout%3D2025-10-13%26group_adults%3D2%26req_adults%3D2%26show_room%3D4377603_232287150_2_33_0_401160%26lang%3Dnl%26selected_currency%3DUSD%26exrt%3D1.16076612%26ext_price_total%3D219.48%26ext_price_tax%3D25.75%26xfc%3DEUR%26hca%3Dm%26group_children%3D0%26req_children%3D0%26%26no_rooms%3D1%26ts%3D1759939578%26edgtid%3DwNdTdGx7TZyrtplYOMJWXQ%26efpc%3DGBuSoYmwih8%26utm_source%3Dmetagha%26utm_medium%3Dmapresults%26utm_campaign%3DUS%26utm_term%3Dhotel-43776%26utm_content%3Ddev-desktop_los-1_bw-4_dow-Sunday_defdate-1_room-0_gstadt-2_rateid-public_aud-0_gacid-_mcid-10_ppa-0_clrid-0_ad-0_gstkid-0_checkin-20251012_ppt-%26aid%3D2127489%26label%3Dmetagha-link-MRUS-hotel-43776_dev-desktop_los-1_bw-4_dow-Sunday_defdate-1_room-0_gstadt-2_rateid-public_aud-0_gacid-_mcid-10_ppa-0_clrid-0_ad-0_gstkid-0_checkin-20251012_ppt-&s=AD1XQnlX0cfN5zSBS7nuSyzpyJEj",
+            "isOfficialSite": false,
+            "price": "US$ 219",
+            "url": "https://www.booking.com/hotel/nl/scandic-sanadome-nijmegen.html?checkin=2025-10-12&checkout=2025-10-13&group_adults=2&req_adults=2&show_room=4377603_232287150_2_33_0_401160&lang=nl&selected_currency=USD&exrt=1.16076612&ext_price_total=219.48&ext_price_tax=25.75&xfc=EUR&hca=m&group_children=0&req_children=0&&no_rooms=1&ts=1759939578&edgtid=wNdTdGx7TZyrtplYOMJWXQ&efpc=GBuSoYmwih8&utm_source=metagha&utm_medium=mapresults&utm_campaign=US&utm_term=hotel-43776&utm_content=dev-desktop_los-1_bw-4_dow-Sunday_defdate-1_room-0_gstadt-2_rateid-public_aud-0_gacid-_mcid-10_ppa-0_clrid-0_ad-0_gstkid-0_checkin-20251012_ppt-&aid=2127489&label=metagha-link-MRUS-hotel-43776_dev-desktop_los-1_bw-4_dow-Sunday_defdate-1_room-0_gstadt-2_rateid-public_aud-0_gacid-_mcid-10_ppa-0_clrid-0_ad-0_gstkid-0_checkin-20251012_ppt-"
+          },
+          {
+            "title": "My Luxury Hotel",
+            "googleUrl": "https://www.google.com/travel/clk?pc=AA80OsyNFwfNL_RnOJjVc_Uj4f60FuAxQ7ESkuESVPO6znleExBhz08rmf2c509ovLFkQzHPuQH2nSRYWtFBSBRWphMyeF-PkDLpUGgrrwhFu7WmnabBJj-FSSBlPrNnd-GOV4hCj6k8lzsCWDyDAfveldUxzAto8bCsUJdkOKGKypU&pcurl=https://www.myluxuryhotel.com/en-us/hotel/1040122?ppc%3Dtrue%26isHotel%3Dtrue%26checkin%3D2025-10-12%26checkout%3D2025-10-13%26nights%3D1%26rooms%3D%255B%257B%2522adults%2522:2,%2522children%2522:%255B%255D,%2522kidsAge%2522:%255B%255D%257D%255D%26utm_source%3DGoogleHC%26utm_medium%3Dpaid%26utm_campaign%3D%26utm_content%3Dmapresults%26utm_term%3D1040122%26pv%3D1759943719721&s=AD1XQnmCw-3uqBw86dwGkZVNRpoD",
+            "isOfficialSite": false,
+            "price": "US$ 220",
+            "url": "https://www.myluxuryhotel.com/en-us/hotel/1040122?ppc=true&isHotel=true&checkin=2025-10-12&checkout=2025-10-13&nights=1&rooms=[{\"adults\":2,\"children\":[],\"kidsAge\":[]}]&utm_source=GoogleHC&utm_medium=paid&utm_campaign=&utm_content=mapresults&utm_term=1040122&pv=1759943719721"
+          },
+          {
+            "title": "LateRooms.com",
+            "googleUrl": "https://www.google.com/travel/clk?pc=AA80OswwucRpsTdzPSg7NwM4dnVyaAx2Wom_7-XM1DLcfGaWZmDCE2PQGIh201YY1PVzgMDjG1TcSYJe6HMJaTMclCeIFMy8A_Vc5PGoLzvUhZBh3dfkN84_ginWhB3fT_s-BJZlCM7XFru8UIHtWHTruLADEeEAomsXbxI&pcurl=https://www.laterooms.com/en-us/hotel/1040122?ppc%3Dtrue%26isHotel%3Dtrue%26checkin%3D2025-10-12%26checkout%3D2025-10-13%26nights%3D1%26rooms%3D%255B%257B%2522adults%2522:2,%2522children%2522:%255B%255D,%2522kidsAge%2522:%255B%255D%257D%255D%26utm_source%3DGoogleHC%26utm_medium%3Dpaid%26utm_campaign%3D%26utm_content%3Dmapresults%26utm_term%3D1040122%26pv%3D1759943407094&s=AD1XQnkNbUJ0ssakdHP_3jNCFSSk",
+            "isOfficialSite": false,
+            "price": "US$ 220",
+            "url": "https://www.laterooms.com/en-us/hotel/1040122?ppc=true&isHotel=true&checkin=2025-10-12&checkout=2025-10-13&nights=1&rooms=[{\"adults\":2,\"children\":[],\"kidsAge\":[]}]&utm_source=GoogleHC&utm_medium=paid&utm_campaign=&utm_content=mapresults&utm_term=1040122&pv=1759943407094"
+          },
+          {
+            "title": "BusinessHotels.com",
+            "googleUrl": "https://www.google.com/travel/clk?pc=AA80OsxRwA2GvouTeixtppzhc_aWFNEbbWv7WOA8lVbbDP8BaqlHwvvEpwTW4giEs3ZEq1scuh402wmp5o4kFlZs9dpS6oQ0dF52ao75jHs20w3qymYNva9ybKkA0O_jcn4Qjl2jf5u5VJkZ0Fo9i1mgnonvnITsXghq&pcurl=https://www.businesshotels.com/booking.php?hotel-id%3D700022779%26checkin-date%3D2025-10-12%26checkout-date%3D2025-10-13%26language%3Den%26USER-CURRENCY%3DUSD%26USER-COUNTRY%3DUS%26NUM-ADULTS%3D2%26NUM-CHILDREN%3D0%26prid%3D&s=AD1XQnlxkRPrHudyFSGkufCIximV",
+            "isOfficialSite": false,
+            "price": "US$ 221",
+            "url": "https://www.businesshotels.com/booking.php?hotel-id=700022779&checkin-date=2025-10-12&checkout-date=2025-10-13&language=en&USER-CURRENCY=USD&USER-COUNTRY=US&NUM-ADULTS=2&NUM-CHILDREN=0&prid="
+          },
+          {
+            "title": "ZenHotels.com",
+            "googleUrl": "https://www.google.com/travel/clk?pc=AA80OszCeRAdf6GVDFVMSvamarI_wf_hDX0psc0rvi4sSAAIUuDuttcu-ezIqMw4iey64Qi9ZnJrIqcJBMLJNBClJYcV0J8zOUh6hnD2G_kaS773wBEwe7lcGOq9ZTm1SvBvwhjPzrG5RiwTLqOs-Ifo&pcurl=https://www.zenhotels.com/go/rooms/7595598/?dates%3D12.10.2025-13.10.2025%26cur%3DUSD%26lang%3Dnl%26utm_source%3Dgoogle_hotelads%26utm_medium%3Dcpc-metasearch%26partner_slug%3Dgoogle%26guests%3D2%26from%3Dscandic_sanadome.232.USD.sr-0199c4bb-2733-7af0-9bfd-9298e47fc727%26utm_campaign%3Dnl-US%26price%3Done%26scroll%3Dprices%26partner_data%3DIGxKQBtGVv9PLDYOP2cm6EHubVhaHoKglqI9JJVXK2fz1h7sHhoSZpT7_45VsHj96lj6fZDBbKRLbCAPHiBJu4TqL05QsCuEPyk0Wwh066OjNAImve-jaUlLKw1LT13J2WiLXDTTcFhIFJ49x7nJSYScdZ_Uy6_NMaiHhiRStOKEUhg%3D%26utm_content%3DGoogleCPC%26utm_term%3Dgacid_.bw_4.los_1.dow_Sunday.dtype_default.hid_7595598.rid_123.aud_.d_desktop.ad_0.ctype_hotel.promo_0.apireqtype_deals%3Ddisabled%26showed_price%3D239.88%26showed_taxes%3D0.00%26deals%3Ddisabled&s=AD1XQnlWImL6n60bGsZ58-P6Oq-9",
+            "isOfficialSite": false,
+            "price": "US$ 240",
+            "url": "https://www.zenhotels.com/go/rooms/7595598/?dates=12.10.2025-13.10.2025&cur=USD&lang=nl&utm_source=google_hotelads&utm_medium=cpc-metasearch&partner_slug=google&guests=2&from=scandic_sanadome.232.USD.sr-0199c4bb-2733-7af0-9bfd-9298e47fc727&utm_campaign=nl-US&price=one&scroll=prices&partner_data=IGxKQBtGVv9PLDYOP2cm6EHubVhaHoKglqI9JJVXK2fz1h7sHhoSZpT7_45VsHj96lj6fZDBbKRLbCAPHiBJu4TqL05QsCuEPyk0Wwh066OjNAImve-jaUlLKw1LT13J2WiLXDTTcFhIFJ49x7nJSYScdZ_Uy6_NMaiHhiRStOKEUhg=&utm_content=GoogleCPC&utm_term=gacid_.bw_4.los_1.dow_Sunday.dtype_default.hid_7595598.rid_123.aud_.d_desktop.ad_0.ctype_hotel.promo_0.apireqtype_deals=disabled&showed_price=239.88&showed_taxes=0.00&deals=disabled"
+          },
+          {
+            "title": "Zzzello",
+            "googleUrl": "https://www.google.com/travel/clk?pc=AA80OsyNpzx4KnrQNH_PlHMefL41z7kzHOEYGJPOZ-4BEfFlTCx6fA7BO-eVvtW8s9nsiBcy0vKH8deQIZ3UIEqk22Q-MYAkFgp4t8u4nBwnoVvdDpAeDsillFo03FxFNhR_LZePFfe-RIGPyWOg-szaxnHw3lPm9oLr3CNQ52s&pcurl=https://zzzello.com/google-hotels?hotelID%3Dlp33eca%26checkinDay%3D12%26checkinMonth%3D10%26checkinYear%3D2025%26nights%3D1%26adults%3D2%26children%3D0&s=AD1XQnlYotK1oeygmSC2nnTtDyK8",
+            "isOfficialSite": false,
+            "price": "US$ 243",
+            "url": "https://zzzello.com/google-hotels?hotelID=lp33eca&checkinDay=12&checkinMonth=10&checkinYear=2025&nights=1&adults=2&children=0"
+          }
+        ],
+        "openingHours": [],
+        "peopleAlsoSearch": [],
+        "placesTags": [],
+        "reviewsTags": [],
+        "additionalInfo": {
+          "Serviceopties": [
+            {
+              "Services op bedrijfslocatie": true
+            }
+          ],
+          "Toegankelijkheid": [
+            {
+              "Rolstoeltoegankelijk toilet": true
+            },
+            {
+              "Rolstoeltoegankelijke ingang": true
+            },
+            {
+              "Rolstoeltoegankelijke parking": true
+            }
+          ],
+          "Aanbod": [
+            {
+              "Sauna": true
+            }
+          ],
+          "Planning": [
+            {
+              "Afspraak aanbevolen": true
+            }
+          ],
+          "Betalen": [
+            {
+              "Contactloos mobiel betalen": true
+            },
+            {
+              "Creditcards": true
+            },
+            {
+              "Pinpassen": true
+            },
+            {
+              "Creditcards": true
+            }
+          ],
+          "Amenities": [
+            {
+              "Gratis wifi": true
+            },
+            {
+              "Gratis ontbijt": true
+            }
+          ]
+        },
+        "gasPrices": [],
+        "url": "https://www.google.com/maps/search/?api=1&query=Sanadome%20Hotel%20%26%20Spa%20Nijmegen&query_place_id=ChIJ-Q2xZ5wIx0cRcOOV87qTxJw",
+        "searchPageUrl": "https://www.google.com/maps/search/spa%20Netherlands/@51.76006340842791,6.182034203767007,11z?hl=nl",
+        "searchString": "spa Netherlands",
+        "language": "nl",
+        "rank": 1,
+        "isAdvertisement": false,
+        "imageUrl": "https://lh3.googleusercontent.com/p/AF1QipO-fv_-JYAMgpsaeSz8wJKYJUic4PKRjZbAkC3v=w408-h271-k-no",
+        "kgmid": "/g/11d_9j7hh_",
+        "leadQuality": {
+          "score": 95,
+          "tier": "Platinum",
+          "tierColor": "text-purple-400",
+          "tierBg": "bg-purple-500/20 border-purple-500/30",
+          "factors": [
+            "Review Volume: 3538 reviews (+30pts)",
+            "Rating: 3.9/5 (+20pts)",
+            "Recent Activity: 100% (+20pts)",
+            "Review Quality: 283 chars avg (+25pts)"
+          ],
+          "reviewCount": 3538,
+          "rating": "3.9",
+          "recentActivityRate": 100,
+          "avgTextLength": 283
+        },
+        "reviewsForBusiness": [
+          {
+            "searchString": "Direct Detail URL: https://www.google.com/maps/search/?api=1&query=ChIJ-Q2xZ5wIx0cRcOOV87qTxJw&query_place_id=ChIJ-Q2xZ5wIx0cRcOOV87qTxJw",
+            "reviewerId": "113749749698306512745",
+            "reviewerUrl": "https://www.google.com/maps/contrib/113749749698306512745?hl=nl",
+            "name": "Sann W",
+            "reviewerNumberOfReviews": 113,
+            "isLocalGuide": true,
+            "reviewerPhotoUrl": "https://lh3.googleusercontent.com/a-/ALV-UjXRnFuzfb31nJBRbzQzPaNQOM9XYOVq58NnItffxUK8M6nYbY7eNg=s1920-c-rp-mo-ba4-br100",
+            "text": "Hoe mooi het wordt aangeprijsd, hoe grote tegenvaller bij binnenkomst. De uitstraling van het gebouw is top, maar rust vind je er niet. Te druk, teveel hysterie en lawaai. Geen aanrader als je komt voor rust.",
+            "textTranslated": null,
+            "publishAt": "2 uur geleden",
+            "publishedAtDate": "2025-10-08T14:48:21.294Z",
+            "likesCount": 0,
+            "reviewId": "Ci9DQUlRQUNvZENodHljRjlvT210b2JIZFZWbGR1YlRNM2REbENWMll3ZUhoUVdFRRAB",
+            "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT210b2JIZFZWbGR1YlRNM2REbENWMll3ZUhoUVdFRRAB!2m1!1s0x0:0x9cc493baf395e370!3m1!1s2@1:CAIQACodChtycF9oOmtobHdVVldubTM3dDlCV2YweHhQWEE%7C0ctbapGYCYF%7C?hl=nl",
+            "reviewOrigin": "Google",
+            "stars": 2,
+            "rating": null,
+            "responseFromOwnerDate": null,
+            "responseFromOwnerText": null,
+            "reviewImageUrls": [],
+            "reviewContext": {
+              "Reistype": "Vakantie",
+              "Reisgroep": "Vrienden"
+            },
+            "reviewDetailedRating": {},
+            "visitedIn": null,
+            "originalLanguage": "nl",
+            "translatedLanguage": null,
+            "isAdvertisement": false,
+            "placeId": "ChIJ-Q2xZ5wIx0cRcOOV87qTxJw",
+            "location": {
+              "lat": 51.8203548,
+              "lng": 5.8318575
+            },
+            "address": "Weg door Jonkerbos 90, 6532 SZ Nijmegen, Nederland",
+            "neighborhood": "Nijmegen-Midden",
+            "street": "Weg door Jonkerbos 90",
+            "city": "Nijmegen",
+            "postalCode": "6532 SZ",
+            "state": null,
+            "countryCode": "NL",
+            "categoryName": "Dagspa",
+            "categories": [
+              "Dagspa",
+              "Cadeauwinkel",
+              "Hotel",
+              "Fitnessprogramma",
+              "Fysiotherapiepraktijk",
+              "Wellnesscentrum",
+              "Badmodewinkel"
+            ],
+            "title": "Sanadome Hotel & Spa Nijmegen",
+            "totalScore": 3.9,
+            "permanentlyClosed": false,
+            "temporarilyClosed": false,
+            "reviewsCount": 3538,
+            "url": "https://www.google.com/maps/search/?api=1&query=Sanadome%20Hotel%20%26%20Spa%20Nijmegen&query_place_id=ChIJ-Q2xZ5wIx0cRcOOV87qTxJw",
+            "price": "US$ 202",
+            "cid": "11296316196511933296",
+            "fid": "0x47c7089c67b10df9:0x9cc493baf395e370",
+            "hotelStars": "4-sterrenhotel",
+            "imageUrl": "https://lh3.googleusercontent.com/p/AF1QipMR-b0_eDWGxlzCmNb4hQHlxYowEoXyLdIVKH6N=w531-h240-k-no",
+            "scrapedAt": "2025-10-08T17:45:25.633Z",
+            "language": "nl"
+          },
+          {
+            "searchString": "Direct Detail URL: https://www.google.com/maps/search/?api=1&query=ChIJ-Q2xZ5wIx0cRcOOV87qTxJw&query_place_id=ChIJ-Q2xZ5wIx0cRcOOV87qTxJw",
+            "reviewerId": "100563224843468550199",
+            "reviewerUrl": "https://www.google.com/maps/contrib/100563224843468550199?hl=nl",
+            "name": "RJ L.",
+            "reviewerNumberOfReviews": 3,
+            "isLocalGuide": false,
+            "reviewerPhotoUrl": "https://lh3.googleusercontent.com/a-/ALV-UjVV3b_XUeTEbuuWU5TGwDJ5BMDQHiCin2OhnNP2tqrGKcGYpoI2=s1920-c-rp-mo-br100",
+            "text": "Na jaren voor het eerst Sanadome geprobeerd. Krankzinnig duur! Ook al verblijf je 2 nachten, betaal je voor een 3-gangen diner met een flesje wijn, dan nog betaal je een idiote parkeerboete van 10 euro per dag en als je om water vraagt ben je verplicht om voor 7,50!!! een fles water af te nemen. Bron of niet, daar koop ik meer dan 3 liter benzine voor. Sorry, ben in honderden hotels geweest maar heb me nog nooit zo uitgeknepen gevoeld als hier. 1000 euro kwijt. Heel dom.",
+            "textTranslated": null,
+            "publishAt": "21 uur geleden",
+            "publishedAtDate": "2025-10-07T20:31:00.246Z",
+            "likesCount": 0,
+            "reviewId": "Ci9DQUlRQUNvZENodHljRjlvT25Ka2MwOTFUelJsWXpoRlNFaHBjSFpNTjAxWUxVRRAB",
+            "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT25Ka2MwOTFUelJsWXpoRlNFaHBjSFpNTjAxWUxVRRAB!2m1!1s0x0:0x9cc493baf395e370!3m1!1s2@1:CAIQACodChtycF9oOnJkc091TzRlYzhFSEhpcHZMN01YLUE%7C0ctMX3DfA1v%7C?hl=nl",
+            "reviewOrigin": "Google",
+            "stars": 1,
+            "rating": null,
+            "responseFromOwnerDate": "2025-10-08T14:43:25.000Z",
+            "responseFromOwnerText": "Beste RJ,\n\nBedankt dat je de tijd hebt genomen om je ervaring te delen. Het spijt ons te horen dat je verblijf niet aan je verwachtingen voldeed en dat je je zo hebt gevoeld over de kosten. We streven er altijd naar om onze gasten duidelijk te informeren over de prijzen voor extra’s zoals diner, parkeerplaats en drankjes, en het is vervelend dat dit tijdens je verblijf niet goed is overgekomen.\n\nWe nemen je feedback serieus en zullen bekijken hoe we onze communicatie hierover kunnen verbeteren, zodat toekomstige gasten beter geïnformeerd zijn.\n\nMet vriendelijke groet,\nTeam Sanadome",
+            "reviewImageUrls": [],
+            "reviewContext": {
+              "Reistype": "Vakantie",
+              "Reisgroep": "Familie",
+              "Kamers": "Prima",
+              "Eten en drinken": "Eten goed. Erg duur."
+            },
+            "reviewDetailedRating": {
+              "Kamers": 1,
+              "Service": 1,
+              "Locatie": 1
+            },
+            "visitedIn": null,
+            "originalLanguage": "nl",
+            "translatedLanguage": null,
+            "isAdvertisement": false,
+            "placeId": "ChIJ-Q2xZ5wIx0cRcOOV87qTxJw",
+            "location": {
+              "lat": 51.8203548,
+              "lng": 5.8318575
+            },
+            "address": "Weg door Jonkerbos 90, 6532 SZ Nijmegen, Nederland",
+            "neighborhood": "Nijmegen-Midden",
+            "street": "Weg door Jonkerbos 90",
+            "city": "Nijmegen",
+            "postalCode": "6532 SZ",
+            "state": null,
+            "countryCode": "NL",
+            "categoryName": "Dagspa",
+            "categories": [
+              "Dagspa",
+              "Cadeauwinkel",
+              "Hotel",
+              "Fitnessprogramma",
+              "Fysiotherapiepraktijk",
+              "Wellnesscentrum",
+              "Badmodewinkel"
+            ],
+            "title": "Sanadome Hotel & Spa Nijmegen",
+            "totalScore": 3.9,
+            "permanentlyClosed": false,
+            "temporarilyClosed": false,
+            "reviewsCount": 3538,
+            "url": "https://www.google.com/maps/search/?api=1&query=Sanadome%20Hotel%20%26%20Spa%20Nijmegen&query_place_id=ChIJ-Q2xZ5wIx0cRcOOV87qTxJw",
+            "price": "US$ 202",
+            "cid": "11296316196511933296",
+            "fid": "0x47c7089c67b10df9:0x9cc493baf395e370",
+            "hotelStars": "4-sterrenhotel",
+            "imageUrl": "https://lh3.googleusercontent.com/p/AF1QipMR-b0_eDWGxlzCmNb4hQHlxYowEoXyLdIVKH6N=w531-h240-k-no",
+            "scrapedAt": "2025-10-08T17:45:25.633Z",
+            "language": "nl"
+          },
+          {
+            "searchString": "Direct Detail URL: https://www.google.com/maps/search/?api=1&query=ChIJ-Q2xZ5wIx0cRcOOV87qTxJw&query_place_id=ChIJ-Q2xZ5wIx0cRcOOV87qTxJw",
+            "reviewerId": "115937697154195850313",
+            "reviewerUrl": "https://www.google.com/maps/contrib/115937697154195850313?hl=nl",
+            "name": "Arash Soleimani",
+            "reviewerNumberOfReviews": 13,
+            "isLocalGuide": true,
+            "reviewerPhotoUrl": "https://lh3.googleusercontent.com/a-/ALV-UjUrMT_I-2U4UgQK96P1bqMe2jN7sqDUbEJw85uHeTV1kSps8ZM9vA=s1920-c-rp-mo-ba3-br100",
+            "text": "Overall, the stay was average and didn’t feel like a 4-star experience. During checkout, they wrongfully tried to charge us an extra €30, and it took about 30 minutes until the manager fixed it. The staff’s attitude was rude and unprofessional. The spa was nice, but I wouldn’t recommend their restaurant. it’s overpriced, and they never mention that drinks are not included in the €52 per person dinner package (not in the reservation confirmation, at reception, or by the waiters).",
+            "textTranslated": "Over het algemeen was het verblijf gemiddeld en voelde het niet als een 4-sterrenervaring. Bij het uitchecken probeerden ze ons ten onrechte € 30 extra te laten betalen, en het duurde ongeveer 30 minuten voordat de manager het had opgelost. De houding van het personeel was onbeleefd en onprofessioneel. De spa was prima, maar ik zou hun restaurant niet aanbevelen. Het is te duur en ze vermelden nooit dat drankjes niet zijn inbegrepen in het dinerarrangement van € 52 per persoon (niet in de reserveringsbevestiging, bij de receptie of door de obers).",
+            "publishAt": "4 dagen geleden",
+            "publishedAtDate": "2025-10-04T12:14:02.528Z",
+            "likesCount": 0,
+            "reviewId": "Ci9DQUlRQUNvZENodHljRjlvT21zdGNXdEhVVzQzUlhwd2NqY3ROblZ4V1ZaSFNtYxAB",
+            "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT21zdGNXdEhVVzQzUlhwd2NqY3ROblZ4V1ZaSFNtYxAB!2m1!1s0x0:0x9cc493baf395e370!3m1!1s2@1:CAIQACodChtycF9oOmstcWtHUW43RXpwcjctNnVxWVZHSmc%7C0csFy9UUXU0%7C?hl=nl",
+            "reviewOrigin": "Google",
+            "stars": 1,
+            "rating": null,
+            "responseFromOwnerDate": "2025-10-08T14:41:54.000Z",
+            "responseFromOwnerText": "Hi Arash, Thank you for sharing your feedback. We are sorry to hear that your experience did not meet your expectations. We strive to provide a smooth check-out process, professional service, and clear information about our dining options, so it is disappointing to hear that this was not your experience.\n\nWe take your comments seriously and will use them to improve our services and communication, both in the restaurant and with our staff. We are glad to hear you enjoyed the spa, and we hope to have the opportunity to welcome you back in the future under better circumstances.\n\nKind regards,\nTeam Sanadome",
+            "reviewImageUrls": [],
+            "reviewContext": {
+              "Reistype": "Vakantie",
+              "Reisgroep": "Stel",
+              "Hoogtepunten van het hotel": "Rustig"
+            },
+            "reviewDetailedRating": {
+              "Kamers": 3,
+              "Service": 1,
+              "Locatie": 2
+            },
+            "visitedIn": null,
+            "originalLanguage": "en",
+            "translatedLanguage": "nl",
+            "isAdvertisement": false,
+            "placeId": "ChIJ-Q2xZ5wIx0cRcOOV87qTxJw",
+            "location": {
+              "lat": 51.8203548,
+              "lng": 5.8318575
+            },
+            "address": "Weg door Jonkerbos 90, 6532 SZ Nijmegen, Nederland",
+            "neighborhood": "Nijmegen-Midden",
+            "street": "Weg door Jonkerbos 90",
+            "city": "Nijmegen",
+            "postalCode": "6532 SZ",
+            "state": null,
+            "countryCode": "NL",
+            "categoryName": "Dagspa",
+            "categories": [
+              "Dagspa",
+              "Cadeauwinkel",
+              "Hotel",
+              "Fitnessprogramma",
+              "Fysiotherapiepraktijk",
+              "Wellnesscentrum",
+              "Badmodewinkel"
+            ],
+            "title": "Sanadome Hotel & Spa Nijmegen",
+            "totalScore": 3.9,
+            "permanentlyClosed": false,
+            "temporarilyClosed": false,
+            "reviewsCount": 3538,
+            "url": "https://www.google.com/maps/search/?api=1&query=Sanadome%20Hotel%20%26%20Spa%20Nijmegen&query_place_id=ChIJ-Q2xZ5wIx0cRcOOV87qTxJw",
+            "price": "US$ 202",
+            "cid": "11296316196511933296",
+            "fid": "0x47c7089c67b10df9:0x9cc493baf395e370",
+            "hotelStars": "4-sterrenhotel",
+            "imageUrl": "https://lh3.googleusercontent.com/p/AF1QipMR-b0_eDWGxlzCmNb4hQHlxYowEoXyLdIVKH6N=w531-h240-k-no",
+            "scrapedAt": "2025-10-08T17:45:25.633Z",
+            "language": "nl"
+          },
+          {
+            "searchString": "Direct Detail URL: https://www.google.com/maps/search/?api=1&query=ChIJ-Q2xZ5wIx0cRcOOV87qTxJw&query_place_id=ChIJ-Q2xZ5wIx0cRcOOV87qTxJw",
+            "reviewerId": "109105719525078205423",
+            "reviewerUrl": "https://www.google.com/maps/contrib/109105719525078205423?hl=nl",
+            "name": "Rifinios Sk",
+            "reviewerNumberOfReviews": 1,
+            "isLocalGuide": false,
+            "reviewerPhotoUrl": "https://lh3.googleusercontent.com/a/ACg8ocL7sBnnXKjkN4yZXo8fBbYkQB0h_dOTclx2tV0PsxOPb01byA=s1920-c-rp-mo-br100",
+            "text": "Ik kom hier dus nooit nooit meer mederwerkers zijn niet netjes behandelen je als een hond en veel tuig  die aan het filmen zijn geen rust",
+            "textTranslated": null,
+            "publishAt": "4 dagen geleden",
+            "publishedAtDate": "2025-10-04T10:30:25.782Z",
+            "likesCount": 0,
+            "reviewId": "Ci9DQUlRQUNvZENodHljRjlvT201TVRFOVJjRFZ1ZDJGYVozRmxWazA0VWtGQlpuYxAB",
+            "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT201TVRFOVJjRFZ1ZDJGYVozRmxWazA0VWtGQlpuYxAB!2m1!1s0x0:0x9cc493baf395e370!3m1!1s2@1:CAIQACodChtycF9oOm5MTE9RcDVud2FaZ3FlVk04UkFBZnc%7C0csES0idick%7C?hl=nl",
+            "reviewOrigin": "Google",
+            "stars": 1,
+            "rating": null,
+            "responseFromOwnerDate": null,
+            "responseFromOwnerText": null,
+            "reviewImageUrls": [],
+            "reviewContext": {
+              "Reisgroep": "Familie"
+            },
+            "reviewDetailedRating": {
+              "Kamers": 1,
+              "Service": 1,
+              "Locatie": 1
+            },
+            "visitedIn": null,
+            "originalLanguage": "nl",
+            "translatedLanguage": null,
+            "isAdvertisement": false,
+            "placeId": "ChIJ-Q2xZ5wIx0cRcOOV87qTxJw",
+            "location": {
+              "lat": 51.8203548,
+              "lng": 5.8318575
+            },
+            "address": "Weg door Jonkerbos 90, 6532 SZ Nijmegen, Nederland",
+            "neighborhood": "Nijmegen-Midden",
+            "street": "Weg door Jonkerbos 90",
+            "city": "Nijmegen",
+            "postalCode": "6532 SZ",
+            "state": null,
+            "countryCode": "NL",
+            "categoryName": "Dagspa",
+            "categories": [
+              "Dagspa",
+              "Cadeauwinkel",
+              "Hotel",
+              "Fitnessprogramma",
+              "Fysiotherapiepraktijk",
+              "Wellnesscentrum",
+              "Badmodewinkel"
+            ],
+            "title": "Sanadome Hotel & Spa Nijmegen",
+            "totalScore": 3.9,
+            "permanentlyClosed": false,
+            "temporarilyClosed": false,
+            "reviewsCount": 3538,
+            "url": "https://www.google.com/maps/search/?api=1&query=Sanadome%20Hotel%20%26%20Spa%20Nijmegen&query_place_id=ChIJ-Q2xZ5wIx0cRcOOV87qTxJw",
+            "price": "US$ 202",
+            "cid": "11296316196511933296",
+            "fid": "0x47c7089c67b10df9:0x9cc493baf395e370",
+            "hotelStars": "4-sterrenhotel",
+            "imageUrl": "https://lh3.googleusercontent.com/p/AF1QipMR-b0_eDWGxlzCmNb4hQHlxYowEoXyLdIVKH6N=w531-h240-k-no",
+            "scrapedAt": "2025-10-08T17:45:25.633Z",
+            "language": "nl"
+          },
+          {
+            "searchString": "Direct Detail URL: https://www.google.com/maps/search/?api=1&query=ChIJ-Q2xZ5wIx0cRcOOV87qTxJw&query_place_id=ChIJ-Q2xZ5wIx0cRcOOV87qTxJw",
+            "reviewerId": "108987071104354411537",
+            "reviewerUrl": "https://www.google.com/maps/contrib/108987071104354411537?hl=nl",
+            "name": "Angela",
+            "reviewerNumberOfReviews": 62,
+            "isLocalGuide": true,
+            "reviewerPhotoUrl": "https://lh3.googleusercontent.com/a/ACg8ocJsO86BGXEI1ZzXtGBkY9bSXOb7b0nMqHmkJiiE6VD9BSQWQ07R=s1920-c-rp-mo-ba4-br100",
+            "text": "Het is niet heel byzonder.  Tenzij je het fijn vindt de hele dag in water te vertoeven.  Voor ons geen 2e keer.",
+            "textTranslated": null,
+            "publishAt": "5 dagen geleden",
+            "publishedAtDate": "2025-10-03T12:46:44.077Z",
+            "likesCount": 0,
+            "reviewId": "Ci9DQUlRQUNvZENodHljRjlvT25SdGNUZ3pUelpzY1hOeVpETjNUbFp6VFVZMFgxRRAB",
+            "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT25SdGNUZ3pUelpzY1hOeVpETjNUbFp6VFVZMFgxRRAB!2m1!1s0x0:0x9cc493baf395e370!3m1!1s2@1:CAIQACodChtycF9oOnRtcTgzTzZscXNyZDN3TlZzTUY0X1E%7C0crwLo3cXGk%7C?hl=nl",
+            "reviewOrigin": "Google",
+            "stars": 3,
+            "rating": null,
+            "responseFromOwnerDate": "2025-10-08T14:40:55.000Z",
+            "responseFromOwnerText": "Beste Angela, Bedankt voor je feedback. Jammer dat je ervaring bij ons niet helemaal aan je verwachtingen voldeed. We nemen je opmerkingen mee om de ervaring voor onze gasten en faciliteiten verder te verbeteren.\n\nMet vriendelijke groet,\nTeam Sanadome",
+            "reviewImageUrls": [],
+            "reviewContext": {
+              "Reistype": "Vakantie",
+              "Reisgroep": "Vrienden",
+              "Kamers": "Nette en grote kamer met balkon.",
+              "Eten en drinken": "Zeer goed ontbijt en uitstekende service!",
+              "Hoogtepunten van het hotel": "Luxe, Waar voor je geld"
+            },
+            "reviewDetailedRating": {
+              "Kamers": 5,
+              "Service": 5,
+              "Locatie": 3
+            },
+            "visitedIn": null,
+            "originalLanguage": "nl",
+            "translatedLanguage": null,
+            "isAdvertisement": false,
+            "placeId": "ChIJ-Q2xZ5wIx0cRcOOV87qTxJw",
+            "location": {
+              "lat": 51.8203548,
+              "lng": 5.8318575
+            },
+            "address": "Weg door Jonkerbos 90, 6532 SZ Nijmegen, Nederland",
+            "neighborhood": "Nijmegen-Midden",
+            "street": "Weg door Jonkerbos 90",
+            "city": "Nijmegen",
+            "postalCode": "6532 SZ",
+            "state": null,
+            "countryCode": "NL",
+            "categoryName": "Dagspa",
+            "categories": [
+              "Dagspa",
+              "Cadeauwinkel",
+              "Hotel",
+              "Fitnessprogramma",
+              "Fysiotherapiepraktijk",
+              "Wellnesscentrum",
+              "Badmodewinkel"
+            ],
+            "title": "Sanadome Hotel & Spa Nijmegen",
+            "totalScore": 3.9,
+            "permanentlyClosed": false,
+            "temporarilyClosed": false,
+            "reviewsCount": 3538,
+            "url": "https://www.google.com/maps/search/?api=1&query=Sanadome%20Hotel%20%26%20Spa%20Nijmegen&query_place_id=ChIJ-Q2xZ5wIx0cRcOOV87qTxJw",
+            "price": "US$ 202",
+            "cid": "11296316196511933296",
+            "fid": "0x47c7089c67b10df9:0x9cc493baf395e370",
+            "hotelStars": "4-sterrenhotel",
+            "imageUrl": "https://lh3.googleusercontent.com/p/AF1QipMR-b0_eDWGxlzCmNb4hQHlxYowEoXyLdIVKH6N=w531-h240-k-no",
+            "scrapedAt": "2025-10-08T17:45:25.633Z",
+            "language": "nl"
+          }
+        ],
+        "email": "info@sanadome.nl",
+        "contactEnriched": true,
+        "enrichmentDate": "2025-10-08T17:50:28.307Z"
+      },
+      {
+        "title": "Bubbles on the Hills",
+        "price": null,
+        "categoryName": "Wellnesscentrum",
+        "address": "Siep 18, 6561 KK Groesbeek, Nederland",
+        "neighborhood": null,
+        "street": "Siep 18",
+        "city": "Groesbeek",
+        "postalCode": "6561 KK",
+        "state": null,
+        "countryCode": "NL",
+        "website": "https://www.bubblesonthehills.nl/",
+        "phone": "+31 6 81022083",
+        "phoneUnformatted": "+31681022083",
+        "claimThisBusiness": false,
+        "location": {
+          "lat": 51.788282,
+          "lng": 5.929782
+        },
+        "totalScore": 3.6,
+        "permanentlyClosed": false,
+        "temporarilyClosed": false,
+        "placeId": "ChIJrysthS4Lx0cR5D97r5SKrx0",
+        "categories": [
+          "Wellnesscentrum",
+          "Sauna",
+          "Bed & Breakfast"
+        ],
+        "fid": "0x47c70b2e852d2baf:0x1daf8a94af7b3fe4",
+        "cid": "2139080719228157924",
+        "reviewsCount": 51,
+        "imagesCount": 64,
+        "imageCategories": [],
+        "scrapedAt": "2025-10-08T17:44:23.893Z",
+        "googleFoodUrl": null,
+        "hotelStars": null,
+        "checkInDate": "2025-10-12",
+        "checkOutDate": "2025-10-13",
+        "hotelAds": [],
+        "openingHours": [],
+        "peopleAlsoSearch": [],
+        "placesTags": [],
+        "reviewsTags": [],
+        "additionalInfo": {
+          "Aanbod": [
+            {
+              "Sauna": true
+            }
+          ],
+          "Amenities": [
+            {
+              "Gratis wifi": true
+            },
+            {
+              "Gratis ontbijt": true
+            }
+          ]
+        },
+        "gasPrices": [],
+        "url": "https://www.google.com/maps/search/?api=1&query=Bubbles%20on%20the%20Hills&query_place_id=ChIJrysthS4Lx0cR5D97r5SKrx0",
+        "searchPageUrl": "https://www.google.com/maps/search/spa%20Nederland/@51.76006340842791,6.182034203767007,11z?hl=nl",
+        "searchString": "spa Nederland",
+        "language": "nl",
+        "rank": 4,
+        "isAdvertisement": false,
+        "imageUrl": "https://lh3.googleusercontent.com/gps-cs-s/AC9h4nrSBCVoWC7wgkLQp6TesJLiTHe8IiaVK5Aarlg95viawiV-cXQ3nL6GSrW70Zw0429bh2gMBy8iqvewHYy8eVucCV8E-lz81G7sFucuNnnzyPLZcvZueknNfxKz_cw2yJh_fZKV=w408-h544-k-no",
+        "kgmid": "/g/11rg89vn4f",
+        "leadQuality": {
+          "score": 87,
+          "tier": "Platinum",
+          "tierColor": "text-purple-400",
+          "tierBg": "bg-purple-500/20 border-purple-500/30",
+          "factors": [
+            "Review Volume: 51 reviews (+24pts)",
+            "Rating: 3.6/5 (+18pts)",
+            "Recent Activity: 100% (+20pts)",
+            "Review Quality: 459 chars avg (+25pts)"
+          ],
+          "reviewCount": 51,
+          "rating": "3.6",
+          "recentActivityRate": 100,
+          "avgTextLength": 459
+        },
+        "reviewsForBusiness": [
+          {
+            "searchString": "Direct Detail URL: https://www.google.com/maps/search/?api=1&query=ChIJrysthS4Lx0cR5D97r5SKrx0&query_place_id=ChIJrysthS4Lx0cR5D97r5SKrx0",
+            "reviewerId": "110109250723511014432",
+            "reviewerUrl": "https://www.google.com/maps/contrib/110109250723511014432?hl=nl",
+            "name": "Patrick Winnubst",
+            "reviewerNumberOfReviews": 2,
+            "isLocalGuide": false,
+            "reviewerPhotoUrl": "https://lh3.googleusercontent.com/a-/ALV-UjVg9I3HeZS9w9cuisWMeHQAi28HMeklIuTfog8rIfN6RmtcB40=s1920-c-rp-mo-br100",
+            "text": "Zeer Slechte service\nArmoedige kamer die wel wat onderhoud kan gebruiken en lijkt meer op een darkroom.\nZeer slecht bed.\nOntbijt zeer matig voor de prijs die je betaald.\nKlachten worden niet serieus genomen want daar willen ze niks van weten. Sterker nog na 3 pogingen geen enkel contact en hebben lak aan jou ervaring.\nPrijs/kwaliteit een 2.\nTip: wil je waar voor je geld boek dan een ander verblijf en laat je niet verleiden door de mooie foto’s op de site.",
+            "textTranslated": null,
+            "publishAt": "3 dagen geleden",
+            "publishedAtDate": "2025-10-05T08:11:35.717Z",
+            "likesCount": 0,
+            "reviewId": "Ci9DQUlRQUNvZENodHljRjlvT204eWVEZDFZa3hqTjFkalQyMUthV3BuZEV4blQyYxAB",
+            "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT204eWVEZDFZa3hqTjFkalQyMUthV3BuZEV4blQyYxAB!2m1!1s0x0:0x1daf8a94af7b3fe4!3m1!1s2@1:CAIQACodChtycF9oOm8yeDd1YkxjN1djT21KaWpndExnT2c%7C0csXVrejLc6%7C?hl=nl",
+            "reviewOrigin": "Google",
+            "stars": 1,
+            "rating": null,
+            "responseFromOwnerDate": null,
+            "responseFromOwnerText": null,
+            "reviewImageUrls": [],
+            "reviewContext": {
+              "Reistype": "Vakantie",
+              "Reisgroep": "Stel",
+              "Kamers": "Niets is wat het lijkt op de foto’s van de kamer. Veel achterstallig onderhoud erg donker zodat dit niet opvalt. Het bad is prima maar maakt zoveel herrie en staat een meter naast het bed waardoor je de hele nacht wakker wordt gehouden. Het bed is uitermate slecht en kraakt en piept aan alle kanten. De prijs die gevraagd wordt voor deze kamer is het zeker niet waard en dan maar te zwijgen over de service die is zeer slecht en lees je ook in mijn eerdere review. De goedkoopste kamer van bijvoorbeeld van de Valk is vele malen beter en zou deze kamer sterk afraden.",
+              "Activiteiten in de buurt": "Veel groen verder niks te doen.",
+              "Eten en drinken": "Het ontbijt wat bij de arangement hoort is uiterst beroerd te noemen. Men vraagt daar een prijs voor van €37,- maar is bij elkaar opgeteld nog geen €15 waard.",
+              "Bijzondere details": "Bij terugkomst van het verblijf hebben we een klacht ingediend maar daar wordt niet op gereageerd. Ook niet bij een 2e en 3e poging en dus wordt je niet serieus genomen of hebben hier schijt aan. Het platform Vipio waar ze reclame maken hebben zelfs overwogen bubbels in the Hill te verwijderen van hun platform omdat dit voor hun ook geen reclame is.\nWees gewaarschuwd!"
+            },
+            "reviewDetailedRating": {
+              "Kamers": 2,
+              "Service": 1,
+              "Locatie": 3
+            },
+            "visitedIn": null,
+            "originalLanguage": "nl",
+            "translatedLanguage": null,
+            "isAdvertisement": false,
+            "placeId": "ChIJrysthS4Lx0cR5D97r5SKrx0",
+            "location": {
+              "lat": 51.788282,
+              "lng": 5.929782
+            },
+            "address": "Siep 18, 6561 KK Groesbeek, Nederland",
+            "neighborhood": null,
+            "street": "Siep 18",
+            "city": "Groesbeek",
+            "postalCode": "6561 KK",
+            "state": null,
+            "countryCode": "NL",
+            "categoryName": "Bed & Breakfast",
+            "categories": [
+              "Bed & Breakfast",
+              "Sauna",
+              "Wellnesscentrum"
+            ],
+            "title": "Bubbles on the Hills",
+            "totalScore": 3.6,
+            "permanentlyClosed": false,
+            "temporarilyClosed": false,
+            "reviewsCount": 51,
+            "url": "https://www.google.com/maps/search/?api=1&query=Bubbles%20on%20the%20Hills&query_place_id=ChIJrysthS4Lx0cR5D97r5SKrx0",
+            "price": null,
+            "cid": "2139080719228157924",
+            "fid": "0x47c70b2e852d2baf:0x1daf8a94af7b3fe4",
+            "hotelStars": null,
+            "imageUrl": "https://lh3.googleusercontent.com/gps-cs-s/AC9h4nrSBCVoWC7wgkLQp6TesJLiTHe8IiaVK5Aarlg95viawiV-cXQ3nL6GSrW70Zw0429bh2gMBy8iqvewHYy8eVucCV8E-lz81G7sFucuNnnzyPLZcvZueknNfxKz_cw2yJh_fZKV=w408-h544-k-no",
+            "scrapedAt": "2025-10-08T17:47:07.724Z",
+            "language": "nl"
+          }
+        ],
+        "email": "info@www.bubblesonthehills.nl",
+        "contactEnriched": true,
+        "enrichmentDate": "2025-10-08T17:50:32.876Z"
+      }
+    ],
+    "reviews": [
+      {
+        "searchString": "Direct Detail URL: https://www.google.com/maps/search/?api=1&query=ChIJUQA0QpYax0cRAmYRowe0vOI&query_place_id=ChIJUQA0QpYax0cRAmYRowe0vOI",
+        "reviewerId": "113612368917256525938",
+        "reviewerUrl": "https://www.google.com/maps/contrib/113612368917256525938?hl=nl",
+        "name": "Julia Schriks",
+        "reviewerNumberOfReviews": 4,
+        "isLocalGuide": true,
+        "reviewerPhotoUrl": "https://lh3.googleusercontent.com/a/ACg8ocKX6gEtJczkaFVPrdswmP8vilbh-SkhCsxXKF39HdBHlJ1jrQ=s1920-c-rp-mo-ba2-br100",
+        "text": "Kan enige verbetering gebruiken",
+        "textTranslated": null,
+        "publishAt": "een uur geleden",
+        "publishedAtDate": "2025-10-08T16:06:29.601Z",
+        "likesCount": 0,
+        "reviewId": "Ci9DQUlRQUNvZENodHljRjlvT2xoVFdtaHhNR2RwYUVsQ1dqRjVWbXQxWTFoQlgzYxAB",
+        "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT2xoVFdtaHhNR2RwYUVsQ1dqRjVWbXQxWTFoQlgzYxAB!2m1!1s0x0:0xe2bcb407a3116602!3m1!1s2@1:CAIQACodChtycF9oOlhTWmhxMGdpaElCWjF5Vmt1Y1hBX3c%7C0ctck4Yptpd%7C?hl=nl",
+        "reviewOrigin": "Google",
+        "stars": 3,
+        "rating": null,
+        "responseFromOwnerDate": null,
+        "responseFromOwnerText": null,
+        "reviewImageUrls": [],
+        "reviewContext": {},
+        "reviewDetailedRating": {},
+        "visitedIn": null,
+        "originalLanguage": "nl",
+        "translatedLanguage": null,
+        "isAdvertisement": false,
+        "placeId": "ChIJUQA0QpYax0cRAmYRowe0vOI",
+        "location": {
+          "lat": 51.6872815,
+          "lng": 5.7784149
+        },
+        "address": "Hoogveldseweg 1, 5451 AA Mill, Nederland",
+        "neighborhood": null,
+        "street": "Hoogveldseweg 1",
+        "city": "Mill",
+        "postalCode": "5451 AA",
+        "state": null,
+        "countryCode": "NL",
+        "categoryName": "Wellnesscentrum",
+        "categories": [
+          "Wellnesscentrum",
+          "Gezichtsbehandelingsspa",
+          "Restaurant",
+          "Sauna",
+          "Spa- en gezondheidsclub",
+          "Wellnesstuin"
+        ],
+        "title": "BLUE Wellnessboot Mill",
+        "totalScore": 4.1,
+        "permanentlyClosed": false,
+        "temporarilyClosed": false,
+        "reviewsCount": 2175,
+        "url": "https://www.google.com/maps/search/?api=1&query=BLUE%20Wellnessboot%20Mill&query_place_id=ChIJUQA0QpYax0cRAmYRowe0vOI",
+        "price": null,
+        "cid": "16338131493086914050",
+        "fid": "0x47c71a9642340051:0xe2bcb407a3116602",
+        "imageUrl": "https://lh3.googleusercontent.com/p/AF1QipNA0g6dxMwTGRuoLsRd05EpbGluWdf9uS7U3JPG=w426-h240-k-no",
+        "scrapedAt": "2025-10-08T17:46:31.730Z",
+        "language": "nl"
+      },
+      {
+        "searchString": "Direct Detail URL: https://www.google.com/maps/search/?api=1&query=ChIJ-Q2xZ5wIx0cRcOOV87qTxJw&query_place_id=ChIJ-Q2xZ5wIx0cRcOOV87qTxJw",
+        "reviewerId": "113749749698306512745",
+        "reviewerUrl": "https://www.google.com/maps/contrib/113749749698306512745?hl=nl",
+        "name": "Sann W",
+        "reviewerNumberOfReviews": 113,
+        "isLocalGuide": true,
+        "reviewerPhotoUrl": "https://lh3.googleusercontent.com/a-/ALV-UjXRnFuzfb31nJBRbzQzPaNQOM9XYOVq58NnItffxUK8M6nYbY7eNg=s1920-c-rp-mo-ba4-br100",
+        "text": "Hoe mooi het wordt aangeprijsd, hoe grote tegenvaller bij binnenkomst. De uitstraling van het gebouw is top, maar rust vind je er niet. Te druk, teveel hysterie en lawaai. Geen aanrader als je komt voor rust.",
+        "textTranslated": null,
+        "publishAt": "2 uur geleden",
+        "publishedAtDate": "2025-10-08T14:48:21.294Z",
+        "likesCount": 0,
+        "reviewId": "Ci9DQUlRQUNvZENodHljRjlvT210b2JIZFZWbGR1YlRNM2REbENWMll3ZUhoUVdFRRAB",
+        "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT210b2JIZFZWbGR1YlRNM2REbENWMll3ZUhoUVdFRRAB!2m1!1s0x0:0x9cc493baf395e370!3m1!1s2@1:CAIQACodChtycF9oOmtobHdVVldubTM3dDlCV2YweHhQWEE%7C0ctbapGYCYF%7C?hl=nl",
+        "reviewOrigin": "Google",
+        "stars": 2,
+        "rating": null,
+        "responseFromOwnerDate": null,
+        "responseFromOwnerText": null,
+        "reviewImageUrls": [],
+        "reviewContext": {
+          "Reistype": "Vakantie",
+          "Reisgroep": "Vrienden"
+        },
+        "reviewDetailedRating": {},
+        "visitedIn": null,
+        "originalLanguage": "nl",
+        "translatedLanguage": null,
+        "isAdvertisement": false,
+        "placeId": "ChIJ-Q2xZ5wIx0cRcOOV87qTxJw",
+        "location": {
+          "lat": 51.8203548,
+          "lng": 5.8318575
+        },
+        "address": "Weg door Jonkerbos 90, 6532 SZ Nijmegen, Nederland",
+        "neighborhood": "Nijmegen-Midden",
+        "street": "Weg door Jonkerbos 90",
+        "city": "Nijmegen",
+        "postalCode": "6532 SZ",
+        "state": null,
+        "countryCode": "NL",
+        "categoryName": "Dagspa",
+        "categories": [
+          "Dagspa",
+          "Cadeauwinkel",
+          "Hotel",
+          "Fitnessprogramma",
+          "Fysiotherapiepraktijk",
+          "Wellnesscentrum",
+          "Badmodewinkel"
+        ],
+        "title": "Sanadome Hotel & Spa Nijmegen",
+        "totalScore": 3.9,
+        "permanentlyClosed": false,
+        "temporarilyClosed": false,
+        "reviewsCount": 3538,
+        "url": "https://www.google.com/maps/search/?api=1&query=Sanadome%20Hotel%20%26%20Spa%20Nijmegen&query_place_id=ChIJ-Q2xZ5wIx0cRcOOV87qTxJw",
+        "price": "US$ 202",
+        "cid": "11296316196511933296",
+        "fid": "0x47c7089c67b10df9:0x9cc493baf395e370",
+        "hotelStars": "4-sterrenhotel",
+        "imageUrl": "https://lh3.googleusercontent.com/p/AF1QipMR-b0_eDWGxlzCmNb4hQHlxYowEoXyLdIVKH6N=w531-h240-k-no",
+        "scrapedAt": "2025-10-08T17:45:25.633Z",
+        "language": "nl"
+      },
+      {
+        "searchString": "Direct Detail URL: https://www.google.com/maps/search/?api=1&query=ChIJ-Q2xZ5wIx0cRcOOV87qTxJw&query_place_id=ChIJ-Q2xZ5wIx0cRcOOV87qTxJw",
+        "reviewerId": "100563224843468550199",
+        "reviewerUrl": "https://www.google.com/maps/contrib/100563224843468550199?hl=nl",
+        "name": "RJ L.",
+        "reviewerNumberOfReviews": 3,
+        "isLocalGuide": false,
+        "reviewerPhotoUrl": "https://lh3.googleusercontent.com/a-/ALV-UjVV3b_XUeTEbuuWU5TGwDJ5BMDQHiCin2OhnNP2tqrGKcGYpoI2=s1920-c-rp-mo-br100",
+        "text": "Na jaren voor het eerst Sanadome geprobeerd. Krankzinnig duur! Ook al verblijf je 2 nachten, betaal je voor een 3-gangen diner met een flesje wijn, dan nog betaal je een idiote parkeerboete van 10 euro per dag en als je om water vraagt ben je verplicht om voor 7,50!!! een fles water af te nemen. Bron of niet, daar koop ik meer dan 3 liter benzine voor. Sorry, ben in honderden hotels geweest maar heb me nog nooit zo uitgeknepen gevoeld als hier. 1000 euro kwijt. Heel dom.",
+        "textTranslated": null,
+        "publishAt": "21 uur geleden",
+        "publishedAtDate": "2025-10-07T20:31:00.246Z",
+        "likesCount": 0,
+        "reviewId": "Ci9DQUlRQUNvZENodHljRjlvT25Ka2MwOTFUelJsWXpoRlNFaHBjSFpNTjAxWUxVRRAB",
+        "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT25Ka2MwOTFUelJsWXpoRlNFaHBjSFpNTjAxWUxVRRAB!2m1!1s0x0:0x9cc493baf395e370!3m1!1s2@1:CAIQACodChtycF9oOnJkc091TzRlYzhFSEhpcHZMN01YLUE%7C0ctMX3DfA1v%7C?hl=nl",
+        "reviewOrigin": "Google",
+        "stars": 1,
+        "rating": null,
+        "responseFromOwnerDate": "2025-10-08T14:43:25.000Z",
+        "responseFromOwnerText": "Beste RJ,\n\nBedankt dat je de tijd hebt genomen om je ervaring te delen. Het spijt ons te horen dat je verblijf niet aan je verwachtingen voldeed en dat je je zo hebt gevoeld over de kosten. We streven er altijd naar om onze gasten duidelijk te informeren over de prijzen voor extra’s zoals diner, parkeerplaats en drankjes, en het is vervelend dat dit tijdens je verblijf niet goed is overgekomen.\n\nWe nemen je feedback serieus en zullen bekijken hoe we onze communicatie hierover kunnen verbeteren, zodat toekomstige gasten beter geïnformeerd zijn.\n\nMet vriendelijke groet,\nTeam Sanadome",
+        "reviewImageUrls": [],
+        "reviewContext": {
+          "Reistype": "Vakantie",
+          "Reisgroep": "Familie",
+          "Kamers": "Prima",
+          "Eten en drinken": "Eten goed. Erg duur."
+        },
+        "reviewDetailedRating": {
+          "Kamers": 1,
+          "Service": 1,
+          "Locatie": 1
+        },
+        "visitedIn": null,
+        "originalLanguage": "nl",
+        "translatedLanguage": null,
+        "isAdvertisement": false,
+        "placeId": "ChIJ-Q2xZ5wIx0cRcOOV87qTxJw",
+        "location": {
+          "lat": 51.8203548,
+          "lng": 5.8318575
+        },
+        "address": "Weg door Jonkerbos 90, 6532 SZ Nijmegen, Nederland",
+        "neighborhood": "Nijmegen-Midden",
+        "street": "Weg door Jonkerbos 90",
+        "city": "Nijmegen",
+        "postalCode": "6532 SZ",
+        "state": null,
+        "countryCode": "NL",
+        "categoryName": "Dagspa",
+        "categories": [
+          "Dagspa",
+          "Cadeauwinkel",
+          "Hotel",
+          "Fitnessprogramma",
+          "Fysiotherapiepraktijk",
+          "Wellnesscentrum",
+          "Badmodewinkel"
+        ],
+        "title": "Sanadome Hotel & Spa Nijmegen",
+        "totalScore": 3.9,
+        "permanentlyClosed": false,
+        "temporarilyClosed": false,
+        "reviewsCount": 3538,
+        "url": "https://www.google.com/maps/search/?api=1&query=Sanadome%20Hotel%20%26%20Spa%20Nijmegen&query_place_id=ChIJ-Q2xZ5wIx0cRcOOV87qTxJw",
+        "price": "US$ 202",
+        "cid": "11296316196511933296",
+        "fid": "0x47c7089c67b10df9:0x9cc493baf395e370",
+        "hotelStars": "4-sterrenhotel",
+        "imageUrl": "https://lh3.googleusercontent.com/p/AF1QipMR-b0_eDWGxlzCmNb4hQHlxYowEoXyLdIVKH6N=w531-h240-k-no",
+        "scrapedAt": "2025-10-08T17:45:25.633Z",
+        "language": "nl"
+      },
+      {
+        "searchString": "Direct Detail URL: https://www.google.com/maps/search/?api=1&query=ChIJUQA0QpYax0cRAmYRowe0vOI&query_place_id=ChIJUQA0QpYax0cRAmYRowe0vOI",
+        "reviewerId": "101268631197944334810",
+        "reviewerUrl": "https://www.google.com/maps/contrib/101268631197944334810?hl=nl",
+        "name": "Astrid Hagendijk",
+        "reviewerNumberOfReviews": 11,
+        "isLocalGuide": false,
+        "reviewerPhotoUrl": "https://lh3.googleusercontent.com/a/ACg8ocIxQ4dLz4tqqUoO6LSFgGHifnCwaHcyg9NAq4GKxNosqFOTEw=s1920-c-rp-mo-br100",
+        "text": "kwamen binnen en wilden gelijk het bubbelbad in....om technische redenen deden ze het allebei niet....echt heel slecht....dit hadden jullie moeten melden bij binnenkomst....temperaturen van alle andere baden en hot tub is niet oké...in de hottub ook nog een aanvoer niet afgedekt stond ook een bordje bij....de douches ook weinig waterdruk....ik denk dat ze aan het bezuinigen zijn....in het restaurant hangen er plafonddelen los en in de stoomsauna zit een gat in het plafond....ook bij weggaan werd er gevraagd of alles naar wens gewenst....ze gaf aan het door te geven....er kon geen excuus vanaf....we hadden all inclusive geboekt....en hadden een extra ijs koffie erbij genomen....die moesten we gewoon extra afrekenen....ik had gezegd laat maar zitten als goed makertje voor het ongemak....maar we moesten toch nog 13,50 afrekenen....jammer!!",
+        "textTranslated": null,
+        "publishAt": "Bewerkt: een dag geleden",
+        "publishedAtDate": "2025-10-07T17:37:40.026Z",
+        "likesCount": 0,
+        "reviewId": "ChdDSUhNMG9nS0VJQ0FnSURHMDVYXzhBRRAB",
+        "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VJQ0FnSURHMDVYXzhBRRAB!2m1!1s0x0:0xe2bcb407a3116602!3m1!1s2@1:CIHM0ogKEICAgIDG05X_8AE%7CCgwI5PDDjQYQ-Ny32QE%7C?hl=nl",
+        "reviewOrigin": "Google",
+        "stars": 1,
+        "rating": null,
+        "responseFromOwnerDate": null,
+        "responseFromOwnerText": null,
+        "reviewImageUrls": [],
+        "reviewContext": {},
+        "reviewDetailedRating": {},
+        "visitedIn": null,
+        "originalLanguage": "nl",
+        "translatedLanguage": null,
+        "isAdvertisement": false,
+        "placeId": "ChIJUQA0QpYax0cRAmYRowe0vOI",
+        "location": {
+          "lat": 51.6872815,
+          "lng": 5.7784149
+        },
+        "address": "Hoogveldseweg 1, 5451 AA Mill, Nederland",
+        "neighborhood": null,
+        "street": "Hoogveldseweg 1",
+        "city": "Mill",
+        "postalCode": "5451 AA",
+        "state": null,
+        "countryCode": "NL",
+        "categoryName": "Wellnesscentrum",
+        "categories": [
+          "Wellnesscentrum",
+          "Gezichtsbehandelingsspa",
+          "Restaurant",
+          "Sauna",
+          "Spa- en gezondheidsclub",
+          "Wellnesstuin"
+        ],
+        "title": "BLUE Wellnessboot Mill",
+        "totalScore": 4.1,
+        "permanentlyClosed": false,
+        "temporarilyClosed": false,
+        "reviewsCount": 2175,
+        "url": "https://www.google.com/maps/search/?api=1&query=BLUE%20Wellnessboot%20Mill&query_place_id=ChIJUQA0QpYax0cRAmYRowe0vOI",
+        "price": null,
+        "cid": "16338131493086914050",
+        "fid": "0x47c71a9642340051:0xe2bcb407a3116602",
+        "imageUrl": "https://lh3.googleusercontent.com/p/AF1QipNA0g6dxMwTGRuoLsRd05EpbGluWdf9uS7U3JPG=w426-h240-k-no",
+        "scrapedAt": "2025-10-08T17:46:31.730Z",
+        "language": "nl"
+      },
+      {
+        "searchString": "Direct Detail URL: https://www.google.com/maps/search/?api=1&query=ChIJUQA0QpYax0cRAmYRowe0vOI&query_place_id=ChIJUQA0QpYax0cRAmYRowe0vOI",
+        "reviewerId": "116991813853217532889",
+        "reviewerUrl": "https://www.google.com/maps/contrib/116991813853217532889?hl=nl",
+        "name": "Moon B",
+        "reviewerNumberOfReviews": 4,
+        "isLocalGuide": false,
+        "reviewerPhotoUrl": "https://lh3.googleusercontent.com/a/ACg8ocJZ6p17r9qWukR7PPFQdKTWfQ_UQBbxlIn2mE_8C3m3F6DuNQ=s1920-c-rp-mo-br100",
+        "text": "Drie weken terug vouchers gewonnen via de staatsloterij.deze geboekt bij de saunaboot. Mijn dochter van 15 jaar bijna 16 was ook mee en gaat al vaker mee naar sauna’s. Vantevoren nog gebeld voordat ik boekte of tieners ook welkom waren en toen werdt gezegd,zeker wel onder begeleiding en U hoort bij haar te blijven.Toen ik de voucher afgaf aan de balie zei een meid die ons helemaal niet hielp tegen mijn dochter’hoe oud ben jij…? Waarop mijn dochter zei 15 jaar. Dan mag jij niet naar binnen.ik zei gek want ik kom hier vaker en ook bij andere sauna’s . Ik moest eens goed hun huisregels lezen. Onze voucher werdt wel gescand. Dus weg 4 kaarten. Maar zelf wel het geld krijgen en niet zeggen van wat rot maar helaas,helemaal niets.toen ik zei kan ik mijn kaarten omboeken nee dat gaat niet,wij hebben ze gescand en u had ze toch gratis.triest dat wij 155 km voor deze sauna hebben gereden, ik ga vaak naar Blue Wellnes Sittard,maar ik heb mij nu voorgenomen dat ik niet meer ga.\nWaarom als je boekt met de namen krijg je geen melding hoe oud je bent …niemand gaat toch vantevoren huisregels lezen,. Vooral niet omdat de algemene leeftijd voor de sauna vanaf 12 jaar is,onder begeleiding",
+        "textTranslated": null,
+        "publishAt": "3 dagen geleden",
+        "publishedAtDate": "2025-10-05T17:16:10.967Z",
+        "likesCount": 0,
+        "reviewId": "Ci9DQUlRQUNvZENodHljRjlvT2tSU1dEWnBlbVUzUmpsemRuQkZXbTVuWkV0ek4yYxAB",
+        "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT2tSU1dEWnBlbVUzUmpsemRuQkZXbTVuWkV0ek4yYxAB!2m1!1s0x0:0xe2bcb407a3116602!3m1!1s2@1:CAIQACodChtycF9oOkRSWDZpemU3RjlzdnBFWm5nZEtzN2c%7C0cseUPteqNG%7C?hl=nl",
+        "reviewOrigin": "Google",
+        "stars": 1,
+        "rating": null,
+        "responseFromOwnerDate": null,
+        "responseFromOwnerText": null,
+        "reviewImageUrls": [],
+        "reviewContext": {},
+        "reviewDetailedRating": {},
+        "visitedIn": null,
+        "originalLanguage": "nl",
+        "translatedLanguage": null,
+        "isAdvertisement": false,
+        "placeId": "ChIJUQA0QpYax0cRAmYRowe0vOI",
+        "location": {
+          "lat": 51.6872815,
+          "lng": 5.7784149
+        },
+        "address": "Hoogveldseweg 1, 5451 AA Mill, Nederland",
+        "neighborhood": null,
+        "street": "Hoogveldseweg 1",
+        "city": "Mill",
+        "postalCode": "5451 AA",
+        "state": null,
+        "countryCode": "NL",
+        "categoryName": "Wellnesscentrum",
+        "categories": [
+          "Wellnesscentrum",
+          "Gezichtsbehandelingsspa",
+          "Restaurant",
+          "Sauna",
+          "Spa- en gezondheidsclub",
+          "Wellnesstuin"
+        ],
+        "title": "BLUE Wellnessboot Mill",
+        "totalScore": 4.1,
+        "permanentlyClosed": false,
+        "temporarilyClosed": false,
+        "reviewsCount": 2175,
+        "url": "https://www.google.com/maps/search/?api=1&query=BLUE%20Wellnessboot%20Mill&query_place_id=ChIJUQA0QpYax0cRAmYRowe0vOI",
+        "price": null,
+        "cid": "16338131493086914050",
+        "fid": "0x47c71a9642340051:0xe2bcb407a3116602",
+        "imageUrl": "https://lh3.googleusercontent.com/p/AF1QipNA0g6dxMwTGRuoLsRd05EpbGluWdf9uS7U3JPG=w426-h240-k-no",
+        "scrapedAt": "2025-10-08T17:46:31.730Z",
+        "language": "nl"
+      },
+      {
+        "searchString": "Direct Detail URL: https://www.google.com/maps/search/?api=1&query=ChIJrysthS4Lx0cR5D97r5SKrx0&query_place_id=ChIJrysthS4Lx0cR5D97r5SKrx0",
+        "reviewerId": "110109250723511014432",
+        "reviewerUrl": "https://www.google.com/maps/contrib/110109250723511014432?hl=nl",
+        "name": "Patrick Winnubst",
+        "reviewerNumberOfReviews": 2,
+        "isLocalGuide": false,
+        "reviewerPhotoUrl": "https://lh3.googleusercontent.com/a-/ALV-UjVg9I3HeZS9w9cuisWMeHQAi28HMeklIuTfog8rIfN6RmtcB40=s1920-c-rp-mo-br100",
+        "text": "Zeer Slechte service\nArmoedige kamer die wel wat onderhoud kan gebruiken en lijkt meer op een darkroom.\nZeer slecht bed.\nOntbijt zeer matig voor de prijs die je betaald.\nKlachten worden niet serieus genomen want daar willen ze niks van weten. Sterker nog na 3 pogingen geen enkel contact en hebben lak aan jou ervaring.\nPrijs/kwaliteit een 2.\nTip: wil je waar voor je geld boek dan een ander verblijf en laat je niet verleiden door de mooie foto’s op de site.",
+        "textTranslated": null,
+        "publishAt": "3 dagen geleden",
+        "publishedAtDate": "2025-10-05T08:11:35.717Z",
+        "likesCount": 0,
+        "reviewId": "Ci9DQUlRQUNvZENodHljRjlvT204eWVEZDFZa3hqTjFkalQyMUthV3BuZEV4blQyYxAB",
+        "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT204eWVEZDFZa3hqTjFkalQyMUthV3BuZEV4blQyYxAB!2m1!1s0x0:0x1daf8a94af7b3fe4!3m1!1s2@1:CAIQACodChtycF9oOm8yeDd1YkxjN1djT21KaWpndExnT2c%7C0csXVrejLc6%7C?hl=nl",
+        "reviewOrigin": "Google",
+        "stars": 1,
+        "rating": null,
+        "responseFromOwnerDate": null,
+        "responseFromOwnerText": null,
+        "reviewImageUrls": [],
+        "reviewContext": {
+          "Reistype": "Vakantie",
+          "Reisgroep": "Stel",
+          "Kamers": "Niets is wat het lijkt op de foto’s van de kamer. Veel achterstallig onderhoud erg donker zodat dit niet opvalt. Het bad is prima maar maakt zoveel herrie en staat een meter naast het bed waardoor je de hele nacht wakker wordt gehouden. Het bed is uitermate slecht en kraakt en piept aan alle kanten. De prijs die gevraagd wordt voor deze kamer is het zeker niet waard en dan maar te zwijgen over de service die is zeer slecht en lees je ook in mijn eerdere review. De goedkoopste kamer van bijvoorbeeld van de Valk is vele malen beter en zou deze kamer sterk afraden.",
+          "Activiteiten in de buurt": "Veel groen verder niks te doen.",
+          "Eten en drinken": "Het ontbijt wat bij de arangement hoort is uiterst beroerd te noemen. Men vraagt daar een prijs voor van €37,- maar is bij elkaar opgeteld nog geen €15 waard.",
+          "Bijzondere details": "Bij terugkomst van het verblijf hebben we een klacht ingediend maar daar wordt niet op gereageerd. Ook niet bij een 2e en 3e poging en dus wordt je niet serieus genomen of hebben hier schijt aan. Het platform Vipio waar ze reclame maken hebben zelfs overwogen bubbels in the Hill te verwijderen van hun platform omdat dit voor hun ook geen reclame is.\nWees gewaarschuwd!"
+        },
+        "reviewDetailedRating": {
+          "Kamers": 2,
+          "Service": 1,
+          "Locatie": 3
+        },
+        "visitedIn": null,
+        "originalLanguage": "nl",
+        "translatedLanguage": null,
+        "isAdvertisement": false,
+        "placeId": "ChIJrysthS4Lx0cR5D97r5SKrx0",
+        "location": {
+          "lat": 51.788282,
+          "lng": 5.929782
+        },
+        "address": "Siep 18, 6561 KK Groesbeek, Nederland",
+        "neighborhood": null,
+        "street": "Siep 18",
+        "city": "Groesbeek",
+        "postalCode": "6561 KK",
+        "state": null,
+        "countryCode": "NL",
+        "categoryName": "Bed & Breakfast",
+        "categories": [
+          "Bed & Breakfast",
+          "Sauna",
+          "Wellnesscentrum"
+        ],
+        "title": "Bubbles on the Hills",
+        "totalScore": 3.6,
+        "permanentlyClosed": false,
+        "temporarilyClosed": false,
+        "reviewsCount": 51,
+        "url": "https://www.google.com/maps/search/?api=1&query=Bubbles%20on%20the%20Hills&query_place_id=ChIJrysthS4Lx0cR5D97r5SKrx0",
+        "price": null,
+        "cid": "2139080719228157924",
+        "fid": "0x47c70b2e852d2baf:0x1daf8a94af7b3fe4",
+        "hotelStars": null,
+        "imageUrl": "https://lh3.googleusercontent.com/gps-cs-s/AC9h4nrSBCVoWC7wgkLQp6TesJLiTHe8IiaVK5Aarlg95viawiV-cXQ3nL6GSrW70Zw0429bh2gMBy8iqvewHYy8eVucCV8E-lz81G7sFucuNnnzyPLZcvZueknNfxKz_cw2yJh_fZKV=w408-h544-k-no",
+        "scrapedAt": "2025-10-08T17:47:07.724Z",
+        "language": "nl"
+      },
+      {
+        "searchString": "Direct Detail URL: https://www.google.com/maps/search/?api=1&query=ChIJe2_GFJYWxEcRESuTwJVQPgc&query_place_id=ChIJe2_GFJYWxEcRESuTwJVQPgc",
+        "reviewerId": "111906678175106045208",
+        "reviewerUrl": "https://www.google.com/maps/contrib/111906678175106045208?hl=nl",
+        "name": "Hans Hendriks",
+        "reviewerNumberOfReviews": 12,
+        "isLocalGuide": true,
+        "reviewerPhotoUrl": "https://lh3.googleusercontent.com/a/ACg8ocLJ_DGGlPF9HPkESDt0TXwIlMT6zkKAGb-sC5yrJalzy-YM7A=s1920-c-rp-mo-ba2-br100",
+        "text": "de sauna's zijn prima. maar de smootys zijn niet lekker. wat is het probleem om vers fruit te gebruiken i.p.v. bevroren. bevroren banaan is zijn smaak helemaal kwijt. ook een milkshake wordt gemaakt met bevroren water i.p.v. melk. verder wel ontspannen.",
+        "textTranslated": null,
+        "publishAt": "4 dagen geleden",
+        "publishedAtDate": "2025-10-04T15:42:52.790Z",
+        "likesCount": 0,
+        "reviewId": "Ci9DQUlRQUNvZENodHljRjlvT25SamVsOTJaamhVZEU5NFR6ZzRhRVJuVDNKdFIxRRAB",
+        "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT25SamVsOTJaamhVZEU5NFR6ZzRhRVJuVDNKdFIxRRAB!2m1!1s0x0:0x73e5095c0932b11!3m1!1s2@1:CAIQACodChtycF9oOnRjel92ZjhUdE94Tzg4aERnT3JtR1E%7C0csJ0wj59Go%7C?hl=nl",
+        "reviewOrigin": "Google",
+        "stars": 3,
+        "rating": null,
+        "responseFromOwnerDate": "2025-10-04T19:27:05.000Z",
+        "responseFromOwnerText": "Beste Hans, hartelijk dank voor de review en wat vervelend om te horen dat onze smoothies niet aan de smaak vielen. Wij nemen uw feedback zeker mee en hopelijk mogen wij u in de toekomst nog een keer ontvangen! Met vriendelijke groet, Hanna",
+        "reviewImageUrls": [],
+        "reviewContext": {},
+        "reviewDetailedRating": {},
+        "visitedIn": null,
+        "originalLanguage": "nl",
+        "translatedLanguage": null,
+        "isAdvertisement": false,
+        "placeId": "ChIJe2_GFJYWxEcRESuTwJVQPgc",
+        "location": {
+          "lat": 51.5365702,
+          "lng": 4.4337961
+        },
+        "address": "De Stok 6, 4703 SZ Roosendaal, Nederland",
+        "neighborhood": "West",
+        "street": "De Stok 6",
+        "city": "Roosendaal",
+        "postalCode": "4703 SZ",
+        "state": null,
+        "countryCode": "NL",
+        "categoryName": "Wellnesscentrum",
+        "categories": [
+          "Wellnesscentrum",
+          "Dagspa",
+          "Sauna"
+        ],
+        "title": "Vitae Wellnessresort Roosendaal",
+        "totalScore": 4.4,
+        "permanentlyClosed": false,
+        "temporarilyClosed": false,
+        "reviewsCount": 672,
+        "url": "https://www.google.com/maps/search/?api=1&query=Vitae%20Wellnessresort%20Roosendaal&query_place_id=ChIJe2_GFJYWxEcRESuTwJVQPgc",
+        "price": null,
+        "cid": "521943210932775697",
+        "fid": "0x47c4169614c66f7b:0x73e5095c0932b11",
+        "imageUrl": "https://lh3.googleusercontent.com/p/AF1QipNaPCUbOZoWrKC0L6tB9Kned_97HdBkro-Kq5TX=w408-h408-k-no",
+        "scrapedAt": "2025-10-08T17:47:24.538Z",
+        "language": "nl"
+      },
+      {
+        "searchString": "Direct Detail URL: https://www.google.com/maps/search/?api=1&query=ChIJ-Q2xZ5wIx0cRcOOV87qTxJw&query_place_id=ChIJ-Q2xZ5wIx0cRcOOV87qTxJw",
+        "reviewerId": "115937697154195850313",
+        "reviewerUrl": "https://www.google.com/maps/contrib/115937697154195850313?hl=nl",
+        "name": "Arash Soleimani",
+        "reviewerNumberOfReviews": 13,
+        "isLocalGuide": true,
+        "reviewerPhotoUrl": "https://lh3.googleusercontent.com/a-/ALV-UjUrMT_I-2U4UgQK96P1bqMe2jN7sqDUbEJw85uHeTV1kSps8ZM9vA=s1920-c-rp-mo-ba3-br100",
+        "text": "Overall, the stay was average and didn’t feel like a 4-star experience. During checkout, they wrongfully tried to charge us an extra €30, and it took about 30 minutes until the manager fixed it. The staff’s attitude was rude and unprofessional. The spa was nice, but I wouldn’t recommend their restaurant. it’s overpriced, and they never mention that drinks are not included in the €52 per person dinner package (not in the reservation confirmation, at reception, or by the waiters).",
+        "textTranslated": "Over het algemeen was het verblijf gemiddeld en voelde het niet als een 4-sterrenervaring. Bij het uitchecken probeerden ze ons ten onrechte € 30 extra te laten betalen, en het duurde ongeveer 30 minuten voordat de manager het had opgelost. De houding van het personeel was onbeleefd en onprofessioneel. De spa was prima, maar ik zou hun restaurant niet aanbevelen. Het is te duur en ze vermelden nooit dat drankjes niet zijn inbegrepen in het dinerarrangement van € 52 per persoon (niet in de reserveringsbevestiging, bij de receptie of door de obers).",
+        "publishAt": "4 dagen geleden",
+        "publishedAtDate": "2025-10-04T12:14:02.528Z",
+        "likesCount": 0,
+        "reviewId": "Ci9DQUlRQUNvZENodHljRjlvT21zdGNXdEhVVzQzUlhwd2NqY3ROblZ4V1ZaSFNtYxAB",
+        "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT21zdGNXdEhVVzQzUlhwd2NqY3ROblZ4V1ZaSFNtYxAB!2m1!1s0x0:0x9cc493baf395e370!3m1!1s2@1:CAIQACodChtycF9oOmstcWtHUW43RXpwcjctNnVxWVZHSmc%7C0csFy9UUXU0%7C?hl=nl",
+        "reviewOrigin": "Google",
+        "stars": 1,
+        "rating": null,
+        "responseFromOwnerDate": "2025-10-08T14:41:54.000Z",
+        "responseFromOwnerText": "Hi Arash, Thank you for sharing your feedback. We are sorry to hear that your experience did not meet your expectations. We strive to provide a smooth check-out process, professional service, and clear information about our dining options, so it is disappointing to hear that this was not your experience.\n\nWe take your comments seriously and will use them to improve our services and communication, both in the restaurant and with our staff. We are glad to hear you enjoyed the spa, and we hope to have the opportunity to welcome you back in the future under better circumstances.\n\nKind regards,\nTeam Sanadome",
+        "reviewImageUrls": [],
+        "reviewContext": {
+          "Reistype": "Vakantie",
+          "Reisgroep": "Stel",
+          "Hoogtepunten van het hotel": "Rustig"
+        },
+        "reviewDetailedRating": {
+          "Kamers": 3,
+          "Service": 1,
+          "Locatie": 2
+        },
+        "visitedIn": null,
+        "originalLanguage": "en",
+        "translatedLanguage": "nl",
+        "isAdvertisement": false,
+        "placeId": "ChIJ-Q2xZ5wIx0cRcOOV87qTxJw",
+        "location": {
+          "lat": 51.8203548,
+          "lng": 5.8318575
+        },
+        "address": "Weg door Jonkerbos 90, 6532 SZ Nijmegen, Nederland",
+        "neighborhood": "Nijmegen-Midden",
+        "street": "Weg door Jonkerbos 90",
+        "city": "Nijmegen",
+        "postalCode": "6532 SZ",
+        "state": null,
+        "countryCode": "NL",
+        "categoryName": "Dagspa",
+        "categories": [
+          "Dagspa",
+          "Cadeauwinkel",
+          "Hotel",
+          "Fitnessprogramma",
+          "Fysiotherapiepraktijk",
+          "Wellnesscentrum",
+          "Badmodewinkel"
+        ],
+        "title": "Sanadome Hotel & Spa Nijmegen",
+        "totalScore": 3.9,
+        "permanentlyClosed": false,
+        "temporarilyClosed": false,
+        "reviewsCount": 3538,
+        "url": "https://www.google.com/maps/search/?api=1&query=Sanadome%20Hotel%20%26%20Spa%20Nijmegen&query_place_id=ChIJ-Q2xZ5wIx0cRcOOV87qTxJw",
+        "price": "US$ 202",
+        "cid": "11296316196511933296",
+        "fid": "0x47c7089c67b10df9:0x9cc493baf395e370",
+        "hotelStars": "4-sterrenhotel",
+        "imageUrl": "https://lh3.googleusercontent.com/p/AF1QipMR-b0_eDWGxlzCmNb4hQHlxYowEoXyLdIVKH6N=w531-h240-k-no",
+        "scrapedAt": "2025-10-08T17:45:25.633Z",
+        "language": "nl"
+      },
+      {
+        "searchString": "Direct Detail URL: https://www.google.com/maps/search/?api=1&query=ChIJ-Q2xZ5wIx0cRcOOV87qTxJw&query_place_id=ChIJ-Q2xZ5wIx0cRcOOV87qTxJw",
+        "reviewerId": "109105719525078205423",
+        "reviewerUrl": "https://www.google.com/maps/contrib/109105719525078205423?hl=nl",
+        "name": "Rifinios Sk",
+        "reviewerNumberOfReviews": 1,
+        "isLocalGuide": false,
+        "reviewerPhotoUrl": "https://lh3.googleusercontent.com/a/ACg8ocL7sBnnXKjkN4yZXo8fBbYkQB0h_dOTclx2tV0PsxOPb01byA=s1920-c-rp-mo-br100",
+        "text": "Ik kom hier dus nooit nooit meer mederwerkers zijn niet netjes behandelen je als een hond en veel tuig  die aan het filmen zijn geen rust",
+        "textTranslated": null,
+        "publishAt": "4 dagen geleden",
+        "publishedAtDate": "2025-10-04T10:30:25.782Z",
+        "likesCount": 0,
+        "reviewId": "Ci9DQUlRQUNvZENodHljRjlvT201TVRFOVJjRFZ1ZDJGYVozRmxWazA0VWtGQlpuYxAB",
+        "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT201TVRFOVJjRFZ1ZDJGYVozRmxWazA0VWtGQlpuYxAB!2m1!1s0x0:0x9cc493baf395e370!3m1!1s2@1:CAIQACodChtycF9oOm5MTE9RcDVud2FaZ3FlVk04UkFBZnc%7C0csES0idick%7C?hl=nl",
+        "reviewOrigin": "Google",
+        "stars": 1,
+        "rating": null,
+        "responseFromOwnerDate": null,
+        "responseFromOwnerText": null,
+        "reviewImageUrls": [],
+        "reviewContext": {
+          "Reisgroep": "Familie"
+        },
+        "reviewDetailedRating": {
+          "Kamers": 1,
+          "Service": 1,
+          "Locatie": 1
+        },
+        "visitedIn": null,
+        "originalLanguage": "nl",
+        "translatedLanguage": null,
+        "isAdvertisement": false,
+        "placeId": "ChIJ-Q2xZ5wIx0cRcOOV87qTxJw",
+        "location": {
+          "lat": 51.8203548,
+          "lng": 5.8318575
+        },
+        "address": "Weg door Jonkerbos 90, 6532 SZ Nijmegen, Nederland",
+        "neighborhood": "Nijmegen-Midden",
+        "street": "Weg door Jonkerbos 90",
+        "city": "Nijmegen",
+        "postalCode": "6532 SZ",
+        "state": null,
+        "countryCode": "NL",
+        "categoryName": "Dagspa",
+        "categories": [
+          "Dagspa",
+          "Cadeauwinkel",
+          "Hotel",
+          "Fitnessprogramma",
+          "Fysiotherapiepraktijk",
+          "Wellnesscentrum",
+          "Badmodewinkel"
+        ],
+        "title": "Sanadome Hotel & Spa Nijmegen",
+        "totalScore": 3.9,
+        "permanentlyClosed": false,
+        "temporarilyClosed": false,
+        "reviewsCount": 3538,
+        "url": "https://www.google.com/maps/search/?api=1&query=Sanadome%20Hotel%20%26%20Spa%20Nijmegen&query_place_id=ChIJ-Q2xZ5wIx0cRcOOV87qTxJw",
+        "price": "US$ 202",
+        "cid": "11296316196511933296",
+        "fid": "0x47c7089c67b10df9:0x9cc493baf395e370",
+        "hotelStars": "4-sterrenhotel",
+        "imageUrl": "https://lh3.googleusercontent.com/p/AF1QipMR-b0_eDWGxlzCmNb4hQHlxYowEoXyLdIVKH6N=w531-h240-k-no",
+        "scrapedAt": "2025-10-08T17:45:25.633Z",
+        "language": "nl"
+      },
+      {
+        "searchString": "Direct Detail URL: https://www.google.com/maps/search/?api=1&query=ChIJ-Q2xZ5wIx0cRcOOV87qTxJw&query_place_id=ChIJ-Q2xZ5wIx0cRcOOV87qTxJw",
+        "reviewerId": "108987071104354411537",
+        "reviewerUrl": "https://www.google.com/maps/contrib/108987071104354411537?hl=nl",
+        "name": "Angela",
+        "reviewerNumberOfReviews": 62,
+        "isLocalGuide": true,
+        "reviewerPhotoUrl": "https://lh3.googleusercontent.com/a/ACg8ocJsO86BGXEI1ZzXtGBkY9bSXOb7b0nMqHmkJiiE6VD9BSQWQ07R=s1920-c-rp-mo-ba4-br100",
+        "text": "Het is niet heel byzonder.  Tenzij je het fijn vindt de hele dag in water te vertoeven.  Voor ons geen 2e keer.",
+        "textTranslated": null,
+        "publishAt": "5 dagen geleden",
+        "publishedAtDate": "2025-10-03T12:46:44.077Z",
+        "likesCount": 0,
+        "reviewId": "Ci9DQUlRQUNvZENodHljRjlvT25SdGNUZ3pUelpzY1hOeVpETjNUbFp6VFVZMFgxRRAB",
+        "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT25SdGNUZ3pUelpzY1hOeVpETjNUbFp6VFVZMFgxRRAB!2m1!1s0x0:0x9cc493baf395e370!3m1!1s2@1:CAIQACodChtycF9oOnRtcTgzTzZscXNyZDN3TlZzTUY0X1E%7C0crwLo3cXGk%7C?hl=nl",
+        "reviewOrigin": "Google",
+        "stars": 3,
+        "rating": null,
+        "responseFromOwnerDate": "2025-10-08T14:40:55.000Z",
+        "responseFromOwnerText": "Beste Angela, Bedankt voor je feedback. Jammer dat je ervaring bij ons niet helemaal aan je verwachtingen voldeed. We nemen je opmerkingen mee om de ervaring voor onze gasten en faciliteiten verder te verbeteren.\n\nMet vriendelijke groet,\nTeam Sanadome",
+        "reviewImageUrls": [],
+        "reviewContext": {
+          "Reistype": "Vakantie",
+          "Reisgroep": "Vrienden",
+          "Kamers": "Nette en grote kamer met balkon.",
+          "Eten en drinken": "Zeer goed ontbijt en uitstekende service!",
+          "Hoogtepunten van het hotel": "Luxe, Waar voor je geld"
+        },
+        "reviewDetailedRating": {
+          "Kamers": 5,
+          "Service": 5,
+          "Locatie": 3
+        },
+        "visitedIn": null,
+        "originalLanguage": "nl",
+        "translatedLanguage": null,
+        "isAdvertisement": false,
+        "placeId": "ChIJ-Q2xZ5wIx0cRcOOV87qTxJw",
+        "location": {
+          "lat": 51.8203548,
+          "lng": 5.8318575
+        },
+        "address": "Weg door Jonkerbos 90, 6532 SZ Nijmegen, Nederland",
+        "neighborhood": "Nijmegen-Midden",
+        "street": "Weg door Jonkerbos 90",
+        "city": "Nijmegen",
+        "postalCode": "6532 SZ",
+        "state": null,
+        "countryCode": "NL",
+        "categoryName": "Dagspa",
+        "categories": [
+          "Dagspa",
+          "Cadeauwinkel",
+          "Hotel",
+          "Fitnessprogramma",
+          "Fysiotherapiepraktijk",
+          "Wellnesscentrum",
+          "Badmodewinkel"
+        ],
+        "title": "Sanadome Hotel & Spa Nijmegen",
+        "totalScore": 3.9,
+        "permanentlyClosed": false,
+        "temporarilyClosed": false,
+        "reviewsCount": 3538,
+        "url": "https://www.google.com/maps/search/?api=1&query=Sanadome%20Hotel%20%26%20Spa%20Nijmegen&query_place_id=ChIJ-Q2xZ5wIx0cRcOOV87qTxJw",
+        "price": "US$ 202",
+        "cid": "11296316196511933296",
+        "fid": "0x47c7089c67b10df9:0x9cc493baf395e370",
+        "hotelStars": "4-sterrenhotel",
+        "imageUrl": "https://lh3.googleusercontent.com/p/AF1QipMR-b0_eDWGxlzCmNb4hQHlxYowEoXyLdIVKH6N=w531-h240-k-no",
+        "scrapedAt": "2025-10-08T17:45:25.633Z",
+        "language": "nl"
+      }
+    ],
+    "searchCriteria": {
+      "category": "spa",
+      "location": "Netherlands",
+      "minRating": 3.4,
+      "maxStars": 3,
+      "dayLimit": 14,
+      "businessLimit": 200,
+      "language": "nl",
+      "countryCode": "nl",
+      "maxRating": 4.6,
+      "reviewLimit": 10,
+      "minReviews": 10,
+      "maxReviewsPerBusiness": 50,
+      "minTextLength": 20
+    },
+    "extractionDate": "2025-10-08T17:48:10.130Z"
+  },
+  "statistics": {
+    "businessesFound": 14,
+    "reviewsFound": 10,
+    "avgRating": 1.7,
+    "extractionTime": 256320
+  },
+  "enrichmentHistory": [
+    {
+      "timestamp": "2025-10-08T17:50:32.884Z",
+      "enrichedBusinesses": 4,
+      "phoneNumbers": 4,
+      "websites": 4,
+      "emails": 3,
+      "ownerContacts": 0,
+      "managementContacts": 0
+    },
+    {
+      "timestamp": "2025-10-08T17:50:33.713Z",
+      "enrichedBusinesses": 4,
+      "phoneNumbers": 4,
+      "websites": 4,
+      "emails": 3,
+      "ownerContacts": 0,
+      "managementContacts": 0
+    }
+  ]
+}

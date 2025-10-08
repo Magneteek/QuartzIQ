@@ -62,12 +62,9 @@ interface SearchCriteria {
   category: string
   location: string
   minRating?: number
-  maxRating?: number
   maxStars: number
   dayLimit: number
   businessLimit: number
-  minReviews: number
-  minTextLength: number
   language: string
   countryCode: string
 }
@@ -1239,7 +1236,7 @@ export function EnhancedReviewExtractionDashboard() {
                             className="bg-primary/10 backdrop-blur-sm border border-primary/20 hover:scale-105 hover:shadow-lg transition-all duration-200 text-primary hover:text-primary"
                           >
                             <Users className="h-4 w-4 mr-2" />
-                            Send to Quartz Leads ({enrichedCount})
+                            Send to CRM ({enrichedCount})
                           </Button>
                         )
                       })()}

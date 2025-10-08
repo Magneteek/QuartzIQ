@@ -1,5 +1,53 @@
 [
   {
+    "id": "extraction_1759951556762_toz0jo8nz",
+    "timestamp": "2025-10-08T19:25:56.762Z",
+    "searchCriteria": {
+      "category": "tandarts",
+      "location": "Netherlands",
+      "countryCode": "nl"
+    },
+    "statistics": {
+      "businessesFound": 16,
+      "reviewsFound": 1,
+      "avgRating": 1,
+      "extractionTime": 288910
+    },
+    "enrichmentHistory": []
+  },
+  {
+    "id": "extraction_1759949851906_v7tapdb2c",
+    "timestamp": "2025-10-08T18:57:31.906Z",
+    "searchCriteria": {
+      "category": "tandarts",
+      "location": "Netherlands",
+      "countryCode": "nl"
+    },
+    "statistics": {
+      "businessesFound": 15,
+      "reviewsFound": 0,
+      "avgRating": 0,
+      "extractionTime": 147085
+    },
+    "enrichmentHistory": []
+  },
+  {
+    "id": "extraction_1759945690130_bat70b7tr",
+    "timestamp": "2025-10-08T17:48:10.130Z",
+    "searchCriteria": {
+      "category": "spa",
+      "location": "Netherlands",
+      "countryCode": "nl"
+    },
+    "statistics": {
+      "businessesFound": 14,
+      "reviewsFound": 10,
+      "avgRating": 1.7,
+      "extractionTime": 256320
+    },
+    "enrichmentHistory": []
+  },
+  {
     "id": "extraction_1759483349399_bcn9r6ht0",
     "timestamp": "2025-10-03T09:22:29.399Z",
     "searchCriteria": {

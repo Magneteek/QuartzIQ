@@ -27,8 +27,20 @@ interface EnrichedBusiness {
   phone?: string
   email?: string
   website?: string
+  url?: string
   contactEnriched?: boolean
   enrichmentDate?: Date
+  ownerFirstName?: string
+  ownerLastName?: string
+  ownerTitle?: string
+  ownerEmail?: string
+  ownerEmailGenerated?: boolean
+  reviewsForBusiness?: Array<{
+    reviewUrl: string
+    stars: number
+    publishedAtDate: string
+    text: string
+  }>
 }
 
 interface LeadSelectionModalProps {
@@ -142,6 +154,15 @@ export function LeadSelectionModal({ isOpen, onClose, enrichedBusinesses, select
     setError(null)
 
     try {
+      // Get Airtable credentials from localStorage
+      const airtableApiKey = localStorage.getItem('airtable_api_key')
+      const airtableBaseId = localStorage.getItem('airtable_base_id')
+      const airtableTableName = localStorage.getItem('airtable_table_name') || 'Leads'
+
+      if (!airtableApiKey || !airtableBaseId) {
+        throw new Error('Airtable credentials not configured. Please check Settings.')
+      }
+
       const selectedBusinesses = availableLeads.filter((_, index) =>
         selectedLeads.has(index.toString())
       )
@@ -152,14 +173,33 @@ export function LeadSelectionModal({ isOpen, onClose, enrichedBusinesses, select
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          contacts: selectedBusinesses.map(business => ({
-            name: business.title,
-            address: business.address,
-            phone: business.phone,
-            email: business.email,
-            website: business.website,
-            source: 'QuartzIQ Review Extraction'
-          }))
+          contacts: selectedBusinesses.map(business => {
+            // Get the first review (each business has one review)
+            const review = business.reviewsForBusiness?.[0]
+
+            return {
+              name: business.title,
+              address: business.address,
+              phone: business.phone,
+              email: business.email,
+              website: business.website,
+              url: business.url,
+              source: 'QuartzIQ Review Extraction',
+              ownerFirstName: business.ownerFirstName,
+              ownerLastName: business.ownerLastName,
+              ownerTitle: business.ownerTitle,
+              ownerEmail: business.ownerEmail,
+              ownerEmailGenerated: business.ownerEmailGenerated,
+              // Review data
+              reviewUrl: review?.reviewUrl,
+              reviewStars: review?.stars,
+              reviewDate: review?.publishedAtDate,
+              reviewText: review?.text
+            }
+          }),
+          airtableApiKey,
+          airtableBaseId,
+          airtableTableName
         })
       })
 
