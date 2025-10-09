@@ -222,15 +222,25 @@ export class UniversalBusinessReviewExtractor {
     // Country-specific search patterns
     switch (countryCode.toLowerCase()) {
       case 'nl': // Netherlands
-        queries.push(
-          `${localizedCategory} ${location}`,
-          `${localizedCategory} Nederland`,
-          `beste ${localizedCategory} ${location}`,
-          `top ${localizedCategory} Nederland`
-        )
-        // Also search English term for international businesses
-        if (localizedCategory !== category) {
-          queries.push(`${category} ${location}`)
+        // For country-level searches, use major cities for better coverage
+        if (location.toLowerCase() === 'netherlands' || location.toLowerCase() === 'nederland') {
+          const majorCities = ['Amsterdam', 'Rotterdam', 'Utrecht', 'Den Haag']
+          // Search top 4 major cities with localized category
+          majorCities.forEach(city => {
+            queries.push(`${localizedCategory} ${city}`)
+          })
+          // Add English variation for first city (international businesses)
+          if (localizedCategory !== category) {
+            queries.push(`${category} Amsterdam`)
+          }
+        } else {
+          // For city-specific searches, use more diverse patterns
+          queries.push(
+            `${localizedCategory} ${location}`,
+            `${category} ${location}`, // English variation
+            `${localizedCategory} in ${location}`,
+            `${localizedCategory} nabij ${location}` // "near [city]"
+          )
         }
         break
 
@@ -465,15 +475,97 @@ export class UniversalBusinessReviewExtractor {
       },
       // Dutch translations (current default)
       'nl': {
+        // Healthcare & Medical
         'dentist': 'tandarts',
         'doctor': 'dokter',
+        'hospital': 'ziekenhuis',
+        'medical_clinic': 'medische kliniek',
+        'pharmacy': 'apotheek',
+        'chiropractor': 'chiropractor',
+        'physical_therapist': 'fysiotherapeut',
+        'psychologist': 'psycholoog',
+        'veterinarian': 'dierenarts',
+        'optometrist': 'optometrist',
+        // Beauty & Wellness
+        'beauty_salon': 'schoonheidssalon',
+        'hair_salon': 'kapper',
+        'spa': 'spa',
+        'nail_salon': 'nagelsalon',
+        'barber_shop': 'kapperszaak',
+        'massage_therapist': 'massagetherapeut',
+        'gym': 'sportschool',
+        // Food & Dining
+        'restaurant': 'restaurant',
+        'cafe': 'café',
+        'bar': 'bar',
+        'fast_food_restaurant': 'fastfoodrestaurant',
+        'pizza_restaurant': 'pizzeria',
+        'bakery': 'bakkerij',
+        'coffee_shop': 'koffiehuis',
+        'caterer': 'cateraar',
+        // Hospitality
+        'hotel': 'hotel',
+        'travel_agency': 'reisbureau',
+        'tourist_attraction': 'toeristische attractie',
+        // Retail
+        'jewelry_store': 'juwelier',
+        'clothing_store': 'kledingwinkel',
+        'furniture_store': 'meubelzaak',
+        'electronics_store': 'electronicazaak',
+        'grocery_store': 'supermarkt',
+        'gift_shop': 'cadeauwinkel',
+        'pet_store': 'dierenwinkel',
+        'florist': 'bloemist',
+        // Automotive
+        'car_dealer': 'autodealer',
+        'auto_repair_shop': 'autogarage',
+        'car_wash': 'autowasserette',
+        'tire_shop': 'bandencentrum',
+        'auto_body_shop': 'autoschadeherstel',
+        'auto_parts_store': 'auto-onderdelenwinkel',
+        // Professional Services
         'lawyer': 'advocaat',
-        'financial_consultant': 'financieel adviseur',
+        'attorney': 'advocaat',
+        'accountant': 'accountant',
+        'financial_planner': 'financieel planner',
         'insurance_agency': 'verzekering',
         'real_estate_agency': 'makelaar',
-        'jewelry_store': 'juwelier',
-        'car_dealer': 'autodealer',
-        'spa': 'spa'
+        'real_estate_agent': 'makelaar',
+        'mortgage_lender': 'hypotheekverstrekker',
+        'consultant': 'consultant',
+        'marketing_agency': 'marketingbureau',
+        // Home Services
+        'plumber': 'loodgieter',
+        'electrician': 'elektricien',
+        'hvac_contractor': 'installatiebedrijf',
+        'general_contractor': 'aannemer',
+        'roofing_contractor': 'dakdekker',
+        'landscaper': 'hovenier',
+        'painter': 'schilder',
+        'house_cleaning_service': 'schoonmaakdienst',
+        'pest_control_service': 'ongediertebestrijding',
+        'locksmith': 'slotenmaker',
+        // Education
+        'school': 'school',
+        'preschool': 'peuterspeelzaal',
+        'tutoring_service': 'bijlesdienst',
+        'driving_school': 'rijschool',
+        // Entertainment
+        'movie_theater': 'bioscoop',
+        'bowling_alley': 'bowlingbaan',
+        'amusement_park': 'pretpark',
+        'museum': 'museum',
+        'art_gallery': 'kunstgalerie',
+        // Pet Services
+        'pet_groomer': 'hondentrimsalon',
+        'dog_trainer': 'hondentrainer',
+        'pet_boarding_service': 'dierenpension',
+        // Technology
+        'computer_repair_service': 'computerreparatie',
+        'cell_phone_store': 'telefoonwinkel',
+        'software_company': 'softwarebedrijf',
+        // Fallback
+        'financial_consultant': 'financieel adviseur'
       },
       // Austrian translations (German-speaking)
       'at': {
