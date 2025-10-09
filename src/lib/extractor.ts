@@ -172,18 +172,23 @@ export class UniversalBusinessReviewExtractor {
     console.log(`   📝 Queries: ${validatedQueries.map(q => `"${q}"`).join(', ')}`)
 
     const allBusinesses: Business[] = []
+    const targetLimit = searchCriteria.businessLimit || 50
 
-    // Calculate results per query based on actual number of queries and businessLimit
-    const totalQueries = validatedQueries.length
-    const resultsPerQuery = Math.ceil((searchCriteria.businessLimit || 50) / totalQueries)
-    console.log(`   📊 Strategy: ${searchCriteria.businessLimit || 50} businesses ÷ ${totalQueries} queries = ${resultsPerQuery} per query`)
+    // Run queries sequentially until we have enough businesses
+    console.log(`   📊 Strategy: Run queries sequentially, requesting up to ${targetLimit} per query, stop when ${targetLimit} total reached`)
 
     for (const query of validatedQueries) {
+      // Check if we already have enough businesses
+      if (allBusinesses.length >= targetLimit) {
+        console.log(`   ✅ Target reached: ${allBusinesses.length}/${targetLimit} businesses found, stopping search`)
+        break
+      }
+
       try {
-        console.log(`   Searching: "${query}" (requesting ${resultsPerQuery} results)`)
+        console.log(`   Searching: "${query}" (requesting up to ${targetLimit} results)`)
         const businesses = await this.searchGoogleMaps(
           query,
-          resultsPerQuery,
+          targetLimit, // Request full limit, not divided
           searchCriteria.countryCode || 'nl',
           searchCriteria.language || 'nl'
         )
@@ -197,8 +202,16 @@ export class UniversalBusinessReviewExtractor {
           console.log(`   ✅ Keeping ${validatedBusinesses.length} geographically correct results`)
         }
 
+        // Add new businesses (deduplication happens later)
         allBusinesses.push(...validatedBusinesses)
-        console.log(`   Found ${validatedBusinesses.length} valid results`)
+        console.log(`   Found ${validatedBusinesses.length} results, total so far: ${allBusinesses.length}`)
+
+        // Stop if we have enough
+        if (allBusinesses.length >= targetLimit) {
+          console.log(`   ✅ Target reached: ${allBusinesses.length}/${targetLimit} businesses, no more queries needed`)
+          break
+        }
+
         await this.delay(2000)
       } catch (error: any) {
         console.log(`   ❌ Search failed: ${error.message}`)
