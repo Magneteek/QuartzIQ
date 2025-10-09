@@ -173,10 +173,13 @@ export class UniversalBusinessReviewExtractor {
 
     const allBusinesses: Business[] = []
 
+    // Calculate results per query based on actual number of queries and businessLimit
+    const totalQueries = validatedQueries.length
+    const resultsPerQuery = Math.ceil((searchCriteria.businessLimit || 50) / totalQueries)
+    console.log(`   📊 Strategy: ${searchCriteria.businessLimit || 50} businesses ÷ ${totalQueries} queries = ${resultsPerQuery} per query`)
+
     for (const query of validatedQueries) {
       try {
-        // Calculate results per query based on businessLimit to maximize coverage
-        const resultsPerQuery = Math.ceil((searchCriteria.businessLimit || 50) / 4) // Divide by 4 queries
         console.log(`   Searching: "${query}" (requesting ${resultsPerQuery} results)`)
         const businesses = await this.searchGoogleMaps(
           query,
