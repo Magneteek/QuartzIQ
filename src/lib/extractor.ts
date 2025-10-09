@@ -229,7 +229,7 @@ export class UniversalBusinessReviewExtractor {
   private generateSearchQueries(criteria: SearchCriteria): string[] {
     const { category, location, language = 'en', countryCode = 'en' } = criteria
 
-    // Multi-language search queries for better coverage
+    // Multi-language search queries for better coverage (v2 - city-based)
     const queries: string[] = []
 
     // Translate business category to local language

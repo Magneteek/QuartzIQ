@@ -41,7 +41,7 @@ export async function POST(request: NextRequest) {
             maxStars: searchCriteria.maxStars || 3,
             dayLimit: searchCriteria.dayLimit || 14,
             businessLimit: searchCriteria.businessLimit || 50,
-            maxReviewsPerBusiness: searchCriteria.maxReviewsPerBusiness || 1, // Only need 1 review per business for lead qualification
+            maxReviewsPerBusiness: searchCriteria.maxReviewsPerBusiness || 5, // Get 5 latest reviews per business
             language: searchCriteria.language || 'nl',
             countryCode: searchCriteria.countryCode || 'nl'
           })

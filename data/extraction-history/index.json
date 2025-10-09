@@ -32,38 +32,6 @@
     "enrichmentHistory": []
   },
   {
-    "id": "extraction_1759961680762_it5bdrlj3",
-    "timestamp": "2025-10-08T22:14:40.762Z",
-    "searchCriteria": {
-      "category": "real_estate_agency",
-      "location": "Netherlands",
-      "countryCode": "nl"
-    },
-    "statistics": {
-      "businessesFound": 20,
-      "reviewsFound": 0,
-      "avgRating": 0,
-      "extractionTime": 193353
-    },
-    "enrichmentHistory": []
-  },
-  {
-    "id": "extraction_1759961209476_4fac15cxq",
-    "timestamp": "2025-10-08T22:06:49.476Z",
-    "searchCriteria": {
-      "category": "jewelry_store",
-      "location": "Netherlands",
-      "countryCode": "nl"
-    },
-    "statistics": {
-      "businessesFound": 20,
-      "reviewsFound": 1,
-      "avgRating": 1,
-      "extractionTime": 248685
-    },
-    "enrichmentHistory": []
-  },
-  {
     "id": "extraction_1759483349399_bcn9r6ht0",
     "timestamp": "2025-10-03T09:22:29.399Z",
     "searchCriteria": {

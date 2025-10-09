@@ -86,7 +86,7 @@ class UniversalBusinessReviewExtractor {
         for (const query of searchQueries) {
             try {
                 console.log(`   Searching: "${query}"`);
-                const businesses = await this.searchGoogleMaps(query, searchCriteria.resultsPerQuery || 5);
+                const businesses = await this.searchGoogleMaps(query);
                 allBusinesses.push(...businesses);
                 console.log(`   Found ${businesses.length} results`);
                 await this.delay(2000);
@@ -107,15 +107,28 @@ class UniversalBusinessReviewExtractor {
         const { category, location, language = 'en' } = criteria;
 
         // Multi-language search queries for better coverage
+        // Note: countryCode parameter handles geographic targeting,
+        // so we only include location if it's a specific city/region
         const queries = [];
 
+        // Check if location is country-level or specific city
+        const isCountryLevel = !location ||
+            /^(dutch|netherlands|nederland|nl)$/i.test(location.trim());
+
         if (language === 'nl' || location.toLowerCase().includes('netherlands')) {
-            queries.push(
-                `${category} ${location}`,
-                `${category} Nederland`,
-                `${category} Dutch`,
-                `beste ${category} ${location}`
-            );
+            if (isCountryLevel) {
+                // Country-level search - countryCode handles this
+                queries.push(
+                    category,
+                    `beste ${category}`
+                );
+            } else {
+                // Specific city/region - include location
+                queries.push(
+                    `${category} ${location}`,
+                    `beste ${category} ${location}`
+                );
+            }
         } else {
             queries.push(
                 `${category} ${location}`,
@@ -128,10 +141,11 @@ class UniversalBusinessReviewExtractor {
         return queries.slice(0, criteria.maxQueries || 4);
     }
 
-    async searchGoogleMaps(query, maxItems = 10) {
+    async searchGoogleMaps(query) {
         const input = {
             searchStringsArray: [query],
-            maxCrawledPlacesPerSearch: maxItems,
+            // maxCrawledPlacesPerSearch removed - Apify returns all available results
+            // Geographic targeting handled by countryCode and language parameters
             language: 'nl',
             countryCode: 'nl',
             includeImages: false,
@@ -150,7 +164,7 @@ class UniversalBusinessReviewExtractor {
 
         const input = {
             placeIds: [business.placeId],
-            maxReviews: criteria.maxReviewsPerBusiness || 50,
+            maxReviews: criteria.maxReviewsPerBusiness || 5,  // Default to 5 latest reviews
             language: criteria.language || 'nl',
             sort: 'newest'
         };
