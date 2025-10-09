@@ -31,68 +31,111 @@ interface SearchFormProps {
   isExtracting: boolean
 }
 
-// Professional services categories with proper Google Business Profile mapping
+// Google Business Profile Official Categories - Organized by Sector
 const businessCategories = [
-  {
-    id: 'tandarts',
-    label: 'Dental - Dentist',
-    description: 'Dental practices and dentists',
-    icon: '🦷'
-  },
-  {
-    id: 'doctor',
-    label: 'Medical & Cosmetic',
-    description: 'Medical practices, cosmetic surgery, aesthetic clinics',
-    icon: '👩‍⚕️'
-  },
-  {
-    id: 'jewelry_store',
-    label: 'Luxury Retail & Jewelers',
-    description: 'High-end jewelry stores and luxury retail',
-    icon: '💎'
-  },
-  {
-    id: 'car_dealer',
-    label: 'High-End Car Dealers',
-    description: 'Premium automotive dealerships',
-    icon: '🚗'
-  },
-  {
-    id: 'financial_consultant',
-    label: 'Financial & Business Services',
-    description: 'Financial advisors, business consultants, accounting',
-    icon: '💼'
-  },
-  {
-    id: 'lawyer',
-    label: 'Legal / Professional Services',
-    description: 'Law firms, legal consultants, professional services',
-    icon: '⚖️'
-  },
-  {
-    id: 'real_estate_agency',
-    label: 'Real Estate & Housing',
-    description: 'Real estate agencies, property management',
-    icon: '🏘️'
-  },
-  {
-    id: 'spa',
-    label: 'Wellness & Lifestyle',
-    description: 'Spas, wellness centers, beauty salons',
-    icon: '🧘‍♀️'
-  },
-  {
-    id: 'insurance_agency',
-    label: 'Insurance Agency',
-    description: 'Insurance providers and agencies',
-    icon: '🛡️'
-  },
-  {
-    id: 'custom',
-    label: 'Custom Category',
-    description: 'Enter your own business category',
-    icon: '⚙️'
-  }
+  // Healthcare & Medical
+  { id: 'dentist', label: 'Dentist', sector: 'Healthcare', icon: '🦷' },
+  { id: 'doctor', label: 'Doctor', sector: 'Healthcare', icon: '👨‍⚕️' },
+  { id: 'hospital', label: 'Hospital', sector: 'Healthcare', icon: '🏥' },
+  { id: 'medical_clinic', label: 'Medical Clinic', sector: 'Healthcare', icon: '⚕️' },
+  { id: 'pharmacy', label: 'Pharmacy', sector: 'Healthcare', icon: '💊' },
+  { id: 'chiropractor', label: 'Chiropractor', sector: 'Healthcare', icon: '🦴' },
+  { id: 'physical_therapist', label: 'Physical Therapist', sector: 'Healthcare', icon: '🏃' },
+  { id: 'psychologist', label: 'Psychologist', sector: 'Healthcare', icon: '🧠' },
+  { id: 'veterinarian', label: 'Veterinarian', sector: 'Healthcare', icon: '🐕' },
+  { id: 'optometrist', label: 'Optometrist', sector: 'Healthcare', icon: '👓' },
+
+  // Beauty & Wellness
+  { id: 'beauty_salon', label: 'Beauty Salon', sector: 'Beauty & Wellness', icon: '💅' },
+  { id: 'hair_salon', label: 'Hair Salon', sector: 'Beauty & Wellness', icon: '💇' },
+  { id: 'spa', label: 'Spa', sector: 'Beauty & Wellness', icon: '🧖' },
+  { id: 'nail_salon', label: 'Nail Salon', sector: 'Beauty & Wellness', icon: '💅' },
+  { id: 'barber_shop', label: 'Barber Shop', sector: 'Beauty & Wellness', icon: '💈' },
+  { id: 'massage_therapist', label: 'Massage Therapist', sector: 'Beauty & Wellness', icon: '💆' },
+  { id: 'gym', label: 'Gym', sector: 'Beauty & Wellness', icon: '🏋️' },
+
+  // Food & Dining
+  { id: 'restaurant', label: 'Restaurant', sector: 'Food & Dining', icon: '🍽️' },
+  { id: 'cafe', label: 'Cafe', sector: 'Food & Dining', icon: '☕' },
+  { id: 'bar', label: 'Bar', sector: 'Food & Dining', icon: '🍺' },
+  { id: 'fast_food_restaurant', label: 'Fast Food Restaurant', sector: 'Food & Dining', icon: '🍔' },
+  { id: 'pizza_restaurant', label: 'Pizza Restaurant', sector: 'Food & Dining', icon: '🍕' },
+  { id: 'bakery', label: 'Bakery', sector: 'Food & Dining', icon: '🥐' },
+  { id: 'coffee_shop', label: 'Coffee Shop', sector: 'Food & Dining', icon: '☕' },
+  { id: 'caterer', label: 'Caterer', sector: 'Food & Dining', icon: '🍱' },
+
+  // Hospitality & Travel
+  { id: 'hotel', label: 'Hotel', sector: 'Hospitality', icon: '🏨' },
+  { id: 'travel_agency', label: 'Travel Agency', sector: 'Hospitality', icon: '✈️' },
+  { id: 'tourist_attraction', label: 'Tourist Attraction', sector: 'Hospitality', icon: '🎭' },
+
+  // Retail
+  { id: 'jewelry_store', label: 'Jewelry Store', sector: 'Retail', icon: '💎' },
+  { id: 'clothing_store', label: 'Clothing Store', sector: 'Retail', icon: '👔' },
+  { id: 'furniture_store', label: 'Furniture Store', sector: 'Retail', icon: '🛋️' },
+  { id: 'electronics_store', label: 'Electronics Store', sector: 'Retail', icon: '📱' },
+  { id: 'grocery_store', label: 'Grocery Store', sector: 'Retail', icon: '🛒' },
+  { id: 'gift_shop', label: 'Gift Shop', sector: 'Retail', icon: '🎁' },
+  { id: 'pet_store', label: 'Pet Store', sector: 'Retail', icon: '🐾' },
+  { id: 'florist', label: 'Florist', sector: 'Retail', icon: '🌺' },
+
+  // Automotive
+  { id: 'car_dealer', label: 'Car Dealer', sector: 'Automotive', icon: '🚗' },
+  { id: 'auto_repair_shop', label: 'Auto Repair Shop', sector: 'Automotive', icon: '🔧' },
+  { id: 'car_wash', label: 'Car Wash', sector: 'Automotive', icon: '🧼' },
+  { id: 'tire_shop', label: 'Tire Shop', sector: 'Automotive', icon: '🛞' },
+  { id: 'auto_body_shop', label: 'Auto Body Shop', sector: 'Automotive', icon: '🔨' },
+  { id: 'auto_parts_store', label: 'Auto Parts Store', sector: 'Automotive', icon: '⚙️' },
+
+  // Professional Services
+  { id: 'lawyer', label: 'Lawyer', sector: 'Professional Services', icon: '⚖️' },
+  { id: 'attorney', label: 'Attorney', sector: 'Professional Services', icon: '👨‍⚖️' },
+  { id: 'accountant', label: 'Accountant', sector: 'Professional Services', icon: '💼' },
+  { id: 'financial_planner', label: 'Financial Planner', sector: 'Professional Services', icon: '📊' },
+  { id: 'insurance_agency', label: 'Insurance Agency', sector: 'Professional Services', icon: '🛡️' },
+  { id: 'real_estate_agency', label: 'Real Estate Agency', sector: 'Professional Services', icon: '🏠' },
+  { id: 'real_estate_agent', label: 'Real Estate Agent', sector: 'Professional Services', icon: '🏘️' },
+  { id: 'mortgage_lender', label: 'Mortgage Lender', sector: 'Professional Services', icon: '🏦' },
+  { id: 'consultant', label: 'Consultant', sector: 'Professional Services', icon: '💡' },
+  { id: 'marketing_agency', label: 'Marketing Agency', sector: 'Professional Services', icon: '📈' },
+
+  // Home Services
+  { id: 'plumber', label: 'Plumber', sector: 'Home Services', icon: '🚰' },
+  { id: 'electrician', label: 'Electrician', sector: 'Home Services', icon: '⚡' },
+  { id: 'hvac_contractor', label: 'HVAC Contractor', sector: 'Home Services', icon: '❄️' },
+  { id: 'general_contractor', label: 'General Contractor', sector: 'Home Services', icon: '🏗️' },
+  { id: 'roofing_contractor', label: 'Roofing Contractor', sector: 'Home Services', icon: '🏠' },
+  { id: 'landscaper', label: 'Landscaper', sector: 'Home Services', icon: '🌳' },
+  { id: 'painter', label: 'Painter', sector: 'Home Services', icon: '🎨' },
+  { id: 'house_cleaning_service', label: 'House Cleaning Service', sector: 'Home Services', icon: '🧹' },
+  { id: 'pest_control_service', label: 'Pest Control Service', sector: 'Home Services', icon: '🐜' },
+  { id: 'locksmith', label: 'Locksmith', sector: 'Home Services', icon: '🔐' },
+
+  // Education
+  { id: 'school', label: 'School', sector: 'Education', icon: '🏫' },
+  { id: 'preschool', label: 'Preschool', sector: 'Education', icon: '👶' },
+  { id: 'tutoring_service', label: 'Tutoring Service', sector: 'Education', icon: '📚' },
+  { id: 'driving_school', label: 'Driving School', sector: 'Education', icon: '🚗' },
+
+  // Entertainment & Recreation
+  { id: 'movie_theater', label: 'Movie Theater', sector: 'Entertainment', icon: '🎬' },
+  { id: 'bowling_alley', label: 'Bowling Alley', sector: 'Entertainment', icon: '🎳' },
+  { id: 'amusement_park', label: 'Amusement Park', sector: 'Entertainment', icon: '🎢' },
+  { id: 'museum', label: 'Museum', sector: 'Entertainment', icon: '🏛️' },
+  { id: 'art_gallery', label: 'Art Gallery', sector: 'Entertainment', icon: '🖼️' },
+
+  // Pet Services
+  { id: 'pet_groomer', label: 'Pet Groomer', sector: 'Pet Services', icon: '🐕' },
+  { id: 'dog_trainer', label: 'Dog Trainer', sector: 'Pet Services', icon: '🦮' },
+  { id: 'pet_boarding_service', label: 'Pet Boarding Service', sector: 'Pet Services', icon: '🏠' },
+
+  // Technology
+  { id: 'computer_repair_service', label: 'Computer Repair Service', sector: 'Technology', icon: '💻' },
+  { id: 'cell_phone_store', label: 'Cell Phone Store', sector: 'Technology', icon: '📱' },
+  { id: 'software_company', label: 'Software Company', sector: 'Technology', icon: '💾' },
+
+  // Custom (fallback for unlisted categories)
+  { id: 'custom', label: 'Custom Category', sector: 'Other', icon: '⚙️' },
 ]
 
 const timeRanges = [
@@ -127,7 +170,7 @@ export function EnhancedSearchForm({ onSearch, isExtracting }: SearchFormProps) 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      category: 'tandarts',
+      category: 'dentist',   // Using official Google Business category
       location: 'Netherlands',
       minRating: 3.5,        // Default: filter out businesses with poor overall ratings
       maxStars: 3,           // Default: capture only negative reviews (3 stars or lower)
@@ -257,17 +300,28 @@ export function EnhancedSearchForm({ onSearch, isExtracting }: SearchFormProps) 
                           <SelectValue placeholder="Select category" />
                         </SelectTrigger>
                       </FormControl>
-                      <SelectContent>
-                        {businessCategories.map((category) => (
-                          <SelectItem key={category.id} value={category.id}>
-                            <div className="flex items-center gap-3">
-                              <span className="text-lg">{category.icon}</span>
-                              <div className="flex flex-col">
-                                <span className="font-medium">{category.label}</span>
-                                <span className="text-xs text-muted-foreground">{category.description}</span>
-                              </div>
+                      <SelectContent className="max-h-[400px]">
+                        {/* Group categories by sector */}
+                        {Object.entries(
+                          businessCategories.reduce((acc, category) => {
+                            if (!acc[category.sector]) acc[category.sector] = []
+                            acc[category.sector].push(category)
+                            return acc
+                          }, {} as Record<string, typeof businessCategories>)
+                        ).map(([sector, categories]) => (
+                          <div key={sector} className="mb-2">
+                            <div className="px-2 py-1.5 text-xs font-semibold text-muted-foreground bg-white/5">
+                              {sector}
                             </div>
-                          </SelectItem>
+                            {categories.map((category) => (
+                              <SelectItem key={category.id} value={category.id}>
+                                <div className="flex items-center gap-2">
+                                  <span>{category.icon}</span>
+                                  <span>{category.label}</span>
+                                </div>
+                              </SelectItem>
+                            ))}
+                          </div>
                         ))}
                       </SelectContent>
                     </Select>
