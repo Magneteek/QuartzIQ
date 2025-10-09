@@ -1,49 +1,65 @@
 [
   {
-    "id": "extraction_1759951556762_toz0jo8nz",
-    "timestamp": "2025-10-08T19:25:56.762Z",
+    "id": "extraction_1759997356476_yoy6vwp78",
+    "timestamp": "2025-10-09T08:09:16.476Z",
     "searchCriteria": {
-      "category": "tandarts",
+      "category": "hospital",
       "location": "Netherlands",
       "countryCode": "nl"
     },
     "statistics": {
       "businessesFound": 16,
-      "reviewsFound": 1,
+      "reviewsFound": 7,
       "avgRating": 1,
-      "extractionTime": 288910
+      "extractionTime": 307337
     },
     "enrichmentHistory": []
   },
   {
-    "id": "extraction_1759949851906_v7tapdb2c",
-    "timestamp": "2025-10-08T18:57:31.906Z",
-    "searchCriteria": {
-      "category": "tandarts",
-      "location": "Netherlands",
-      "countryCode": "nl"
-    },
-    "statistics": {
-      "businessesFound": 15,
-      "reviewsFound": 0,
-      "avgRating": 0,
-      "extractionTime": 147085
-    },
-    "enrichmentHistory": []
-  },
-  {
-    "id": "extraction_1759945690130_bat70b7tr",
-    "timestamp": "2025-10-08T17:48:10.130Z",
+    "id": "extraction_1759993173751_e95bt82lj",
+    "timestamp": "2025-10-09T06:59:33.751Z",
     "searchCriteria": {
       "category": "spa",
       "location": "Netherlands",
       "countryCode": "nl"
     },
     "statistics": {
-      "businessesFound": 14,
-      "reviewsFound": 10,
-      "avgRating": 1.7,
-      "extractionTime": 256320
+      "businessesFound": 15,
+      "reviewsFound": 2,
+      "avgRating": 1.5,
+      "extractionTime": 415887
+    },
+    "enrichmentHistory": []
+  },
+  {
+    "id": "extraction_1759961680762_it5bdrlj3",
+    "timestamp": "2025-10-08T22:14:40.762Z",
+    "searchCriteria": {
+      "category": "real_estate_agency",
+      "location": "Netherlands",
+      "countryCode": "nl"
+    },
+    "statistics": {
+      "businessesFound": 20,
+      "reviewsFound": 0,
+      "avgRating": 0,
+      "extractionTime": 193353
+    },
+    "enrichmentHistory": []
+  },
+  {
+    "id": "extraction_1759961209476_4fac15cxq",
+    "timestamp": "2025-10-08T22:06:49.476Z",
+    "searchCriteria": {
+      "category": "jewelry_store",
+      "location": "Netherlands",
+      "countryCode": "nl"
+    },
+    "statistics": {
+      "businessesFound": 20,
+      "reviewsFound": 1,
+      "avgRating": 1,
+      "extractionTime": 248685
     },
     "enrichmentHistory": []
   },

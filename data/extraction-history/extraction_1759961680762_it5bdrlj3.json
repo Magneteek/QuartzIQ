@@ -1,0 +1,1760 @@
+{
+  "id": "extraction_1759961680762_it5bdrlj3",
+  "timestamp": "2025-10-08T22:14:40.762Z",
+  "searchCriteria": {
+    "category": "real_estate_agency",
+    "location": "Netherlands",
+    "minRating": 3,
+    "maxStars": 3,
+    "dayLimit": 14,
+    "businessLimit": 10,
+    "language": "nl",
+    "countryCode": "nl"
+  },
+  "results": {
+    "businesses": [
+      {
+        "title": "Hausing - Real Estate Agency",
+        "price": null,
+        "categoryName": "Makelaardij",
+        "address": "Overtoom 303 H, 1054 JL Amsterdam, Nederland",
+        "neighborhood": "Amsterdam-West",
+        "street": "Overtoom 303 H",
+        "city": "Amsterdam",
+        "postalCode": "1054 JL",
+        "state": null,
+        "countryCode": "NL",
+        "website": "http://hausing.com/",
+        "phone": "+31 85 800 1441",
+        "phoneUnformatted": "+31858001441",
+        "claimThisBusiness": false,
+        "location": {
+          "lat": 52.360128,
+          "lng": 4.8656262
+        },
+        "totalScore": 4.9,
+        "permanentlyClosed": false,
+        "temporarilyClosed": false,
+        "placeId": "ChIJT1C0qEoJxkcR1QtJmbQQges",
+        "categories": [
+          "Makelaardij",
+          "Verhuurbedrijf voor vastgoed"
+        ],
+        "fid": "0x47c6094aa8b4504f:0xeb8110b499490bd5",
+        "cid": "16969863238760598485",
+        "reviewsCount": 729,
+        "imagesCount": 20,
+        "imageCategories": [],
+        "scrapedAt": "2025-10-08T22:11:35.152Z",
+        "googleFoodUrl": null,
+        "hotelAds": [],
+        "openingHours": [
+          {
+            "day": "donderdag",
+            "hours": "09:00 to 17:00"
+          },
+          {
+            "day": "vrijdag",
+            "hours": "09:00 to 17:00"
+          },
+          {
+            "day": "zaterdag",
+            "hours": "09:00 to 17:00"
+          },
+          {
+            "day": "zondag",
+            "hours": "09:00 to 17:00"
+          },
+          {
+            "day": "maandag",
+            "hours": "09:00 to 17:00"
+          },
+          {
+            "day": "dinsdag",
+            "hours": "09:00 to 17:00"
+          },
+          {
+            "day": "woensdag",
+            "hours": "09:00 to 17:00"
+          }
+        ],
+        "peopleAlsoSearch": [],
+        "placesTags": [],
+        "reviewsTags": [],
+        "additionalInfo": {
+          "Serviceopties": [
+            {
+              "Online afspraken": false
+            },
+            {
+              "Services op bedrijfslocatie": false
+            }
+          ],
+          "Toegankelijkheid": [
+            {
+              "Rolstoeltoegankelijke ingang": true
+            },
+            {
+              "Rolstoeltoegankelijke parking": true
+            }
+          ],
+          "Publiek": [
+            {
+              "LGBTQ+ vriendelijk": true
+            },
+            {
+              "Veilige omgeving voor transgenders": true
+            }
+          ],
+          "Planning": [
+            {
+              "Afspraak verplicht": true
+            }
+          ]
+        },
+        "gasPrices": [],
+        "url": "https://www.google.com/maps/search/?api=1&query=Hausing%20-%20Real%20Estate%20Agency&query_place_id=ChIJT1C0qEoJxkcR1QtJmbQQges",
+        "searchPageUrl": "https://www.google.com/maps/search/real_estate_agency%20Netherlands/@52.73573209157206,7.210238657534013,11z?hl=nl",
+        "searchString": "real_estate_agency Netherlands",
+        "language": "nl",
+        "rank": 1,
+        "isAdvertisement": false,
+        "imageUrl": "https://lh3.googleusercontent.com/p/AF1QipMUGtpbbyByFm5nrpitvOtvfkIYlyG88jEcoBgt=w408-h306-k-no",
+        "kgmid": "/g/11nsvjtsp1"
+      },
+      {
+        "title": "Frieling Makelaars Emmen B.V.",
+        "price": null,
+        "categoryName": "Makelaardij",
+        "address": "Nassaulaan 1, 7811 GK Emmen, Nederland",
+        "neighborhood": null,
+        "street": "Nassaulaan 1",
+        "city": "Emmen",
+        "postalCode": "7811 GK",
+        "state": null,
+        "countryCode": "NL",
+        "website": "http://www.frieling.nl/",
+        "phone": "+31 591 650 680",
+        "phoneUnformatted": "+31591650680",
+        "claimThisBusiness": false,
+        "location": {
+          "lat": 52.7883717,
+          "lng": 6.8962224
+        },
+        "totalScore": 2.6,
+        "permanentlyClosed": false,
+        "temporarilyClosed": false,
+        "placeId": "ChIJfRZHyDnmt0cRQn_wsIhYJIU",
+        "categories": [
+          "Makelaardij"
+        ],
+        "fid": "0x47b7e639c847167d:0x85245888b0f07f42",
+        "cid": "9593890450313346882",
+        "reviewsCount": 14,
+        "imagesCount": 7,
+        "imageCategories": [],
+        "scrapedAt": "2025-10-08T22:11:35.153Z",
+        "googleFoodUrl": null,
+        "hotelAds": [],
+        "openingHours": [],
+        "peopleAlsoSearch": [],
+        "placesTags": [],
+        "reviewsTags": [],
+        "additionalInfo": {
+          "Toegankelijkheid": [
+            {
+              "Rolstoeltoegankelijke ingang": true
+            },
+            {
+              "Rolstoeltoegankelijke parking": true
+            }
+          ]
+        },
+        "gasPrices": [],
+        "url": "https://www.google.com/maps/search/?api=1&query=Frieling%20Makelaars%20Emmen%20B.V.&query_place_id=ChIJfRZHyDnmt0cRQn_wsIhYJIU",
+        "searchPageUrl": "https://www.google.com/maps/search/real_estate_agency%20Netherlands/@52.73573209157206,7.210238657534013,11z?hl=nl",
+        "searchString": "real_estate_agency Netherlands",
+        "language": "nl",
+        "rank": 2,
+        "isAdvertisement": false,
+        "imageUrl": "https://lh3.googleusercontent.com/p/AF1QipOUPj9LWbBKhbyuQQVjEatx5sYtndDMqCGyeXuK=w408-h306-k-no",
+        "kgmid": "/g/11cn3w76vc"
+      },
+      {
+        "title": "Groenewold Bedrijfsmakelaars te Emmen",
+        "price": null,
+        "categoryName": "Makelaardij",
+        "address": "Westerbracht 16, 7821 CH Emmen, Nederland",
+        "neighborhood": null,
+        "street": "Westerbracht 16",
+        "city": "Emmen",
+        "postalCode": "7821 CH",
+        "state": null,
+        "countryCode": "NL",
+        "website": "http://groenewoldbog.nl/",
+        "phone": "+31 591 645 778",
+        "phoneUnformatted": "+31591645778",
+        "claimThisBusiness": false,
+        "location": {
+          "lat": 52.7709623,
+          "lng": 6.9005398
+        },
+        "totalScore": 5,
+        "permanentlyClosed": false,
+        "temporarilyClosed": false,
+        "placeId": "ChIJTRKLrxrmt0cR4ytNhNr10Ts",
+        "categories": [
+          "Makelaardij"
+        ],
+        "fid": "0x47b7e61aaf8b124d:0x3bd1f5da844d2be3",
+        "cid": "4310496637241600995",
+        "reviewsCount": 1,
+        "imagesCount": 3,
+        "imageCategories": [],
+        "scrapedAt": "2025-10-08T22:11:35.153Z",
+        "googleFoodUrl": null,
+        "hotelAds": [],
+        "openingHours": [
+          {
+            "day": "donderdag",
+            "hours": "09:00 to 17:00"
+          },
+          {
+            "day": "vrijdag",
+            "hours": "09:00 to 17:00"
+          },
+          {
+            "day": "zaterdag",
+            "hours": "Gesloten"
+          },
+          {
+            "day": "zondag",
+            "hours": "Gesloten"
+          },
+          {
+            "day": "maandag",
+            "hours": "09:00 to 17:00"
+          },
+          {
+            "day": "dinsdag",
+            "hours": "09:00 to 17:00"
+          },
+          {
+            "day": "woensdag",
+            "hours": "09:00 to 17:00"
+          }
+        ],
+        "peopleAlsoSearch": [],
+        "placesTags": [],
+        "reviewsTags": [],
+        "additionalInfo": {
+          "Toegankelijkheid": [
+            {
+              "Rolstoeltoegankelijke parking": true
+            }
+          ]
+        },
+        "gasPrices": [],
+        "url": "https://www.google.com/maps/search/?api=1&query=Groenewold%20Bedrijfsmakelaars%20te%20Emmen&query_place_id=ChIJTRKLrxrmt0cR4ytNhNr10Ts",
+        "searchPageUrl": "https://www.google.com/maps/search/real_estate_agency%20Netherlands/@52.73573209157206,7.210238657534013,11z?hl=nl",
+        "searchString": "real_estate_agency Netherlands",
+        "language": "nl",
+        "rank": 3,
+        "isAdvertisement": false,
+        "imageUrl": "https://lh3.googleusercontent.com/p/AF1QipOvrrvhAn4tPtthvoOkUFsTZhKQ6QYX_m4oA-lH=w408-h306-k-no",
+        "kgmid": "/g/11c5ssgklc"
+      },
+      {
+        "title": "Verhuurmakelaar Amsterdam - Absolute Housing",
+        "price": null,
+        "categoryName": "Makelaardij",
+        "address": "Herengracht 361, 1016 BB Amsterdam, Nederland",
+        "neighborhood": "Amsterdam-Centrum",
+        "street": "Herengracht 361",
+        "city": "Amsterdam",
+        "postalCode": "1016 BB",
+        "state": null,
+        "countryCode": "NL",
+        "website": "https://www.absolutehousing.nl/en",
+        "phone": "+31 20 370 4000",
+        "phoneUnformatted": "+31203704000",
+        "claimThisBusiness": false,
+        "location": {
+          "lat": 52.3689811,
+          "lng": 4.8871872
+        },
+        "totalScore": 4.9,
+        "permanentlyClosed": false,
+        "temporarilyClosed": false,
+        "placeId": "ChIJSak-mewJxkcRGJZz8K15NdA",
+        "categories": [
+          "Makelaardij",
+          "Woningverhuur",
+          "Huurwoningen",
+          "Makelaar",
+          "Verhuurbedrijf voor vastgoed"
+        ],
+        "fid": "0x47c609ec993ea949:0xd03579adf0739618",
+        "cid": "15003031521625085464",
+        "reviewsCount": 100,
+        "imagesCount": 16,
+        "imageCategories": [],
+        "scrapedAt": "2025-10-08T22:11:35.153Z",
+        "googleFoodUrl": null,
+        "hotelAds": [],
+        "openingHours": [],
+        "peopleAlsoSearch": [],
+        "placesTags": [],
+        "reviewsTags": [],
+        "gasPrices": [],
+        "url": "https://www.google.com/maps/search/?api=1&query=Verhuurmakelaar%20Amsterdam%20-%20Absolute%20Housing&query_place_id=ChIJSak-mewJxkcRGJZz8K15NdA",
+        "searchPageUrl": "https://www.google.com/maps/search/real_estate_agency%20Netherlands/@52.73573209157206,7.210238657534013,11z?hl=nl",
+        "searchString": "real_estate_agency Netherlands",
+        "language": "nl",
+        "rank": 4,
+        "isAdvertisement": false,
+        "imageUrl": "https://lh3.googleusercontent.com/p/AF1QipNQGzf0B_PZZVmVwfxcFWJQWswQesnl19kaI7eb=w408-h279-k-no",
+        "kgmid": "/g/11d_8y36bq"
+      },
+      {
+        "title": "Expat & Real Estate B.V.",
+        "price": null,
+        "categoryName": "Makelaardij",
+        "address": "Koninginnegracht 19, 2514 AB Den Haag, Nederland",
+        "neighborhood": "Centrum",
+        "street": "Koninginnegracht 19",
+        "city": "Den Haag",
+        "postalCode": "2514 AB",
+        "state": null,
+        "countryCode": "NL",
+        "website": "https://www.expat-realestate.nl/",
+        "phone": "+31 70 212 2589",
+        "phoneUnformatted": "+31702122589",
+        "claimThisBusiness": false,
+        "location": {
+          "lat": 52.0876378,
+          "lng": 4.3133746
+        },
+        "totalScore": 4.9,
+        "permanentlyClosed": false,
+        "temporarilyClosed": false,
+        "placeId": "ChIJPzOnTgu3xUcR4Zdw1WB0Wy0",
+        "categories": [
+          "Makelaardij",
+          "Vastgoedadviseur"
+        ],
+        "fid": "0x47c5b70b4ea7333f:0x2d5b7460d57097e1",
+        "cid": "3268333913834035169",
+        "reviewsCount": 314,
+        "imagesCount": 14,
+        "imageCategories": [],
+        "scrapedAt": "2025-10-08T22:11:35.153Z",
+        "googleFoodUrl": null,
+        "hotelAds": [],
+        "openingHours": [
+          {
+            "day": "donderdag",
+            "hours": "08:30 to 18:00"
+          },
+          {
+            "day": "vrijdag",
+            "hours": "08:30 to 18:00"
+          },
+          {
+            "day": "zaterdag",
+            "hours": "Gesloten"
+          },
+          {
+            "day": "zondag",
+            "hours": "Gesloten"
+          },
+          {
+            "day": "maandag",
+            "hours": "08:30 to 18:00"
+          },
+          {
+            "day": "dinsdag",
+            "hours": "08:30 to 18:00"
+          },
+          {
+            "day": "woensdag",
+            "hours": "08:30 to 18:00"
+          }
+        ],
+        "peopleAlsoSearch": [],
+        "placesTags": [],
+        "reviewsTags": [],
+        "additionalInfo": {
+          "Parkeren": [
+            {
+              "Parkeren op het terrein": true
+            }
+          ]
+        },
+        "gasPrices": [],
+        "url": "https://www.google.com/maps/search/?api=1&query=Expat%20%26%20Real%20Estate%20B.V.&query_place_id=ChIJPzOnTgu3xUcR4Zdw1WB0Wy0",
+        "searchPageUrl": "https://www.google.com/maps/search/real_estate_agency%20Netherlands/@52.73573209157206,7.210238657534013,11z?hl=nl",
+        "searchString": "real_estate_agency Netherlands",
+        "language": "nl",
+        "rank": 5,
+        "isAdvertisement": false,
+        "imageUrl": "https://lh3.googleusercontent.com/p/AF1QipMl-JVPuV6IYcPGSQ4CMw7dOnuaigeLdWMV0YZZ=w408-h408-k-no",
+        "kgmid": "/g/11btlqhdd9"
+      },
+      {
+        "title": "Makelpunt Nederland",
+        "price": null,
+        "categoryName": "Vastgoedadviseur",
+        "address": "Berg en Dalseweg 127, 6522 BE Nijmegen, Nederland",
+        "neighborhood": "Nijmegen-Oost",
+        "street": "Berg en Dalseweg 127",
+        "city": "Nijmegen",
+        "postalCode": "6522 BE",
+        "state": null,
+        "countryCode": "NL",
+        "website": "http://www.makelpunt.nl/",
+        "claimThisBusiness": false,
+        "location": {
+          "lat": 51.8386605,
+          "lng": 5.8818784
+        },
+        "permanentlyClosed": false,
+        "temporarilyClosed": false,
+        "placeId": "ChIJOYZyVVkIx0cRZx6e2DApH7g",
+        "categories": [
+          "Vastgoedadviseur"
+        ],
+        "fid": "0x47c7085955728639:0xb81f2930d89e1e67",
+        "cid": "13267368317026180711",
+        "reviewsCount": 0,
+        "imagesCount": 6,
+        "imageCategories": [],
+        "scrapedAt": "2025-10-08T22:11:56.719Z",
+        "googleFoodUrl": null,
+        "hotelAds": [],
+        "openingHours": [
+          {
+            "day": "donderdag",
+            "hours": "24 uur geopend"
+          },
+          {
+            "day": "vrijdag",
+            "hours": "24 uur geopend"
+          },
+          {
+            "day": "zaterdag",
+            "hours": "24 uur geopend"
+          },
+          {
+            "day": "zondag",
+            "hours": "24 uur geopend"
+          },
+          {
+            "day": "maandag",
+            "hours": "24 uur geopend"
+          },
+          {
+            "day": "dinsdag",
+            "hours": "24 uur geopend"
+          },
+          {
+            "day": "woensdag",
+            "hours": "24 uur geopend"
+          }
+        ],
+        "peopleAlsoSearch": [],
+        "placesTags": [],
+        "reviewsTags": [],
+        "gasPrices": [],
+        "url": "https://www.google.com/maps/search/?api=1&query=Makelpunt%20Nederland&query_place_id=ChIJOYZyVVkIx0cRZx6e2DApH7g",
+        "searchPageUrl": "https://www.google.com/maps/search/real_estate_agency%20Nederland/@51.76006340842791,6.182034203767007,11z?hl=nl",
+        "searchString": "real_estate_agency Nederland",
+        "language": "nl",
+        "rank": 1,
+        "isAdvertisement": false,
+        "imageUrl": "https://lh3.googleusercontent.com/p/AF1QipOYFxZ5Q_U90S0yVbxNFMXg2yf2_qymmqxAFVLJ=w408-h289-k-no",
+        "kgmid": "/g/11dd_vyq0n"
+      },
+      {
+        "title": "Rob Disbergen Makelaars",
+        "price": null,
+        "categoryName": "Makelaardij",
+        "address": "Hatertseweg 126, 6533 AS Nijmegen, Nederland",
+        "neighborhood": "Nijmegen-Midden",
+        "street": "Hatertseweg 126",
+        "city": "Nijmegen",
+        "postalCode": "6533 AS",
+        "state": null,
+        "countryCode": "NL",
+        "website": "https://www.robdisbergen.nl/",
+        "phone": "+31 24 356 6263",
+        "phoneUnformatted": "+31243566263",
+        "claimThisBusiness": false,
+        "location": {
+          "lat": 51.823862,
+          "lng": 5.8515283
+        },
+        "totalScore": 4.6,
+        "permanentlyClosed": false,
+        "temporarilyClosed": false,
+        "placeId": "ChIJm-nRrPIIx0cRXcRUYvuELyE",
+        "categories": [
+          "Makelaardij",
+          "Taxateur",
+          "Makelaar",
+          "Taxateur onroerend goed",
+          "Vastgoedadviseur"
+        ],
+        "fid": "0x47c708f2acd1e99b:0x212f84fb6254c45d",
+        "cid": "2391276142378402909",
+        "reviewsCount": 82,
+        "imagesCount": 70,
+        "imageCategories": [],
+        "scrapedAt": "2025-10-08T22:11:56.720Z",
+        "googleFoodUrl": null,
+        "hotelAds": [],
+        "openingHours": [
+          {
+            "day": "donderdag",
+            "hours": "09:00 to 17:30"
+          },
+          {
+            "day": "vrijdag",
+            "hours": "09:00 to 17:30"
+          },
+          {
+            "day": "zaterdag",
+            "hours": "10:00 to 12:30"
+          },
+          {
+            "day": "zondag",
+            "hours": "Gesloten"
+          },
+          {
+            "day": "maandag",
+            "hours": "09:00 to 17:30"
+          },
+          {
+            "day": "dinsdag",
+            "hours": "09:00 to 17:30"
+          },
+          {
+            "day": "woensdag",
+            "hours": "09:00 to 17:30"
+          }
+        ],
+        "additionalOpeningHours": {
+          "Openingstijden voor online service": [
+            {
+              "day": "donderdag",
+              "hours": "24 uur geopend"
+            },
+            {
+              "day": "vrijdag",
+              "hours": "24 uur geopend"
+            },
+            {
+              "day": "zaterdag",
+              "hours": "24 uur geopend"
+            },
+            {
+              "day": "zondag",
+              "hours": "24 uur geopend"
+            },
+            {
+              "day": "maandag",
+              "hours": "24 uur geopend"
+            },
+            {
+              "day": "dinsdag",
+              "hours": "24 uur geopend"
+            },
+            {
+              "day": "woensdag",
+              "hours": "24 uur geopend"
+            }
+          ]
+        },
+        "peopleAlsoSearch": [],
+        "placesTags": [],
+        "reviewsTags": [],
+        "additionalInfo": {
+          "Serviceopties": [
+            {
+              "Online afspraken": true
+            },
+            {
+              "Services op bedrijfslocatie": true
+            }
+          ],
+          "Toegankelijkheid": [
+            {
+              "Rolstoeltoegankelijke ingang": true
+            },
+            {
+              "Rolstoeltoegankelijke zitplaatsen": true
+            }
+          ],
+          "Parkeren": [
+            {
+              "Gratis parkeerplaats": true
+            },
+            {
+              "Gratis parkeren op straat": true
+            },
+            {
+              "Parkeren op het terrein": true
+            }
+          ]
+        },
+        "gasPrices": [],
+        "url": "https://www.google.com/maps/search/?api=1&query=Rob%20Disbergen%20Makelaars&query_place_id=ChIJm-nRrPIIx0cRXcRUYvuELyE",
+        "searchPageUrl": "https://www.google.com/maps/search/real_estate_agency%20Nederland/@51.76006340842791,6.182034203767007,11z?hl=nl",
+        "searchString": "real_estate_agency Nederland",
+        "language": "nl",
+        "rank": 2,
+        "isAdvertisement": false,
+        "imageUrl": "https://lh3.googleusercontent.com/p/AF1QipPP-TPhUs5ffPDJ4mYr3FLxpSeRd1DBTMCD41og=w408-h272-k-no",
+        "kgmid": "/g/1tj7_5wf"
+      },
+      {
+        "title": "Beaufort ERA Makelaars",
+        "price": null,
+        "categoryName": "Makelaardij",
+        "address": "Oranjesingel 21, 6511 NM Nijmegen, Nederland",
+        "neighborhood": "Nijmegen-Centrum",
+        "street": "Oranjesingel 21",
+        "city": "Nijmegen",
+        "postalCode": "6511 NM",
+        "state": null,
+        "countryCode": "NL",
+        "website": "http://www.beaufortmakelaars.nl/",
+        "phone": "+31 24 360 6900",
+        "phoneUnformatted": "+31243606900",
+        "claimThisBusiness": false,
+        "location": {
+          "lat": 51.8418121,
+          "lng": 5.86403
+        },
+        "totalScore": 3.7,
+        "permanentlyClosed": false,
+        "temporarilyClosed": false,
+        "placeId": "ChIJxb5UbVsIx0cRMmNWTvgG_PE",
+        "categories": [
+          "Makelaardij",
+          "Woningverhuur",
+          "Hypotheek",
+          "Vastgoedbeheerbedrijf",
+          "Makelaar",
+          "Taxateur onroerend goed",
+          "Vastgoedadviseur",
+          "Verhuurbedrijf voor vastgoed",
+          "Vastgoedtaxateur"
+        ],
+        "fid": "0x47c7085b6d54bec5:0xf1fc06f84e566332",
+        "cid": "17436819520807658290",
+        "reviewsCount": 29,
+        "imagesCount": 10,
+        "imageCategories": [],
+        "scrapedAt": "2025-10-08T22:11:56.720Z",
+        "googleFoodUrl": null,
+        "hotelAds": [],
+        "openingHours": [
+          {
+            "day": "donderdag",
+            "hours": "09:00 to 17:30"
+          },
+          {
+            "day": "vrijdag",
+            "hours": "09:00 to 17:30"
+          },
+          {
+            "day": "zaterdag",
+            "hours": "Gesloten"
+          },
+          {
+            "day": "zondag",
+            "hours": "Gesloten"
+          },
+          {
+            "day": "maandag",
+            "hours": "09:00 to 17:30"
+          },
+          {
+            "day": "dinsdag",
+            "hours": "09:00 to 17:30"
+          },
+          {
+            "day": "woensdag",
+            "hours": "09:00 to 17:30"
+          }
+        ],
+        "peopleAlsoSearch": [],
+        "placesTags": [],
+        "reviewsTags": [],
+        "additionalInfo": {
+          "Toegankelijkheid": [
+            {
+              "Rolstoeltoegankelijke parking": true
+            }
+          ]
+        },
+        "gasPrices": [],
+        "url": "https://www.google.com/maps/search/?api=1&query=Beaufort%20ERA%20Makelaars&query_place_id=ChIJxb5UbVsIx0cRMmNWTvgG_PE",
+        "searchPageUrl": "https://www.google.com/maps/search/real_estate_agency%20Nederland/@51.76006340842791,6.182034203767007,11z?hl=nl",
+        "searchString": "real_estate_agency Nederland",
+        "language": "nl",
+        "rank": 3,
+        "isAdvertisement": false,
+        "imageUrl": "https://lh3.googleusercontent.com/gps-cs-s/AC9h4no1qMOufW1WiNYlUPn2w4BZ_AYZxAlrrAwrpgPfNKC6IlsuICAPbF0ZybioFI1cfjgHdTDQ81Z0pi2E3hRkcoGm4Z505BrAPL3brj-MNpvUoL8C-bosp_hU7GIuVEQRVsHQZPHG8Lhc7XM=w408-h240-k-no-pi-0-ya5.123189-ro-0-fo100",
+        "kgmid": "/g/1w345vg7"
+      },
+      {
+        "title": "123Wonen",
+        "price": null,
+        "categoryName": "Makelaardij",
+        "address": "Groesbeekseweg 27, 6524 CL Nijmegen, Nederland",
+        "neighborhood": "Nijmegen-Oost",
+        "street": "Groesbeekseweg 27",
+        "city": "Nijmegen",
+        "postalCode": "6524 CL",
+        "state": null,
+        "countryCode": "NL",
+        "website": "https://www.123wonen.nl/verhuurmakelaar/nijmegen",
+        "phone": "+31 24 204 0000",
+        "phoneUnformatted": "+31242040000",
+        "claimThisBusiness": false,
+        "location": {
+          "lat": 51.8397688,
+          "lng": 5.863641
+        },
+        "totalScore": 4.1,
+        "permanentlyClosed": false,
+        "temporarilyClosed": false,
+        "placeId": "ChIJvRS1QlEIx0cR-k0IYoaw8zc",
+        "categories": [
+          "Makelaardij",
+          "Huurwoningen"
+        ],
+        "fid": "0x47c7085142b514bd:0x37f3b08662084dfa",
+        "cid": "4031760182643543546",
+        "reviewsCount": 17,
+        "imagesCount": 5,
+        "imageCategories": [],
+        "scrapedAt": "2025-10-08T22:11:56.720Z",
+        "googleFoodUrl": null,
+        "hotelAds": [],
+        "openingHours": [
+          {
+            "day": "donderdag",
+            "hours": "09:00 to 17:30"
+          },
+          {
+            "day": "vrijdag",
+            "hours": "09:00 to 17:30"
+          },
+          {
+            "day": "zaterdag",
+            "hours": "Gesloten"
+          },
+          {
+            "day": "zondag",
+            "hours": "Gesloten"
+          },
+          {
+            "day": "maandag",
+            "hours": "09:00 to 17:30"
+          },
+          {
+            "day": "dinsdag",
+            "hours": "09:00 to 17:30"
+          },
+          {
+            "day": "woensdag",
+            "hours": "09:00 to 17:30"
+          }
+        ],
+        "peopleAlsoSearch": [],
+        "placesTags": [],
+        "reviewsTags": [],
+        "gasPrices": [],
+        "url": "https://www.google.com/maps/search/?api=1&query=123Wonen&query_place_id=ChIJvRS1QlEIx0cR-k0IYoaw8zc",
+        "searchPageUrl": "https://www.google.com/maps/search/real_estate_agency%20Nederland/@51.76006340842791,6.182034203767007,11z?hl=nl",
+        "searchString": "real_estate_agency Nederland",
+        "language": "nl",
+        "rank": 4,
+        "isAdvertisement": false,
+        "imageUrl": "https://lh3.googleusercontent.com/p/AF1QipNMaAn32E_08QDe0p1LAnEvNB9rPzFz2c_XSuY=w1760-h240-k-no",
+        "kgmid": "/g/1thq4j2d"
+      },
+      {
+        "title": "Attis aankoopmakelaardij",
+        "price": null,
+        "categoryName": "Makelaardij",
+        "address": "Van Welderenstraat 108, 6511 MT Nijmegen, Nederland",
+        "neighborhood": "Nijmegen-Centrum",
+        "street": "Van Welderenstraat 108",
+        "city": "Nijmegen",
+        "postalCode": "6511 MT",
+        "state": null,
+        "countryCode": "NL",
+        "website": "http://www.attis.nl/",
+        "phone": "+31 24 324 3838",
+        "phoneUnformatted": "+31243243838",
+        "claimThisBusiness": false,
+        "location": {
+          "lat": 51.842993,
+          "lng": 5.8623226
+        },
+        "totalScore": 4.9,
+        "permanentlyClosed": false,
+        "temporarilyClosed": false,
+        "placeId": "ChIJvS5op1wIx0cRem6ItOVAeGY",
+        "categories": [
+          "Makelaardij"
+        ],
+        "fid": "0x47c7085ca7682ebd:0x667840e5b4886e7a",
+        "cid": "7383722944394456698",
+        "reviewsCount": 47,
+        "imagesCount": 16,
+        "imageCategories": [],
+        "scrapedAt": "2025-10-08T22:11:56.721Z",
+        "googleFoodUrl": null,
+        "hotelAds": [],
+        "openingHours": [
+          {
+            "day": "donderdag",
+            "hours": "09:00 to 17:00"
+          },
+          {
+            "day": "vrijdag",
+            "hours": "09:00 to 17:00"
+          },
+          {
+            "day": "zaterdag",
+            "hours": "Gesloten"
+          },
+          {
+            "day": "zondag",
+            "hours": "Gesloten"
+          },
+          {
+            "day": "maandag",
+            "hours": "09:00 to 17:00"
+          },
+          {
+            "day": "dinsdag",
+            "hours": "09:00 to 17:00"
+          },
+          {
+            "day": "woensdag",
+            "hours": "09:00 to 17:00"
+          }
+        ],
+        "peopleAlsoSearch": [],
+        "placesTags": [],
+        "reviewsTags": [],
+        "additionalInfo": {
+          "Aangeleverd door het bedrijf": [
+            {
+              "Gerund door een vrouwelijke ondernemer": true
+            }
+          ],
+          "Serviceopties": [
+            {
+              "Online afspraken": true
+            },
+            {
+              "Services op bedrijfslocatie": true
+            }
+          ]
+        },
+        "gasPrices": [],
+        "url": "https://www.google.com/maps/search/?api=1&query=Attis%20aankoopmakelaardij&query_place_id=ChIJvS5op1wIx0cRem6ItOVAeGY",
+        "searchPageUrl": "https://www.google.com/maps/search/real_estate_agency%20Nederland/@51.76006340842791,6.182034203767007,11z?hl=nl",
+        "searchString": "real_estate_agency Nederland",
+        "language": "nl",
+        "rank": 5,
+        "isAdvertisement": false,
+        "imageUrl": "https://lh3.googleusercontent.com/p/AF1QipMwQ99OivOyTjwzHcJy8J3Diu6VpuTJ4Ru4iNXP=w408-h272-k-no",
+        "kgmid": "/g/1thbvwxx"
+      },
+      {
+        "title": "Expat rentals Holland",
+        "price": null,
+        "categoryName": "Makelaardij",
+        "address": "Laan van de Marel 625, 7823 BS Emmen, Nederland",
+        "neighborhood": null,
+        "street": "Laan van de Marel 625",
+        "city": "Emmen",
+        "postalCode": "7823 BS",
+        "state": null,
+        "countryCode": "NL",
+        "website": "https://www.expatrentalsholland.com/contact",
+        "phone": "+31 591 238 400",
+        "phoneUnformatted": "+31591238400",
+        "claimThisBusiness": true,
+        "location": {
+          "lat": 52.7860265,
+          "lng": 6.9377976
+        },
+        "permanentlyClosed": false,
+        "temporarilyClosed": false,
+        "placeId": "ChIJAQBUbJHot0cRplJyODKhTMs",
+        "categories": [
+          "Makelaardij"
+        ],
+        "fid": "0x47b7e8916c540001:0xcb4ca132387252a6",
+        "cid": "14649260924996833958",
+        "reviewsCount": 0,
+        "imagesCount": 1,
+        "imageCategories": [],
+        "scrapedAt": "2025-10-08T22:12:14.817Z",
+        "googleFoodUrl": null,
+        "hotelAds": [],
+        "openingHours": [],
+        "peopleAlsoSearch": [],
+        "placesTags": [],
+        "reviewsTags": [],
+        "additionalInfo": {
+          "Toegankelijkheid": [
+            {
+              "Rolstoeltoegankelijke parking": true
+            }
+          ]
+        },
+        "gasPrices": [],
+        "url": "https://www.google.com/maps/search/?api=1&query=Expat%20rentals%20Holland&query_place_id=ChIJAQBUbJHot0cRplJyODKhTMs",
+        "searchPageUrl": "https://www.google.com/maps/search/real_estate_agency%20Dutch/@52.73573209157206,7.210238657534013,11z?hl=nl",
+        "searchString": "real_estate_agency Dutch",
+        "language": "nl",
+        "rank": 1,
+        "isAdvertisement": false,
+        "imageUrl": "https://streetviewpixels-pa.googleapis.com/v1/thumbnail?panoid=KYugB-Dn-tvW-w-bkxF5ag&cb_client=search.gws-prod.gps&w=408&h=240&yaw=171.08572&pitch=0&thumbfov=100",
+        "kgmid": "/g/11fmqbz85z"
+      },
+      {
+        "title": "Correct Makelaars",
+        "price": null,
+        "categoryName": "Makelaardij",
+        "address": "Julianastraat 14, 7811 JS Emmen, Nederland",
+        "neighborhood": null,
+        "street": "Julianastraat 14",
+        "city": "Emmen",
+        "postalCode": "7811 JS",
+        "state": null,
+        "countryCode": "NL",
+        "website": "http://www.correctmakelaars.nl/",
+        "phone": "+31 6 52414423",
+        "phoneUnformatted": "+31652414423",
+        "claimThisBusiness": false,
+        "location": {
+          "lat": 52.7808763,
+          "lng": 6.8980885
+        },
+        "totalScore": 4.8,
+        "permanentlyClosed": false,
+        "temporarilyClosed": false,
+        "placeId": "ChIJoWbnjO7lx0cR6wAuWho_82k",
+        "categories": [
+          "Makelaardij",
+          "Vastgoedadviseur"
+        ],
+        "fid": "0x47c7e5ee8ce766a1:0x69f33f1a5a2e00eb",
+        "cid": "7634515175737786603",
+        "reviewsCount": 33,
+        "imagesCount": 3,
+        "imageCategories": [],
+        "scrapedAt": "2025-10-08T22:12:14.818Z",
+        "googleFoodUrl": null,
+        "hotelAds": [],
+        "openingHours": [
+          {
+            "day": "donderdag",
+            "hours": "09:00 to 21:00"
+          },
+          {
+            "day": "vrijdag",
+            "hours": "09:00 to 21:00"
+          },
+          {
+            "day": "zaterdag",
+            "hours": "09:00 to 21:00"
+          },
+          {
+            "day": "zondag",
+            "hours": "Gesloten"
+          },
+          {
+            "day": "maandag",
+            "hours": "09:00 to 21:00"
+          },
+          {
+            "day": "dinsdag",
+            "hours": "09:00 to 21:00"
+          },
+          {
+            "day": "woensdag",
+            "hours": "09:00 to 21:00"
+          }
+        ],
+        "peopleAlsoSearch": [],
+        "placesTags": [],
+        "reviewsTags": [],
+        "additionalInfo": {
+          "Toegankelijkheid": [
+            {
+              "Rolstoeltoegankelijke parking": true
+            }
+          ]
+        },
+        "gasPrices": [],
+        "url": "https://www.google.com/maps/search/?api=1&query=Correct%20Makelaars&query_place_id=ChIJoWbnjO7lx0cR6wAuWho_82k",
+        "searchPageUrl": "https://www.google.com/maps/search/real_estate_agency%20Dutch/@52.73573209157206,7.210238657534013,11z?hl=nl",
+        "searchString": "real_estate_agency Dutch",
+        "language": "nl",
+        "rank": 2,
+        "isAdvertisement": false,
+        "imageUrl": "https://lh3.googleusercontent.com/p/AF1QipPCDki8JCqiE5Un_cYt3ftdjswKecQ6PM1KDZkD=w408-h326-k-no",
+        "kgmid": "/g/1td9ps6b"
+      },
+      {
+        "title": "Huis-Expert makelaardij",
+        "price": null,
+        "categoryName": "Makelaardij",
+        "address": "Europaweg 124, 7761 AL Schoonebeek, Nederland",
+        "neighborhood": null,
+        "street": "Europaweg 124",
+        "city": "Schoonebeek",
+        "postalCode": "7761 AL",
+        "state": null,
+        "countryCode": "NL",
+        "website": "http://www.huisexpert.nl/",
+        "phone": "+31 524 533 255",
+        "phoneUnformatted": "+31524533255",
+        "claimThisBusiness": false,
+        "location": {
+          "lat": 52.662879,
+          "lng": 6.8823471
+        },
+        "totalScore": 4.3,
+        "permanentlyClosed": false,
+        "temporarilyClosed": false,
+        "placeId": "ChIJEbq7Pab6t0cRcU1sJXYuTFY",
+        "categories": [
+          "Makelaardij"
+        ],
+        "fid": "0x47b7faa63dbbba11:0x564c2e76256c4d71",
+        "cid": "6218396270460685681",
+        "reviewsCount": 40,
+        "imagesCount": 4,
+        "imageCategories": [],
+        "scrapedAt": "2025-10-08T22:12:14.819Z",
+        "googleFoodUrl": null,
+        "hotelAds": [],
+        "openingHours": [
+          {
+            "day": "donderdag",
+            "hours": "09:00 to 17:00"
+          },
+          {
+            "day": "vrijdag",
+            "hours": "09:00 to 17:00"
+          },
+          {
+            "day": "zaterdag",
+            "hours": "Gesloten"
+          },
+          {
+            "day": "zondag",
+            "hours": "Gesloten"
+          },
+          {
+            "day": "maandag",
+            "hours": "09:00 to 17:00"
+          },
+          {
+            "day": "dinsdag",
+            "hours": "09:00 to 17:00"
+          },
+          {
+            "day": "woensdag",
+            "hours": "09:00 to 17:00"
+          }
+        ],
+        "peopleAlsoSearch": [],
+        "placesTags": [],
+        "reviewsTags": [],
+        "additionalInfo": {
+          "Toegankelijkheid": [
+            {
+              "Rolstoeltoegankelijke ingang": true
+            },
+            {
+              "Rolstoeltoegankelijke parking": true
+            },
+            {
+              "Rolstoeltoegankelijke zitplaatsen": true
+            },
+            {
+              "Rolstoeltoegankelijk toilet": false
+            }
+          ]
+        },
+        "gasPrices": [],
+        "url": "https://www.google.com/maps/search/?api=1&query=Huis-Expert%20makelaardij&query_place_id=ChIJEbq7Pab6t0cRcU1sJXYuTFY",
+        "searchPageUrl": "https://www.google.com/maps/search/real_estate_agency%20Dutch/@52.73573209157206,7.210238657534013,11z?hl=nl",
+        "searchString": "real_estate_agency Dutch",
+        "language": "nl",
+        "rank": 3,
+        "isAdvertisement": false,
+        "imageUrl": "https://lh3.googleusercontent.com/p/AF1QipOHUKTCZmXU37sU70OAXtK4Z-mcZ38NePccg4is=w408-h408-k-no",
+        "kgmid": "/g/11c2qmqmyt"
+      },
+      {
+        "title": "Ten Wolde Makelaars Emmen",
+        "price": null,
+        "categoryName": "Makelaardij",
+        "address": "Houtsnip 22, 7827 KG Emmen, Nederland",
+        "neighborhood": null,
+        "street": "Houtsnip 22",
+        "city": "Emmen",
+        "postalCode": "7827 KG",
+        "state": null,
+        "countryCode": "NL",
+        "website": "http://www.ten-wolde.nl/",
+        "phone": "+31 591 632 007",
+        "phoneUnformatted": "+31591632007",
+        "claimThisBusiness": false,
+        "location": {
+          "lat": 52.7397265,
+          "lng": 6.8769551
+        },
+        "totalScore": 4.5,
+        "permanentlyClosed": false,
+        "temporarilyClosed": false,
+        "placeId": "ChIJVTyeDMDlt0cRgcVcxdrVWFU",
+        "categories": [
+          "Makelaardij"
+        ],
+        "fid": "0x47b7e5c00c9e3c55:0x5558d5dac55cc581",
+        "cid": "6149900426765190529",
+        "reviewsCount": 46,
+        "imagesCount": 7,
+        "imageCategories": [],
+        "scrapedAt": "2025-10-08T22:12:14.819Z",
+        "googleFoodUrl": null,
+        "hotelAds": [],
+        "openingHours": [
+          {
+            "day": "donderdag",
+            "hours": "09:00 to 17:00"
+          },
+          {
+            "day": "vrijdag",
+            "hours": "09:00 to 17:00"
+          },
+          {
+            "day": "zaterdag",
+            "hours": "Gesloten"
+          },
+          {
+            "day": "zondag",
+            "hours": "Gesloten"
+          },
+          {
+            "day": "maandag",
+            "hours": "09:00 to 17:00"
+          },
+          {
+            "day": "dinsdag",
+            "hours": "09:00 to 17:00"
+          },
+          {
+            "day": "woensdag",
+            "hours": "09:00 to 17:00"
+          }
+        ],
+        "peopleAlsoSearch": [],
+        "placesTags": [],
+        "reviewsTags": [],
+        "additionalInfo": {
+          "Toegankelijkheid": [
+            {
+              "Rolstoeltoegankelijke ingang": true
+            },
+            {
+              "Rolstoeltoegankelijke parking": true
+            }
+          ]
+        },
+        "gasPrices": [],
+        "url": "https://www.google.com/maps/search/?api=1&query=Ten%20Wolde%20Makelaars%20Emmen&query_place_id=ChIJVTyeDMDlt0cRgcVcxdrVWFU",
+        "searchPageUrl": "https://www.google.com/maps/search/real_estate_agency%20Dutch/@52.73573209157206,7.210238657534013,11z?hl=nl",
+        "searchString": "real_estate_agency Dutch",
+        "language": "nl",
+        "rank": 4,
+        "isAdvertisement": false,
+        "imageUrl": "https://lh3.googleusercontent.com/p/AF1QipPeUF8OJXQ12PwJuVqec6EskBvJ8ugZDKk08ySM=w408-h277-k-no",
+        "kgmid": "/g/1tg783dl"
+      },
+      {
+        "title": "Actief",
+        "price": null,
+        "categoryName": "Vastgoedadviseur",
+        "address": "Raadhuisplein 82, 7811 AP Emmen, Nederland",
+        "neighborhood": null,
+        "street": "Raadhuisplein 82",
+        "city": "Emmen",
+        "postalCode": "7811 AP",
+        "state": null,
+        "countryCode": "NL",
+        "website": "https://actief.nl/",
+        "claimThisBusiness": false,
+        "location": {
+          "lat": 52.7844546,
+          "lng": 6.8930705
+        },
+        "totalScore": 4.1,
+        "permanentlyClosed": false,
+        "temporarilyClosed": false,
+        "placeId": "ChIJMXOdWT7mt0cRDH2kRwxksWI",
+        "categories": [
+          "Vastgoedadviseur",
+          "Kantoorvastgoedbedrijf"
+        ],
+        "fid": "0x47b7e63e599d7331:0x62b1640c47a47d0c",
+        "cid": "7111575290499071244",
+        "reviewsCount": 21,
+        "imagesCount": 17,
+        "imageCategories": [],
+        "scrapedAt": "2025-10-08T22:12:14.819Z",
+        "googleFoodUrl": null,
+        "hotelAds": [],
+        "openingHours": [
+          {
+            "day": "donderdag",
+            "hours": "09:00 to 17:00"
+          },
+          {
+            "day": "vrijdag",
+            "hours": "09:00 to 17:00"
+          },
+          {
+            "day": "zaterdag",
+            "hours": "Gesloten"
+          },
+          {
+            "day": "zondag",
+            "hours": "Gesloten"
+          },
+          {
+            "day": "maandag",
+            "hours": "09:00 to 17:00"
+          },
+          {
+            "day": "dinsdag",
+            "hours": "09:00 to 17:00"
+          },
+          {
+            "day": "woensdag",
+            "hours": "09:00 to 17:00"
+          }
+        ],
+        "peopleAlsoSearch": [],
+        "placesTags": [],
+        "reviewsTags": [],
+        "additionalInfo": {
+          "Serviceopties": [
+            {
+              "Online afspraken": true
+            },
+            {
+              "Services op bedrijfslocatie": true
+            }
+          ],
+          "Toegankelijkheid": [
+            {
+              "Rolstoeltoegankelijke ingang": true
+            },
+            {
+              "Rolstoeltoegankelijke parking": true
+            }
+          ]
+        },
+        "gasPrices": [],
+        "url": "https://www.google.com/maps/search/?api=1&query=Actief&query_place_id=ChIJMXOdWT7mt0cRDH2kRwxksWI",
+        "searchPageUrl": "https://www.google.com/maps/search/real_estate_agency%20Dutch/@52.73573209157206,7.210238657534013,11z?hl=nl",
+        "searchString": "real_estate_agency Dutch",
+        "language": "nl",
+        "rank": 5,
+        "isAdvertisement": false,
+        "imageUrl": "https://lh3.googleusercontent.com/gps-cs-s/AC9h4nqITSxqtb-2dWaklpW67ulXeYLMMjUuWRTYClQbM0SGGlMLP9z-YmPz344HvsfiTVUS9nqfsPxTcIV6M4dfyCRubXoz1N4pTa63dQm9Zu6Hp5foHo0Zc3Qte6qGoRgMc8sUH6uITQ=w408-h544-k-no",
+        "kgmid": "/g/11bw20s1z6"
+      },
+      {
+        "title": "Sloterwijk & Heinen Makelaars",
+        "price": null,
+        "categoryName": "Makelaardij",
+        "address": "Ecu 2, 8305 BA Emmeloord, Nederland",
+        "neighborhood": null,
+        "street": "Ecu 2",
+        "city": "Emmeloord",
+        "postalCode": "8305 BA",
+        "state": null,
+        "countryCode": "NL",
+        "website": "https://www.shmakelaars.nl/",
+        "phone": "+31 527 610 260",
+        "phoneUnformatted": "+31527610260",
+        "claimThisBusiness": false,
+        "location": {
+          "lat": 52.7118419,
+          "lng": 5.7763331
+        },
+        "totalScore": 4.9,
+        "permanentlyClosed": false,
+        "temporarilyClosed": false,
+        "placeId": "ChIJDUc8qJSHyEcRnnJwmkOlSyI",
+        "categories": [
+          "Makelaardij",
+          "Makelaar",
+          "Vastgoedadviseur",
+          "Vastgoedtaxateur"
+        ],
+        "fid": "0x47c88794a83c470d:0x224ba5439a70729e",
+        "cid": "2471250530315301534",
+        "reviewsCount": 10,
+        "imagesCount": 4,
+        "imageCategories": [],
+        "scrapedAt": "2025-10-08T22:12:35.620Z",
+        "googleFoodUrl": null,
+        "hotelAds": [],
+        "openingHours": [
+          {
+            "day": "donderdag",
+            "hours": "08:30 to 17:30"
+          },
+          {
+            "day": "vrijdag",
+            "hours": "08:30 to 17:30"
+          },
+          {
+            "day": "zaterdag",
+            "hours": "Gesloten"
+          },
+          {
+            "day": "zondag",
+            "hours": "Gesloten"
+          },
+          {
+            "day": "maandag",
+            "hours": "08:30 to 17:30"
+          },
+          {
+            "day": "dinsdag",
+            "hours": "08:30 to 17:30"
+          },
+          {
+            "day": "woensdag",
+            "hours": "08:30 to 17:30"
+          }
+        ],
+        "peopleAlsoSearch": [],
+        "placesTags": [],
+        "reviewsTags": [],
+        "additionalInfo": {
+          "Toegankelijkheid": [
+            {
+              "Rolstoeltoegankelijke parking": true
+            }
+          ],
+          "Parkeren": [
+            {
+              "Gratis parkeerplaats": true
+            },
+            {
+              "Parkeren op het terrein": true
+            }
+          ]
+        },
+        "gasPrices": [],
+        "url": "https://www.google.com/maps/search/?api=1&query=Sloterwijk%20%26%20Heinen%20Makelaars&query_place_id=ChIJDUc8qJSHyEcRnnJwmkOlSyI",
+        "searchPageUrl": "https://www.google.com/maps/search/beste%20real_estate_agency%20Netherlands/@52.73573209157206,5.667931976883503,11z?hl=nl",
+        "searchString": "beste real_estate_agency Netherlands",
+        "language": "nl",
+        "rank": 1,
+        "isAdvertisement": false,
+        "imageUrl": "https://lh3.googleusercontent.com/p/AF1QipOdbKoD0LBA1ro7XHIuKZE3DwJgXm6IaXJAKg9f=w408-h294-k-no",
+        "kgmid": "/g/1tk6pk_5"
+      },
+      {
+        "title": "MASTEBROEK MAKELAARDIJ",
+        "price": null,
+        "categoryName": "Makelaardij",
+        "address": "Kon. Julianastraat 9, 8302 CC Emmeloord, Nederland",
+        "neighborhood": null,
+        "street": "Kon. Julianastraat 9",
+        "city": "Emmeloord",
+        "postalCode": "8302 CC",
+        "state": null,
+        "countryCode": "NL",
+        "website": "https://www.mastebroekmakelaardij.nl/",
+        "phone": "+31 527 620 963",
+        "phoneUnformatted": "+31527620963",
+        "claimThisBusiness": false,
+        "location": {
+          "lat": 52.7116707,
+          "lng": 5.7511014
+        },
+        "totalScore": 4.8,
+        "permanentlyClosed": false,
+        "temporarilyClosed": false,
+        "placeId": "ChIJBxleqlWHyEcRU6Xj5ZeSq-E",
+        "categories": [
+          "Makelaardij"
+        ],
+        "fid": "0x47c88755aa5e1907:0xe1ab9297e5e3a553",
+        "cid": "16261252060645926227",
+        "reviewsCount": 45,
+        "imagesCount": 5,
+        "imageCategories": [],
+        "scrapedAt": "2025-10-08T22:12:35.621Z",
+        "googleFoodUrl": null,
+        "hotelAds": [],
+        "openingHours": [
+          {
+            "day": "donderdag",
+            "hours": "09:00 to 17:00"
+          },
+          {
+            "day": "vrijdag",
+            "hours": "09:00 to 17:00"
+          },
+          {
+            "day": "zaterdag",
+            "hours": "Gesloten"
+          },
+          {
+            "day": "zondag",
+            "hours": "Gesloten"
+          },
+          {
+            "day": "maandag",
+            "hours": "09:00 to 17:00"
+          },
+          {
+            "day": "dinsdag",
+            "hours": "09:00 to 17:00"
+          },
+          {
+            "day": "woensdag",
+            "hours": "09:00 to 17:00"
+          }
+        ],
+        "peopleAlsoSearch": [],
+        "placesTags": [],
+        "reviewsTags": [],
+        "additionalInfo": {
+          "Toegankelijkheid": [
+            {
+              "Rolstoeltoegankelijke parking": true
+            }
+          ]
+        },
+        "gasPrices": [],
+        "url": "https://www.google.com/maps/search/?api=1&query=MASTEBROEK%20MAKELAARDIJ&query_place_id=ChIJBxleqlWHyEcRU6Xj5ZeSq-E",
+        "searchPageUrl": "https://www.google.com/maps/search/beste%20real_estate_agency%20Netherlands/@52.73573209157206,5.667931976883503,11z?hl=nl",
+        "searchString": "beste real_estate_agency Netherlands",
+        "language": "nl",
+        "rank": 2,
+        "isAdvertisement": false,
+        "imageUrl": "https://lh3.googleusercontent.com/p/AF1QipOcuAWugFQIz_TWzfKk7AHXFu2JxQAGVmY_-psT=w408-h272-k-no",
+        "kgmid": "/g/11j3tnrcdb"
+      },
+      {
+        "title": "Frankema Vastgoed",
+        "price": null,
+        "categoryName": "Verhuurbedrijf voor vastgoed",
+        "address": "Taanderij 3, 8531 WD Lemmer, Nederland",
+        "neighborhood": null,
+        "street": "Taanderij 3",
+        "city": "Lemmer",
+        "postalCode": "8531 WD",
+        "state": null,
+        "countryCode": "NL",
+        "website": "https://frankemavastgoed.nl/",
+        "phone": "+31 6 43766800",
+        "phoneUnformatted": "+31643766800",
+        "claimThisBusiness": false,
+        "location": {
+          "lat": 52.8563525,
+          "lng": 5.7204152
+        },
+        "totalScore": 5,
+        "permanentlyClosed": false,
+        "temporarilyClosed": false,
+        "placeId": "ChIJN4T6T4aLyEcRmLbfWwwa2gw",
+        "categories": [
+          "Verhuurbedrijf voor vastgoed",
+          "Kantoorvastgoedbedrijf",
+          "Verhuurbedrijf voor kantoorruimte",
+          "Makelaardij",
+          "Opslagbedrijf"
+        ],
+        "fid": "0x47c88b864ffa8437:0xcda1a0c5bdfb698",
+        "cid": "926081313761375896",
+        "reviewsCount": 5,
+        "imagesCount": 18,
+        "imageCategories": [],
+        "scrapedAt": "2025-10-08T22:12:35.621Z",
+        "googleFoodUrl": null,
+        "hotelAds": [],
+        "openingHours": [
+          {
+            "day": "donderdag",
+            "hours": "24 uur geopend"
+          },
+          {
+            "day": "vrijdag",
+            "hours": "24 uur geopend"
+          },
+          {
+            "day": "zaterdag",
+            "hours": "24 uur geopend"
+          },
+          {
+            "day": "zondag",
+            "hours": "24 uur geopend"
+          },
+          {
+            "day": "maandag",
+            "hours": "24 uur geopend"
+          },
+          {
+            "day": "dinsdag",
+            "hours": "24 uur geopend"
+          },
+          {
+            "day": "woensdag",
+            "hours": "24 uur geopend"
+          }
+        ],
+        "peopleAlsoSearch": [],
+        "placesTags": [],
+        "reviewsTags": [],
+        "additionalInfo": {
+          "Toegankelijkheid": [
+            {
+              "Rolstoeltoegankelijke parking": true
+            }
+          ]
+        },
+        "gasPrices": [],
+        "url": "https://www.google.com/maps/search/?api=1&query=Frankema%20Vastgoed&query_place_id=ChIJN4T6T4aLyEcRmLbfWwwa2gw",
+        "searchPageUrl": "https://www.google.com/maps/search/beste%20real_estate_agency%20Netherlands/@52.73573209157206,5.667931976883503,11z?hl=nl",
+        "searchString": "beste real_estate_agency Netherlands",
+        "language": "nl",
+        "rank": 3,
+        "isAdvertisement": false,
+        "imageUrl": "https://lh3.googleusercontent.com/p/AF1QipMc7QyiBfaYeN2zLouDuWuqAMWpCxrFNK3a3GaY=w408-h306-k-no",
+        "kgmid": "/g/11c5_4_qql"
+      },
+      {
+        "title": "Ussien",
+        "price": null,
+        "categoryName": "Makelaardij",
+        "address": "Het Spijk 2F, 8321 WT Urk, Nederland",
+        "neighborhood": null,
+        "street": "Het Spijk 2F",
+        "city": "Urk",
+        "postalCode": "8321 WT",
+        "state": null,
+        "countryCode": "NL",
+        "website": "http://www.ussien.nl/",
+        "phone": "+31 527 200 107",
+        "phoneUnformatted": "+31527200107",
+        "claimThisBusiness": true,
+        "location": {
+          "lat": 52.6503266,
+          "lng": 5.6260893
+        },
+        "totalScore": 4.9,
+        "permanentlyClosed": false,
+        "temporarilyClosed": false,
+        "placeId": "ChIJ2W2stniDyEcRkiopib_hFXo",
+        "categories": [
+          "Makelaardij",
+          "Verzekeringsagentschap",
+          "Hypotheekmakelaar",
+          "Hypotheek"
+        ],
+        "fid": "0x47c88378b6ac6dd9:0x7a15e1bf89292a92",
+        "cid": "8797185659894311570",
+        "reviewsCount": 184,
+        "imagesCount": 2,
+        "imageCategories": [],
+        "scrapedAt": "2025-10-08T22:12:35.622Z",
+        "googleFoodUrl": null,
+        "hotelAds": [],
+        "openingHours": [
+          {
+            "day": "donderdag",
+            "hours": "24 uur geopend"
+          },
+          {
+            "day": "vrijdag",
+            "hours": "24 uur geopend"
+          },
+          {
+            "day": "zaterdag",
+            "hours": "24 uur geopend"
+          },
+          {
+            "day": "zondag",
+            "hours": "Gesloten"
+          },
+          {
+            "day": "maandag",
+            "hours": "24 uur geopend"
+          },
+          {
+            "day": "dinsdag",
+            "hours": "24 uur geopend"
+          },
+          {
+            "day": "woensdag",
+            "hours": "24 uur geopend"
+          }
+        ],
+        "peopleAlsoSearch": [],
+        "placesTags": [],
+        "reviewsTags": [],
+        "additionalInfo": {
+          "Toegankelijkheid": [
+            {
+              "Rolstoeltoegankelijke ingang": true
+            },
+            {
+              "Rolstoeltoegankelijke parking": true
+            }
+          ]
+        },
+        "gasPrices": [],
+        "url": "https://www.google.com/maps/search/?api=1&query=Ussien&query_place_id=ChIJ2W2stniDyEcRkiopib_hFXo",
+        "searchPageUrl": "https://www.google.com/maps/search/beste%20real_estate_agency%20Netherlands/@52.73573209157206,5.667931976883503,11z?hl=nl",
+        "searchString": "beste real_estate_agency Netherlands",
+        "language": "nl",
+        "rank": 4,
+        "isAdvertisement": false,
+        "imageUrl": "https://lh3.googleusercontent.com/gps-cs-s/AC9h4npt7vchCcwq_LgLJU1Q6r4LirU1nElp2-fIfYHB1PJr-4tezK-W2kds1LE077w8Ah9WtDgQTeCPJCxzlmhO-eLyfl96Bfb_ZVbCMyecP_2_iBYU1FvJ48AdnAnBZu9z0_aQpv9_Iw=w408-h306-k-no",
+        "kgmid": "/g/11h_cz30jw"
+      },
+      {
+        "title": "Alpina",
+        "price": null,
+        "categoryName": "Makelaardij",
+        "address": "De Deel 21-1, 8302 EK Emmeloord, Nederland",
+        "neighborhood": null,
+        "street": "De Deel 21-1",
+        "city": "Emmeloord",
+        "postalCode": "8302 EK",
+        "state": null,
+        "countryCode": "NL",
+        "website": "https://www.alpina.nl/makelaardij/",
+        "phone": "+31 527 616 551",
+        "phoneUnformatted": "+31527616551",
+        "claimThisBusiness": false,
+        "location": {
+          "lat": 52.7108762,
+          "lng": 5.7521501
+        },
+        "totalScore": 4.2,
+        "permanentlyClosed": false,
+        "temporarilyClosed": false,
+        "placeId": "ChIJUaSG_7aHyEcRxl0CJKUYcQc",
+        "categories": [
+          "Makelaardij"
+        ],
+        "fid": "0x47c887b6ff86a451:0x77118a524025dc6",
+        "cid": "536236928186604998",
+        "reviewsCount": 36,
+        "imagesCount": 5,
+        "imageCategories": [],
+        "scrapedAt": "2025-10-08T22:12:35.622Z",
+        "googleFoodUrl": null,
+        "hotelAds": [],
+        "openingHours": [
+          {
+            "day": "donderdag",
+            "hours": "08:30 to 17:00"
+          },
+          {
+            "day": "vrijdag",
+            "hours": "08:30 to 17:00"
+          },
+          {
+            "day": "zaterdag",
+            "hours": "Gesloten"
+          },
+          {
+            "day": "zondag",
+            "hours": "Gesloten"
+          },
+          {
+            "day": "maandag",
+            "hours": "08:30 to 17:00"
+          },
+          {
+            "day": "dinsdag",
+            "hours": "08:30 to 17:00"
+          },
+          {
+            "day": "woensdag",
+            "hours": "08:30 to 17:00"
+          }
+        ],
+        "peopleAlsoSearch": [],
+        "placesTags": [],
+        "reviewsTags": [],
+        "additionalInfo": {
+          "Toegankelijkheid": [
+            {
+              "Rolstoeltoegankelijke ingang": true
+            },
+            {
+              "Rolstoeltoegankelijke parking": true
+            }
+          ]
+        },
+        "gasPrices": [],
+        "url": "https://www.google.com/maps/search/?api=1&query=Alpina&query_place_id=ChIJUaSG_7aHyEcRxl0CJKUYcQc",
+        "searchPageUrl": "https://www.google.com/maps/search/beste%20real_estate_agency%20Netherlands/@52.73573209157206,5.667931976883503,11z?hl=nl",
+        "searchString": "beste real_estate_agency Netherlands",
+        "language": "nl",
+        "rank": 5,
+        "isAdvertisement": false,
+        "imageUrl": "https://lh3.googleusercontent.com/gps-cs-s/AC9h4nocuucVgZP1eNwdrrjYU84Rk1D6QCLiV7XRdGny6nk8cy9jkcJFNOJfmINgVpjFaOjYXaOu6bDdOJXYs8kzzPV1YX7yf9GGcaVOL75D9e-O_Ob_Dow11tUOBwUE5_szD10KrE0=w408-h398-k-no",
+        "kgmid": "/g/1tfhfnyx"
+      }
+    ],
+    "reviews": [],
+    "searchCriteria": {
+      "category": "real_estate_agency",
+      "location": "Netherlands",
+      "minRating": 3,
+      "maxStars": 3,
+      "dayLimit": 14,
+      "businessLimit": 10,
+      "language": "nl",
+      "countryCode": "nl",
+      "maxReviewsPerBusiness": 1
+    },
+    "extractionDate": "2025-10-08T22:14:40.762Z"
+  },
+  "statistics": {
+    "businessesFound": 20,
+    "reviewsFound": 0,
+    "avgRating": 0,
+    "extractionTime": 193353
+  }
+}

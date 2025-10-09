@@ -1,0 +1,1909 @@
+{
+  "id": "extraction_1759997356476_yoy6vwp78",
+  "timestamp": "2025-10-09T08:09:16.476Z",
+  "searchCriteria": {
+    "category": "hospital",
+    "location": "Netherlands",
+    "minRating": 2.5,
+    "maxStars": 3,
+    "dayLimit": 14,
+    "businessLimit": 200,
+    "language": "nl",
+    "countryCode": "nl"
+  },
+  "results": {
+    "businesses": [
+      {
+        "title": "Wilhelmina Ziekenhuis Assen",
+        "price": null,
+        "categoryName": "Ziekenhuis",
+        "address": "Europaweg-Zuid 1, 9401 RK Assen, Nederland",
+        "neighborhood": null,
+        "street": "Europaweg-Zuid 1",
+        "city": "Assen",
+        "postalCode": "9401 RK",
+        "state": null,
+        "countryCode": "NL",
+        "website": "http://www.wza.nl/",
+        "phone": "+31 592 325 555",
+        "phoneUnformatted": "+31592325555",
+        "claimThisBusiness": false,
+        "location": {
+          "lat": 52.9835214,
+          "lng": 6.564736
+        },
+        "locatedIn": "Wilhelmina Ziekenhuis Spoedeisende Hulp",
+        "totalScore": 4.1,
+        "permanentlyClosed": false,
+        "temporarilyClosed": false,
+        "placeId": "ChIJd5MWiPokyEcRCOgcIMGLs1c",
+        "categories": [
+          "Ziekenhuis"
+        ],
+        "fid": "0x47c824fa88169377:0x57b38bc1201ce808",
+        "cid": "6319548363714652168",
+        "reviewsCount": 211,
+        "imagesCount": 85,
+        "imageCategories": [],
+        "scrapedAt": "2025-10-09T08:04:57.568Z",
+        "googleFoodUrl": null,
+        "hotelAds": [],
+        "openingHours": [
+          {
+            "day": "donderdag",
+            "hours": "24 uur geopend"
+          },
+          {
+            "day": "vrijdag",
+            "hours": "24 uur geopend"
+          },
+          {
+            "day": "zaterdag",
+            "hours": "24 uur geopend"
+          },
+          {
+            "day": "zondag",
+            "hours": "24 uur geopend"
+          },
+          {
+            "day": "maandag",
+            "hours": "24 uur geopend"
+          },
+          {
+            "day": "dinsdag",
+            "hours": "24 uur geopend"
+          },
+          {
+            "day": "woensdag",
+            "hours": "24 uur geopend"
+          }
+        ],
+        "additionalOpeningHours": {
+          "Wilhelmina Ziekenhuis Spoedeisende Hulp": [
+            {
+              "day": "donderdag",
+              "hours": "24 uur geopend"
+            },
+            {
+              "day": "vrijdag",
+              "hours": "24 uur geopend"
+            },
+            {
+              "day": "zaterdag",
+              "hours": "24 uur geopend"
+            },
+            {
+              "day": "zondag",
+              "hours": "24 uur geopend"
+            },
+            {
+              "day": "maandag",
+              "hours": "24 uur geopend"
+            },
+            {
+              "day": "dinsdag",
+              "hours": "24 uur geopend"
+            },
+            {
+              "day": "woensdag",
+              "hours": "24 uur geopend"
+            }
+          ]
+        },
+        "peopleAlsoSearch": [],
+        "placesTags": [],
+        "reviewsTags": [],
+        "additionalInfo": {
+          "Toegankelijkheid": [
+            {
+              "Rolstoeltoegankelijke ingang": true
+            },
+            {
+              "Rolstoeltoegankelijke parking": true
+            }
+          ],
+          "Aanbod": [
+            {
+              "Inleverpunt voor oude geneesmiddelen": true
+            }
+          ],
+          "Betalen": [
+            {
+              "Contactloos mobiel betalen": true
+            },
+            {
+              "Creditcards": true
+            },
+            {
+              "Pinpassen": true
+            }
+          ]
+        },
+        "gasPrices": [],
+        "url": "https://www.google.com/maps/search/?api=1&query=Wilhelmina%20Ziekenhuis%20Assen&query_place_id=ChIJd5MWiPokyEcRCOgcIMGLs1c",
+        "searchPageUrl": "https://www.google.com/maps/search/hospital%20Dutch/@52.73573209157206,7.210238657534013,11z?hl=nl",
+        "searchString": "hospital Dutch",
+        "language": "nl",
+        "rank": 3,
+        "isAdvertisement": false,
+        "imageUrl": "https://lh3.googleusercontent.com/gps-cs-s/AC9h4nrEuFq-jL-bTLsQoD0nGMc95BZzoaZJ7dqPY2WjK67Zxci3MVn3PKIpdh77BjHP01Tq5HZSXCjex_LqsDkShwuOdWg9AF1S7rYGqKlQtWCN8MCHpiMozXZQFp_PPmPflsiuqYSQ=w408-h306-k-no",
+        "kgmid": "/g/12276_7b",
+        "leadQuality": {
+          "score": 96,
+          "tier": "Platinum",
+          "tierColor": "text-purple-400",
+          "tierBg": "bg-purple-500/20 border-purple-500/30",
+          "factors": [
+            "Review Volume: 211 reviews (+30pts)",
+            "Rating: 4.1/5 (+21pts)",
+            "Recent Activity: 100% (+20pts)",
+            "Review Quality: 437 chars avg (+25pts)"
+          ],
+          "reviewCount": 211,
+          "rating": "4.1",
+          "recentActivityRate": 100,
+          "avgTextLength": 437
+        },
+        "reviewsForBusiness": [
+          {
+            "searchString": "Direct Detail URL: https://www.google.com/maps/search/?api=1&query=ChIJd5MWiPokyEcRCOgcIMGLs1c&query_place_id=ChIJd5MWiPokyEcRCOgcIMGLs1c",
+            "reviewerId": "102165306780111067690",
+            "reviewerUrl": "https://www.google.com/maps/contrib/102165306780111067690?hl=nl",
+            "name": "Bertus Tersteege",
+            "reviewerNumberOfReviews": 2,
+            "isLocalGuide": false,
+            "reviewerPhotoUrl": "https://lh3.googleusercontent.com/a/ACg8ocJh5uLXguuLARhwBrChc97opt9wH8vnIeuzUk336jmI0CDDzQ=s1920-c-rp-mo-br100",
+            "text": "Zelf ook paar keer gelegen waarvan 1 maal met bloedende nier na operatie ze wilden mij naar huis sturen met spoelwater ik heb gezegd dat doe ik niet daarna 2 weken in ziekenhuis gelegen met spoelwater rn infuus en kleine ingreep om bloeding te stoppen hoezo naar huis ik begrijp het mag niet dat er agressie  vanuit patiënten  is onverantwoord  deze handelwijze en dossiers  lezen kunnen ze ook niet en sorry of excuses  bestaat ook niet",
+            "textTranslated": null,
+            "publishAt": "5 uur geleden",
+            "publishedAtDate": "2025-10-09T02:41:16.638Z",
+            "likesCount": 0,
+            "reviewId": "Ci9DQUlRQUNvZENodHljRjlvT205TFVWbzFhRkpxU21OTlExQk1NVEJOYVZFNWJYYxAB",
+            "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT205TFVWbzFhRkpxU21OTlExQk1NVEJOYVZFNWJYYxAB!2m1!1s0x0:0x57b38bc1201ce808!3m1!1s2@1:CAIQACodChtycF9oOm9LUVo1aFJqSmNNQ1BMMTBNaVE5bXc%7C0ctm2Ba2kWR%7C?hl=nl",
+            "reviewOrigin": "Google",
+            "stars": 1,
+            "rating": null,
+            "responseFromOwnerDate": null,
+            "responseFromOwnerText": null,
+            "reviewImageUrls": [],
+            "reviewContext": {},
+            "reviewDetailedRating": {},
+            "visitedIn": null,
+            "originalLanguage": "nl",
+            "translatedLanguage": null,
+            "isAdvertisement": false,
+            "placeId": "ChIJd5MWiPokyEcRCOgcIMGLs1c",
+            "location": {
+              "lat": 52.9835214,
+              "lng": 6.564736
+            },
+            "address": "Europaweg-Zuid 1, 9401 RK Assen, Nederland",
+            "neighborhood": null,
+            "street": "Europaweg-Zuid 1",
+            "city": "Assen",
+            "postalCode": "9401 RK",
+            "state": null,
+            "countryCode": "NL",
+            "categoryName": "Ziekenhuis",
+            "categories": [
+              "Ziekenhuis"
+            ],
+            "title": "Wilhelmina Ziekenhuis Assen",
+            "totalScore": 4.1,
+            "permanentlyClosed": false,
+            "temporarilyClosed": false,
+            "reviewsCount": 211,
+            "url": "https://www.google.com/maps/search/?api=1&query=Wilhelmina%20Ziekenhuis%20Assen&query_place_id=ChIJd5MWiPokyEcRCOgcIMGLs1c",
+            "price": null,
+            "cid": "6319548363714652168",
+            "fid": "0x47c824fa88169377:0x57b38bc1201ce808",
+            "imageUrl": "https://lh3.googleusercontent.com/p/AF1QipOT2HEtNwnQdnfhxhoUGYP_6zH6hF3g4_tdXIKg=w408-h272-k-no",
+            "scrapedAt": "2025-10-09T08:07:52.168Z",
+            "language": "nl"
+          }
+        ],
+        "contactEnriched": true,
+        "enrichmentDate": "2025-10-09T08:10:48.656Z"
+      },
+      {
+        "title": "Slingeland Ziekenhuis",
+        "price": null,
+        "categoryName": "Ziekenhuis",
+        "address": "Kruisbergseweg 25, 7009 BL Doetinchem, Nederland",
+        "neighborhood": null,
+        "street": "Kruisbergseweg 25",
+        "city": "Doetinchem",
+        "postalCode": "7009 BL",
+        "state": null,
+        "countryCode": "NL",
+        "website": "https://www.slingeland.nl/",
+        "phone": "+31 314 329 911",
+        "phoneUnformatted": "+31314329911",
+        "claimThisBusiness": false,
+        "location": {
+          "lat": 51.9764683,
+          "lng": 6.2856703
+        },
+        "totalScore": 3.8,
+        "permanentlyClosed": false,
+        "temporarilyClosed": false,
+        "placeId": "ChIJxxBwVyubx0cRti7BsX-oUOo",
+        "categories": [
+          "Ziekenhuis",
+          "Medisch centrum"
+        ],
+        "fid": "0x47c79b2b577010c7:0xea50a87fb1c12eb6",
+        "cid": "16884180269408530102",
+        "reviewsCount": 217,
+        "imagesCount": 64,
+        "imageCategories": [],
+        "scrapedAt": "2025-10-09T08:05:18.881Z",
+        "googleFoodUrl": null,
+        "hotelAds": [],
+        "openingHours": [
+          {
+            "day": "donderdag",
+            "hours": "24 uur geopend"
+          },
+          {
+            "day": "vrijdag",
+            "hours": "24 uur geopend"
+          },
+          {
+            "day": "zaterdag",
+            "hours": "24 uur geopend"
+          },
+          {
+            "day": "zondag",
+            "hours": "24 uur geopend"
+          },
+          {
+            "day": "maandag",
+            "hours": "24 uur geopend"
+          },
+          {
+            "day": "dinsdag",
+            "hours": "24 uur geopend"
+          },
+          {
+            "day": "woensdag",
+            "hours": "24 uur geopend"
+          }
+        ],
+        "peopleAlsoSearch": [],
+        "placesTags": [],
+        "reviewsTags": [],
+        "additionalInfo": {
+          "Toegankelijkheid": [
+            {
+              "Rolstoeltoegankelijk toilet": true
+            },
+            {
+              "Rolstoeltoegankelijke ingang": true
+            },
+            {
+              "Rolstoeltoegankelijke parking": true
+            }
+          ],
+          "Aanbod": [
+            {
+              "Inleverpunt voor oude geneesmiddelen": true
+            }
+          ],
+          "Voorzieningen": [
+            {
+              "Toilet": true
+            }
+          ],
+          "Betalen": [
+            {
+              "Contactloos mobiel betalen": true
+            },
+            {
+              "Creditcards": true
+            },
+            {
+              "Pinpassen": true
+            },
+            {
+              "Creditcards": true
+            }
+          ]
+        },
+        "gasPrices": [],
+        "url": "https://www.google.com/maps/search/?api=1&query=Slingeland%20Ziekenhuis&query_place_id=ChIJxxBwVyubx0cRti7BsX-oUOo",
+        "searchPageUrl": "https://www.google.com/maps/search/beste%20hospital%20Netherlands/@51.76006340842791,6.182034203767007,11z?hl=nl",
+        "searchString": "beste hospital Netherlands",
+        "language": "nl",
+        "rank": 5,
+        "isAdvertisement": false,
+        "imageUrl": "https://lh3.googleusercontent.com/p/AF1QipMs9TTqw_UqAvGpCTFaP8SXs0ijZoA0oq9Vm9pW=w425-h240-k-no",
+        "kgmid": "/g/120zjt9z",
+        "leadQuality": {
+          "score": 94,
+          "tier": "Platinum",
+          "tierColor": "text-purple-400",
+          "tierBg": "bg-purple-500/20 border-purple-500/30",
+          "factors": [
+            "Review Volume: 217 reviews (+30pts)",
+            "Rating: 3.8/5 (+19pts)",
+            "Recent Activity: 100% (+20pts)",
+            "Review Quality: 356 chars avg (+25pts)"
+          ],
+          "reviewCount": 217,
+          "rating": "3.8",
+          "recentActivityRate": 100,
+          "avgTextLength": 356
+        },
+        "reviewsForBusiness": [
+          {
+            "searchString": "Direct Detail URL: https://www.google.com/maps/search/?api=1&query=ChIJxxBwVyubx0cRti7BsX-oUOo&query_place_id=ChIJxxBwVyubx0cRti7BsX-oUOo",
+            "reviewerId": "110747788741293230598",
+            "reviewerUrl": "https://www.google.com/maps/contrib/110747788741293230598?hl=nl",
+            "name": "I-AM",
+            "reviewerNumberOfReviews": 8,
+            "isLocalGuide": false,
+            "reviewerPhotoUrl": "https://lh3.googleusercontent.com/a-/ALV-UjV7ad0jhzrlUQtZy8etOBtl0Og47jqm35zjXPLNSBCuTYWV8odR=s1920-c-rp-mo-br100",
+            "text": "Lag in bed voir een ooeratie. Nooit fijn. Veroleging kwam met rollend pckastje vragen stellen... keek me niet eens aan en ze was weer weg. Na de ooeratie kwam er niemand kijken  ik belde of ik meer pijnstilling mocht maar de zorg vond dat ik me niet moest aanstellen. Pas na 3x vragen werd er iets gregeld. Niemand is geïnteresseerd in hoe het met je gaat.",
+            "textTranslated": null,
+            "publishAt": "6 dagen geleden",
+            "publishedAtDate": "2025-10-02T09:36:35.382Z",
+            "likesCount": 0,
+            "reviewId": "Ci9DQUlRQUNvZENodHljRjlvT25sSlJFRnJiME4wVGxkck0zTjVRV2N5ZEZsak0wRRAB",
+            "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT25sSlJFRnJiME4wVGxkck0zTjVRV2N5ZEZsak0wRRAB!2m1!1s0x0:0xea50a87fb1c12eb6!3m1!1s2@1:CAIQACodChtycF9oOnlJREFrb0N0TldrM3N5QWcydFljM0E%7C0crZTYLp0kM%7C?hl=nl",
+            "reviewOrigin": "Google",
+            "stars": 1,
+            "rating": null,
+            "responseFromOwnerDate": null,
+            "responseFromOwnerText": null,
+            "reviewImageUrls": [],
+            "reviewContext": {},
+            "reviewDetailedRating": {},
+            "visitedIn": null,
+            "originalLanguage": "nl",
+            "translatedLanguage": null,
+            "isAdvertisement": false,
+            "placeId": "ChIJxxBwVyubx0cRti7BsX-oUOo",
+            "location": {
+              "lat": 51.9764683,
+              "lng": 6.2856703
+            },
+            "address": "Kruisbergseweg 25, 7009 BL Doetinchem, Nederland",
+            "neighborhood": null,
+            "street": "Kruisbergseweg 25",
+            "city": "Doetinchem",
+            "postalCode": "7009 BL",
+            "state": null,
+            "countryCode": "NL",
+            "categoryName": "Ziekenhuis",
+            "categories": [
+              "Ziekenhuis",
+              "Medisch centrum"
+            ],
+            "title": "Slingeland Ziekenhuis",
+            "totalScore": 3.8,
+            "permanentlyClosed": false,
+            "temporarilyClosed": false,
+            "reviewsCount": 217,
+            "url": "https://www.google.com/maps/search/?api=1&query=Slingeland%20Ziekenhuis&query_place_id=ChIJxxBwVyubx0cRti7BsX-oUOo",
+            "price": null,
+            "cid": "16884180269408530102",
+            "fid": "0x47c79b2b577010c7:0xea50a87fb1c12eb6",
+            "imageUrl": "https://lh3.googleusercontent.com/p/AF1QipMs9TTqw_UqAvGpCTFaP8SXs0ijZoA0oq9Vm9pW=w425-h240-k-no",
+            "scrapedAt": "2025-10-09T08:09:08.237Z",
+            "language": "nl"
+          }
+        ],
+        "email": "info@slingeland.nl",
+        "contactEnriched": true,
+        "enrichmentDate": "2025-10-09T08:10:28.559Z"
+      },
+      {
+        "title": "Dijklander Ziekenhuis, locatie Hoorn",
+        "price": null,
+        "categoryName": "Ziekenhuis",
+        "address": "Maelsonstraat 3, 1624 NP Hoorn, Nederland",
+        "neighborhood": null,
+        "street": "Maelsonstraat 3",
+        "city": "Hoorn",
+        "postalCode": "1624 NP",
+        "state": null,
+        "countryCode": "NL",
+        "website": "https://www.dijklander.nl/",
+        "phone": "+31 229 257 257",
+        "phoneUnformatted": "+31229257257",
+        "claimThisBusiness": false,
+        "location": {
+          "lat": 52.6475425,
+          "lng": 5.0539095
+        },
+        "totalScore": 3.5,
+        "permanentlyClosed": false,
+        "temporarilyClosed": false,
+        "placeId": "ChIJTVzGaQ2pyEcRJhSLUj55M-4",
+        "categories": [
+          "Ziekenhuis",
+          "Spoedeisende Eerste Hulp",
+          "Medisch centrum",
+          "Verpleging en verzorging"
+        ],
+        "fid": "0x47c8a90d69c65c4d:0xee33793e528b1426",
+        "cid": "17164195913418871846",
+        "reviewsCount": 398,
+        "imagesCount": 215,
+        "imageCategories": [],
+        "scrapedAt": "2025-10-09T08:04:38.254Z",
+        "googleFoodUrl": null,
+        "hotelAds": [],
+        "openingHours": [
+          {
+            "day": "donderdag",
+            "hours": "24 uur geopend"
+          },
+          {
+            "day": "vrijdag",
+            "hours": "24 uur geopend"
+          },
+          {
+            "day": "zaterdag",
+            "hours": "24 uur geopend"
+          },
+          {
+            "day": "zondag",
+            "hours": "24 uur geopend"
+          },
+          {
+            "day": "maandag",
+            "hours": "24 uur geopend"
+          },
+          {
+            "day": "dinsdag",
+            "hours": "24 uur geopend"
+          },
+          {
+            "day": "woensdag",
+            "hours": "24 uur geopend"
+          }
+        ],
+        "peopleAlsoSearch": [],
+        "placesTags": [],
+        "reviewsTags": [],
+        "additionalInfo": {
+          "Toegankelijkheid": [
+            {
+              "Rolstoeltoegankelijk toilet": true
+            },
+            {
+              "Rolstoeltoegankelijke ingang": true
+            },
+            {
+              "Rolstoeltoegankelijke parking": true
+            }
+          ],
+          "Aanbod": [
+            {
+              "Inleverpunt voor oude geneesmiddelen": true
+            }
+          ],
+          "Voorzieningen": [
+            {
+              "Toilet": true
+            }
+          ],
+          "Betalen": [
+            {
+              "Contactloos mobiel betalen": true
+            },
+            {
+              "Creditcards": true
+            },
+            {
+              "Pinpassen": true
+            },
+            {
+              "Creditcards": true
+            }
+          ]
+        },
+        "gasPrices": [],
+        "url": "https://www.google.com/maps/search/?api=1&query=Dijklander%20Ziekenhuis%2C%20locatie%20Hoorn&query_place_id=ChIJTVzGaQ2pyEcRJhSLUj55M-4",
+        "searchPageUrl": "https://www.google.com/maps/search/hospital%20Nederland/@53.060954985953444,4.125625296232993,11z?hl=nl",
+        "searchString": "hospital Nederland",
+        "language": "nl",
+        "rank": 1,
+        "isAdvertisement": false,
+        "imageUrl": "https://lh3.googleusercontent.com/gps-cs-s/AC9h4np9rG5CzJvOtItMxnILWD38e_Qzc9HuQeEfd8overyPBCnbV1D4uavyDAvjhX3Dj5BvzRhauUiQpAzHhPAsSb-BmaG3L_nn6lG5B858urEQlYfHwRp6QzVEKxw_NeG3VOWrioS5=w408-h306-k-no",
+        "kgmid": "/g/121cgmgv",
+        "leadQuality": {
+          "score": 93,
+          "tier": "Platinum",
+          "tierColor": "text-purple-400",
+          "tierBg": "bg-purple-500/20 border-purple-500/30",
+          "factors": [
+            "Review Volume: 398 reviews (+30pts)",
+            "Rating: 3.5/5 (+18pts)",
+            "Recent Activity: 100% (+20pts)",
+            "Review Quality: 284 chars avg (+25pts)"
+          ],
+          "reviewCount": 398,
+          "rating": "3.5",
+          "recentActivityRate": 100,
+          "avgTextLength": 284
+        },
+        "reviewsForBusiness": [
+          {
+            "searchString": "Direct Detail URL: https://www.google.com/maps/search/?api=1&query=ChIJTVzGaQ2pyEcRJhSLUj55M-4&query_place_id=ChIJTVzGaQ2pyEcRJhSLUj55M-4",
+            "reviewerId": "107442069190595404884",
+            "reviewerUrl": "https://www.google.com/maps/contrib/107442069190595404884?hl=nl",
+            "name": "Andrzej",
+            "reviewerNumberOfReviews": 72,
+            "isLocalGuide": true,
+            "reviewerPhotoUrl": "https://lh3.googleusercontent.com/a-/ALV-UjX5CTwu5Nej4ptfYWdZfuFRiOLl0Juu4XqGTV15ImMwzajabGA=s1920-c-rp-mo-ba3-br100",
+            "text": "Urologie Na jaren onderzoek schreven ze mij weer hetzelfde pillen waarvan mijn broek nat werd! Verkeerde anamnese! Verkeerde pillen! Via telefoon verwijzen ze je weer terug! Je kan over een maand weer klachten!\nGeen kennis!\nGeen stijl!\nGeen toezicht!\nWel royale salarissen! Onterecht!",
+            "textTranslated": null,
+            "publishAt": "5 dagen geleden",
+            "publishedAtDate": "2025-10-03T10:53:34.864Z",
+            "likesCount": 0,
+            "reviewId": "Ci9DQUlRQUNvZENodHljRjlvT25VMFVUaFJhV2RVWVZFMU1raGxXRVV4V0ZCeVZtYxAB",
+            "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT25VMFVUaFJhV2RVWVZFMU1raGxXRVV4V0ZCeVZtYxAB!2m1!1s0x0:0xee33793e528b1426!3m1!1s2@1:CAIQACodChtycF9oOnU0UThRaWdUYVE1MkhlWEUxWFByVmc%7C0cruginYXvC%7C?hl=nl",
+            "reviewOrigin": "Google",
+            "stars": 1,
+            "rating": null,
+            "responseFromOwnerDate": "2025-10-08T12:03:16.000Z",
+            "responseFromOwnerText": "Beste Andrzej, Wat vervelend om te lezen dat je ontevreden bent over je behandeling bij Urologie. Het klinkt alsof je je niet gehoord hebt gevoeld en dat de zorg niet aansloot bij wat je nodig had.\nWe begrijpen dat dit frustrerend voor je is en willen graag met je in gesprek over je ervaring. Helaas kunnen we je via Google Reviews zelf niet persoonlijk bereiken. Als je graag persoonlijk contact wil, kan je contact opnemen met ons Bureau Zorgervaring. Zij kunnen met je meekijken wat er is gebeurd en hoe we je verder kunnen helpen. Je kunt een mail sturen naar zorgervaring@dijklander.nl of bellen naar 0229 - 25 76 13 of 0299 - 45 79 99 (op werkdagen tussen 9.00 uur en 16.30 uur). ^Robin",
+            "reviewImageUrls": [],
+            "reviewContext": {},
+            "reviewDetailedRating": {},
+            "visitedIn": null,
+            "originalLanguage": "nl",
+            "translatedLanguage": null,
+            "isAdvertisement": false,
+            "placeId": "ChIJTVzGaQ2pyEcRJhSLUj55M-4",
+            "location": {
+              "lat": 52.6475425,
+              "lng": 5.0539095
+            },
+            "address": "Maelsonstraat 3, 1624 NP Hoorn, Nederland",
+            "neighborhood": null,
+            "street": "Maelsonstraat 3",
+            "city": "Hoorn",
+            "postalCode": "1624 NP",
+            "state": null,
+            "countryCode": "NL",
+            "categoryName": "Ziekenhuis",
+            "categories": [
+              "Ziekenhuis",
+              "Spoedeisende Eerste Hulp",
+              "Medisch centrum",
+              "Verpleging en verzorging"
+            ],
+            "title": "Dijklander Ziekenhuis, locatie Hoorn",
+            "totalScore": 3.5,
+            "permanentlyClosed": false,
+            "temporarilyClosed": false,
+            "reviewsCount": 398,
+            "url": "https://www.google.com/maps/search/?api=1&query=Dijklander%20Ziekenhuis%2C%20locatie%20Hoorn&query_place_id=ChIJTVzGaQ2pyEcRJhSLUj55M-4",
+            "price": null,
+            "cid": "17164195913418871846",
+            "fid": "0x47c8a90d69c65c4d:0xee33793e528b1426",
+            "imageUrl": "https://lh3.googleusercontent.com/p/AF1QipP37kOKK3cn6ixzz5qpugyPfoaH_j-coL-bFztw=w408-h272-k-no",
+            "scrapedAt": "2025-10-09T08:07:08.959Z",
+            "language": "nl"
+          }
+        ],
+        "contactEnriched": true,
+        "enrichmentDate": "2025-10-09T08:10:27.901Z"
+      },
+      {
+        "title": "Ziekenhuis Amstelland",
+        "price": null,
+        "categoryName": "Ziekenhuis",
+        "address": "Laan van de Helende Meesters 8, 1186 AM Amstelveen, Nederland",
+        "neighborhood": null,
+        "street": "Laan van de Helende Meesters 8",
+        "city": "Amstelveen",
+        "postalCode": "1186 AM",
+        "state": null,
+        "countryCode": "NL",
+        "website": "http://www.ziekenhuisamstelland.nl/",
+        "phone": "+31 20 755 7000",
+        "phoneUnformatted": "+31207557000",
+        "claimThisBusiness": false,
+        "location": {
+          "lat": 52.2938975,
+          "lng": 4.8738036
+        },
+        "locatedIn": "Ziekenhuis Amstelland Spoedeisende Hulp",
+        "totalScore": 3.5,
+        "permanentlyClosed": false,
+        "temporarilyClosed": false,
+        "placeId": "ChIJBwQ4Po4KxkcRXlrAJE7TWe8",
+        "categories": [
+          "Ziekenhuis"
+        ],
+        "fid": "0x47c60a8e3e380407:0xef59d34e24c05a5e",
+        "cid": "17247048580569520734",
+        "reviewsCount": 303,
+        "imagesCount": 61,
+        "imageCategories": [],
+        "scrapedAt": "2025-10-09T08:04:38.255Z",
+        "googleFoodUrl": null,
+        "hotelAds": [],
+        "openingHours": [
+          {
+            "day": "donderdag",
+            "hours": "24 uur geopend"
+          },
+          {
+            "day": "vrijdag",
+            "hours": "24 uur geopend"
+          },
+          {
+            "day": "zaterdag",
+            "hours": "24 uur geopend"
+          },
+          {
+            "day": "zondag",
+            "hours": "24 uur geopend"
+          },
+          {
+            "day": "maandag",
+            "hours": "24 uur geopend"
+          },
+          {
+            "day": "dinsdag",
+            "hours": "24 uur geopend"
+          },
+          {
+            "day": "woensdag",
+            "hours": "24 uur geopend"
+          }
+        ],
+        "additionalOpeningHours": {
+          "Ziekenhuis Amstelland Spoedeisende Hulp": [
+            {
+              "day": "donderdag",
+              "hours": "08:00–22:00"
+            },
+            {
+              "day": "vrijdag",
+              "hours": "08:00–22:00"
+            },
+            {
+              "day": "zaterdag",
+              "hours": "08:00–22:00"
+            },
+            {
+              "day": "zondag",
+              "hours": "08:00–22:00"
+            },
+            {
+              "day": "maandag",
+              "hours": "08:00–22:00"
+            },
+            {
+              "day": "dinsdag",
+              "hours": "08:00–22:00"
+            },
+            {
+              "day": "woensdag",
+              "hours": "08:00–22:00"
+            }
+          ]
+        },
+        "peopleAlsoSearch": [],
+        "placesTags": [],
+        "reviewsTags": [],
+        "additionalInfo": {
+          "Toegankelijkheid": [
+            {
+              "Rolstoeltoegankelijk toilet": true
+            },
+            {
+              "Rolstoeltoegankelijke ingang": true
+            },
+            {
+              "Rolstoeltoegankelijke parking": true
+            }
+          ],
+          "Aanbod": [
+            {
+              "Inleverpunt voor oude geneesmiddelen": true
+            }
+          ],
+          "Voorzieningen": [
+            {
+              "Toilet": true
+            }
+          ],
+          "Betalen": [
+            {
+              "Contactloos mobiel betalen": true
+            },
+            {
+              "Creditcards": true
+            },
+            {
+              "Pinpassen": true
+            },
+            {
+              "Creditcards": true
+            }
+          ]
+        },
+        "gasPrices": [],
+        "url": "https://www.google.com/maps/search/?api=1&query=Ziekenhuis%20Amstelland&query_place_id=ChIJBwQ4Po4KxkcRXlrAJE7TWe8",
+        "searchPageUrl": "https://www.google.com/maps/search/hospital%20Nederland/@53.060954985953444,4.125625296232993,11z?hl=nl",
+        "searchString": "hospital Nederland",
+        "language": "nl",
+        "rank": 4,
+        "isAdvertisement": false,
+        "imageUrl": "https://lh3.googleusercontent.com/gps-cs-s/AC9h4noLiw2ISPACKUO8m8KT1m5gR_so-xejEbNWFZ2It3af1HeKPCntUHcAcKBR1OsSbFhu4UNx60h_tilcksT_s3igmv10TpCijXrslwHCU-sh8gwmcoqUx1KT9ukTjDGMzK6STX5heQ=w408-h306-k-no",
+        "kgmid": "/g/1tfgj05r",
+        "leadQuality": {
+          "score": 93,
+          "tier": "Platinum",
+          "tierColor": "text-purple-400",
+          "tierBg": "bg-purple-500/20 border-purple-500/30",
+          "factors": [
+            "Review Volume: 303 reviews (+30pts)",
+            "Rating: 3.5/5 (+18pts)",
+            "Recent Activity: 100% (+20pts)",
+            "Review Quality: 1746 chars avg (+25pts)"
+          ],
+          "reviewCount": 303,
+          "rating": "3.5",
+          "recentActivityRate": 100,
+          "avgTextLength": 1746
+        },
+        "reviewsForBusiness": [
+          {
+            "searchString": "Direct Detail URL: https://www.google.com/maps/search/?api=1&query=ChIJBwQ4Po4KxkcRXlrAJE7TWe8&query_place_id=ChIJBwQ4Po4KxkcRXlrAJE7TWe8",
+            "reviewerId": "111197892774597444120",
+            "reviewerUrl": "https://www.google.com/maps/contrib/111197892774597444120?hl=nl",
+            "name": "Jitse Miedema",
+            "reviewerNumberOfReviews": 4,
+            "isLocalGuide": false,
+            "reviewerPhotoUrl": "https://lh3.googleusercontent.com/a-/ALV-UjWTzwpGzpmpSLGOQL8dBjMqJUiot8639FeyyQrojAyz-G6dnZJ5=s1920-c-rp-mo-br100",
+            "text": "zeer ZEER slecht ziekenhuis. zijn die ene ster nog niet eens waard!\nzoals al eens eerder gezegt in een recentie:\nals een ziekenwagen mij hierheen zou brengen, leg ik liever het lootje in de wagen (onderweg naar een ander ziekenhuis)\nwant ja, als je dood wilt moet je naar het amstelveen ziekenhuis, die vinden wel een manier.\n\nspoedeisende hulp:\n\nvoorbeeld 1.\niemand is van een 5treeds trap op zijn achterhoofd op het asfalt gevallen, is duizelig en kijkt en praat niet helder.......paracetamol naar huis gestuurd...\"kijk maar of het morgen beter gaat\"\nAchteraf een gescheurde schedel, en hersenschudding\n\nvoorbeeld 2.\nkan al 4weken niet normaal naar de wc. geen ontlasting. naar azie geweest.........kijk het nog maar een paar dagen aan. misschien komt het wel los.\nAchteraf darm infectie\n\nvoorbeeld 3.\nbij het verwisselen van een auto-veer, is de veer los gesprongen tegen de oogkast van de patient....... wond bij de wenkbrauw gelijmt en een paracetamol.\nAchteraf een deuk in de oogkast.\n\ntevens houden ze me moeder al 2 jaar aan het lijntje met dr (dubbele) hernia, 2 versleten knieen, en parkinson..........\nmoet ze steeds maar heen en weer reizen naar huis.....\nze moet bijna in een rolstoel!\nook geen interne communicatie tussen de artsen. en geen communicatie naar het contactpersoon. (ze bellen zelfs niet terug als ze het beloven)\n\nafgelopen weken zijn ze geen enkele afspraak nagekomen, zelfs belafspraken kwamen ze niet na. beoordelingen op fotos moeten we 2 weken op wachten, laat staan hoelang we nog moeten wachten op een eventuele operatie.\nnu hebben zij mijn moeder in een verzorgings tehuis gezet, in afwachting van iets.\n\nondertussen al wat meegemaakt daar.\nDus ja. ik sterf liever de auto, onderweg naar een ECHT ziekenhuis!!!",
+            "textTranslated": null,
+            "publishAt": "Bewerkt: 2 dagen geleden",
+            "publishedAtDate": "2025-10-07T06:37:46.469Z",
+            "likesCount": 0,
+            "reviewId": "ChZDSUhNMG9nS0VJQ0FnSURjcHRiVmRREAE",
+            "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VJQ0FnSURjcHRiVmRREAE!2m1!1s0x0:0xef59d34e24c05a5e!3m1!1s2@1:CIHM0ogKEICAgIDcptbVdQ%7CCgwIsKL-9gUQoK3yigI%7C?hl=nl",
+            "reviewOrigin": "Google",
+            "stars": 1,
+            "rating": null,
+            "responseFromOwnerDate": null,
+            "responseFromOwnerText": null,
+            "reviewImageUrls": [],
+            "reviewContext": {},
+            "reviewDetailedRating": {},
+            "visitedIn": null,
+            "originalLanguage": "nl",
+            "translatedLanguage": null,
+            "isAdvertisement": false,
+            "placeId": "ChIJBwQ4Po4KxkcRXlrAJE7TWe8",
+            "location": {
+              "lat": 52.2938975,
+              "lng": 4.8738036
+            },
+            "address": "Laan van de Helende Meesters 8, 1186 AM Amstelveen, Nederland",
+            "neighborhood": null,
+            "street": "Laan van de Helende Meesters 8",
+            "city": "Amstelveen",
+            "postalCode": "1186 AM",
+            "state": null,
+            "countryCode": "NL",
+            "categoryName": "Ziekenhuis",
+            "categories": [
+              "Ziekenhuis"
+            ],
+            "title": "Ziekenhuis Amstelland",
+            "totalScore": 3.5,
+            "permanentlyClosed": false,
+            "temporarilyClosed": false,
+            "reviewsCount": 303,
+            "url": "https://www.google.com/maps/search/?api=1&query=Ziekenhuis%20Amstelland&query_place_id=ChIJBwQ4Po4KxkcRXlrAJE7TWe8",
+            "price": null,
+            "cid": "17247048580569520734",
+            "fid": "0x47c60a8e3e380407:0xef59d34e24c05a5e",
+            "imageUrl": "https://lh3.googleusercontent.com/gps-cs-s/AC9h4npIOqeaXJSaHIhajIM6JV5FrM5sH0xNs3WvropbfGE2uuVYkN1W24k3B4M8TzF-ZvKK4PslI6zwYGgdqAZAyN2icoJNK3Kes2g-NtslnNdz-T-PZKJcpOZHSlJmfcW9mAArIdbR=w408-h306-k-no",
+            "scrapedAt": "2025-10-09T08:07:23.570Z",
+            "language": "nl"
+          }
+        ],
+        "contactEnriched": true,
+        "enrichmentDate": "2025-10-09T08:10:52.996Z"
+      },
+      {
+        "title": "OLVG, locatie West",
+        "price": null,
+        "categoryName": "Ziekenhuis",
+        "address": "Jan Tooropstraat 164, 1061 AE Amsterdam, Nederland",
+        "neighborhood": "Amsterdam Nieuw-West",
+        "street": "Jan Tooropstraat 164",
+        "city": "Amsterdam",
+        "postalCode": "1061 AE",
+        "state": null,
+        "countryCode": "NL",
+        "website": "https://www.olvg.nl/",
+        "phone": "+31 20 510 8911",
+        "phoneUnformatted": "+31205108911",
+        "claimThisBusiness": false,
+        "location": {
+          "lat": 52.3711033,
+          "lng": 4.8395033
+        },
+        "locatedIn": "OLVG, locatie West - Spoedeisende Hulp",
+        "totalScore": 3.1,
+        "permanentlyClosed": false,
+        "temporarilyClosed": false,
+        "placeId": "ChIJbyUZWkDixUcRirSj3CCz-ps",
+        "categories": [
+          "Ziekenhuis"
+        ],
+        "fid": "0x47c5e2405a19256f:0x9bfab320dca3b48a",
+        "cid": "11239492773778535562",
+        "reviewsCount": 717,
+        "imagesCount": 409,
+        "imageCategories": [],
+        "scrapedAt": "2025-10-09T08:04:17.111Z",
+        "googleFoodUrl": null,
+        "hotelAds": [],
+        "openingHours": [
+          {
+            "day": "donderdag",
+            "hours": "24 uur geopend"
+          },
+          {
+            "day": "vrijdag",
+            "hours": "24 uur geopend"
+          },
+          {
+            "day": "zaterdag",
+            "hours": "24 uur geopend"
+          },
+          {
+            "day": "zondag",
+            "hours": "24 uur geopend"
+          },
+          {
+            "day": "maandag",
+            "hours": "24 uur geopend"
+          },
+          {
+            "day": "dinsdag",
+            "hours": "24 uur geopend"
+          },
+          {
+            "day": "woensdag",
+            "hours": "24 uur geopend"
+          }
+        ],
+        "additionalOpeningHours": {
+          "OLVG, locatie West - Spoedeisende Hulp": [
+            {
+              "day": "donderdag",
+              "hours": "24 uur geopend"
+            },
+            {
+              "day": "vrijdag",
+              "hours": "24 uur geopend"
+            },
+            {
+              "day": "zaterdag",
+              "hours": "24 uur geopend"
+            },
+            {
+              "day": "zondag",
+              "hours": "24 uur geopend"
+            },
+            {
+              "day": "maandag",
+              "hours": "24 uur geopend"
+            },
+            {
+              "day": "dinsdag",
+              "hours": "24 uur geopend"
+            },
+            {
+              "day": "woensdag",
+              "hours": "24 uur geopend"
+            }
+          ]
+        },
+        "peopleAlsoSearch": [],
+        "placesTags": [],
+        "reviewsTags": [],
+        "additionalInfo": {
+          "Toegankelijkheid": [
+            {
+              "Rolstoeltoegankelijk toilet": true
+            },
+            {
+              "Rolstoeltoegankelijke ingang": true
+            },
+            {
+              "Rolstoeltoegankelijke parking": true
+            }
+          ],
+          "Aanbod": [
+            {
+              "Inleverpunt voor oude geneesmiddelen": true
+            }
+          ],
+          "Voorzieningen": [
+            {
+              "Toilet": true
+            }
+          ],
+          "Betalen": [
+            {
+              "Contactloos mobiel betalen": true
+            },
+            {
+              "Pinpassen": true
+            }
+          ]
+        },
+        "gasPrices": [],
+        "url": "https://www.google.com/maps/search/?api=1&query=OLVG%2C%20locatie%20West&query_place_id=ChIJbyUZWkDixUcRirSj3CCz-ps",
+        "searchPageUrl": "https://www.google.com/maps/search/hospital%20Netherlands/@52.73573209157206,7.210238657534013,11z?hl=nl",
+        "searchString": "hospital Netherlands",
+        "language": "nl",
+        "rank": 5,
+        "isAdvertisement": false,
+        "imageUrl": "https://lh3.googleusercontent.com/gps-cs-s/AC9h4npf6KAs5XxxDyJSKrs1HblDDOvs2okmODmQykFoepAb32UtkQFrRn6nqDqGJBigKWt_Q_32ALsnx9ylc2zxCJrjdxab2zM4Ij9qI4HT1R5fMyhTevS6KjtHStCApzJc6sbnSeI=w426-h240-k-no",
+        "kgmid": "/g/120txh31",
+        "leadQuality": {
+          "score": 91,
+          "tier": "Platinum",
+          "tierColor": "text-purple-400",
+          "tierBg": "bg-purple-500/20 border-purple-500/30",
+          "factors": [
+            "Review Volume: 717 reviews (+30pts)",
+            "Rating: 3.1/5 (+16pts)",
+            "Recent Activity: 100% (+20pts)",
+            "Review Quality: 1791 chars avg (+25pts)"
+          ],
+          "reviewCount": 717,
+          "rating": "3.1",
+          "recentActivityRate": 100,
+          "avgTextLength": 1791
+        },
+        "reviewsForBusiness": [
+          {
+            "searchString": "Direct Detail URL: https://www.google.com/maps/search/?api=1&query=ChIJbyUZWkDixUcRirSj3CCz-ps&query_place_id=ChIJbyUZWkDixUcRirSj3CCz-ps",
+            "reviewerId": "101795336724266112161",
+            "reviewerUrl": "https://www.google.com/maps/contrib/101795336724266112161?hl=nl",
+            "name": "Rik Visser",
+            "reviewerNumberOfReviews": 19,
+            "isLocalGuide": true,
+            "reviewerPhotoUrl": "https://lh3.googleusercontent.com/a-/ALV-UjXlUNnsV8eIrLKWRQXaz_wprU34fU4DWCNG2fXaO1KiZOain-uL=s1920-c-rp-mo-ba2-br100",
+            "text": "Mijn schoonmoeder is hier aan haar rug geopereerd. 5 keer wel te verstaan. Omdat het steeds niet gied was.\nWat een aftans ziekenhuis is dit zeg. Geen bekers voor de koffie. Want duurzaam staat hier hoger in het vaandel staan dan de zorg.\nToen mijn schoonmoeder in het revalidatiecentrum in Blaricum een onsteking kreeg, moesten we ons melden bij de 1ste hulp. Wederom in het Olvg west. Wij kwamen om 14:30u aan. Half uur op de triage moeten wachten. Past om half 8 in de avond werden wij geholpen. Druk was het niet. Toen wij achter de schermen kwamen was het enorm gezellig. Voor het personeel althans. Assistentes die op hun telefoon elkaar grappige filmpjes aan elkaar lieten zien. Weinig artsen te zien.\nMijn schoonmoeder moest in de gipsruimte op een harde tafel gaan zitten wachten. Had ik al gezegd dat zij aan haar rug was geopreerd en helse pijnen onderging !? zelf maar naar de balie gelopen of er een stoel of iets beschikbaar was voor haar. Toen kon ze ineens geholpen worden. Na het maken van foto's van haar rug moest ze nog een  uur op de gang wachten en belde ons, om half 10 in de avond, huilend op aangzien niemand haar naar haar kamer bracht.\n(Ik was al weer naar huis gegaan aangezien er al was besloten dat ze die nacht bleef en alleen nog foto's van haar rug werden gemaakt en ik thuis ook nog voor de kinderen zorg had. .) Zorg in dit ziekenhuis is ver te zoeken. Maar daar staat in internet vol van.\n\nNa deze ellende nog een paar keer in gesprek geweest met artsen op kamertjes met kapotte afgetape'te stoelen en tafels met scheuren erin.\nIk hoop hier noooooit meer te komen.\n\nIk wil iedereen bedanken die de afgelopen 12jaar voor dit beleid van de bezuinigingen in de zorg hebben gestemd. En hoop dat er voor mijn kinderen iets drastisch gaat veranderen in dit land.",
+            "textTranslated": null,
+            "publishAt": "Bewerkt: een dag geleden",
+            "publishedAtDate": "2025-10-07T17:48:39.101Z",
+            "likesCount": 0,
+            "reviewId": "Ci9DQUlRQUNvZENodHljRjlvT21OUlpWOVdTVFIzT1hKR2MyVnZORjlhVWtORVRIYxAB",
+            "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT21OUlpWOVdTVFIzT1hKR2MyVnZORjlhVWtORVRIYxAB!2m1!1s0x0:0x9bfab320dca3b48a!3m1!1s2@1:CAIQACodChtycF9oOmNRZV9WSTR3OXJGc2VvNF9aUkNETHc%7C0ctK8r53RMw%7C?hl=nl",
+            "reviewOrigin": "Google",
+            "stars": 1,
+            "rating": null,
+            "responseFromOwnerDate": null,
+            "responseFromOwnerText": null,
+            "reviewImageUrls": [],
+            "reviewContext": {},
+            "reviewDetailedRating": {},
+            "visitedIn": null,
+            "originalLanguage": "nl",
+            "translatedLanguage": null,
+            "isAdvertisement": false,
+            "placeId": "ChIJbyUZWkDixUcRirSj3CCz-ps",
+            "location": {
+              "lat": 52.3711033,
+              "lng": 4.8395033
+            },
+            "address": "Jan Tooropstraat 164, 1061 AE Amsterdam, Nederland",
+            "neighborhood": "Amsterdam Nieuw-West",
+            "street": "Jan Tooropstraat 164",
+            "city": "Amsterdam",
+            "postalCode": "1061 AE",
+            "state": null,
+            "countryCode": "NL",
+            "categoryName": "Ziekenhuis",
+            "categories": [
+              "Ziekenhuis"
+            ],
+            "title": "OLVG, locatie West",
+            "totalScore": 3.1,
+            "permanentlyClosed": false,
+            "temporarilyClosed": false,
+            "reviewsCount": 717,
+            "url": "https://www.google.com/maps/search/?api=1&query=OLVG%2C%20locatie%20West&query_place_id=ChIJbyUZWkDixUcRirSj3CCz-ps",
+            "price": null,
+            "cid": "11239492773778535562",
+            "fid": "0x47c5e2405a19256f:0x9bfab320dca3b48a",
+            "imageUrl": "https://lh3.googleusercontent.com/gps-cs-s/AC9h4nqCycTT3KPygmTsKzyjCbxGu-_tsv64Y1fz6KG7YVciZZ81qRJZ1omG_Q1NxW4R2kk6SjZDaThbsF9XebSufRvjWPlbPYZefi_qNSi6GSB-5ZE4NW-kRTYStgAfJMedXsUmrYbDhg=w426-h240-k-no",
+            "scrapedAt": "2025-10-09T08:06:48.804Z",
+            "language": "nl"
+          }
+        ],
+        "contactEnriched": true,
+        "enrichmentDate": "2025-10-09T08:10:53.625Z"
+      },
+      {
+        "title": "Streekziekenhuis Koningin Beatrix Winterswijk",
+        "price": null,
+        "categoryName": "Ziekenhuis",
+        "address": "Beatrixpark 1, 7101 BN Winterswijk, Nederland",
+        "neighborhood": null,
+        "street": "Beatrixpark 1",
+        "city": "Winterswijk",
+        "postalCode": "7101 BN",
+        "state": null,
+        "countryCode": "NL",
+        "website": "http://www.skbwinterswijk.nl/",
+        "phone": "+31 543 544 444",
+        "phoneUnformatted": "+31543544444",
+        "claimThisBusiness": false,
+        "location": {
+          "lat": 51.978664,
+          "lng": 6.7017029
+        },
+        "locatedIn": "Streekziekenhuis Koningin Beatrix Spoedeisende Hulp",
+        "totalScore": 4.3,
+        "permanentlyClosed": false,
+        "temporarilyClosed": false,
+        "placeId": "ChIJq1D2bcd6uEcRXQFExy-BKaI",
+        "categories": [
+          "Ziekenhuis"
+        ],
+        "fid": "0x47b87ac76df650ab:0xa229812fc744015d",
+        "cid": "11685012750396031325",
+        "reviewsCount": 192,
+        "imagesCount": 40,
+        "imageCategories": [],
+        "scrapedAt": "2025-10-09T08:04:57.567Z",
+        "googleFoodUrl": null,
+        "hotelAds": [],
+        "openingHours": [
+          {
+            "day": "donderdag",
+            "hours": "24 uur geopend"
+          },
+          {
+            "day": "vrijdag",
+            "hours": "24 uur geopend"
+          },
+          {
+            "day": "zaterdag",
+            "hours": "24 uur geopend"
+          },
+          {
+            "day": "zondag",
+            "hours": "24 uur geopend"
+          },
+          {
+            "day": "maandag",
+            "hours": "24 uur geopend"
+          },
+          {
+            "day": "dinsdag",
+            "hours": "24 uur geopend"
+          },
+          {
+            "day": "woensdag",
+            "hours": "24 uur geopend"
+          }
+        ],
+        "additionalOpeningHours": {
+          "Streekziekenhuis Koningin Beatrix Spoedeisende Hulp": [
+            {
+              "day": "donderdag",
+              "hours": "24 uur geopend"
+            },
+            {
+              "day": "vrijdag",
+              "hours": "24 uur geopend"
+            },
+            {
+              "day": "zaterdag",
+              "hours": "24 uur geopend"
+            },
+            {
+              "day": "zondag",
+              "hours": "24 uur geopend"
+            },
+            {
+              "day": "maandag",
+              "hours": "24 uur geopend"
+            },
+            {
+              "day": "dinsdag",
+              "hours": "24 uur geopend"
+            },
+            {
+              "day": "woensdag",
+              "hours": "24 uur geopend"
+            }
+          ]
+        },
+        "peopleAlsoSearch": [],
+        "placesTags": [],
+        "reviewsTags": [],
+        "additionalInfo": {
+          "Toegankelijkheid": [
+            {
+              "Rolstoeltoegankelijk toilet": true
+            },
+            {
+              "Rolstoeltoegankelijke ingang": true
+            },
+            {
+              "Rolstoeltoegankelijke parking": true
+            }
+          ],
+          "Aanbod": [
+            {
+              "Inleverpunt voor oude geneesmiddelen": true
+            }
+          ],
+          "Voorzieningen": [
+            {
+              "Toilet": true
+            }
+          ],
+          "Betalen": [
+            {
+              "Contactloos mobiel betalen": true
+            },
+            {
+              "Creditcards": true
+            },
+            {
+              "Pinpassen": true
+            },
+            {
+              "Creditcards": true
+            }
+          ]
+        },
+        "gasPrices": [],
+        "url": "https://www.google.com/maps/search/?api=1&query=Streekziekenhuis%20Koningin%20Beatrix%20Winterswijk&query_place_id=ChIJq1D2bcd6uEcRXQFExy-BKaI",
+        "searchPageUrl": "https://www.google.com/maps/search/hospital%20Dutch/@52.73573209157206,7.210238657534013,11z?hl=nl",
+        "searchString": "hospital Dutch",
+        "language": "nl",
+        "rank": 2,
+        "isAdvertisement": false,
+        "imageUrl": "https://lh3.googleusercontent.com/gps-cs-s/AC9h4no5iV09KRVXY_bJpOXygPvR4zcC7DzCHE0-oKcs7ycl0E_el1LLeggn9VfWjtXtm_5cDkaXpDleaG3pjeavV9S39kNpo7nQy4kkxu3yQyFfD8nXh4pnJuq0_d-EjS-3pM2_l_4=w408-h271-k-no",
+        "kgmid": "/g/1yjg83tjk",
+        "leadQuality": {
+          "score": 72,
+          "tier": "Gold",
+          "tierColor": "text-yellow-400",
+          "tierBg": "bg-yellow-500/20 border-yellow-500/30",
+          "factors": [
+            "Review Volume: 192 reviews (+30pts)",
+            "Rating: 4.3/5 (+22pts)",
+            "Recent Activity: 100% (+20pts)",
+            "Review Quality: 0 chars avg (+0pts)"
+          ],
+          "reviewCount": 192,
+          "rating": "4.3",
+          "recentActivityRate": 100,
+          "avgTextLength": 0
+        },
+        "reviewsForBusiness": [
+          {
+            "searchString": "Direct Detail URL: https://www.google.com/maps/search/?api=1&query=ChIJq1D2bcd6uEcRXQFExy-BKaI&query_place_id=ChIJq1D2bcd6uEcRXQFExy-BKaI",
+            "reviewerId": "108915428312690626354",
+            "reviewerUrl": "https://www.google.com/maps/contrib/108915428312690626354?hl=nl",
+            "name": "Jos Van Alst",
+            "reviewerNumberOfReviews": 0,
+            "isLocalGuide": false,
+            "reviewerPhotoUrl": "https://lh3.googleusercontent.com/a/ACg8ocIsuIztCbT1a_d7oYEI2GehNkylhlTJ62ViVz1U8rrL2TRUNg=s1920-c-rp-mo-br100",
+            "text": null,
+            "textTranslated": null,
+            "publishAt": "6 dagen geleden",
+            "publishedAtDate": "2025-10-02T11:06:36.361Z",
+            "likesCount": 0,
+            "reviewId": "Ci9DQUlRQUNvZENodHljRjlvT2tNMFdqQkZiV2hGVHpaek0zQTVUbFl0TVcxYVoyYxAB",
+            "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT2tNMFdqQkZiV2hGVHpaek0zQTVUbFl0TVcxYVoyYxAB!2m1!1s0x0:0xa229812fc744015d!3m1!1s2@1:CAIQACodChtycF9oOkM0WjBFbWhFTzZzM3A5TlYtMW1aZ2c%7C0cr_mwKWbPX%7C?hl=nl",
+            "reviewOrigin": "Google",
+            "stars": 1,
+            "rating": null,
+            "responseFromOwnerDate": "2025-10-03T10:36:39.000Z",
+            "responseFromOwnerText": "Beste meneer Van Alst,\n\nWe vinden het erg jammer dat u niet tevreden bent. Wij komen graag met u in contact om uw ervaring te bespreken. Als u dat ook wilt, kunt u contact opnemen met onze Klachtenfunctionaris. Zij is bereikbaar via klachten@skbwinterswijk.nl of telefoonnummer (0543) 54 4305. Op www.skbwinterswijk.nl/klachtenregeling kunt lezen wat de Klachtenfunctionaris voor u zou kunnen betekenen. \n\nMet vriendelijke groet, \nAfdeling Marketing & Communicatie\nStreekziekenhuis Koningin Beatrix",
+            "reviewImageUrls": [],
+            "reviewContext": {},
+            "reviewDetailedRating": {},
+            "visitedIn": null,
+            "originalLanguage": null,
+            "translatedLanguage": null,
+            "isAdvertisement": false,
+            "placeId": "ChIJq1D2bcd6uEcRXQFExy-BKaI",
+            "location": {
+              "lat": 51.978664,
+              "lng": 6.7017029
+            },
+            "address": "Beatrixpark 1, 7101 BN Winterswijk, Nederland",
+            "neighborhood": null,
+            "street": "Beatrixpark 1",
+            "city": "Winterswijk",
+            "postalCode": "7101 BN",
+            "state": null,
+            "countryCode": "NL",
+            "categoryName": "Ziekenhuis",
+            "categories": [
+              "Ziekenhuis"
+            ],
+            "title": "Streekziekenhuis Koningin Beatrix Winterswijk",
+            "totalScore": 4.3,
+            "permanentlyClosed": false,
+            "temporarilyClosed": false,
+            "reviewsCount": 192,
+            "url": "https://www.google.com/maps/search/?api=1&query=Streekziekenhuis%20Koningin%20Beatrix%20Winterswijk&query_place_id=ChIJq1D2bcd6uEcRXQFExy-BKaI",
+            "price": null,
+            "cid": "11685012750396031325",
+            "fid": "0x47b87ac76df650ab:0xa229812fc744015d",
+            "imageUrl": "https://lh3.googleusercontent.com/gps-cs-s/AC9h4no5iV09KRVXY_bJpOXygPvR4zcC7DzCHE0-oKcs7ycl0E_el1LLeggn9VfWjtXtm_5cDkaXpDleaG3pjeavV9S39kNpo7nQy4kkxu3yQyFfD8nXh4pnJuq0_d-EjS-3pM2_l_4=w408-h271-k-no",
+            "scrapedAt": "2025-10-09T08:07:39.634Z",
+            "language": "nl"
+          }
+        ],
+        "contactEnriched": true,
+        "enrichmentDate": "2025-10-09T08:10:54.354Z"
+      },
+      {
+        "title": "CWZ (Canisius Wilhelmina Ziekenhuis) Nijmegen",
+        "price": null,
+        "categoryName": "Ziekenhuis",
+        "address": "Weg door Jonkerbos 100, 6532 SZ Nijmegen, Nederland",
+        "neighborhood": "Nijmegen-Midden",
+        "street": "Weg door Jonkerbos 100",
+        "city": "Nijmegen",
+        "postalCode": "6532 SZ",
+        "state": null,
+        "countryCode": "NL",
+        "website": "https://www.cwz.nl/",
+        "phone": "+31 24 365 7657",
+        "phoneUnformatted": "+31243657657",
+        "claimThisBusiness": false,
+        "location": {
+          "lat": 51.8180865,
+          "lng": 5.8298132
+        },
+        "totalScore": 4.1,
+        "permanentlyClosed": false,
+        "temporarilyClosed": false,
+        "placeId": "ChIJJxh_OpkIx0cRH49fnwwOTVo",
+        "categories": [
+          "Ziekenhuis"
+        ],
+        "fid": "0x47c708993a7f1827:0x5a4d0e0c9f5f8f1f",
+        "cid": "6506872483996471071",
+        "reviewsCount": 322,
+        "imagesCount": 124,
+        "imageCategories": [],
+        "scrapedAt": "2025-10-09T08:05:18.879Z",
+        "googleFoodUrl": null,
+        "hotelAds": [],
+        "openingHours": [
+          {
+            "day": "donderdag",
+            "hours": "24 uur geopend"
+          },
+          {
+            "day": "vrijdag",
+            "hours": "24 uur geopend"
+          },
+          {
+            "day": "zaterdag",
+            "hours": "24 uur geopend"
+          },
+          {
+            "day": "zondag",
+            "hours": "24 uur geopend"
+          },
+          {
+            "day": "maandag",
+            "hours": "24 uur geopend"
+          },
+          {
+            "day": "dinsdag",
+            "hours": "24 uur geopend"
+          },
+          {
+            "day": "woensdag",
+            "hours": "24 uur geopend"
+          }
+        ],
+        "peopleAlsoSearch": [],
+        "placesTags": [],
+        "reviewsTags": [],
+        "additionalInfo": {
+          "Toegankelijkheid": [
+            {
+              "Rolstoeltoegankelijk toilet": true
+            },
+            {
+              "Rolstoeltoegankelijke ingang": true
+            },
+            {
+              "Rolstoeltoegankelijke parking": true
+            }
+          ],
+          "Aanbod": [
+            {
+              "Inleverpunt voor oude geneesmiddelen": true
+            }
+          ],
+          "Voorzieningen": [
+            {
+              "Toilet": true
+            }
+          ],
+          "Betalen": [
+            {
+              "Contactloos mobiel betalen": true
+            },
+            {
+              "Creditcards": true
+            },
+            {
+              "Pinpassen": true
+            },
+            {
+              "Creditcards": true
+            }
+          ]
+        },
+        "gasPrices": [],
+        "url": "https://www.google.com/maps/search/?api=1&query=CWZ%20(Canisius%20Wilhelmina%20Ziekenhuis)%20Nijmegen&query_place_id=ChIJJxh_OpkIx0cRH49fnwwOTVo",
+        "searchPageUrl": "https://www.google.com/maps/search/beste%20hospital%20Netherlands/@51.76006340842791,6.182034203767007,11z?hl=nl",
+        "searchString": "beste hospital Netherlands",
+        "language": "nl",
+        "rank": 1,
+        "isAdvertisement": false,
+        "imageUrl": "https://lh3.googleusercontent.com/p/AF1QipMPZ0JKw_Ddi2ZZ0zp4Cn4-57icgR5rizuvKnC2=w533-h240-k-no",
+        "kgmid": "/g/12105l98",
+        "leadQuality": {
+          "score": 71,
+          "tier": "Gold",
+          "tierColor": "text-yellow-400",
+          "tierBg": "bg-yellow-500/20 border-yellow-500/30",
+          "factors": [
+            "Review Volume: 322 reviews (+30pts)",
+            "Rating: 4.1/5 (+21pts)",
+            "Recent Activity: 100% (+20pts)",
+            "Review Quality: 0 chars avg (+0pts)"
+          ],
+          "reviewCount": 322,
+          "rating": "4.1",
+          "recentActivityRate": 100,
+          "avgTextLength": 0
+        },
+        "reviewsForBusiness": [
+          {
+            "searchString": "Direct Detail URL: https://www.google.com/maps/search/?api=1&query=ChIJJxh_OpkIx0cRH49fnwwOTVo&query_place_id=ChIJJxh_OpkIx0cRH49fnwwOTVo",
+            "reviewerId": "100666472731687792007",
+            "reviewerUrl": "https://www.google.com/maps/contrib/100666472731687792007?hl=nl",
+            "name": "shyam Devarakonda",
+            "reviewerNumberOfReviews": 3,
+            "isLocalGuide": false,
+            "reviewerPhotoUrl": "https://lh3.googleusercontent.com/a-/ALV-UjXS6FYPIyyF75TVmoSQdCU0HwvbMNnsdCQ0Q-YwBH2Cd2YOGdW46Q=s1920-c-rp-mo-br100",
+            "text": null,
+            "textTranslated": null,
+            "publishAt": "een dag geleden",
+            "publishedAtDate": "2025-10-07T11:21:21.858Z",
+            "likesCount": 0,
+            "reviewId": "Ci9DQUlRQUNvZENodHljRjlvT2pNMmEyNHpYM3ByV0hKYVVURlJPVFk0YkU5UlMxRRAB",
+            "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT2pNMmEyNHpYM3ByV0hKYVVURlJPVFk0YkU5UlMxRRAB!2m1!1s0x0:0x5a4d0e0c9f5f8f1f!3m1!1s2@1:CAIQACodChtycF9oOjM2a24zX3prWHJaUTFROTY4bE9RS1E%7C0ctETlnBhbq%7C?hl=nl",
+            "reviewOrigin": "Google",
+            "stars": 1,
+            "rating": null,
+            "responseFromOwnerDate": "2025-10-07T14:13:59.000Z",
+            "responseFromOwnerText": "Beste Shyam, wat vervelend om te zien dat je een negatieve ervaring hebt gehad. Je kunt contact opnemen met onze klantenservice om dit te bespreken. Met vriendelijke groet, team webcare CWZ",
+            "reviewImageUrls": [],
+            "reviewContext": {},
+            "reviewDetailedRating": {},
+            "visitedIn": null,
+            "originalLanguage": null,
+            "translatedLanguage": null,
+            "isAdvertisement": false,
+            "placeId": "ChIJJxh_OpkIx0cRH49fnwwOTVo",
+            "location": {
+              "lat": 51.8180865,
+              "lng": 5.8298132
+            },
+            "address": "Weg door Jonkerbos 100, 6532 SZ Nijmegen, Nederland",
+            "neighborhood": "Nijmegen-Midden",
+            "street": "Weg door Jonkerbos 100",
+            "city": "Nijmegen",
+            "postalCode": "6532 SZ",
+            "state": null,
+            "countryCode": "NL",
+            "categoryName": "Ziekenhuis",
+            "categories": [
+              "Ziekenhuis"
+            ],
+            "title": "CWZ (Canisius Wilhelmina Ziekenhuis) Nijmegen",
+            "totalScore": 4.1,
+            "permanentlyClosed": false,
+            "temporarilyClosed": false,
+            "reviewsCount": 322,
+            "url": "https://www.google.com/maps/search/?api=1&query=CWZ%20(Canisius%20Wilhelmina%20Ziekenhuis)%20Nijmegen&query_place_id=ChIJJxh_OpkIx0cRH49fnwwOTVo",
+            "price": null,
+            "cid": "6506872483996471071",
+            "fid": "0x47c708993a7f1827:0x5a4d0e0c9f5f8f1f",
+            "imageUrl": "https://lh3.googleusercontent.com/gps-cs-s/AC9h4noj9Ailk7YlP9AsI_vpKC_GQ9tqpmOtf-JhXaKDud8os23BB2hUfTrqw97gHT5nJbrlAEqXThvPFd71FK9OubKiBoENNcPx4jQ0m66I7V520uWEbtru7ycc9e6KcInYRpdaNdoz8A=w408-h306-k-no",
+            "scrapedAt": "2025-10-09T08:08:20.793Z",
+            "language": "nl"
+          }
+        ],
+        "email": "info@proudnerds.com",
+        "contactEnriched": true,
+        "enrichmentDate": "2025-10-09T08:10:57.020Z"
+      }
+    ],
+    "reviews": [
+      {
+        "searchString": "Direct Detail URL: https://www.google.com/maps/search/?api=1&query=ChIJd5MWiPokyEcRCOgcIMGLs1c&query_place_id=ChIJd5MWiPokyEcRCOgcIMGLs1c",
+        "reviewerId": "102165306780111067690",
+        "reviewerUrl": "https://www.google.com/maps/contrib/102165306780111067690?hl=nl",
+        "name": "Bertus Tersteege",
+        "reviewerNumberOfReviews": 2,
+        "isLocalGuide": false,
+        "reviewerPhotoUrl": "https://lh3.googleusercontent.com/a/ACg8ocJh5uLXguuLARhwBrChc97opt9wH8vnIeuzUk336jmI0CDDzQ=s1920-c-rp-mo-br100",
+        "text": "Zelf ook paar keer gelegen waarvan 1 maal met bloedende nier na operatie ze wilden mij naar huis sturen met spoelwater ik heb gezegd dat doe ik niet daarna 2 weken in ziekenhuis gelegen met spoelwater rn infuus en kleine ingreep om bloeding te stoppen hoezo naar huis ik begrijp het mag niet dat er agressie  vanuit patiënten  is onverantwoord  deze handelwijze en dossiers  lezen kunnen ze ook niet en sorry of excuses  bestaat ook niet",
+        "textTranslated": null,
+        "publishAt": "5 uur geleden",
+        "publishedAtDate": "2025-10-09T02:41:16.638Z",
+        "likesCount": 0,
+        "reviewId": "Ci9DQUlRQUNvZENodHljRjlvT205TFVWbzFhRkpxU21OTlExQk1NVEJOYVZFNWJYYxAB",
+        "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT205TFVWbzFhRkpxU21OTlExQk1NVEJOYVZFNWJYYxAB!2m1!1s0x0:0x57b38bc1201ce808!3m1!1s2@1:CAIQACodChtycF9oOm9LUVo1aFJqSmNNQ1BMMTBNaVE5bXc%7C0ctm2Ba2kWR%7C?hl=nl",
+        "reviewOrigin": "Google",
+        "stars": 1,
+        "rating": null,
+        "responseFromOwnerDate": null,
+        "responseFromOwnerText": null,
+        "reviewImageUrls": [],
+        "reviewContext": {},
+        "reviewDetailedRating": {},
+        "visitedIn": null,
+        "originalLanguage": "nl",
+        "translatedLanguage": null,
+        "isAdvertisement": false,
+        "placeId": "ChIJd5MWiPokyEcRCOgcIMGLs1c",
+        "location": {
+          "lat": 52.9835214,
+          "lng": 6.564736
+        },
+        "address": "Europaweg-Zuid 1, 9401 RK Assen, Nederland",
+        "neighborhood": null,
+        "street": "Europaweg-Zuid 1",
+        "city": "Assen",
+        "postalCode": "9401 RK",
+        "state": null,
+        "countryCode": "NL",
+        "categoryName": "Ziekenhuis",
+        "categories": [
+          "Ziekenhuis"
+        ],
+        "title": "Wilhelmina Ziekenhuis Assen",
+        "totalScore": 4.1,
+        "permanentlyClosed": false,
+        "temporarilyClosed": false,
+        "reviewsCount": 211,
+        "url": "https://www.google.com/maps/search/?api=1&query=Wilhelmina%20Ziekenhuis%20Assen&query_place_id=ChIJd5MWiPokyEcRCOgcIMGLs1c",
+        "price": null,
+        "cid": "6319548363714652168",
+        "fid": "0x47c824fa88169377:0x57b38bc1201ce808",
+        "imageUrl": "https://lh3.googleusercontent.com/p/AF1QipOT2HEtNwnQdnfhxhoUGYP_6zH6hF3g4_tdXIKg=w408-h272-k-no",
+        "scrapedAt": "2025-10-09T08:07:52.168Z",
+        "language": "nl"
+      },
+      {
+        "searchString": "Direct Detail URL: https://www.google.com/maps/search/?api=1&query=ChIJbyUZWkDixUcRirSj3CCz-ps&query_place_id=ChIJbyUZWkDixUcRirSj3CCz-ps",
+        "reviewerId": "101795336724266112161",
+        "reviewerUrl": "https://www.google.com/maps/contrib/101795336724266112161?hl=nl",
+        "name": "Rik Visser",
+        "reviewerNumberOfReviews": 19,
+        "isLocalGuide": true,
+        "reviewerPhotoUrl": "https://lh3.googleusercontent.com/a-/ALV-UjXlUNnsV8eIrLKWRQXaz_wprU34fU4DWCNG2fXaO1KiZOain-uL=s1920-c-rp-mo-ba2-br100",
+        "text": "Mijn schoonmoeder is hier aan haar rug geopereerd. 5 keer wel te verstaan. Omdat het steeds niet gied was.\nWat een aftans ziekenhuis is dit zeg. Geen bekers voor de koffie. Want duurzaam staat hier hoger in het vaandel staan dan de zorg.\nToen mijn schoonmoeder in het revalidatiecentrum in Blaricum een onsteking kreeg, moesten we ons melden bij de 1ste hulp. Wederom in het Olvg west. Wij kwamen om 14:30u aan. Half uur op de triage moeten wachten. Past om half 8 in de avond werden wij geholpen. Druk was het niet. Toen wij achter de schermen kwamen was het enorm gezellig. Voor het personeel althans. Assistentes die op hun telefoon elkaar grappige filmpjes aan elkaar lieten zien. Weinig artsen te zien.\nMijn schoonmoeder moest in de gipsruimte op een harde tafel gaan zitten wachten. Had ik al gezegd dat zij aan haar rug was geopreerd en helse pijnen onderging !? zelf maar naar de balie gelopen of er een stoel of iets beschikbaar was voor haar. Toen kon ze ineens geholpen worden. Na het maken van foto's van haar rug moest ze nog een  uur op de gang wachten en belde ons, om half 10 in de avond, huilend op aangzien niemand haar naar haar kamer bracht.\n(Ik was al weer naar huis gegaan aangezien er al was besloten dat ze die nacht bleef en alleen nog foto's van haar rug werden gemaakt en ik thuis ook nog voor de kinderen zorg had. .) Zorg in dit ziekenhuis is ver te zoeken. Maar daar staat in internet vol van.\n\nNa deze ellende nog een paar keer in gesprek geweest met artsen op kamertjes met kapotte afgetape'te stoelen en tafels met scheuren erin.\nIk hoop hier noooooit meer te komen.\n\nIk wil iedereen bedanken die de afgelopen 12jaar voor dit beleid van de bezuinigingen in de zorg hebben gestemd. En hoop dat er voor mijn kinderen iets drastisch gaat veranderen in dit land.",
+        "textTranslated": null,
+        "publishAt": "Bewerkt: een dag geleden",
+        "publishedAtDate": "2025-10-07T17:48:39.101Z",
+        "likesCount": 0,
+        "reviewId": "Ci9DQUlRQUNvZENodHljRjlvT21OUlpWOVdTVFIzT1hKR2MyVnZORjlhVWtORVRIYxAB",
+        "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT21OUlpWOVdTVFIzT1hKR2MyVnZORjlhVWtORVRIYxAB!2m1!1s0x0:0x9bfab320dca3b48a!3m1!1s2@1:CAIQACodChtycF9oOmNRZV9WSTR3OXJGc2VvNF9aUkNETHc%7C0ctK8r53RMw%7C?hl=nl",
+        "reviewOrigin": "Google",
+        "stars": 1,
+        "rating": null,
+        "responseFromOwnerDate": null,
+        "responseFromOwnerText": null,
+        "reviewImageUrls": [],
+        "reviewContext": {},
+        "reviewDetailedRating": {},
+        "visitedIn": null,
+        "originalLanguage": "nl",
+        "translatedLanguage": null,
+        "isAdvertisement": false,
+        "placeId": "ChIJbyUZWkDixUcRirSj3CCz-ps",
+        "location": {
+          "lat": 52.3711033,
+          "lng": 4.8395033
+        },
+        "address": "Jan Tooropstraat 164, 1061 AE Amsterdam, Nederland",
+        "neighborhood": "Amsterdam Nieuw-West",
+        "street": "Jan Tooropstraat 164",
+        "city": "Amsterdam",
+        "postalCode": "1061 AE",
+        "state": null,
+        "countryCode": "NL",
+        "categoryName": "Ziekenhuis",
+        "categories": [
+          "Ziekenhuis"
+        ],
+        "title": "OLVG, locatie West",
+        "totalScore": 3.1,
+        "permanentlyClosed": false,
+        "temporarilyClosed": false,
+        "reviewsCount": 717,
+        "url": "https://www.google.com/maps/search/?api=1&query=OLVG%2C%20locatie%20West&query_place_id=ChIJbyUZWkDixUcRirSj3CCz-ps",
+        "price": null,
+        "cid": "11239492773778535562",
+        "fid": "0x47c5e2405a19256f:0x9bfab320dca3b48a",
+        "imageUrl": "https://lh3.googleusercontent.com/gps-cs-s/AC9h4nqCycTT3KPygmTsKzyjCbxGu-_tsv64Y1fz6KG7YVciZZ81qRJZ1omG_Q1NxW4R2kk6SjZDaThbsF9XebSufRvjWPlbPYZefi_qNSi6GSB-5ZE4NW-kRTYStgAfJMedXsUmrYbDhg=w426-h240-k-no",
+        "scrapedAt": "2025-10-09T08:06:48.804Z",
+        "language": "nl"
+      },
+      {
+        "searchString": "Direct Detail URL: https://www.google.com/maps/search/?api=1&query=ChIJJxh_OpkIx0cRH49fnwwOTVo&query_place_id=ChIJJxh_OpkIx0cRH49fnwwOTVo",
+        "reviewerId": "100666472731687792007",
+        "reviewerUrl": "https://www.google.com/maps/contrib/100666472731687792007?hl=nl",
+        "name": "shyam Devarakonda",
+        "reviewerNumberOfReviews": 3,
+        "isLocalGuide": false,
+        "reviewerPhotoUrl": "https://lh3.googleusercontent.com/a-/ALV-UjXS6FYPIyyF75TVmoSQdCU0HwvbMNnsdCQ0Q-YwBH2Cd2YOGdW46Q=s1920-c-rp-mo-br100",
+        "text": null,
+        "textTranslated": null,
+        "publishAt": "een dag geleden",
+        "publishedAtDate": "2025-10-07T11:21:21.858Z",
+        "likesCount": 0,
+        "reviewId": "Ci9DQUlRQUNvZENodHljRjlvT2pNMmEyNHpYM3ByV0hKYVVURlJPVFk0YkU5UlMxRRAB",
+        "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT2pNMmEyNHpYM3ByV0hKYVVURlJPVFk0YkU5UlMxRRAB!2m1!1s0x0:0x5a4d0e0c9f5f8f1f!3m1!1s2@1:CAIQACodChtycF9oOjM2a24zX3prWHJaUTFROTY4bE9RS1E%7C0ctETlnBhbq%7C?hl=nl",
+        "reviewOrigin": "Google",
+        "stars": 1,
+        "rating": null,
+        "responseFromOwnerDate": "2025-10-07T14:13:59.000Z",
+        "responseFromOwnerText": "Beste Shyam, wat vervelend om te zien dat je een negatieve ervaring hebt gehad. Je kunt contact opnemen met onze klantenservice om dit te bespreken. Met vriendelijke groet, team webcare CWZ",
+        "reviewImageUrls": [],
+        "reviewContext": {},
+        "reviewDetailedRating": {},
+        "visitedIn": null,
+        "originalLanguage": null,
+        "translatedLanguage": null,
+        "isAdvertisement": false,
+        "placeId": "ChIJJxh_OpkIx0cRH49fnwwOTVo",
+        "location": {
+          "lat": 51.8180865,
+          "lng": 5.8298132
+        },
+        "address": "Weg door Jonkerbos 100, 6532 SZ Nijmegen, Nederland",
+        "neighborhood": "Nijmegen-Midden",
+        "street": "Weg door Jonkerbos 100",
+        "city": "Nijmegen",
+        "postalCode": "6532 SZ",
+        "state": null,
+        "countryCode": "NL",
+        "categoryName": "Ziekenhuis",
+        "categories": [
+          "Ziekenhuis"
+        ],
+        "title": "CWZ (Canisius Wilhelmina Ziekenhuis) Nijmegen",
+        "totalScore": 4.1,
+        "permanentlyClosed": false,
+        "temporarilyClosed": false,
+        "reviewsCount": 322,
+        "url": "https://www.google.com/maps/search/?api=1&query=CWZ%20(Canisius%20Wilhelmina%20Ziekenhuis)%20Nijmegen&query_place_id=ChIJJxh_OpkIx0cRH49fnwwOTVo",
+        "price": null,
+        "cid": "6506872483996471071",
+        "fid": "0x47c708993a7f1827:0x5a4d0e0c9f5f8f1f",
+        "imageUrl": "https://lh3.googleusercontent.com/gps-cs-s/AC9h4noj9Ailk7YlP9AsI_vpKC_GQ9tqpmOtf-JhXaKDud8os23BB2hUfTrqw97gHT5nJbrlAEqXThvPFd71FK9OubKiBoENNcPx4jQ0m66I7V520uWEbtru7ycc9e6KcInYRpdaNdoz8A=w408-h306-k-no",
+        "scrapedAt": "2025-10-09T08:08:20.793Z",
+        "language": "nl"
+      },
+      {
+        "searchString": "Direct Detail URL: https://www.google.com/maps/search/?api=1&query=ChIJBwQ4Po4KxkcRXlrAJE7TWe8&query_place_id=ChIJBwQ4Po4KxkcRXlrAJE7TWe8",
+        "reviewerId": "111197892774597444120",
+        "reviewerUrl": "https://www.google.com/maps/contrib/111197892774597444120?hl=nl",
+        "name": "Jitse Miedema",
+        "reviewerNumberOfReviews": 4,
+        "isLocalGuide": false,
+        "reviewerPhotoUrl": "https://lh3.googleusercontent.com/a-/ALV-UjWTzwpGzpmpSLGOQL8dBjMqJUiot8639FeyyQrojAyz-G6dnZJ5=s1920-c-rp-mo-br100",
+        "text": "zeer ZEER slecht ziekenhuis. zijn die ene ster nog niet eens waard!\nzoals al eens eerder gezegt in een recentie:\nals een ziekenwagen mij hierheen zou brengen, leg ik liever het lootje in de wagen (onderweg naar een ander ziekenhuis)\nwant ja, als je dood wilt moet je naar het amstelveen ziekenhuis, die vinden wel een manier.\n\nspoedeisende hulp:\n\nvoorbeeld 1.\niemand is van een 5treeds trap op zijn achterhoofd op het asfalt gevallen, is duizelig en kijkt en praat niet helder.......paracetamol naar huis gestuurd...\"kijk maar of het morgen beter gaat\"\nAchteraf een gescheurde schedel, en hersenschudding\n\nvoorbeeld 2.\nkan al 4weken niet normaal naar de wc. geen ontlasting. naar azie geweest.........kijk het nog maar een paar dagen aan. misschien komt het wel los.\nAchteraf darm infectie\n\nvoorbeeld 3.\nbij het verwisselen van een auto-veer, is de veer los gesprongen tegen de oogkast van de patient....... wond bij de wenkbrauw gelijmt en een paracetamol.\nAchteraf een deuk in de oogkast.\n\ntevens houden ze me moeder al 2 jaar aan het lijntje met dr (dubbele) hernia, 2 versleten knieen, en parkinson..........\nmoet ze steeds maar heen en weer reizen naar huis.....\nze moet bijna in een rolstoel!\nook geen interne communicatie tussen de artsen. en geen communicatie naar het contactpersoon. (ze bellen zelfs niet terug als ze het beloven)\n\nafgelopen weken zijn ze geen enkele afspraak nagekomen, zelfs belafspraken kwamen ze niet na. beoordelingen op fotos moeten we 2 weken op wachten, laat staan hoelang we nog moeten wachten op een eventuele operatie.\nnu hebben zij mijn moeder in een verzorgings tehuis gezet, in afwachting van iets.\n\nondertussen al wat meegemaakt daar.\nDus ja. ik sterf liever de auto, onderweg naar een ECHT ziekenhuis!!!",
+        "textTranslated": null,
+        "publishAt": "Bewerkt: 2 dagen geleden",
+        "publishedAtDate": "2025-10-07T06:37:46.469Z",
+        "likesCount": 0,
+        "reviewId": "ChZDSUhNMG9nS0VJQ0FnSURjcHRiVmRREAE",
+        "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VJQ0FnSURjcHRiVmRREAE!2m1!1s0x0:0xef59d34e24c05a5e!3m1!1s2@1:CIHM0ogKEICAgIDcptbVdQ%7CCgwIsKL-9gUQoK3yigI%7C?hl=nl",
+        "reviewOrigin": "Google",
+        "stars": 1,
+        "rating": null,
+        "responseFromOwnerDate": null,
+        "responseFromOwnerText": null,
+        "reviewImageUrls": [],
+        "reviewContext": {},
+        "reviewDetailedRating": {},
+        "visitedIn": null,
+        "originalLanguage": "nl",
+        "translatedLanguage": null,
+        "isAdvertisement": false,
+        "placeId": "ChIJBwQ4Po4KxkcRXlrAJE7TWe8",
+        "location": {
+          "lat": 52.2938975,
+          "lng": 4.8738036
+        },
+        "address": "Laan van de Helende Meesters 8, 1186 AM Amstelveen, Nederland",
+        "neighborhood": null,
+        "street": "Laan van de Helende Meesters 8",
+        "city": "Amstelveen",
+        "postalCode": "1186 AM",
+        "state": null,
+        "countryCode": "NL",
+        "categoryName": "Ziekenhuis",
+        "categories": [
+          "Ziekenhuis"
+        ],
+        "title": "Ziekenhuis Amstelland",
+        "totalScore": 3.5,
+        "permanentlyClosed": false,
+        "temporarilyClosed": false,
+        "reviewsCount": 303,
+        "url": "https://www.google.com/maps/search/?api=1&query=Ziekenhuis%20Amstelland&query_place_id=ChIJBwQ4Po4KxkcRXlrAJE7TWe8",
+        "price": null,
+        "cid": "17247048580569520734",
+        "fid": "0x47c60a8e3e380407:0xef59d34e24c05a5e",
+        "imageUrl": "https://lh3.googleusercontent.com/gps-cs-s/AC9h4npIOqeaXJSaHIhajIM6JV5FrM5sH0xNs3WvropbfGE2uuVYkN1W24k3B4M8TzF-ZvKK4PslI6zwYGgdqAZAyN2icoJNK3Kes2g-NtslnNdz-T-PZKJcpOZHSlJmfcW9mAArIdbR=w408-h306-k-no",
+        "scrapedAt": "2025-10-09T08:07:23.570Z",
+        "language": "nl"
+      },
+      {
+        "searchString": "Direct Detail URL: https://www.google.com/maps/search/?api=1&query=ChIJTVzGaQ2pyEcRJhSLUj55M-4&query_place_id=ChIJTVzGaQ2pyEcRJhSLUj55M-4",
+        "reviewerId": "107442069190595404884",
+        "reviewerUrl": "https://www.google.com/maps/contrib/107442069190595404884?hl=nl",
+        "name": "Andrzej",
+        "reviewerNumberOfReviews": 72,
+        "isLocalGuide": true,
+        "reviewerPhotoUrl": "https://lh3.googleusercontent.com/a-/ALV-UjX5CTwu5Nej4ptfYWdZfuFRiOLl0Juu4XqGTV15ImMwzajabGA=s1920-c-rp-mo-ba3-br100",
+        "text": "Urologie Na jaren onderzoek schreven ze mij weer hetzelfde pillen waarvan mijn broek nat werd! Verkeerde anamnese! Verkeerde pillen! Via telefoon verwijzen ze je weer terug! Je kan over een maand weer klachten!\nGeen kennis!\nGeen stijl!\nGeen toezicht!\nWel royale salarissen! Onterecht!",
+        "textTranslated": null,
+        "publishAt": "5 dagen geleden",
+        "publishedAtDate": "2025-10-03T10:53:34.864Z",
+        "likesCount": 0,
+        "reviewId": "Ci9DQUlRQUNvZENodHljRjlvT25VMFVUaFJhV2RVWVZFMU1raGxXRVV4V0ZCeVZtYxAB",
+        "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT25VMFVUaFJhV2RVWVZFMU1raGxXRVV4V0ZCeVZtYxAB!2m1!1s0x0:0xee33793e528b1426!3m1!1s2@1:CAIQACodChtycF9oOnU0UThRaWdUYVE1MkhlWEUxWFByVmc%7C0cruginYXvC%7C?hl=nl",
+        "reviewOrigin": "Google",
+        "stars": 1,
+        "rating": null,
+        "responseFromOwnerDate": "2025-10-08T12:03:16.000Z",
+        "responseFromOwnerText": "Beste Andrzej, Wat vervelend om te lezen dat je ontevreden bent over je behandeling bij Urologie. Het klinkt alsof je je niet gehoord hebt gevoeld en dat de zorg niet aansloot bij wat je nodig had.\nWe begrijpen dat dit frustrerend voor je is en willen graag met je in gesprek over je ervaring. Helaas kunnen we je via Google Reviews zelf niet persoonlijk bereiken. Als je graag persoonlijk contact wil, kan je contact opnemen met ons Bureau Zorgervaring. Zij kunnen met je meekijken wat er is gebeurd en hoe we je verder kunnen helpen. Je kunt een mail sturen naar zorgervaring@dijklander.nl of bellen naar 0229 - 25 76 13 of 0299 - 45 79 99 (op werkdagen tussen 9.00 uur en 16.30 uur). ^Robin",
+        "reviewImageUrls": [],
+        "reviewContext": {},
+        "reviewDetailedRating": {},
+        "visitedIn": null,
+        "originalLanguage": "nl",
+        "translatedLanguage": null,
+        "isAdvertisement": false,
+        "placeId": "ChIJTVzGaQ2pyEcRJhSLUj55M-4",
+        "location": {
+          "lat": 52.6475425,
+          "lng": 5.0539095
+        },
+        "address": "Maelsonstraat 3, 1624 NP Hoorn, Nederland",
+        "neighborhood": null,
+        "street": "Maelsonstraat 3",
+        "city": "Hoorn",
+        "postalCode": "1624 NP",
+        "state": null,
+        "countryCode": "NL",
+        "categoryName": "Ziekenhuis",
+        "categories": [
+          "Ziekenhuis",
+          "Spoedeisende Eerste Hulp",
+          "Medisch centrum",
+          "Verpleging en verzorging"
+        ],
+        "title": "Dijklander Ziekenhuis, locatie Hoorn",
+        "totalScore": 3.5,
+        "permanentlyClosed": false,
+        "temporarilyClosed": false,
+        "reviewsCount": 398,
+        "url": "https://www.google.com/maps/search/?api=1&query=Dijklander%20Ziekenhuis%2C%20locatie%20Hoorn&query_place_id=ChIJTVzGaQ2pyEcRJhSLUj55M-4",
+        "price": null,
+        "cid": "17164195913418871846",
+        "fid": "0x47c8a90d69c65c4d:0xee33793e528b1426",
+        "imageUrl": "https://lh3.googleusercontent.com/p/AF1QipP37kOKK3cn6ixzz5qpugyPfoaH_j-coL-bFztw=w408-h272-k-no",
+        "scrapedAt": "2025-10-09T08:07:08.959Z",
+        "language": "nl"
+      },
+      {
+        "searchString": "Direct Detail URL: https://www.google.com/maps/search/?api=1&query=ChIJq1D2bcd6uEcRXQFExy-BKaI&query_place_id=ChIJq1D2bcd6uEcRXQFExy-BKaI",
+        "reviewerId": "108915428312690626354",
+        "reviewerUrl": "https://www.google.com/maps/contrib/108915428312690626354?hl=nl",
+        "name": "Jos Van Alst",
+        "reviewerNumberOfReviews": 0,
+        "isLocalGuide": false,
+        "reviewerPhotoUrl": "https://lh3.googleusercontent.com/a/ACg8ocIsuIztCbT1a_d7oYEI2GehNkylhlTJ62ViVz1U8rrL2TRUNg=s1920-c-rp-mo-br100",
+        "text": null,
+        "textTranslated": null,
+        "publishAt": "6 dagen geleden",
+        "publishedAtDate": "2025-10-02T11:06:36.361Z",
+        "likesCount": 0,
+        "reviewId": "Ci9DQUlRQUNvZENodHljRjlvT2tNMFdqQkZiV2hGVHpaek0zQTVUbFl0TVcxYVoyYxAB",
+        "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT2tNMFdqQkZiV2hGVHpaek0zQTVUbFl0TVcxYVoyYxAB!2m1!1s0x0:0xa229812fc744015d!3m1!1s2@1:CAIQACodChtycF9oOkM0WjBFbWhFTzZzM3A5TlYtMW1aZ2c%7C0cr_mwKWbPX%7C?hl=nl",
+        "reviewOrigin": "Google",
+        "stars": 1,
+        "rating": null,
+        "responseFromOwnerDate": "2025-10-03T10:36:39.000Z",
+        "responseFromOwnerText": "Beste meneer Van Alst,\n\nWe vinden het erg jammer dat u niet tevreden bent. Wij komen graag met u in contact om uw ervaring te bespreken. Als u dat ook wilt, kunt u contact opnemen met onze Klachtenfunctionaris. Zij is bereikbaar via klachten@skbwinterswijk.nl of telefoonnummer (0543) 54 4305. Op www.skbwinterswijk.nl/klachtenregeling kunt lezen wat de Klachtenfunctionaris voor u zou kunnen betekenen. \n\nMet vriendelijke groet, \nAfdeling Marketing & Communicatie\nStreekziekenhuis Koningin Beatrix",
+        "reviewImageUrls": [],
+        "reviewContext": {},
+        "reviewDetailedRating": {},
+        "visitedIn": null,
+        "originalLanguage": null,
+        "translatedLanguage": null,
+        "isAdvertisement": false,
+        "placeId": "ChIJq1D2bcd6uEcRXQFExy-BKaI",
+        "location": {
+          "lat": 51.978664,
+          "lng": 6.7017029
+        },
+        "address": "Beatrixpark 1, 7101 BN Winterswijk, Nederland",
+        "neighborhood": null,
+        "street": "Beatrixpark 1",
+        "city": "Winterswijk",
+        "postalCode": "7101 BN",
+        "state": null,
+        "countryCode": "NL",
+        "categoryName": "Ziekenhuis",
+        "categories": [
+          "Ziekenhuis"
+        ],
+        "title": "Streekziekenhuis Koningin Beatrix Winterswijk",
+        "totalScore": 4.3,
+        "permanentlyClosed": false,
+        "temporarilyClosed": false,
+        "reviewsCount": 192,
+        "url": "https://www.google.com/maps/search/?api=1&query=Streekziekenhuis%20Koningin%20Beatrix%20Winterswijk&query_place_id=ChIJq1D2bcd6uEcRXQFExy-BKaI",
+        "price": null,
+        "cid": "11685012750396031325",
+        "fid": "0x47b87ac76df650ab:0xa229812fc744015d",
+        "imageUrl": "https://lh3.googleusercontent.com/gps-cs-s/AC9h4no5iV09KRVXY_bJpOXygPvR4zcC7DzCHE0-oKcs7ycl0E_el1LLeggn9VfWjtXtm_5cDkaXpDleaG3pjeavV9S39kNpo7nQy4kkxu3yQyFfD8nXh4pnJuq0_d-EjS-3pM2_l_4=w408-h271-k-no",
+        "scrapedAt": "2025-10-09T08:07:39.634Z",
+        "language": "nl"
+      },
+      {
+        "searchString": "Direct Detail URL: https://www.google.com/maps/search/?api=1&query=ChIJxxBwVyubx0cRti7BsX-oUOo&query_place_id=ChIJxxBwVyubx0cRti7BsX-oUOo",
+        "reviewerId": "110747788741293230598",
+        "reviewerUrl": "https://www.google.com/maps/contrib/110747788741293230598?hl=nl",
+        "name": "I-AM",
+        "reviewerNumberOfReviews": 8,
+        "isLocalGuide": false,
+        "reviewerPhotoUrl": "https://lh3.googleusercontent.com/a-/ALV-UjV7ad0jhzrlUQtZy8etOBtl0Og47jqm35zjXPLNSBCuTYWV8odR=s1920-c-rp-mo-br100",
+        "text": "Lag in bed voir een ooeratie. Nooit fijn. Veroleging kwam met rollend pckastje vragen stellen... keek me niet eens aan en ze was weer weg. Na de ooeratie kwam er niemand kijken  ik belde of ik meer pijnstilling mocht maar de zorg vond dat ik me niet moest aanstellen. Pas na 3x vragen werd er iets gregeld. Niemand is geïnteresseerd in hoe het met je gaat.",
+        "textTranslated": null,
+        "publishAt": "6 dagen geleden",
+        "publishedAtDate": "2025-10-02T09:36:35.382Z",
+        "likesCount": 0,
+        "reviewId": "Ci9DQUlRQUNvZENodHljRjlvT25sSlJFRnJiME4wVGxkck0zTjVRV2N5ZEZsak0wRRAB",
+        "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT25sSlJFRnJiME4wVGxkck0zTjVRV2N5ZEZsak0wRRAB!2m1!1s0x0:0xea50a87fb1c12eb6!3m1!1s2@1:CAIQACodChtycF9oOnlJREFrb0N0TldrM3N5QWcydFljM0E%7C0crZTYLp0kM%7C?hl=nl",
+        "reviewOrigin": "Google",
+        "stars": 1,
+        "rating": null,
+        "responseFromOwnerDate": null,
+        "responseFromOwnerText": null,
+        "reviewImageUrls": [],
+        "reviewContext": {},
+        "reviewDetailedRating": {},
+        "visitedIn": null,
+        "originalLanguage": "nl",
+        "translatedLanguage": null,
+        "isAdvertisement": false,
+        "placeId": "ChIJxxBwVyubx0cRti7BsX-oUOo",
+        "location": {
+          "lat": 51.9764683,
+          "lng": 6.2856703
+        },
+        "address": "Kruisbergseweg 25, 7009 BL Doetinchem, Nederland",
+        "neighborhood": null,
+        "street": "Kruisbergseweg 25",
+        "city": "Doetinchem",
+        "postalCode": "7009 BL",
+        "state": null,
+        "countryCode": "NL",
+        "categoryName": "Ziekenhuis",
+        "categories": [
+          "Ziekenhuis",
+          "Medisch centrum"
+        ],
+        "title": "Slingeland Ziekenhuis",
+        "totalScore": 3.8,
+        "permanentlyClosed": false,
+        "temporarilyClosed": false,
+        "reviewsCount": 217,
+        "url": "https://www.google.com/maps/search/?api=1&query=Slingeland%20Ziekenhuis&query_place_id=ChIJxxBwVyubx0cRti7BsX-oUOo",
+        "price": null,
+        "cid": "16884180269408530102",
+        "fid": "0x47c79b2b577010c7:0xea50a87fb1c12eb6",
+        "imageUrl": "https://lh3.googleusercontent.com/p/AF1QipMs9TTqw_UqAvGpCTFaP8SXs0ijZoA0oq9Vm9pW=w425-h240-k-no",
+        "scrapedAt": "2025-10-09T08:09:08.237Z",
+        "language": "nl"
+      }
+    ],
+    "searchCriteria": {
+      "category": "hospital",
+      "location": "Netherlands",
+      "minRating": 2.5,
+      "maxStars": 3,
+      "dayLimit": 14,
+      "businessLimit": 200,
+      "language": "nl",
+      "countryCode": "nl",
+      "maxReviewsPerBusiness": 1
+    },
+    "extractionDate": "2025-10-09T08:09:16.476Z"
+  },
+  "statistics": {
+    "businessesFound": 16,
+    "reviewsFound": 7,
+    "avgRating": 1,
+    "extractionTime": 307337
+  },
+  "enrichmentHistory": [
+    {
+      "timestamp": "2025-10-09T08:10:57.053Z",
+      "enrichedBusinesses": 7,
+      "phoneNumbers": 7,
+      "websites": 7,
+      "emails": 2,
+      "ownerContacts": 0,
+      "managementContacts": 0
+    },
+    {
+      "timestamp": "2025-10-09T08:10:57.483Z",
+      "enrichedBusinesses": 7,
+      "phoneNumbers": 7,
+      "websites": 7,
+      "emails": 2,
+      "ownerContacts": 0,
+      "managementContacts": 0
+    }
+  ]
+}
