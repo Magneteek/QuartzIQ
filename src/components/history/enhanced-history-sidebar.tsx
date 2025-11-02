@@ -67,6 +67,8 @@ interface HistorySidebarProps {
 
 export function EnhancedHistorySidebar({ isOpen, onLoadExtraction, onClose, currentExtractionId, refreshTrigger }: HistorySidebarProps) {
   const [history, setHistory] = useState<ExtractionHistoryItem[]>([])
+  const [reviewHistory, setReviewHistory] = useState<any[]>([])
+  const [combinedHistory, setCombinedHistory] = useState<any[]>([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [isCollapsed, setIsCollapsed] = useState(false)
@@ -76,6 +78,7 @@ export function EnhancedHistorySidebar({ isOpen, onLoadExtraction, onClose, curr
   useEffect(() => {
     if (isOpen && !loading && history.length === 0) {
       loadHistory()
+      loadReviewHistory()
     }
   }, [isOpen])
 
@@ -84,8 +87,35 @@ export function EnhancedHistorySidebar({ isOpen, onLoadExtraction, onClose, curr
     if (refreshTrigger && refreshTrigger > 0 && isOpen) {
       console.log('🔄 Contact Vault refresh triggered')
       loadHistory()
+      loadReviewHistory()
     }
   }, [refreshTrigger, isOpen])
+
+  // Combine extraction history and review history
+  useEffect(() => {
+    const combined = [
+      ...history.map(item => ({ ...item, type: 'extraction' as const })),
+      ...reviewHistory.map(session => ({
+        id: `review-${session.id}`,
+        timestamp: session.timestamp,
+        type: 'review' as const,
+        searchCriteria: {
+          category: session.metadata.categories?.join(', ') || 'Mixed',
+          location: session.metadata.cities?.join(', ') || 'Multiple',
+          countryCode: 'NL'
+        },
+        statistics: {
+          businessesFound: session.statistics.totalBusinesses,
+          reviewsFound: session.statistics.totalReviews,
+          avgRating: session.statistics.avgRating,
+          extractionTime: 0
+        },
+        reviewSession: session
+      }))
+    ].sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())
+
+    setCombinedHistory(combined)
+  }, [history, reviewHistory])
 
   const loadHistory = async () => {
     try {
@@ -104,6 +134,21 @@ export function EnhancedHistorySidebar({ isOpen, onLoadExtraction, onClose, curr
       console.error('Contact vault load error:', err)
     } finally {
       setLoading(false)
+    }
+  }
+
+  const loadReviewHistory = async () => {
+    try {
+      const response = await fetch('/api/review-crawl-history')
+      const data = await response.json()
+
+      if (data.success) {
+        setReviewHistory(data.sessions || [])
+      } else {
+        console.error('Failed to load review history:', data.error)
+      }
+    } catch (err) {
+      console.error('Review history load error:', err)
     }
   }
 
@@ -188,47 +233,49 @@ export function EnhancedHistorySidebar({ isOpen, onLoadExtraction, onClose, curr
             )}
           >
             {/* Header with Gradient */}
-            <div className="bg-primary p-4 border-b border-white/10">
-              {!isCollapsed && (
-                <motion.div
-                  initial={{ opacity: 0, y: -20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="flex items-center justify-between"
-                >
-                  <div className="flex items-center gap-3">
-                    <Database className="h-6 w-6 text-white" />
-                    <h3 className="font-bold text-lg text-white">Contact Vault</h3>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => setIsCollapsed(true)}
-                      className="h-8 w-8 p-0 text-white hover:bg-white/10"
-                    >
-                      <ChevronRight className="h-4 w-4" />
-                    </Button>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={onClose}
-                      className="h-8 w-8 p-0 text-white hover:bg-white/10"
-                    >
-                      <X className="h-4 w-4" />
-                    </Button>
-                  </div>
-                </motion.div>
-              )}
-              {isCollapsed && (
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => setIsCollapsed(false)}
-                  className="h-8 w-8 p-0 mx-auto text-white hover:bg-white/10"
-                >
-                  <ChevronLeft className="h-4 w-4" />
-                </Button>
-              )}
+            <div className="bg-primary border-b border-white/10">
+              <div className="p-4">
+                {!isCollapsed && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="flex items-center justify-between"
+                  >
+                    <div className="flex items-center gap-3">
+                      <Database className="h-6 w-6 text-white" />
+                      <h3 className="font-bold text-lg text-white">Contact Vault</h3>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => setIsCollapsed(true)}
+                        className="h-8 w-8 p-0 text-white hover:bg-white/10"
+                      >
+                        <ChevronRight className="h-4 w-4" />
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={onClose}
+                        className="h-8 w-8 p-0 text-white hover:bg-white/10"
+                      >
+                        <X className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  </motion.div>
+                )}
+                {isCollapsed && (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setIsCollapsed(false)}
+                    className="h-8 w-8 p-0 mx-auto text-white hover:bg-white/10"
+                  >
+                    <ChevronLeft className="h-4 w-4" />
+                  </Button>
+                )}
+              </div>
             </div>
 
             {/* Content */}
@@ -258,26 +305,27 @@ export function EnhancedHistorySidebar({ isOpen, onLoadExtraction, onClose, curr
                   </motion.div>
                 )}
 
-                {!loading && !error && history.length === 0 && (
+                {!loading && !error && combinedHistory.length === 0 && (
                   <motion.div
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
                     className="text-center py-8 text-muted-foreground text-sm"
                   >
                     <Database className="h-12 w-12 mx-auto mb-3 opacity-50" />
-                    No saved extractions in your vault yet
+                    No saved extractions or review crawls yet
                   </motion.div>
                 )}
 
-                {!loading && !error && history.length > 0 && (
+                {!loading && !error && combinedHistory.length > 0 && (
                   <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     className="space-y-2"
                   >
-                    {history.map((item, index) => {
-                      const latestEnrichment = getLatestEnrichment(item.enrichmentHistory)
-                      const hasContacts = hasContactData(item.enrichmentHistory)
+                    {combinedHistory.map((item, index) => {
+                      const isReviewSession = item.type === 'review'
+                      const latestEnrichment = !isReviewSession ? getLatestEnrichment(item.enrichmentHistory) : null
+                      const hasContacts = !isReviewSession ? hasContactData(item.enrichmentHistory) : false
                       const isCurrentExtraction = currentExtractionId === item.id
 
                       return (
@@ -301,12 +349,19 @@ export function EnhancedHistorySidebar({ isOpen, onLoadExtraction, onClose, curr
                             {/* Header Row */}
                             <div className="flex items-start justify-between mb-1">
                               <div className="flex items-center gap-2">
-                                <Badge className={cn(
-                                  "text-xs font-medium",
-                                  getCategoryColor(item.searchCriteria?.category || 'unknown')
-                                )}>
-                                  {(item.searchCriteria?.category || 'UNKNOWN').toUpperCase()}
-                                </Badge>
+                                {isReviewSession ? (
+                                  <Badge className="text-xs font-medium bg-orange-500/20 text-orange-400 border-orange-500/40">
+                                    <Star className="h-3 w-3 mr-1 inline fill-current" />
+                                    QUALIFIED REVIEWS
+                                  </Badge>
+                                ) : (
+                                  <Badge className={cn(
+                                    "text-xs font-medium",
+                                    getCategoryColor(item.searchCriteria?.category || 'unknown')
+                                  )}>
+                                    {(item.searchCriteria?.category || 'UNKNOWN').toUpperCase()}
+                                  </Badge>
+                                )}
                                 {hasContacts && (
                                   <motion.div
                                     initial={{ scale: 0 }}
@@ -451,8 +506,9 @@ export function EnhancedHistorySidebar({ isOpen, onLoadExtraction, onClose, curr
             {/* Collapsed State Content */}
             {isCollapsed && (
               <div className="p-2 space-y-2">
-                {!loading && !error && history.slice(0, 8).map((item, index) => {
-                  const hasContacts = hasContactData(item.enrichmentHistory)
+                {!loading && !error && combinedHistory.slice(0, 8).map((item, index) => {
+                  const isReviewSession = item.type === 'review'
+                  const hasContacts = !isReviewSession ? hasContactData(item.enrichmentHistory) : false
                   const isCurrentExtraction = currentExtractionId === item.id
 
                   return (

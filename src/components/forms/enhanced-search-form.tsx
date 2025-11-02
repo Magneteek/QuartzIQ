@@ -12,6 +12,8 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Loader2, Search, Globe, Building, Calendar, Star, Filter, Zap, MapPin } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { useCacheDetection } from '@/hooks/use-cache-detection'
+import { CacheDetectionBanner } from '@/components/banners/cache-detection-banner'
 
 const formSchema = z.object({
   category: z.string().min(1, 'Category is required'),
@@ -20,6 +22,7 @@ const formSchema = z.object({
   maxStars: z.number().min(1).max(5),
   dayLimit: z.number().min(1),
   businessLimit: z.number().min(1), // No upper limit - user can set as high as needed
+  maxReviewsPerBusiness: z.number().min(1).max(50), // Reviews per business limit
   language: z.string(),
   countryCode: z.string(),
 })
@@ -160,8 +163,8 @@ const countries = [
 export function EnhancedSearchForm({ onSearch, isExtracting }: SearchFormProps) {
   const [customCategory, setCustomCategory] = useState('')
   const [isMounted, setIsMounted] = useState(false)
-  const [showAdvanced, setShowAdvanced] = useState(false)
   const [locationValue, setLocationValue] = useState('')
+  const [useCached, setUseCached] = useState(false)
 
   useEffect(() => {
     setIsMounted(true)
@@ -176,10 +179,20 @@ export function EnhancedSearchForm({ onSearch, isExtracting }: SearchFormProps) 
       maxStars: 3,           // Default: capture only negative reviews (3 stars or lower)
       dayLimit: 14,          // Default: last 14 days
       businessLimit: 50,     // Safeguard: stop after 50 businesses crawled
+      maxReviewsPerBusiness: 2, // Default: 2 reviews per business (cost optimization)
       language: 'nl',
       countryCode: 'nl',
     },
   })
+
+  // Cache detection hook
+  const watchedCategory = form.watch('category')
+  const watchedLocation = locationValue || form.watch('location')
+
+  const { cacheData, isChecking } = useCacheDetection(
+    watchedCategory !== 'custom' ? watchedCategory : customCategory,
+    watchedLocation
+  )
 
   const placeholders = [
     "Search for dental practices in Amsterdam...",
@@ -196,6 +209,8 @@ export function EnhancedSearchForm({ onSearch, isExtracting }: SearchFormProps) 
       location: locationValue || data.location,
       // Clean undefined values for API
       minRating: data.minRating || undefined,
+      // Add cache usage flag
+      useCached: useCached && cacheData?.hasCached
     };
     onSearch(finalData);
   };
@@ -223,36 +238,21 @@ export function EnhancedSearchForm({ onSearch, isExtracting }: SearchFormProps) 
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4" suppressHydrationWarning>
-          {/* Primary Configuration */}
-          <Card className="p-4 space-y-4">
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center gap-3">
-                <Building className="h-5 w-5 text-primary" />
-                <h3 className="text-lg font-semibold">Target Configuration</h3>
-              </div>
-              <Button
-                type="button"
-                variant="outline"
-                size="sm"
-                onClick={() => setShowAdvanced(!showAdvanced)}
-                className="bg-white/10 backdrop-blur-sm border border-white/20 hover:scale-105 hover:shadow-lg transition-all duration-200"
-              >
-                <Filter className="h-4 w-4 mr-2" />
-                {showAdvanced ? 'Hide' : 'Show'} Advanced
-              </Button>
+          {/* Unified Configuration - All Filters Visible */}
+          <Card className="p-6 space-y-6">
+            <div className="flex items-center gap-3">
+              <Search className="h-5 w-5 text-primary" />
+              <h3 className="text-lg font-semibold">Search Configuration</h3>
             </div>
 
-            <div className="flex flex-col lg:flex-row gap-4 items-start">
-              {/* Form Fields and Summary - Left Aligned Stack */}
-              <div className="flex flex-col gap-3">
-                {/* Form Fields Row */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            {/* Primary Filters - Country, Category, Location */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {/* Country Selection */}
               <FormField
                 control={form.control}
                 name="countryCode"
                 render={({ field }) => (
-                  <FormItem className="space-y-1">
+                  <FormItem>
                     <FormLabel className="flex items-center gap-2 text-sm font-medium">
                       <Globe className="h-4 w-4" />
                       Target Country
@@ -289,7 +289,7 @@ export function EnhancedSearchForm({ onSearch, isExtracting }: SearchFormProps) 
                 control={form.control}
                 name="category"
                 render={({ field }) => (
-                  <FormItem className="space-y-1">
+                  <FormItem>
                     <FormLabel className="flex items-center gap-2 text-sm font-medium">
                       <Building className="h-4 w-4" />
                       Business Category
@@ -330,114 +330,64 @@ export function EnhancedSearchForm({ onSearch, isExtracting }: SearchFormProps) 
                 )}
               />
 
-              {/* Custom Category Input */}
-              <AnimatePresence>
-                {form.watch('category') === 'custom' && (
-                  <motion.div
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: 'auto' }}
-                    exit={{ opacity: 0, height: 0 }}
-                    transition={{ duration: 0.3 }}
-                    className="md:col-span-2"
-                  >
-                    <FormField
-                      control={form.control}
-                      name="category"
-                      render={() => (
-                        <FormItem className="space-y-1">
-                          <FormLabel className="text-sm font-medium">Custom Category</FormLabel>
-                          <FormControl>
-                            <Input
-                              placeholder="e.g., yoga studios, tech companies, bakeries..."
-                              value={customCategory}
-                              onChange={(e) => setCustomCategory(e.target.value)}
-                              className="h-11 bg-white/10 backdrop-blur-sm border border-white/20"
-                            />
-                          </FormControl>
-                        </FormItem>
-                      )}
-                    />
-                  </motion.div>
+              {/* Location Override */}
+              <FormField
+                control={form.control}
+                name="location"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="flex items-center gap-2 text-sm font-medium">
+                      <MapPin className="h-4 w-4" />
+                      Specific Location
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="e.g., Amsterdam, Berlin..."
+                        value={locationValue}
+                        onChange={handleLocationChange}
+                        className="h-11 bg-white/10 backdrop-blur-sm border border-white/20"
+                      />
+                    </FormControl>
+                    <FormDescription className="text-xs">
+                      Optional: Target specific city or region
+                    </FormDescription>
+                  </FormItem>
                 )}
-              </AnimatePresence>
-                </div>
-
-                {/* Summary Card - Stacked Below Form Fields */}
-                <Card className="p-3 bg-white/5 backdrop-blur-sm border border-white/10 w-fit max-w-md">
-                  <div className="space-y-3">
-                    <div className="flex items-center gap-1 text-xs text-foreground flex-wrap">
-                      {(() => {
-                        const selectedCategory = businessCategories.find(cat => cat.id === form.watch('category'))
-                        const country = countries.find(c => c.value === form.watch('countryCode'))
-                        const location = locationValue || form.watch('location')
-                        const targetLocation = location !== country?.defaultLocation ? location : country?.flag || '🌍'
-
-                        const parts = [
-                          `${selectedCategory?.icon || '🔍'} ${selectedCategory?.label || 'Select Category'}`,
-                          `Target: ${targetLocation}`,
-                          `Business score: ${form.watch('minRating') ? `≥${form.watch('minRating')}⭐` : 'Any'}`,
-                          `Review stars: ≤${form.watch('maxStars')}⭐`,
-                          `Timeframe: ${form.watch('dayLimit')} days`,
-                          `Max businesses: ${form.watch('businessLimit')}`
-                        ]
-
-                        return parts.map((part, index) => (
-                          <span key={index} className="inline-flex items-center">
-                            {part}
-                            {index < parts.length - 1 && (
-                              <span className="mx-2 text-muted-foreground">|</span>
-                            )}
-                          </span>
-                        ))
-                      })()}
-                    </div>
-                  </div>
-                </Card>
-              </div>
+              />
             </div>
-          </Card>
 
-          {/* Advanced Parameters */}
-          <AnimatePresence>
-            {showAdvanced && (
-              <motion.div
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: 'auto' }}
-                exit={{ opacity: 0, height: 0 }}
-                transition={{ duration: 0.4, ease: "easeInOut" }}
-              >
-                <Card className="p-4 space-y-4">
-                  <div className="flex items-center gap-3 mb-4">
-                    <Filter className="h-5 w-5 text-primary" />
-                    <h3 className="text-lg font-semibold">Advanced Filters</h3>
-                  </div>
-
-                  {/* Location Override */}
+            {/* Custom Category Input */}
+            <AnimatePresence>
+              {form.watch('category') === 'custom' && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: 'auto' }}
+                  exit={{ opacity: 0, height: 0 }}
+                  transition={{ duration: 0.3 }}
+                >
                   <FormField
                     control={form.control}
-                    name="location"
-                    render={({ field }) => (
-                      <FormItem className="mb-4">
-                        <FormLabel className="flex items-center gap-2 text-sm font-medium">
-                          <MapPin className="h-4 w-4" />
-                          Specific Location (Optional)
-                        </FormLabel>
+                    name="category"
+                    render={() => (
+                      <FormItem>
+                        <FormLabel className="text-sm font-medium">Custom Category</FormLabel>
                         <FormControl>
                           <Input
-                            placeholder="e.g., Amsterdam, Berlin, specific city or region..."
-                            value={locationValue}
-                            onChange={handleLocationChange}
+                            placeholder="e.g., yoga studios, tech companies, bakeries..."
+                            value={customCategory}
+                            onChange={(e) => setCustomCategory(e.target.value)}
                             className="h-11 bg-white/10 backdrop-blur-sm border border-white/20"
                           />
                         </FormControl>
-                        <FormDescription className="text-xs">
-                          Override the default country location with a specific city or region
-                        </FormDescription>
                       </FormItem>
                     )}
                   />
+                </motion.div>
+              )}
+            </AnimatePresence>
 
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {/* Filter Parameters */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                     {/* Min Business Score */}
                     <FormField
                       control={form.control}
@@ -542,7 +492,6 @@ export function EnhancedSearchForm({ onSearch, isExtracting }: SearchFormProps) 
                             <Input
                               type="number"
                               min="1"
-                              max="200"
                               {...field}
                               value={field.value || ''}
                               onChange={(e) => {
@@ -550,21 +499,100 @@ export function EnhancedSearchForm({ onSearch, isExtracting }: SearchFormProps) 
                                 field.onChange(value === '' ? undefined : parseInt(value) || 1)
                               }}
                               className="h-11 bg-white/10 backdrop-blur-sm border border-white/20"
+                              placeholder="No limit - set as high as needed"
                             />
                           </FormControl>
                           <FormDescription className="text-xs">
-                            Safeguard to stop crawl (default: 50)
+                            No maximum limit - you control the budget (default: 50)
                           </FormDescription>
                           <FormMessage />
                         </FormItem>
                       )}
                     />
 
-                  </div>
-                </Card>
-              </motion.div>
-            )}
-          </AnimatePresence>
+                    {/* Reviews Per Business */}
+                    <FormField
+                      control={form.control}
+                      name="maxReviewsPerBusiness"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="flex items-center gap-1 text-sm font-medium">
+                            <Star className="h-4 w-4" />
+                            Reviews Per Business
+                          </FormLabel>
+                          <FormControl>
+                            <Input
+                              type="number"
+                              min="1"
+                              max="50"
+                              {...field}
+                              value={field.value || ''}
+                              onChange={(e) => {
+                                const value = e.target.value
+                                field.onChange(value === '' ? undefined : parseInt(value) || 1)
+                              }}
+                              className="h-11 bg-white/10 backdrop-blur-sm border border-white/20"
+                              placeholder="2 reviews (default)"
+                            />
+                          </FormControl>
+                          <FormDescription className="text-xs">
+                            Reviews to extract per business (default: 2, max: 50)
+                          </FormDescription>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+            </div>
+
+            {/* Search Summary */}
+            <Card className="p-3 bg-white/5 backdrop-blur-sm border border-white/10">
+              <div className="flex items-center gap-1 text-xs text-foreground flex-wrap">
+                {(() => {
+                  const selectedCategory = businessCategories.find(cat => cat.id === form.watch('category'))
+                  const country = countries.find(c => c.value === form.watch('countryCode'))
+                  const location = locationValue || form.watch('location')
+                  const targetLocation = location !== country?.defaultLocation ? location : country?.flag || '🌍'
+
+                  const parts = [
+                    `${selectedCategory?.icon || '🔍'} ${selectedCategory?.label || 'Select Category'}`,
+                    `Target: ${targetLocation}`,
+                    `Business score: ${form.watch('minRating') ? `≥${form.watch('minRating')}⭐` : 'Any'}`,
+                    `Review stars: ≤${form.watch('maxStars')}⭐`,
+                    `Timeframe: ${form.watch('dayLimit')} days`,
+                    `Max businesses: ${form.watch('businessLimit')}`
+                  ]
+
+                  return parts.map((part, index) => (
+                    <span key={index} className="inline-flex items-center">
+                      {part}
+                      {index < parts.length - 1 && (
+                        <span className="mx-2 text-muted-foreground">|</span>
+                      )}
+                    </span>
+                  ))
+                })()}
+              </div>
+            </Card>
+          </Card>
+
+          {/* Cache Detection Banner */}
+          {watchedCategory && watchedLocation && (
+            <CacheDetectionBanner
+              cachedCount={cacheData?.cachedCount || 0}
+              category={watchedCategory === 'custom' ? customCategory : (selectedCategory?.label || watchedCategory)}
+              location={watchedLocation}
+              costComparison={cacheData?.costComparison || {
+                searchNew: 0.5,
+                useCached: 0,
+                savings: 0.5,
+                savingsPercent: 0
+              }}
+              onUseCached={() => setUseCached(true)}
+              onSearchNew={() => setUseCached(false)}
+              isLoading={isChecking}
+            />
+          )}
 
           {/* Prominent Submit Button */}
           <div className="flex justify-center pt-2">

@@ -15,9 +15,22 @@ import {
   Calendar,
   Award,
   User,
-  Crown
+  Crown,
+  Eye,
+  Sparkles,
+  Clock,
+  RefreshCw,
+  AlertCircle
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { useEffect, useState } from 'react'
+import { formatDistanceToNow } from 'date-fns'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip'
 
 interface BusinessCardProps {
   business: {
@@ -69,7 +82,52 @@ export function EnhancedBusinessCard({
   isSelected = false,
   onToggleSelect
 }: BusinessCardProps) {
-  
+  const [isScraped, setIsScraped] = useState<boolean | null>(null)
+  const [scrapedDate, setScrapedDate] = useState<string | null>(null)
+  const [crawlInfo, setCrawlInfo] = useState<{
+    lastScrapedAt: string | null
+    scrapeCount: number
+    daysSinceLastCrawl: number | null
+    isFresh: boolean
+    isStale: boolean
+  } | null>(null)
+
+  useEffect(() => {
+    // Check if this business has been scraped before
+    if (business.placeId) {
+      fetch(`/api/scraped-businesses?check=${business.placeId}`)
+        .then(res => res.json())
+        .then(data => {
+          if (data.results && data.results[business.placeId]) {
+            setIsScraped(true)
+          } else {
+            setIsScraped(false)
+          }
+        })
+        .catch(error => {
+          console.error('Failed to check scraped status:', error)
+          setIsScraped(false)
+        })
+    }
+  }, [business.placeId])
+
+  // Fetch crawl tracking information
+  useEffect(() => {
+    if (business.placeId) {
+      const placeId = business.placeId
+      fetch(`/api/crawl/info?placeIds=${placeId}`)
+        .then(res => res.json())
+        .then(data => {
+          if (data.success && data.crawlInfo && data.crawlInfo[placeId]) {
+            setCrawlInfo(data.crawlInfo[placeId])
+          }
+        })
+        .catch(error => {
+          console.error('Failed to fetch crawl info:', error)
+        })
+    }
+  }, [business.placeId])
+
   const getStarRating = (rating: number) => {
     return Array.from({ length: 5 }, (_, i) => (
       <motion.div
@@ -176,9 +234,96 @@ export function EnhancedBusinessCard({
             </div>
             
             <div className="flex flex-col items-end gap-2">
-              <Badge className={cn("text-xs font-medium", getRatingColor(business.totalScore || 0))}>
-                {business.totalScore ? business.totalScore.toFixed(1) : 'N/A'}
+              <Badge className={cn("text-xs font-medium", getRatingColor(parseFloat(String(business.totalScore || 0))))}>
+                {business.totalScore ? parseFloat(String(business.totalScore)).toFixed(1) : 'N/A'}
               </Badge>
+
+              {/* NEW/SEEN Badge */}
+              {isScraped !== null && (
+                <motion.div
+                  initial={{ opacity: 0, x: 10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.1 }}
+                >
+                  {isScraped === false ? (
+                    <Badge className="text-xs font-bold bg-green-500/20 text-green-400 border border-green-500/40 flex items-center gap-1">
+                      <Sparkles className="h-3 w-3" />
+                      NEW
+                    </Badge>
+                  ) : (
+                    <Badge className="text-xs font-medium bg-gray-500/20 text-gray-400 border border-gray-500/40 flex items-center gap-1">
+                      <Eye className="h-3 w-3" />
+                      SEEN
+                    </Badge>
+                  )}
+                </motion.div>
+              )}
+
+              {/* Last Crawl Info */}
+              {crawlInfo?.lastScrapedAt && (
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <motion.div
+                        initial={{ opacity: 0, x: 10 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 0.15 }}
+                      >
+                        <Badge
+                          variant="outline"
+                          className={cn(
+                            "text-xs cursor-help flex items-center gap-1",
+                            crawlInfo.isFresh && "border-green-500/40 text-green-400 bg-green-500/10",
+                            !crawlInfo.isFresh && !crawlInfo.isStale && "border-blue-500/40 text-blue-400 bg-blue-500/10",
+                            crawlInfo.isStale && "border-orange-500/40 text-orange-400 bg-orange-500/10"
+                          )}
+                        >
+                          <Clock className="h-3 w-3" />
+                          {formatDistanceToNow(new Date(crawlInfo.lastScrapedAt), { addSuffix: true })}
+                        </Badge>
+                      </motion.div>
+                    </TooltipTrigger>
+                    <TooltipContent side="left" className="bg-card border border-border">
+                      <div className="space-y-1.5 text-xs">
+                        <div className="font-semibold text-foreground border-b border-border pb-1">
+                          Crawl History
+                        </div>
+                        <div className="flex items-center justify-between gap-4">
+                          <span className="text-muted-foreground">Total Crawls:</span>
+                          <span className="font-medium text-foreground flex items-center gap-1">
+                            <RefreshCw className="h-3 w-3" />
+                            {crawlInfo.scrapeCount}x
+                          </span>
+                        </div>
+                        <div className="flex items-center justify-between gap-4">
+                          <span className="text-muted-foreground">Last Crawled:</span>
+                          <span className="font-medium text-foreground">
+                            {crawlInfo.daysSinceLastCrawl} day{crawlInfo.daysSinceLastCrawl !== 1 ? 's' : ''} ago
+                          </span>
+                        </div>
+                        <div className="flex items-center justify-between gap-4">
+                          <span className="text-muted-foreground">Status:</span>
+                          <span className={cn(
+                            "font-medium flex items-center gap-1",
+                            crawlInfo.isFresh && "text-green-400",
+                            !crawlInfo.isFresh && !crawlInfo.isStale && "text-blue-400",
+                            crawlInfo.isStale && "text-orange-400"
+                          )}>
+                            {crawlInfo.isFresh && "Fresh"}
+                            {!crawlInfo.isFresh && !crawlInfo.isStale && "Active"}
+                            {crawlInfo.isStale && (
+                              <>
+                                <AlertCircle className="h-3 w-3" />
+                                Stale
+                              </>
+                            )}
+                          </span>
+                        </div>
+                      </div>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              )}
 
               {/* Lead Quality Score */}
               {business.leadQuality && (
@@ -204,11 +349,11 @@ export function EnhancedBusinessCard({
           <div className="space-y-3">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-1">
-                {getStarRating(business.totalScore)}
+                {getStarRating(parseFloat(String(business.totalScore || 0)))}
               </div>
 
               <div className="text-sm text-muted-foreground">
-                {business.reviewsCount.toLocaleString()} reviews
+                {Number(business.reviewsCount || 0).toLocaleString()} reviews
               </div>
             </div>
 

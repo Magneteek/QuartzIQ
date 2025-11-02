@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import Link from 'next/link'
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import {
@@ -16,10 +17,14 @@ import { EnhancedExtractionProgress } from '@/components/results/enhanced-extrac
 import { EnhancedBusinessCard } from '@/components/cards/enhanced-business-card'
 import { ResultsTable } from '@/components/results/results-table'
 import { ResultsList } from '@/components/results/results-list'
+import { BusinessCardsView } from '@/components/results/business-cards-view'
 import { ExportModal } from '@/components/modals/export-modal'
 import { SettingsModal } from '@/components/modals/settings-modal'
+import { ExtractionConfirmationModal } from '@/components/modals/extraction-confirmation-modal'
 import { LeadSelectionModal } from '@/components/modals/lead-selection-modal'
 import { ClientSelector } from '@/components/client-config/client-selector'
+import { DatabaseStatusIndicator } from '@/components/database/database-status-indicator'
+import { QuickAccessPanel } from '@/components/dashboard/quick-access-panel'
 import {
   Database,
   Download,
@@ -53,7 +58,8 @@ import {
   ArrowUp,
   ArrowDown,
   Info,
-  HelpCircle
+  HelpCircle,
+  OctagonX
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
@@ -65,6 +71,7 @@ interface SearchCriteria {
   maxStars: number
   dayLimit: number
   businessLimit: number
+  maxReviewsPerBusiness?: number
   language: string
   countryCode: string
 }
@@ -126,6 +133,8 @@ export function EnhancedReviewExtractionDashboard() {
   const [showExportModal, setShowExportModal] = useState(false)
   const [showSettingsModal, setShowSettingsModal] = useState(false)
   const [showLeadSelectionModal, setShowLeadSelectionModal] = useState(false)
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false)
+  const [pendingCriteria, setPendingCriteria] = useState<SearchCriteria | null>(null)
   const [darkMode, setDarkMode] = useState(true)
   const [qualitySortOrder, setQualitySortOrder] = useState<'desc' | 'asc' | 'none'>('desc')
   const [showQualityLegend, setShowQualityLegend] = useState(false)
@@ -152,10 +161,43 @@ export function EnhancedReviewExtractionDashboard() {
   // Client configuration state
   const [selectedClientId, setSelectedClientId] = useState<string>('default')
 
+  // Deduplication filter state
+  const [showNewOnly, setShowNewOnly] = useState(false)
+  const [businessScrapedStatus, setBusinessScrapedStatus] = useState<Record<string, boolean>>({})
+
   // Apply dark mode
   useEffect(() => {
     document.documentElement.classList.toggle('dark', darkMode)
   }, [darkMode])
+
+  // Check scraped status for all businesses when results change
+  useEffect(() => {
+    if (!results?.businesses || results.businesses.length === 0) {
+      setBusinessScrapedStatus({})
+      return
+    }
+
+    const checkScrapedStatus = async () => {
+      const placeIds = results.businesses
+        .filter((b: any) => b.placeId)
+        .map((b: any) => b.placeId)
+        .join(',')
+
+      if (!placeIds) return
+
+      try {
+        const response = await fetch(`/api/scraped-businesses?check=${placeIds}`)
+        const data = await response.json()
+        if (data.results) {
+          setBusinessScrapedStatus(data.results)
+        }
+      } catch (error) {
+        console.error('Failed to check scraped status:', error)
+      }
+    }
+
+    checkScrapedStatus()
+  }, [results])
 
   // Debug viewMode changes and save to localStorage
   useEffect(() => {
@@ -180,7 +222,72 @@ export function EnhancedReviewExtractionDashboard() {
     }
   }, [])
 
+  // Wrapper function that shows confirmation modal before search
+  const handleSearchRequest = (criteria: SearchCriteria) => {
+    setPendingCriteria(criteria)
+    setShowConfirmationModal(true)
+  }
+
+  // Confirmation handler - only called after user confirms
+  const handleConfirmExtraction = () => {
+    setShowConfirmationModal(false)
+    if (pendingCriteria) {
+      handleSearch(pendingCriteria)
+      setPendingCriteria(null)
+    }
+  }
+
+  // 🛑 Abort extraction handler
+  const handleAbortExtraction = async () => {
+    try {
+      console.log('\n🛑 USER: Aborting extraction')
+      console.log('══════════════════════════════════════════════════════')
+
+      // Cancel frontend AbortController
+      if (abortControllerRef.current) {
+        abortControllerRef.current.abort()
+      }
+
+      // Call backend abort API
+      const response = await fetch('/api/extract', {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+
+      if (!response.ok) {
+        throw new Error('Failed to abort extraction')
+      }
+
+      const result = await response.json()
+      console.log('✅ Extraction aborted successfully:', result)
+      console.log('══════════════════════════════════════════════════════\n')
+
+      // Reset UI state
+      setIsExtracting(false)
+      setProgress(0)
+      setCurrentStep('Extraction aborted by user')
+
+    } catch (error: any) {
+      console.error('❌ Failed to abort extraction:', error)
+      // Still reset UI even if abort API fails
+      setIsExtracting(false)
+      setProgress(0)
+      setCurrentStep('Extraction stopped')
+    }
+  }
+
   const handleSearch = async (criteria: SearchCriteria) => {
+    // 📊 CRITICAL: Log exact parameters being sent (before API call)
+    const requestId = `frontend_${Date.now()}_${Math.random().toString(36).substring(7)}`
+    console.log('\n🔵 FRONTEND: Initiating extraction request')
+    console.log('══════════════════════════════════════════════════════')
+    console.log(`Frontend Request ID: ${requestId}`)
+    console.log(`Timestamp: ${new Date().toISOString()}`)
+    console.log('Request Body:', JSON.stringify(criteria, null, 2))
+    console.log('══════════════════════════════════════════════════════\n')
+
     // Cancel any existing request
     if (abortControllerRef.current) {
       abortControllerRef.current.abort()
@@ -195,13 +302,44 @@ export function EnhancedReviewExtractionDashboard() {
     setLastSearchCriteria(criteria)
     const extractionStartTime = Date.now()
 
+    // Get selected API endpoint from localStorage
+    const apiEndpoint = localStorage.getItem('api_endpoint') || 'standard'
+    const apiUrl = apiEndpoint === 'optimized' ? '/api/extract-optimized' : '/api/extract'
+    console.log(`🔧 Using API: ${apiUrl} (${apiEndpoint} mode)`)
+
+    // Build headers
+    const headers: Record<string, string> = {
+      'Content-Type': 'application/json',
+      'X-Frontend-Request-Id': requestId,
+    }
+
+    // Add API key for optimized endpoint
+    if (apiEndpoint === 'optimized') {
+      headers['X-API-Key'] = 'quartziq_1236e22634e48db6b08754f0a6dd5f40dac1a28cb8067fdbf2e0faaee86ffae5'
+    }
+
+    // 🔧 Adapt parameters for optimized API
+    const requestBody = apiEndpoint === 'optimized'
+      ? {
+          category: criteria.category,
+          location: criteria.location,
+          countryCode: criteria.countryCode || 'nl',
+          maxBusinessRating: criteria.minRating || 4.6,
+          maxReviewStars: criteria.maxStars, // Rename parameter for optimized API
+          dayLimit: criteria.dayLimit,
+          businessLimit: criteria.businessLimit,
+          maxReviewsPerBusiness: criteria.maxReviewsPerBusiness || 2, // Default: 2 reviews (cost optimization)
+          language: criteria.language || 'nl',
+          useCache: true,
+          forceRefresh: false
+        }
+      : criteria
+
     try {
-      const response = await fetch('/api/extract', {
+      const response = await fetch(apiUrl, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(criteria),
+        headers,
+        body: JSON.stringify(requestBody),
         signal: abortControllerRef.current.signal,
       })
 
@@ -211,28 +349,66 @@ export function EnhancedReviewExtractionDashboard() {
 
       let finalResult: ExtractionResult | null = null
 
-      // Handle streaming response for real-time updates
-      const reader = response.body?.getReader()
-      if (reader) {
-        while (true) {
-          const { done, value } = await reader.read()
-          if (done) break
+      // 🔧 Handle different response types based on API endpoint
+      if (apiEndpoint === 'optimized') {
+        // Optimized API returns JSON directly (not streaming)
+        setProgress(50)
+        setCurrentStep('Processing cached results...')
 
-          const text = new TextDecoder().decode(value)
-          const lines = text.split('\n').filter(line => line.trim())
+        const jsonResponse = await response.json()
 
-          for (const line of lines) {
-            try {
-              const data = JSON.parse(line)
-              if (data.type === 'progress') {
-                setProgress(data.progress)
-                setCurrentStep(data.step)
-              } else if (data.type === 'result') {
-                finalResult = data.result
-                setResults(finalResult)
+        if (jsonResponse.success) {
+          setProgress(80)
+          setCurrentStep('Formatting results...')
+
+          // Transform optimized API response to match standard format
+          finalResult = {
+            businesses: jsonResponse.businesses.list || [],
+            reviews: jsonResponse.reviews.list || [],
+            extractionDate: new Date(jsonResponse.metadata.extraction_date),
+            cost: jsonResponse.cost,
+            performance: jsonResponse.performance,
+            cache: {
+              businesses_cached: jsonResponse.businesses.cached,
+              businesses_new: jsonResponse.businesses.new,
+              reviews_cached: jsonResponse.reviews.cached,
+              reviews_new: jsonResponse.reviews.new
+            }
+          }
+
+          setResults(finalResult)
+          setProgress(100)
+          setCurrentStep('Extraction completed with cache optimization!')
+
+          console.log('💰 Cost savings:', jsonResponse.cost)
+          console.log('📊 Cache hit rate:', jsonResponse.cost.cache_hit_rate)
+        } else {
+          throw new Error(jsonResponse.error || 'Extraction failed')
+        }
+      } else {
+        // Standard API uses streaming response
+        const reader = response.body?.getReader()
+        if (reader) {
+          while (true) {
+            const { done, value } = await reader.read()
+            if (done) break
+
+            const text = new TextDecoder().decode(value)
+            const lines = text.split('\n').filter(line => line.trim())
+
+            for (const line of lines) {
+              try {
+                const data = JSON.parse(line)
+                if (data.type === 'progress') {
+                  setProgress(data.progress)
+                  setCurrentStep(data.step)
+                } else if (data.type === 'result') {
+                  finalResult = data.result
+                  setResults(finalResult)
+                }
+              } catch {
+                // Ignore malformed JSON
               }
-            } catch {
-              // Ignore malformed JSON
             }
           }
         }
@@ -275,6 +451,39 @@ export function EnhancedReviewExtractionDashboard() {
           console.error('❌ Failed to save extraction to history:', error)
           setCurrentStep(`⚠️ Extraction complete but history save failed: ${error instanceof Error ? error.message : 'Unknown error'}`)
         }
+
+        // Auto-track scraped businesses to prevent duplicates
+        if (finalResult?.businesses && Array.isArray(finalResult.businesses)) {
+          try {
+            const businessesToTrack = finalResult.businesses.map((business: any) => ({
+              placeId: business.placeId,
+              businessName: business.title || business.name || 'Unknown',
+              address: business.address || 'No address',
+              firstScraped: new Date().toISOString(),
+              category: criteria.category,
+              location: criteria.location
+            }))
+
+            const trackResponse = await fetch('/api/scraped-businesses', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                businesses: businessesToTrack
+              }),
+            })
+
+            if (trackResponse.ok) {
+              const trackData = await trackResponse.json()
+              console.log(`📚 Added ${trackData.addedCount} new businesses to tracking (${trackData.duplicatesSkipped} duplicates skipped)`)
+            } else {
+              console.error('❌ Business tracking failed:', trackResponse.status)
+            }
+          } catch (error) {
+            console.error('❌ Failed to track scraped businesses:', error)
+          }
+        }
       }
 
     } catch (error) {
@@ -291,12 +500,12 @@ export function EnhancedReviewExtractionDashboard() {
   }
 
   const handleContactEnrichment = async (includeApifyEnrichment = false, includeLinkedInEnrichment = false) => {
-    if (!qualifyingBusinesses.length || selectedBusinesses.size === 0) {
+    if (!filteredQualifyingBusinesses.length || selectedBusinesses.size === 0) {
       alert('Please select at least one business for contact enrichment.')
       return
     }
 
-    const businessesToEnrich = qualifyingBusinesses.filter((business: any, index) =>
+    const businessesToEnrich = filteredQualifyingBusinesses.filter((business: any, index) =>
       selectedBusinesses.has(index.toString())
     )
 
@@ -401,12 +610,12 @@ export function EnhancedReviewExtractionDashboard() {
 
   // LinkedIn Executive Email Enrichment
   const handleLinkedInEnrichment = async () => {
-    if (!qualifyingBusinesses.length || selectedBusinesses.size === 0) {
+    if (!filteredQualifyingBusinesses.length || selectedBusinesses.size === 0) {
       alert('Please select at least one business for LinkedIn executive email enrichment.')
       return
     }
 
-    const businessesToEnrich = qualifyingBusinesses.filter((business: any, index) =>
+    const businessesToEnrich = filteredQualifyingBusinesses.filter((business: any, index) =>
       selectedBusinesses.has(index.toString())
     )
 
@@ -482,12 +691,12 @@ export function EnhancedReviewExtractionDashboard() {
 
   // Clean up binary garbage email data
   const handleCleanupGarbageEmails = async () => {
-    if (!qualifyingBusinesses.length) {
+    if (!filteredQualifyingBusinesses.length) {
       alert('No business data available for cleanup.')
       return
     }
 
-    const garbageEmails = qualifyingBusinesses.filter((business: any) => {
+    const garbageEmails = filteredQualifyingBusinesses.filter((business: any) => {
       if (!business.email) return false
       // Check for binary garbage patterns (same logic as ContactExtractor)
       const nonAsciiChars = business.email.replace(/[\x00-\x7F]/g, '').length
@@ -583,8 +792,8 @@ export function EnhancedReviewExtractionDashboard() {
   }
 
   const handleSelectAllBusinesses = (selectAll: boolean) => {
-    if (selectAll && qualifyingBusinesses.length > 0) {
-      const allBusinessIndices = new Set(qualifyingBusinesses.map((_, index) => index.toString()))
+    if (selectAll && filteredQualifyingBusinesses.length > 0) {
+      const allBusinessIndices = new Set(filteredQualifyingBusinesses.map((_, index) => index.toString()))
       setSelectedBusinesses(allBusinessIndices)
     } else {
       setSelectedBusinesses(new Set())
@@ -616,7 +825,13 @@ export function EnhancedReviewExtractionDashboard() {
   // Load extraction from history
   const handleLoadExtraction = async (id: string) => {
     try {
-      const response = await fetch(`/api/history/${id}`)
+      // Check if this is a review session (starts with "review-")
+      const isReviewSession = id.startsWith('review-')
+      const endpoint = isReviewSession
+        ? `/api/load-review-session?date=${id.replace('review-', '')}`
+        : `/api/history/${id}`
+
+      const response = await fetch(endpoint)
       const data = await response.json()
 
       if (data.success && data.data) {
@@ -624,12 +839,84 @@ export function EnhancedReviewExtractionDashboard() {
         setResults(extraction.results)
         setCurrentExtractionId(id)
         setLastSearchCriteria(extraction.searchCriteria)
-        console.log(`🏦 Loaded extraction from vault: ${id}`)
+
+        if (isReviewSession) {
+          console.log(`⭐ Loaded qualified reviews session from vault: ${id}`)
+        } else {
+          console.log(`🏦 Loaded extraction from vault: ${id}`)
+        }
       } else {
         console.error('Failed to load extraction:', data.error)
       }
     } catch (error) {
       console.error('Error loading extraction:', error)
+    }
+  }
+
+  // Load cached reviews from database
+  const handleLoadCachedReviews = async () => {
+    setIsExtracting(true)
+    setProgress(50)
+    setCurrentStep('Loading cached reviews from database...')
+
+    try {
+      // Use lastSearchCriteria if available, otherwise use defaults matching the search form
+      const params = new URLSearchParams({
+        category: lastSearchCriteria?.category || 'tandarts',
+        city: lastSearchCriteria?.location || 'Amsterdam',
+        maxRating: (lastSearchCriteria?.maxStars || 3).toString(),
+        dayLimit: (lastSearchCriteria?.dayLimit || 14).toString(), // Match search form default
+        limit: (lastSearchCriteria?.businessLimit || 100).toString()
+      })
+
+      const response = await fetch(`/api/database/reviews?${params}`, {
+        headers: {
+          'X-API-Key': 'quartziq_1236e22634e48db6b08754f0a6dd5f40dac1a28cb8067fdbf2e0faaee86ffae5'
+        }
+      })
+
+      const data = await response.json()
+
+      if (data.success && data.data) {
+        // Create search criteria from params if not already set
+        const searchCriteria = lastSearchCriteria || {
+          category: params.get('category') || 'tandarts',
+          location: params.get('city') || 'Amsterdam',
+          maxStars: parseInt(params.get('maxRating') || '3'),
+          dayLimit: parseInt(params.get('dayLimit') || '30'),
+          businessLimit: parseInt(params.get('limit') || '100')
+        }
+
+        // Set search criteria if it wasn't set
+        if (!lastSearchCriteria) {
+          setLastSearchCriteria(searchCriteria)
+        }
+
+        // Transform database response to ExtractionResult format
+        const transformedResults: ExtractionResult = {
+          businesses: data.data.businesses,
+          reviews: data.data.reviews,
+          searchCriteria: searchCriteria,
+          extractionDate: new Date()
+        }
+
+        setResults(transformedResults)
+        setProgress(100)
+        setCurrentStep(`Loaded ${data.data.stats.total_reviews} cached reviews from ${data.data.stats.total_businesses} businesses`)
+        console.log(`💾 Loaded ${data.data.stats.total_reviews} cached reviews without re-scraping`)
+      } else {
+        console.error('Failed to load cached reviews:', data.error)
+        alert('Failed to load cached reviews: ' + (data.error || 'Unknown error'))
+      }
+    } catch (error) {
+      console.error('Error loading cached reviews:', error)
+      alert('Error loading cached reviews. Check console for details.')
+    } finally {
+      setTimeout(() => {
+        setIsExtracting(false)
+        setProgress(0)
+        setCurrentStep('')
+      }, 1000)
     }
   }
 
@@ -659,10 +946,10 @@ export function EnhancedReviewExtractionDashboard() {
     factors.push(`Review Volume: ${reviewCount} reviews (+${volumeScore}pts)`)
 
     // Factor 2: Average Rating (0-25 points) - Increased weight
-    const rating = business.totalScore || 0
+    const rating = typeof business.totalScore === 'number' ? business.totalScore : parseFloat(business.totalScore) || 0
     const ratingScore = Math.round((rating / 5) * 25)
     score += ratingScore
-    factors.push(`Rating: ${rating.toFixed(1)}/5 (+${ratingScore}pts)`)
+    factors.push(`Rating: ${Number(rating).toFixed(1)}/5 (+${ratingScore}pts)`)
 
     // Factor 3: Recent Activity (0-20 points) - Increased weight
     const recentReviews = businessReviews.filter(review => {
@@ -726,17 +1013,19 @@ export function EnhancedReviewExtractionDashboard() {
     if (!results) return []
 
     // Get unique business titles that have qualifying reviews
-    const businessesWithReviews = new Set(results.reviews.map((review: any) => review.title))
+    // Use business_name from reviews (set during API transformation)
+    const businessesWithReviews = new Set(results.reviews.map((review: any) => review.business_name || review.business_title))
 
     // Filter businesses to only include those with qualifying reviews
     const filteredBusinesses = results.businesses.filter((business: any) =>
-      businessesWithReviews.has(business.title)
+      businessesWithReviews.has(business.title) || businessesWithReviews.has(business.name)
     )
 
     // Add quality scores to each business
     const businessesWithQuality = filteredBusinesses.map((business: any) => {
       const businessReviews = results.reviews.filter((review: any) =>
-        review.title === business.title
+        (review.business_name === business.title || review.business_name === business.name) ||
+        (review.business_title === business.title || review.business_title === business.name)
       )
       const qualityData = calculateLeadQuality(business, businessReviews)
 
@@ -757,6 +1046,26 @@ export function EnhancedReviewExtractionDashboard() {
       return businessesWithQuality.sort((a, b) => b.reviewsCount - a.reviewsCount)
     }
   }, [results, qualitySortOrder])
+
+  // Filter businesses based on scraped status (NEW only filter)
+  const filteredQualifyingBusinesses = React.useMemo(() => {
+    if (!showNewOnly) return qualifyingBusinesses
+
+    return qualifyingBusinesses.filter((business: any) => {
+      const isScraped = businessScrapedStatus[business.placeId]
+      return !isScraped  // Show only businesses that are NOT scraped (new businesses)
+    })
+  }, [qualifyingBusinesses, showNewOnly, businessScrapedStatus])
+
+  // Count stats for NEW vs SEEN businesses
+  const deduplicationStats = React.useMemo(() => {
+    const newCount = qualifyingBusinesses.filter((business: any) =>
+      !businessScrapedStatus[business.placeId]
+    ).length
+    const seenCount = qualifyingBusinesses.length - newCount
+
+    return { newCount, seenCount, total: qualifyingBusinesses.length }
+  }, [qualifyingBusinesses, businessScrapedStatus])
 
   // Memoize expensive computations based on qualifying businesses only
   const statsData = React.useMemo(() => {
@@ -824,6 +1133,9 @@ export function EnhancedReviewExtractionDashboard() {
                 </div>
 
                 <div className="absolute top-4 right-4 flex gap-2">
+                  {/* Database Status Indicator */}
+                  <DatabaseStatusIndicator compact className="bg-white/10 backdrop-blur-sm border border-white/20" />
+
                   <Button
                     variant="ghost"
                     size="sm"
@@ -880,6 +1192,25 @@ export function EnhancedReviewExtractionDashboard() {
               <div className="flex items-center gap-2">
                 <Button
                   variant="outline"
+                  onClick={handleLoadCachedReviews}
+                  disabled={isExtracting}
+                  className="bg-blue-500/10 backdrop-blur-sm border border-blue-500/30 hover:scale-105 hover:shadow-lg transition-all duration-200"
+                  title={`Load cached reviews: ${lastSearchCriteria?.dayLimit || 14} days, ≤${lastSearchCriteria?.maxStars || 3}★`}
+                >
+                  <Database className="h-4 w-4 mr-2" />
+                  Load Cached Reviews
+                </Button>
+                <Link href="/dashboard/crawl-targets">
+                  <Button
+                    variant="outline"
+                    className="bg-primary/10 backdrop-blur-sm border border-primary/30 hover:scale-105 hover:shadow-lg transition-all duration-200"
+                  >
+                    <Target className="h-4 w-4 mr-2" />
+                    Smart Crawl Targets
+                  </Button>
+                </Link>
+                <Button
+                  variant="outline"
                   onClick={() => setShowHistory(true)}
                   className="bg-white/10 backdrop-blur-sm border border-white/20 hover:scale-105 hover:shadow-lg transition-all duration-200"
                 >
@@ -889,8 +1220,17 @@ export function EnhancedReviewExtractionDashboard() {
               </div>
             </div>
 
-            <EnhancedSearchForm onSearch={handleSearch} isExtracting={isExtracting} />
+            <EnhancedSearchForm onSearch={handleSearchRequest} isExtracting={isExtracting} />
           </Card>
+        </motion.div>
+
+        {/* Quick Access Panel - Qualified Reviews & Crawl Targets */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+        >
+          <QuickAccessPanel />
         </motion.div>
 
         {/* Search Criteria Overview */}
@@ -974,16 +1314,36 @@ export function EnhancedReviewExtractionDashboard() {
         {/* Progress Indicators */}
         <AnimatePresence>
           {isExtracting && (
-            <EnhancedExtractionProgress 
-              progress={progress} 
-              currentStep={currentStep}
-              isVisible={true}
-            />
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              className="space-y-3"
+            >
+              <EnhancedExtractionProgress
+                progress={progress}
+                currentStep={currentStep}
+                isVisible={true}
+              />
+
+              {/* Stop Extraction Button */}
+              <div className="flex justify-center">
+                <Button
+                  variant="destructive"
+                  size="sm"
+                  onClick={handleAbortExtraction}
+                  className="bg-red-500/20 backdrop-blur-sm border border-red-500/30 hover:bg-red-500/30 hover:scale-105 transition-all duration-200 text-red-400 hover:text-red-300"
+                >
+                  <OctagonX className="h-4 w-4 mr-2" />
+                  Stop Extraction
+                </Button>
+              </div>
+            </motion.div>
           )}
 
           {isEnrichingContacts && (
-            <EnhancedExtractionProgress 
-              progress={enrichmentProgress} 
+            <EnhancedExtractionProgress
+              progress={enrichmentProgress}
               currentStep={enrichmentStep}
               isVisible={true}
             />
@@ -1212,6 +1572,43 @@ export function EnhancedReviewExtractionDashboard() {
                         </TooltipProvider>
                       </div>
 
+                      {/* NEW/SEEN Filter Toggle */}
+                      {deduplicationStats.total > 0 && (
+                        <TooltipProvider>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <Button
+                                variant={showNewOnly ? 'default' : 'outline'}
+                                size="sm"
+                                onClick={() => setShowNewOnly(!showNewOnly)}
+                                className={cn(
+                                  "bg-white/10 backdrop-blur-sm border border-white/20 transition-all duration-200 flex items-center gap-2",
+                                  showNewOnly && "bg-green-500/20 border-green-500/40 text-green-400"
+                                )}
+                              >
+                                <Sparkles className="h-4 w-4" />
+                                {showNewOnly ? 'Showing NEW' : 'Show NEW Only'}
+                                {deduplicationStats.newCount > 0 && (
+                                  <span className="ml-1 px-2 py-0.5 rounded-full bg-green-500/30 text-xs font-bold">
+                                    {deduplicationStats.newCount}
+                                  </span>
+                                )}
+                              </Button>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                              <div className="text-sm">
+                                <div className="font-semibold mb-1">Business Status:</div>
+                                <div className="text-green-400">🆕 NEW: {deduplicationStats.newCount} businesses</div>
+                                <div className="text-gray-400">👁️ SEEN: {deduplicationStats.seenCount} businesses</div>
+                                <div className="text-muted-foreground mt-1 text-xs">
+                                  {showNewOnly ? 'Click to show all businesses' : 'Click to show only new businesses'}
+                                </div>
+                              </div>
+                            </TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
+                      )}
+
                       <Button
                         variant="outline"
                         size="sm"
@@ -1224,11 +1621,13 @@ export function EnhancedReviewExtractionDashboard() {
 
                       {/* Send to Quartz Leads Button */}
                       {(() => {
-                        const enrichedCount = qualifyingBusinesses.filter((b: any) =>
+                        const enrichedCount = filteredQualifyingBusinesses.filter((b: any) =>
                           b.phone || b.email || b.website
                         ).length
+                        const totalCount = filteredQualifyingBusinesses.length
 
-                        return enrichedCount > 0 && (
+                        // Always show button if there are businesses, show enriched count if available
+                        return totalCount > 0 && (
                           <Button
                             variant="outline"
                             size="sm"
@@ -1236,7 +1635,7 @@ export function EnhancedReviewExtractionDashboard() {
                             className="bg-primary/10 backdrop-blur-sm border border-primary/20 hover:scale-105 hover:shadow-lg transition-all duration-200 text-primary hover:text-primary"
                           >
                             <Users className="h-4 w-4 mr-2" />
-                            Send to CRM ({enrichedCount})
+                            Send to CRM ({enrichedCount > 0 ? `${enrichedCount} enriched` : totalCount})
                           </Button>
                         )
                       })()}
@@ -1285,7 +1684,8 @@ export function EnhancedReviewExtractionDashboard() {
 
 
                       <span className="text-sm text-muted-foreground">
-                        {selectedBusinesses.size} of {qualifyingBusinesses.length} qualifying businesses selected
+                        {selectedBusinesses.size} of {filteredQualifyingBusinesses.length} qualifying businesses selected
+                        {showNewOnly && ` (${deduplicationStats.newCount} new)`}
                       </span>
                     </div>
 
@@ -1309,7 +1709,7 @@ export function EnhancedReviewExtractionDashboard() {
                         className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
                       >
                         {console.log('Rendering CARDS view - Qualifying Business Grid') || null}
-                        {qualifyingBusinesses.map((business: any, index) => (
+                        {filteredQualifyingBusinesses.map((business: any, index) => (
                           <EnhancedBusinessCard
                             key={business.placeId || index}
                             business={business}
@@ -1329,14 +1729,18 @@ export function EnhancedReviewExtractionDashboard() {
                         animate={{ opacity: 1 }}
                       >
                         {console.log('Rendering TABLE view - Reviews Table') || null}
-                        <ResultsTable
-                          results={results}
-                          qualifyingBusinesses={qualifyingBusinesses}
-                          selectedReviews={selectedReviews}
-                          onReviewSelect={handleReviewSelect}
-                          selectAll={selectAll}
-                          onSelectAll={handleSelectAllReviews}
-                        />
+                        {results.reviews && results.reviews.length > 0 ? (
+                          <ResultsTable
+                            results={results}
+                            qualifyingBusinesses={filteredQualifyingBusinesses}
+                            selectedReviews={selectedReviews}
+                            onReviewSelect={handleReviewSelect}
+                            selectAll={selectAll}
+                            onSelectAll={handleSelectAllReviews}
+                          />
+                        ) : (
+                          <BusinessCardsView results={results} />
+                        )}
                       </motion.div>
                     )}
 
@@ -1347,9 +1751,13 @@ export function EnhancedReviewExtractionDashboard() {
                         animate={{ opacity: 1 }}
                       >
                         {console.log('Rendering LIST view - Reviews List') || null}
-                        <ResultsList
-                          results={results}
-                        />
+                        {results.reviews && results.reviews.length > 0 ? (
+                          <ResultsList
+                            results={results}
+                          />
+                        ) : (
+                          <BusinessCardsView results={results} />
+                        )}
                       </motion.div>
                     )}
                   </div>
@@ -1374,12 +1782,24 @@ export function EnhancedReviewExtractionDashboard() {
           onClose={() => setShowSettingsModal(false)}
         />
 
+        {/* Extraction Confirmation Modal */}
+        <ExtractionConfirmationModal
+          isOpen={showConfirmationModal}
+          onClose={() => {
+            setShowConfirmationModal(false)
+            setPendingCriteria(null)
+          }}
+          onConfirm={handleConfirmExtraction}
+          criteria={pendingCriteria}
+        />
+
         {/* Lead Selection Modal */}
         {qualifyingBusinesses.length > 0 && (
           <LeadSelectionModal
             isOpen={showLeadSelectionModal}
             onClose={() => setShowLeadSelectionModal(false)}
             enrichedBusinesses={qualifyingBusinesses}
+            businessScrapedStatus={businessScrapedStatus}
             selectedClientId={selectedClientId}
           />
         )}

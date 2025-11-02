@@ -138,6 +138,8 @@ export async function POST(request: NextRequest) {
 }
 
 // Helper function to get client config (for use by other APIs)
-export function getClientConfig(clientId: string = 'default'): ClientConfig | null {
+// NOTE: Not exported - Next.js 15 doesn't allow non-route handler exports
+// If needed in other files, move to a separate utility file
+function getClientConfig(clientId: string = 'default'): ClientConfig | null {
   return CLIENT_CONFIGS[clientId] || null
 }

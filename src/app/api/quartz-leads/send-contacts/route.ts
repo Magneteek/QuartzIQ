@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getClientConfig } from '../../client-config/route'
+import { getClientConfig } from '@/lib/client-config'
 
 interface Contact {
   name: string

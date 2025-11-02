@@ -139,8 +139,8 @@ export async function POST(request: NextRequest) {
 
     console.log(`📤 Sending ${contacts.length} contacts to Airtable (Base: ${airtableBaseId}, Table: ${airtableTableName})`)
 
-    const results = []
-    const errors = []
+    const results: any[] = []
+    const errors: any[] = []
 
     // Airtable API allows batch operations, but we'll process in chunks of 10 (API limit)
     const batchSize = 10

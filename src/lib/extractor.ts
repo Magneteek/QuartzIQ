@@ -5,6 +5,7 @@
  */
 
 import * as https from 'https'
+import { logger } from './logger'
 
 interface SearchCriteria {
   category: string
@@ -57,32 +58,118 @@ interface Review {
   placeId: string
 }
 
+// 🛑 Global tracking for running extractions (allows abort from API)
+export const runningExtractions = new Map<string, {
+  actorRunIds: string[]
+  startedAt: Date
+  category: string
+  location: string
+}>()
+
 export class UniversalBusinessReviewExtractor {
   private apiToken: string | undefined
   private baseUrl: string
   private actorMapsId: string
   private actorReviewsId: string
+  private extractionId: string | null = null
+  private actorRunIds: string[] = []
 
-  constructor() {
+  constructor(extractionId?: string) {
     this.apiToken = process.env.APIFY_API_TOKEN
     this.baseUrl = 'https://api.apify.com/v2'
     this.actorMapsId = 'compass~crawler-google-places'
     this.actorReviewsId = 'compass~google-maps-reviews-scraper'
+    this.extractionId = extractionId || null
+  }
+
+  // 🛑 Abort all running actors for this extraction
+  async abortExtraction(): Promise<void> {
+    logger.info('Aborting extraction', {
+      extractionId: this.extractionId,
+      runningActors: this.actorRunIds.length
+    })
+
+    for (const runId of this.actorRunIds) {
+      try {
+        await this.abortApifyRun(runId)
+        logger.info('Aborted actor run', { runId })
+      } catch (error: any) {
+        logger.warn('Failed to abort actor run', { runId, error: error.message })
+      }
+    }
+
+    // Clear from global tracking
+    if (this.extractionId) {
+      runningExtractions.delete(this.extractionId)
+    }
+
+    logger.info('Extraction aborted successfully', { extractionId: this.extractionId })
+  }
+
+  // 🛑 Abort a single Apify actor run
+  private async abortApifyRun(runId: string): Promise<void> {
+    return new Promise((resolve, reject) => {
+      const options = {
+        hostname: 'api.apify.com',
+        port: 443,
+        path: `/v2/actor-runs/${runId}/abort?token=${this.apiToken}`,
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
+
+      const req = https.request(options, (res) => {
+        let responseData = ''
+        res.on('data', (chunk) => { responseData += chunk })
+        res.on('end', () => {
+          try {
+            if (res.statusCode === 200 || res.statusCode === 204) {
+              resolve()
+            } else {
+              reject(new Error(`Apify abort API error: ${res.statusCode}`))
+            }
+          } catch (error: any) {
+            reject(new Error(`Abort response error: ${error.message}`))
+          }
+        })
+      })
+
+      req.on('error', (error) => reject(error))
+      req.end()
+    })
   }
 
   async extractBusinessReviews(searchCriteria: SearchCriteria) {
+    // Create a child logger with extraction context
+    const extractionLogger = logger.child({
+      extractionId: this.extractionId,
+      category: searchCriteria.category,
+      location: searchCriteria.location
+    })
+
     try {
-      console.log(`🚀 Universal Business Review Extraction`)
-      console.log(`Category: ${searchCriteria.category}`)
-      console.log(`Location: ${searchCriteria.location}`)
-      console.log(`=======================================\n`)
+      extractionLogger.info('Starting business review extraction')
+
+      // 🛑 Register this extraction globally (for abort capability)
+      if (this.extractionId) {
+        runningExtractions.set(this.extractionId, {
+          actorRunIds: this.actorRunIds,
+          startedAt: new Date(),
+          category: searchCriteria.category,
+          location: searchCriteria.location
+        })
+        extractionLogger.debug('Registered extraction for abort tracking')
+      }
 
       // Step 1: Find businesses
-      console.log(`🔍 STEP 1: Finding ${searchCriteria.category} businesses`)
-      console.log(`================================================`)
+      extractionLogger.info('Finding businesses', { step: 1 })
 
       const businesses = await this.findBusinesses(searchCriteria)
-      console.log(`✅ Found ${businesses.length} businesses`)
+      extractionLogger.info('Businesses found', {
+        step: 1,
+        count: businesses.length
+      })
 
       // Step 2: Extract reviews
       console.log(`\n🔍 STEP 2: Extracting Reviews`)
@@ -157,7 +244,7 @@ export class UniversalBusinessReviewExtractor {
     }
   }
 
-  private async findBusinesses(searchCriteria: SearchCriteria): Promise<Business[]> {
+  async findBusinesses(searchCriteria: SearchCriteria): Promise<Business[]> {
     const searchQueries = this.generateSearchQueries(searchCriteria)
 
     // 🛡️ PRE-SEARCH VALIDATION - Prevent wasting API quota on bad queries
@@ -202,9 +289,17 @@ export class UniversalBusinessReviewExtractor {
           console.log(`   ✅ Keeping ${validatedBusinesses.length} geographically correct results`)
         }
 
-        // Add new businesses (deduplication happens later)
-        allBusinesses.push(...validatedBusinesses)
-        console.log(`   Found ${validatedBusinesses.length} results, total so far: ${allBusinesses.length}`)
+        // 🛡️ CRITICAL FIX: Only add businesses up to the limit
+        const remainingSlots = targetLimit - allBusinesses.length
+        const businessesToAdd = validatedBusinesses.slice(0, remainingSlots)
+
+        if (businessesToAdd.length < validatedBusinesses.length) {
+          console.log(`   ⚠️ LIMIT ENFORCEMENT: Found ${validatedBusinesses.length} but only adding ${businessesToAdd.length} to stay within limit of ${targetLimit}`)
+        }
+
+        // Add new businesses (respecting the limit)
+        allBusinesses.push(...businessesToAdd)
+        console.log(`   Found ${validatedBusinesses.length} results, added ${businessesToAdd.length}, total so far: ${allBusinesses.length}/${targetLimit}`)
 
         // Stop if we have enough
         if (allBusinesses.length >= targetLimit) {
@@ -439,7 +534,10 @@ export class UniversalBusinessReviewExtractor {
         )
     }
 
-    return queries.slice(0, criteria.maxQueries || 4)
+    // Remove duplicates (can happen when category has no translation) and limit to maxQueries
+    const uniqueQueries = [...new Set(queries)]
+    console.log(`   🔄 Query deduplication: ${queries.length} → ${uniqueQueries.length} unique queries`)
+    return uniqueQueries.slice(0, criteria.maxQueries || 4)
   }
 
   /**
@@ -659,11 +757,18 @@ export class UniversalBusinessReviewExtractor {
     }
 
     const runId = await this.runApifyActor(this.actorMapsId, input)
+
+    // 🛑 Track this run ID for abort capability
+    this.actorRunIds.push(runId)
+    if (this.extractionId && runningExtractions.has(this.extractionId)) {
+      runningExtractions.get(this.extractionId)!.actorRunIds.push(runId)
+    }
+
     const results = await this.getApifyResults(runId, this.actorMapsId)
     return results || []
   }
 
-  private async extractReviewsFromBusiness(business: Business, criteria: SearchCriteria): Promise<Review[]> {
+  async extractReviewsFromBusiness(business: Business, criteria: SearchCriteria): Promise<Review[]> {
     if (!business.placeId) {
       throw new Error('No place ID available')
     }
@@ -676,7 +781,27 @@ export class UniversalBusinessReviewExtractor {
     }
 
     const runId = await this.runApifyActor(this.actorReviewsId, input)
+
+    // 🛑 Track this run ID for abort capability
+    this.actorRunIds.push(runId)
+    if (this.extractionId && runningExtractions.has(this.extractionId)) {
+      runningExtractions.get(this.extractionId)!.actorRunIds.push(runId)
+    }
+
     const results = await this.getApifyResults(runId, this.actorReviewsId)
+
+    // 🔧 FIX: Add business name to each review for UI display
+    if (results && results.length > 0) {
+      return results.map((review: any) => ({
+        ...review,
+        title: review.title || business.title || business.name,
+        businessName: business.title || business.name,
+        business_name: business.title || business.name,
+        address: review.address || business.address,
+        placeId: review.placeId || business.placeId
+      }))
+    }
+
     return results || []
   }
 

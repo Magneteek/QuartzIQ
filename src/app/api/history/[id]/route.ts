@@ -26,6 +26,38 @@ export async function GET(
       )
     }
 
+    // Transform data to frontend format if needed
+    if (extraction.results) {
+      // Transform businesses
+      if (extraction.results.businesses) {
+        extraction.results.businesses = extraction.results.businesses.map((b: any) => ({
+          ...b,
+          title: b.title || b.name,
+          placeId: b.placeId || b.place_id,
+          totalScore: b.totalScore || b.rating || 0,
+          reviewsCount: b.reviewsCount || b.reviews_count || 0,
+          categoryName: b.categoryName || b.category || 'Unknown',
+          url: b.url || b.google_maps_url
+        }))
+      }
+
+      // Transform reviews
+      if (extraction.results.reviews) {
+        extraction.results.reviews = extraction.results.reviews.map((r: any) => ({
+          ...r,
+          reviewId: r.reviewId || r.review_id,
+          name: r.name || r.reviewer_name,
+          stars: r.stars !== undefined ? r.stars : r.rating,
+          publishedAtDate: r.publishedAtDate || r.published_date || r.publishAt,
+          originalLanguage: r.originalLanguage || r.language || 'unknown',
+          // Keep business info
+          title: r.title || r.business_name,
+          placeId: r.placeId || r.place_id,
+          totalScore: r.totalScore || r.business_rating
+        }))
+      }
+    }
+
     return NextResponse.json({ success: true, data: extraction })
 
   } catch (error: any) {

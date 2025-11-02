@@ -17,9 +17,12 @@ import {
   CheckCircle,
   Loader2,
   AlertCircle,
-  Database
+  Database,
+  Sparkles,
+  Eye
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { Checkbox } from '@/components/ui/checkbox'
 
 interface EnrichedBusiness {
   title: string
@@ -28,6 +31,7 @@ interface EnrichedBusiness {
   email?: string
   website?: string
   url?: string
+  placeId?: string
   contactEnriched?: boolean
   enrichmentDate?: Date
   ownerFirstName?: string
@@ -47,10 +51,11 @@ interface LeadSelectionModalProps {
   isOpen: boolean
   onClose: () => void
   enrichedBusinesses: EnrichedBusiness[]
+  businessScrapedStatus: Record<string, boolean>
   selectedClientId: string
 }
 
-export function LeadSelectionModal({ isOpen, onClose, enrichedBusinesses, selectedClientId }: LeadSelectionModalProps) {
+export function LeadSelectionModal({ isOpen, onClose, enrichedBusinesses, businessScrapedStatus, selectedClientId }: LeadSelectionModalProps) {
   const [selectedLeads, setSelectedLeads] = useState<Set<string>>(new Set())
   const [selectAll, setSelectAll] = useState(false)
   const [sending, setSending] = useState(false)
@@ -58,21 +63,43 @@ export function LeadSelectionModal({ isOpen, onClose, enrichedBusinesses, select
   const [sent, setSent] = useState(false)
   const [sentAirtable, setSentAirtable] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [includeScraped, setIncludeScraped] = useState(false)
 
-  // Filter only businesses with contact information
-  const availableLeads = enrichedBusinesses.filter(business =>
-    business.contactEnriched && (business.phone || business.email || business.website)
-  )
+  // Show businesses with qualifying reviews (already filtered by dashboard)
+  // These businesses already have phone numbers from Google Maps
+  const allAvailableLeads = enrichedBusinesses
+
+  // Filter to show only NEW businesses by default (unless includeScraped is checked)
+  const availableLeads = includeScraped
+    ? allAvailableLeads
+    : allAvailableLeads.filter(business => !businessScrapedStatus[business.placeId || ''])
+
+  // Calculate counts
+  const newLeadsCount = allAvailableLeads.filter(business => !businessScrapedStatus[business.placeId || '']).length
+  const scrapedLeadsCount = allAvailableLeads.length - newLeadsCount
+
+  // Calculate how many selected leads are NEW
+  const selectedNewCount = Array.from(selectedLeads)
+    .map(index => allAvailableLeads[parseInt(index)])
+    .filter(business => business && !businessScrapedStatus[business.placeId || ''])
+    .length
 
   useEffect(() => {
     if (isOpen) {
-      setSelectedLeads(new Set())
+      // Pre-select only NEW businesses by default
+      const newLeadIndices = allAvailableLeads
+        .map((business, index) => ({ business, index }))
+        .filter(({ business }) => !businessScrapedStatus[business.placeId || ''])
+        .map(({ index }) => index.toString())
+
+      setSelectedLeads(new Set(newLeadIndices))
       setSelectAll(false)
       setSent(false)
       setSentAirtable(false)
       setError(null)
+      setIncludeScraped(false)
     }
-  }, [isOpen])
+  }, [isOpen, allAvailableLeads, businessScrapedStatus])
 
   const handleSelectAll = (checked: boolean) => {
     setSelectAll(checked)
@@ -253,7 +280,7 @@ export function LeadSelectionModal({ isOpen, onClose, enrichedBusinesses, select
                   <div>
                     <h2 className="text-xl font-semibold">Send Leads to CRM</h2>
                     <p className="text-sm text-muted-foreground">
-                      Select enriched contacts to send to Quartz Leads or Airtable
+                      Select businesses to send to Quartz Leads or Airtable (enrichment optional)
                     </p>
                   </div>
                 </div>
@@ -269,32 +296,62 @@ export function LeadSelectionModal({ isOpen, onClose, enrichedBusinesses, select
 
               {/* Content */}
               <div className="flex-1 overflow-y-auto p-6">
+                {/* Include Previously Scraped Toggle - Always show when there are scraped businesses */}
+                {scrapedLeadsCount > 0 && (
+                  <div className="flex items-center gap-2 p-3 bg-muted/50 rounded-lg border border-dashed mb-6">
+                    <Checkbox
+                      checked={includeScraped}
+                      onCheckedChange={(checked) => setIncludeScraped(checked as boolean)}
+                    />
+                    <label className="text-sm cursor-pointer flex-1" onClick={() => setIncludeScraped(!includeScraped)}>
+                      Include previously exported businesses ({scrapedLeadsCount})
+                    </label>
+                    <Badge variant="outline" className="text-xs">
+                      {includeScraped ? 'Showing all' : 'NEW only'}
+                    </Badge>
+                  </div>
+                )}
+
                 {availableLeads.length === 0 ? (
                   <div className="text-center py-8">
                     <AlertCircle className="h-12 w-12 mx-auto text-muted-foreground mb-3" />
-                    <h3 className="font-medium mb-2">No Enriched Contacts Available</h3>
+                    <h3 className="font-medium mb-2">No New Businesses to Export</h3>
                     <p className="text-sm text-muted-foreground">
-                      Run contact enrichment first to get phone numbers, emails, and websites
+                      All businesses with qualifying reviews have already been exported.
+                      {allAvailableLeads.length > 0 && scrapedLeadsCount > 0 && (
+                        <span className="block mt-2">Use the toggle above to see all {allAvailableLeads.length} businesses.</span>
+                      )}
                     </p>
                   </div>
                 ) : (
                   <>
                     {/* Selection Controls */}
-                    <div className="flex items-center justify-between mb-6 p-3 bg-muted rounded-lg">
-                      <label className="flex items-center gap-2 cursor-pointer">
-                        <input
-                          type="checkbox"
-                          checked={selectAll}
-                          onChange={(e) => handleSelectAll(e.target.checked)}
-                          className="rounded"
-                        />
-                        <span className="font-medium">
-                          Select All ({selectedLeads.size}/{availableLeads.length} selected)
-                        </span>
-                      </label>
-                      <Badge variant="secondary">
-                        {availableLeads.length} leads available
-                      </Badge>
+                    <div className="space-y-3 mb-6">
+                      <div className="flex items-center justify-between p-3 bg-muted rounded-lg">
+                        <label className="flex items-center gap-2 cursor-pointer">
+                          <input
+                            type="checkbox"
+                            checked={selectAll}
+                            onChange={(e) => handleSelectAll(e.target.checked)}
+                            className="rounded"
+                          />
+                          <span className="font-medium">
+                            Select All ({selectedLeads.size}/{availableLeads.length} selected)
+                          </span>
+                        </label>
+                        <div className="flex items-center gap-2">
+                          <Badge variant="secondary" className="bg-green-500/20 text-green-400">
+                            <Sparkles className="h-3 w-3 mr-1" />
+                            {newLeadsCount} NEW
+                          </Badge>
+                          {scrapedLeadsCount > 0 && (
+                            <Badge variant="secondary" className="bg-gray-500/20 text-gray-400">
+                              <Eye className="h-3 w-3 mr-1" />
+                              {scrapedLeadsCount} SEEN
+                            </Badge>
+                          )}
+                        </div>
+                      </div>
                     </div>
 
                     {/* Leads List */}
@@ -336,10 +393,25 @@ export function LeadSelectionModal({ isOpen, onClose, enrichedBusinesses, select
                                         <span className="truncate">{business.address}</span>
                                       </div>
                                     </div>
-                                    <Badge variant="secondary" className="ml-2">
-                                      <CheckCircle className="h-3 w-3 mr-1" />
-                                      Enriched
-                                    </Badge>
+                                    <div className="flex items-center gap-2 ml-2">
+                                      {businessScrapedStatus[business.placeId || ''] ? (
+                                        <Badge variant="secondary" className="bg-gray-500/20 text-gray-400">
+                                          <Eye className="h-3 w-3 mr-1" />
+                                          SEEN
+                                        </Badge>
+                                      ) : (
+                                        <Badge variant="secondary" className="bg-green-500/20 text-green-400">
+                                          <Sparkles className="h-3 w-3 mr-1" />
+                                          NEW
+                                        </Badge>
+                                      )}
+                                      {(business.phone || business.email || business.website) && (
+                                        <Badge variant="secondary">
+                                          <CheckCircle className="h-3 w-3 mr-1" />
+                                          Enriched
+                                        </Badge>
+                                      )}
+                                    </div>
                                   </div>
 
                                   <div className="flex flex-wrap gap-2">
@@ -425,7 +497,7 @@ export function LeadSelectionModal({ isOpen, onClose, enrichedBusinesses, select
                       ) : (
                         <>
                           <Database className="h-4 w-4 mr-2" />
-                          Send to Airtable ({selectedLeads.size})
+                          Send to Airtable ({selectedNewCount} new{selectedLeads.size !== selectedNewCount && `, ${selectedLeads.size - selectedNewCount} seen`})
                         </>
                       )}
                     </Button>
@@ -447,7 +519,7 @@ export function LeadSelectionModal({ isOpen, onClose, enrichedBusinesses, select
                       ) : (
                         <>
                           <Send className="h-4 w-4 mr-2" />
-                          Send to Quartz Leads ({selectedLeads.size})
+                          Send to Quartz Leads ({selectedNewCount} new{selectedLeads.size !== selectedNewCount && `, ${selectedLeads.size - selectedNewCount} seen`})
                         </>
                       )}
                     </Button>

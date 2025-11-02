@@ -39,3 +39,59 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# ============================================
+# PROJECT-SPECIFIC PATTERNS
+# ============================================
+
+# Development notes and session documentation
+/*-COMPLETE.md
+/*-SUMMARY.md
+/*-STATUS.md
+/*-FIX.md
+/*-GUIDE.md
+/*-ANALYSIS.md
+/*-REPORT.md
+/BUG-*.md
+/DEPLOYMENT-*.md
+/IMPLEMENTATION-*.md
+/SESSION-*.md
+/TIMELINE-*.md
+
+# Data files (backups, exports, test data)
+/*.csv
+/*.json
+!package.json
+!package-lock.json
+!tsconfig.json
+/backup-*
+/apify-dataset-*
+/data/apify-backup-*
+/data/extraction-history/*.json
+/data/scraped-businesses.json
+
+# Backup and temporary files
+*.backup
+*.old
+*-OPTION*.ts
+*-OPTION*.js
+
+# Database utilities and test scripts
+/database/test-*.js
+/database/import-*.js
+/database/create-*.js
+
+# Root-level utility scripts (should be in /scripts/)
+/test-*.js
+/check-*.js
+/create-*.js
+/import-*.js
+/resume-*.js
+/retrieve-*.js
+
+# Keep essential docs
+!README.md
+!CONTRIBUTING.md
+!CHANGELOG.md
+!LICENSE.md
+!CLAUDE.md

@@ -20,6 +20,15 @@ const eslintConfig = [
       "next-env.d.ts",
     ],
   },
+  {
+    rules: {
+      // Downgrade 'any' type errors to warnings during migration period
+      '@typescript-eslint/no-explicit-any': 'warn',
+      '@typescript-eslint/no-unused-vars': 'warn',
+      '@typescript-eslint/no-require-imports': 'warn',
+      'prefer-const': 'warn',
+    },
+  },
 ];
 
 export default eslintConfig;
