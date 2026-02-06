@@ -124,7 +124,7 @@ export default function BusinessCrawlHistoryPage({
             </div>
           </div>
           <Button
-            onClick={loadBusinessHistory}
+            onClick={() => loadBusinessHistory(businessId)}
             variant="outline"
             size="sm"
             className="gap-2"

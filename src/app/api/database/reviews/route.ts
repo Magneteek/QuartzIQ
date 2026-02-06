@@ -87,7 +87,7 @@ export async function GET(request: NextRequest) {
     // Group reviews by business
     const businessMap = new Map();
 
-    result.rows.forEach((row) => {
+    result.rows.forEach((row: any) => {
       const businessId = row.business_id;
 
       if (!businessMap.has(businessId)) {
@@ -123,7 +123,7 @@ export async function GET(request: NextRequest) {
     });
 
     const businesses = Array.from(businessMap.values());
-    const reviews = result.rows.map(row => ({
+    const reviews = result.rows.map((row: any) => ({
       id: row.id,
       reviewId: row.review_id,
       name: row.reviewer_name,

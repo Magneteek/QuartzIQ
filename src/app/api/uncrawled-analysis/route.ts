@@ -9,17 +9,7 @@ import { db } from '../../../../database/db'
 export async function GET(request: NextRequest) {
   try {
     // Overview of uncrawled businesses
-    const overviewResult = await db.query<{
-      rows: Array<{
-        total_uncrawled: string
-        with_reviews_data: string
-        without_reviews_data: string
-        avg_reviews: string
-        median_reviews: string
-        total_reviews: string
-        max_reviews: string
-      }>
-    }>(`
+    const overviewResult = await db.query(`
       SELECT
         COUNT(*) as total_uncrawled,
         COUNT(*) FILTER (WHERE reviews_count > 0) as with_reviews_data,
@@ -33,13 +23,7 @@ export async function GET(request: NextRequest) {
     `)
 
     // Distribution by review count ranges
-    const distributionResult = await db.query<{
-      rows: Array<{
-        range: string
-        count: string
-        percentage: string
-      }>
-    }>(`
+    const distributionResult = await db.query(`
       SELECT
         CASE
           WHEN reviews_count = 0 OR reviews_count IS NULL THEN '0 reviews'
@@ -58,16 +42,7 @@ export async function GET(request: NextRequest) {
     `)
 
     // Top uncrawled businesses by review count (high-value targets)
-    const topTargetsResult = await db.query<{
-      rows: Array<{
-        name: string
-        category: string
-        city: string
-        reviews_count: number
-        rating: string
-        place_id: string
-      }>
-    }>(`
+    const topTargetsResult = await db.query(`
       SELECT
         name,
         category,
@@ -83,14 +58,7 @@ export async function GET(request: NextRequest) {
     `)
 
     // Category breakdown for uncrawled businesses
-    const categoryResult = await db.query<{
-      rows: Array<{
-        category: string
-        count: string
-        avg_reviews: string
-        total_reviews: string
-      }>
-    }>(`
+    const categoryResult = await db.query(`
       SELECT
         category,
         COUNT(*) as count,
@@ -105,15 +73,7 @@ export async function GET(request: NextRequest) {
     `)
 
     // Location breakdown for uncrawled businesses
-    const locationResult = await db.query<{
-      rows: Array<{
-        city: string
-        country_code: string
-        count: string
-        avg_reviews: string
-        total_reviews: string
-      }>
-    }>(`
+    const locationResult = await db.query(`
       SELECT
         city,
         country_code,
@@ -129,14 +89,7 @@ export async function GET(request: NextRequest) {
     `)
 
     // Quality tier analysis (based on rating)
-    const qualityResult = await db.query<{
-      rows: Array<{
-        tier: string
-        count: string
-        avg_reviews: string
-        percentage: string
-      }>
-    }>(`
+    const qualityResult = await db.query(`
       SELECT
         CASE
           WHEN rating >= 4.5 THEN 'Excellent (4.5-5.0)'
@@ -165,12 +118,12 @@ export async function GET(request: NextRequest) {
         totalReviews: parseInt(overviewResult.rows[0].total_reviews || '0'),
         maxReviews: parseInt(overviewResult.rows[0].max_reviews || '0'),
       },
-      distribution: distributionResult.rows.map(row => ({
+      distribution: distributionResult.rows.map((row: any) => ({
         range: row.range,
         count: parseInt(row.count),
         percentage: parseFloat(row.percentage),
       })),
-      topTargets: topTargetsResult.rows.map(row => ({
+      topTargets: topTargetsResult.rows.map((row: any) => ({
         name: row.name,
         category: row.category,
         city: row.city,
@@ -178,20 +131,20 @@ export async function GET(request: NextRequest) {
         rating: parseFloat(row.rating || '0'),
         placeId: row.place_id,
       })),
-      byCategory: categoryResult.rows.map(row => ({
+      byCategory: categoryResult.rows.map((row: any) => ({
         category: row.category,
         count: parseInt(row.count),
         avgReviews: parseFloat(row.avg_reviews || '0'),
         totalReviews: parseInt(row.total_reviews || '0'),
       })),
-      byLocation: locationResult.rows.map(row => ({
+      byLocation: locationResult.rows.map((row: any) => ({
         city: row.city,
         countryCode: row.country_code,
         count: parseInt(row.count),
         avgReviews: parseFloat(row.avg_reviews || '0'),
         totalReviews: parseInt(row.total_reviews || '0'),
       })),
-      byQuality: qualityResult.rows.map(row => ({
+      byQuality: qualityResult.rows.map((row: any) => ({
         tier: row.tier,
         count: parseInt(row.count),
         avgReviews: parseFloat(row.avg_reviews || '0'),

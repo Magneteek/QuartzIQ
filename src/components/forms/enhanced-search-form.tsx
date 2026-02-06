@@ -10,31 +10,139 @@ import { Card } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { Loader2, Search, Globe, Building, Calendar, Star, Filter, Zap, MapPin } from 'lucide-react'
+import { Switch } from '@/components/ui/switch'
+import {
+  Loader2,
+  Search,
+  Globe,
+  Building,
+  Calendar,
+  Star,
+  Filter,
+  Zap,
+  MapPin,
+  ChevronDown,
+  ChevronUp,
+  Target,
+  TrendingUp,
+  BarChart3,
+  Users,
+  Mail,
+  Phone,
+  Globe2,
+  Sparkles
+} from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useCacheDetection } from '@/hooks/use-cache-detection'
 import { CacheDetectionBanner } from '@/components/banners/cache-detection-banner'
 
+// Extended form schema with universal search parameters
 const formSchema = z.object({
+  // Core search
   category: z.string().min(1, 'Category is required'),
   location: z.string().min(1, 'Location is required'),
+  language: z.string(),
+  countryCode: z.string(),
+
+  // Legacy fields (still supported)
   minRating: z.number().min(1).max(5).optional(),
   maxStars: z.number().min(1).max(5),
   dayLimit: z.number().min(1),
-  businessLimit: z.number().min(1), // No upper limit - user can set as high as needed
-  maxReviewsPerBusiness: z.number().min(1).max(50), // Reviews per business limit
-  language: z.string(),
-  countryCode: z.string(),
+  businessLimit: z.number().min(1),
+  maxReviewsPerBusiness: z.number().min(1).max(50),
+
+  // Universal search - Business Filters
+  maxRating: z.number().min(1).max(5).optional(),
+  minReviewCount: z.number().min(0).optional(),
+  maxReviewCount: z.number().min(0).optional(),
+  mustHaveWebsite: z.boolean().default(false),
+  mustHavePhone: z.boolean().default(false),
+
+  // Universal search - Search Options
+  multiLanguageSearch: z.boolean().default(false),
+
+  // Universal search - Review Options
+  enableReviews: z.boolean().default(true),
+  minStars: z.number().min(1).max(5).optional(),
+  mustHavePhotos: z.boolean().default(false),
+
+  // Universal search - Enrichment
+  enableEnrichment: z.boolean().default(false),
+  scrapeWebsite: z.boolean().default(true),
+  scrapeSocialMedia: z.boolean().default(true),
+
+  // Universal search - Momentum Tracking
+  enableMomentum: z.boolean().default(false),
+  momentumPeriod: z.number().min(7).max(90).default(30),
+  momentumMinReviews: z.number().min(1).default(5),
+  momentumType: z.enum(['growing', 'declining', 'stable', 'spike', 'any']).default('any'),
 })
 
 type FormData = z.infer<typeof formSchema>
 
 interface SearchFormProps {
-  onSearch: (criteria: FormData) => void
+  onSearch: (criteria: any) => void
   isExtracting: boolean
 }
 
-// Google Business Profile Official Categories - Organized by Sector
+// Use case presets
+const USE_CASE_PRESETS = {
+  leadGeneration: {
+    name: 'Lead Generation',
+    icon: Target,
+    description: 'Get contacts only, no reviews',
+    config: {
+      enableReviews: false,
+      enableEnrichment: true,
+      scrapeWebsite: true,
+      scrapeSocialMedia: true,
+      mustHaveWebsite: true,
+      minRating: 4.0,
+      minReviewCount: 50,
+      enableMomentum: false, // ✅ Can't track momentum without review extraction
+    }
+  },
+  reviewAnalysis: {
+    name: 'Review Analysis',
+    icon: TrendingUp,
+    description: 'Find negative reviews',
+    config: {
+      enableReviews: true,
+      enableEnrichment: true,
+      maxStars: 3,
+      dayLimit: 14,
+      mustHavePhotos: false, // Optional: user can enable if needed
+      enableMomentum: false,
+    }
+  },
+  momentumTracking: {
+    name: 'Momentum Tracking',
+    icon: BarChart3,
+    description: 'Declining businesses',
+    config: {
+      enableReviews: true,
+      enableEnrichment: true,
+      enableMomentum: true,
+      momentumType: 'declining',
+      momentumPeriod: 30,
+      momentumMinReviews: 5,
+      maxStars: 3,
+    }
+  },
+  businessDiscovery: {
+    name: 'Business Discovery',
+    icon: Search,
+    description: 'Quick search, no extras',
+    config: {
+      enableReviews: false,
+      enableEnrichment: false,
+      businessLimit: 200,
+      minRating: undefined,
+    }
+  },
+}
+
+// Business categories
 const businessCategories = [
   // Healthcare & Medical
   { id: 'dentist', label: 'Dentist', sector: 'Healthcare', icon: '🦷' },
@@ -165,27 +273,52 @@ export function EnhancedSearchForm({ onSearch, isExtracting }: SearchFormProps) 
   const [isMounted, setIsMounted] = useState(false)
   const [locationValue, setLocationValue] = useState('')
   const [useCached, setUseCached] = useState(false)
+  const [showAdvanced, setShowAdvanced] = useState(false)
+  const [activePreset, setActivePreset] = useState<string | null>('businessDiscovery')
 
   useEffect(() => {
     setIsMounted(true)
   }, [])
 
-  const form = useForm<FormData>({
+  // Apply default preset on mount
+  useEffect(() => {
+    if (activePreset === 'businessDiscovery') {
+      const preset = USE_CASE_PRESETS.businessDiscovery
+      Object.entries(preset.config).forEach(([key, value]) => {
+        form.setValue(key as any, value)
+      })
+    }
+  }, []) // Only run once on mount
+
+  const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      category: 'dentist',   // Using official Google Business category
+      category: 'dentist',
       location: 'Netherlands',
-      minRating: 3.5,        // Default: filter out businesses with poor overall ratings
-      maxStars: 3,           // Default: capture only negative reviews (3 stars or lower)
-      dayLimit: 14,          // Default: last 14 days
-      businessLimit: 50,     // Safeguard: stop after 50 businesses crawled
-      maxReviewsPerBusiness: 2, // Default: 2 reviews per business (cost optimization)
+      minRating: undefined,
+      maxStars: 3,
+      dayLimit: 14,
+      businessLimit: 200, // ✅ Business Discovery default
+      maxReviewsPerBusiness: 2,
       language: 'nl',
       countryCode: 'nl',
+      // Universal search defaults (Business Discovery preset)
+      enableReviews: false, // ✅ No reviews by default
+      enableEnrichment: false, // ✅ No enrichment by default
+      scrapeWebsite: true,
+      scrapeSocialMedia: true,
+      mustHaveWebsite: false,
+      mustHavePhone: false,
+      mustHavePhotos: false,
+      multiLanguageSearch: false,
+      enableMomentum: false,
+      momentumPeriod: 30,
+      momentumMinReviews: 5,
+      momentumType: 'any',
     },
   })
 
-  // Cache detection hook
+  // Cache detection
   const watchedCategory = form.watch('category')
   const watchedLocation = locationValue || form.watch('location')
 
@@ -194,34 +327,83 @@ export function EnhancedSearchForm({ onSearch, isExtracting }: SearchFormProps) 
     watchedLocation
   )
 
-  const placeholders = [
-    "Search for dental practices in Amsterdam...",
-    "Find restaurants in Berlin with poor reviews...",
-    "Discover luxury hotels in Zurich needing attention...",
-    "Extract reviews from spas in Oslo...",
-    "Find financial consultants in Brussels..."
-  ]
+  // Apply preset
+  const applyPreset = (presetKey: keyof typeof USE_CASE_PRESETS) => {
+    const preset = USE_CASE_PRESETS[presetKey]
+    Object.entries(preset.config).forEach(([key, value]) => {
+      form.setValue(key as any, value)
+    })
+    setActivePreset(presetKey)
+    // Auto-expand advanced options when preset is applied
+    if (!showAdvanced) setShowAdvanced(true)
+  }
 
   const onSubmit = (data: FormData) => {
-    const finalData = {
-      ...data,
+    // Convert to universal search format
+    const universalCriteria = {
       category: data.category === 'custom' ? customCategory : data.category,
       location: locationValue || data.location,
-      // Clean undefined values for API
-      minRating: data.minRating || undefined,
-      // Add cache usage flag
-      useCached: useCached && cacheData?.hasCached
-    };
-    onSearch(finalData);
-  };
+      countryCode: data.countryCode,
+      language: data.language,
+
+      businessFilters: {
+        minRating: data.minRating,
+        maxRating: data.maxRating,
+        minReviewCount: data.minReviewCount,
+        maxReviewCount: data.maxReviewCount,
+        mustHaveWebsite: data.mustHaveWebsite,
+        mustHavePhone: data.mustHavePhone,
+        multiLanguageSearch: data.multiLanguageSearch,
+        ...(data.enableMomentum && {
+          reviewMomentum: {
+            enabled: true,
+            period: data.momentumPeriod,
+            minReviewsInPeriod: data.momentumMinReviews,
+            type: data.momentumType,
+          }
+        }),
+      },
+
+      reviewFilters: {
+        enabled: data.enableReviews,
+        minStars: data.minStars,
+        maxStars: data.maxStars,
+        dayLimit: data.dayLimit,
+        mustHavePhotos: data.mustHavePhotos,
+      },
+
+      limits: {
+        maxBusinesses: data.businessLimit,
+        maxReviewsPerBusiness: data.maxReviewsPerBusiness,
+      },
+
+      enrichment: {
+        enabled: data.enableEnrichment,
+        apifyEnrichment: {
+          enabled: data.enableEnrichment,
+          scrapeWebsite: data.scrapeWebsite,
+          scrapeSocialMedia: data.scrapeSocialMedia,
+          maxPagesPerSite: 1,
+        },
+      },
+
+      output: {
+        includeReviews: data.enableReviews,
+        format: 'full',
+      },
+
+      // Legacy compatibility
+      useCached: useCached && cacheData?.hasCached,
+    }
+
+    onSearch(universalCriteria)
+  }
 
   const handleLocationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLocationValue(e.target.value)
     form.setValue('location', e.target.value)
   }
 
-
-  // Prevent hydration mismatch by only rendering on client
   if (!isMounted) {
     return (
       <div className="space-y-4">
@@ -234,346 +416,629 @@ export function EnhancedSearchForm({ onSearch, isExtracting }: SearchFormProps) 
   const selectedCategory = businessCategories.find(cat => cat.id === form.watch('category'))
 
   return (
-    <div className="space-y-4">
-
+    <div className="w-full space-y-3">
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4" suppressHydrationWarning>
-          {/* Unified Configuration - All Filters Visible */}
-          <Card className="p-6 space-y-6">
-            <div className="flex items-center gap-3">
-              <Search className="h-5 w-5 text-primary" />
-              <h3 className="text-lg font-semibold">Search Configuration</h3>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
+
+          {/* 🆕 USE CASE PRESETS - Compact */}
+          <Card className="p-3">
+            <div className="flex items-center gap-2 mb-2">
+              <Sparkles className="h-3.5 w-3.5 text-primary" />
+              <h3 className="text-xs font-semibold">Quick Presets</h3>
             </div>
-
-            {/* Primary Filters - Country, Category, Location */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              {/* Country Selection */}
-              <FormField
-                control={form.control}
-                name="countryCode"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="flex items-center gap-2 text-sm font-medium">
-                      <Globe className="h-4 w-4" />
-                      Target Country
-                    </FormLabel>
-                    <Select onValueChange={(value) => {
-                      field.onChange(value)
-                      const country = countries.find(c => c.value === value)
-                      if (country) {
-                        form.setValue('language', country.language)
-                        form.setValue('location', country.defaultLocation)
-                        setLocationValue(country.defaultLocation)
-                      }
-                    }} defaultValue={field.value}>
-                      <FormControl>
-                        <SelectTrigger className="h-11 bg-white/10 backdrop-blur-sm border border-white/20">
-                          <SelectValue placeholder="Select country" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        {countries.map((country) => (
-                          <SelectItem key={country.value} value={country.value}>
-                            {country.label}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              {/* Business Category */}
-              <FormField
-                control={form.control}
-                name="category"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="flex items-center gap-2 text-sm font-medium">
-                      <Building className="h-4 w-4" />
-                      Business Category
-                    </FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
-                      <FormControl>
-                        <SelectTrigger className="h-11 bg-white/10 backdrop-blur-sm border border-white/20">
-                          <SelectValue placeholder="Select category" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent className="max-h-[400px]">
-                        {/* Group categories by sector */}
-                        {Object.entries(
-                          businessCategories.reduce((acc, category) => {
-                            if (!acc[category.sector]) acc[category.sector] = []
-                            acc[category.sector].push(category)
-                            return acc
-                          }, {} as Record<string, typeof businessCategories>)
-                        ).map(([sector, categories]) => (
-                          <div key={sector} className="mb-2">
-                            <div className="px-2 py-1.5 text-xs font-semibold text-muted-foreground bg-white/5">
-                              {sector}
-                            </div>
-                            {categories.map((category) => (
-                              <SelectItem key={category.id} value={category.id}>
-                                <div className="flex items-center gap-2">
-                                  <span>{category.icon}</span>
-                                  <span>{category.label}</span>
-                                </div>
-                              </SelectItem>
-                            ))}
-                          </div>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              {/* Location Override */}
-              <FormField
-                control={form.control}
-                name="location"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="flex items-center gap-2 text-sm font-medium">
-                      <MapPin className="h-4 w-4" />
-                      Specific Location
-                    </FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="e.g., Amsterdam, Berlin..."
-                        value={locationValue}
-                        onChange={handleLocationChange}
-                        className="h-11 bg-white/10 backdrop-blur-sm border border-white/20"
-                      />
-                    </FormControl>
-                    <FormDescription className="text-xs">
-                      Optional: Target specific city or region
-                    </FormDescription>
-                  </FormItem>
-                )}
-              />
-            </div>
-
-            {/* Custom Category Input */}
-            <AnimatePresence>
-              {form.watch('category') === 'custom' && (
-                <motion.div
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: 'auto' }}
-                  exit={{ opacity: 0, height: 0 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <FormField
-                    control={form.control}
-                    name="category"
-                    render={() => (
-                      <FormItem>
-                        <FormLabel className="text-sm font-medium">Custom Category</FormLabel>
-                        <FormControl>
-                          <Input
-                            placeholder="e.g., yoga studios, tech companies, bakeries..."
-                            value={customCategory}
-                            onChange={(e) => setCustomCategory(e.target.value)}
-                            className="h-11 bg-white/10 backdrop-blur-sm border border-white/20"
-                          />
-                        </FormControl>
-                      </FormItem>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+              {Object.entries(USE_CASE_PRESETS).map(([key, preset]) => {
+                const Icon = preset.icon
+                const isActive = activePreset === key
+                return (
+                  <Button
+                    key={key}
+                    type="button"
+                    variant={isActive ? 'default' : 'outline'}
+                    size="sm"
+                    onClick={() => applyPreset(key as keyof typeof USE_CASE_PRESETS)}
+                    className={cn(
+                      "flex flex-col items-center gap-1 h-auto py-2 text-xs",
+                      isActive && "ring-2 ring-primary"
                     )}
-                  />
+                  >
+                    <Icon className="h-3.5 w-3.5" />
+                    <span className="font-medium leading-tight">{preset.name}</span>
+                    <span className="text-[10px] text-muted-foreground leading-tight">{preset.description}</span>
+                  </Button>
+                )
+              })}
+            </div>
+          </Card>
+
+          {/* Core Search Configuration - Compact Inline Layout */}
+          <Card className="p-3">
+            <div className="flex items-center gap-2 mb-3">
+              <Search className="h-3.5 w-3.5 text-primary" />
+              <h3 className="text-sm font-semibold">Search Configuration</h3>
+            </div>
+
+            {/* All fields in 2 rows */}
+            <div className="space-y-2">
+              {/* Row 1: Country, Category, Location */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
+                <FormField
+                  control={form.control}
+                  name="countryCode"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-xs font-medium">Country</FormLabel>
+                      <Select onValueChange={(value) => {
+                        field.onChange(value)
+                        const country = countries.find(c => c.value === value)
+                        if (country) {
+                          form.setValue('language', country.language)
+                          form.setValue('location', country.defaultLocation)
+                          setLocationValue(country.defaultLocation)
+                        }
+                      }} defaultValue={field.value}>
+                        <FormControl>
+                          <SelectTrigger className="h-8 text-xs">
+                            <SelectValue placeholder="Select country" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {countries.map((country) => (
+                            <SelectItem key={country.value} value={country.value} className="text-xs">
+                              {country.label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage className="text-xs" />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="category"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-xs font-medium">Category</FormLabel>
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <FormControl>
+                          <SelectTrigger className="h-8 text-xs">
+                            <SelectValue placeholder="Select category" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent className="max-h-[400px]">
+                          {businessCategories.map((category) => (
+                            <SelectItem key={category.id} value={category.id} className="text-xs">
+                              <div className="flex items-center gap-1.5">
+                                <span className="text-sm">{category.icon}</span>
+                                <span>{category.label}</span>
+                              </div>
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage className="text-xs" />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="location"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-xs font-medium">Location</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="e.g., Amsterdam"
+                          value={locationValue}
+                          onChange={handleLocationChange}
+                          className="h-8 text-xs"
+                        />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              {/* Row 2: Parameters */}
+              <div className="grid grid-cols-2 md:grid-cols-5 gap-2">
+                <FormField
+                  control={form.control}
+                  name="businessLimit"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-xs font-medium">Max Businesses</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="number"
+                          min="1"
+                          {...field}
+                          value={field.value || ''}
+                          onChange={(e) => field.onChange(parseInt(e.target.value) || 50)}
+                          className="h-8 text-xs"
+                        />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="minRating"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-xs font-medium">Min Rating</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="number"
+                          min="1"
+                          max="5"
+                          step="0.1"
+                          value={field.value || ''}
+                          onChange={(e) => field.onChange(parseFloat(e.target.value) || undefined)}
+                          className="h-8 text-xs"
+                          placeholder="3.5"
+                        />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="maxStars"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-xs font-medium">Max Stars</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="number"
+                          min="1"
+                          max="5"
+                          {...field}
+                          onChange={(e) => field.onChange(parseInt(e.target.value))}
+                          className="h-8 text-xs"
+                        />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="dayLimit"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-xs font-medium">Day Limit</FormLabel>
+                      <Select onValueChange={(value) => field.onChange(parseInt(value))} defaultValue={field.value.toString()}>
+                        <FormControl>
+                          <SelectTrigger className="h-8 text-xs">
+                            <SelectValue />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {timeRanges.map((range) => (
+                            <SelectItem key={range.value} value={range.value.toString()} className="text-xs">
+                              {range.label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="maxReviewsPerBusiness"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-xs font-medium">Reviews/Biz</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="number"
+                          min="1"
+                          max="50"
+                          {...field}
+                          onChange={(e) => field.onChange(parseInt(e.target.value) || 2)}
+                          className="h-8 text-xs"
+                        />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+              </div>
+            </div>
+          </Card>
+
+          {/* 🆕 ADVANCED OPTIONS */}
+          <Card className="p-2">
+            <Button
+              type="button"
+              variant="ghost"
+              onClick={() => setShowAdvanced(!showAdvanced)}
+              className="w-full flex items-center justify-between p-2 hover:bg-white/5"
+            >
+              <div className="flex items-center gap-2">
+                <Filter className="h-3.5 w-3.5" />
+                <span className="text-xs font-semibold">Advanced Options</span>
+                {(form.watch('enableEnrichment') || form.watch('enableMomentum') || !form.watch('enableReviews')) && (
+                  <span className="text-[10px] bg-primary/20 text-primary px-1.5 py-0.5 rounded">Active</span>
+                )}
+              </div>
+              {showAdvanced ? <ChevronUp className="h-3.5 w-3.5" /> : <ChevronDown className="h-3.5 w-3.5" />}
+            </Button>
+
+            <AnimatePresence>
+              {showAdvanced && (
+                <motion.div
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: 'auto', opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                  className="mt-2 space-y-3 overflow-hidden"
+                >
+                  {/* Review Options */}
+                  <div className="space-y-2">
+                    <h4 className="text-xs font-semibold flex items-center gap-1.5">
+                      <Star className="h-3 w-3" />
+                      Review Options
+                    </h4>
+                    <div className="grid gap-2">
+                      <FormField
+                        control={form.control}
+                        name="enableReviews"
+                        render={({ field }) => (
+                          <FormItem className="flex items-center justify-between rounded-lg border p-2">
+                            <div>
+                              <FormLabel className="text-xs">Extract Reviews</FormLabel>
+                              <FormDescription className="text-[10px]">
+                                Disable for lead gen only (saves $0.02/biz)
+                              </FormDescription>
+                            </div>
+                            <FormControl>
+                              <Switch
+                                checked={field.value}
+                                onCheckedChange={field.onChange}
+                              />
+                            </FormControl>
+                          </FormItem>
+                        )}
+                      />
+
+                      {form.watch('enableReviews') && (
+                        <>
+                          <FormField
+                            control={form.control}
+                            name="mustHavePhotos"
+                            render={({ field }) => (
+                              <FormItem className="flex items-center justify-between rounded-lg border p-2">
+                                <div>
+                                  <FormLabel className="text-xs">Require Photos (Optional)</FormLabel>
+                                  <FormDescription className="text-[10px]">
+                                    Only return reviews with images. Default: OFF (photos are optional)
+                                  </FormDescription>
+                                </div>
+                                <FormControl>
+                                  <Switch
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                  />
+                                </FormControl>
+                              </FormItem>
+                            )}
+                          />
+
+                          {/* Review Qualification Rules Explanation */}
+                          <div className="rounded-lg border border-blue-500/20 bg-blue-500/10 p-3 space-y-2">
+                            <h4 className="text-xs font-semibold text-blue-400 flex items-center gap-1.5">
+                              <Star className="h-3 w-3" />
+                              Review Qualification Rules
+                            </h4>
+                            <div className="space-y-1.5 text-[10px] text-muted-foreground">
+                              {form.watch('mustHavePhotos') ? (
+                                // Image search mode - NO time limit
+                                <>
+                                  <div className="flex items-start gap-1.5">
+                                    <span className="text-blue-400 font-bold mt-0.5">✓</span>
+                                    <div>
+                                      <span className="font-medium text-blue-300">Active Rule:</span> 1-3⭐ reviews
+                                      with image (any age, <span className="text-yellow-400 font-semibold">no time limit</span>)
+                                    </div>
+                                  </div>
+                                  <div className="pt-1 border-t border-blue-500/20 text-blue-300/80 italic">
+                                    Searching ALL reviews for images regardless of age. Day limit is ignored.
+                                  </div>
+                                </>
+                              ) : (
+                                // Text search mode - WITH time limit
+                                <>
+                                  <div className="flex items-start gap-1.5">
+                                    <span className="text-blue-400 font-bold mt-0.5">✓</span>
+                                    <div>
+                                      <span className="font-medium text-blue-300">Active Rule:</span> 1-3⭐ reviews,
+                                      ≤{form.watch('dayLimit')} days old, must have text OR image
+                                    </div>
+                                  </div>
+                                  <div className="pt-1 border-t border-blue-500/20 text-blue-300/80 italic">
+                                    Searching reviews within {form.watch('dayLimit')}-day timeframe.
+                                  </div>
+                                </>
+                              )}
+                            </div>
+                          </div>
+                        </>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Enrichment Options */}
+                  <div className="space-y-2 pt-2 border-t">
+                    <h4 className="text-xs font-semibold flex items-center gap-1.5">
+                      <Mail className="h-3 w-3" />
+                      Contact Enrichment
+                    </h4>
+                    <div className="grid gap-2">
+                      <FormField
+                        control={form.control}
+                        name="enableEnrichment"
+                        render={({ field }) => (
+                          <FormItem className="flex items-center justify-between rounded-lg border p-2">
+                            <div>
+                              <FormLabel className="text-xs">Enable Apify Enrichment</FormLabel>
+                              <FormDescription className="text-[10px]">
+                                Get emails, phones, social (+$0.005/biz)
+                              </FormDescription>
+                            </div>
+                            <FormControl>
+                              <Switch
+                                checked={field.value}
+                                onCheckedChange={field.onChange}
+                              />
+                            </FormControl>
+                          </FormItem>
+                        )}
+                      />
+
+                      {form.watch('enableEnrichment') && (
+                        <div className="grid grid-cols-2 gap-2">
+                          <FormField
+                            control={form.control}
+                            name="scrapeWebsite"
+                            render={({ field }) => (
+                              <FormItem className="flex items-center justify-between rounded-lg border p-1.5">
+                                <FormLabel className="text-[10px]">Websites</FormLabel>
+                                <FormControl>
+                                  <Switch
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                  />
+                                </FormControl>
+                              </FormItem>
+                            )}
+                          />
+
+                          <FormField
+                            control={form.control}
+                            name="scrapeSocialMedia"
+                            render={({ field }) => (
+                              <FormItem className="flex items-center justify-between rounded-lg border p-1.5">
+                                <FormLabel className="text-[10px]">Social Media</FormLabel>
+                                <FormControl>
+                                  <Switch
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                  />
+                                </FormControl>
+                              </FormItem>
+                            )}
+                          />
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Business Filters */}
+                  <div className="space-y-2 pt-2 border-t">
+                    <h4 className="text-xs font-semibold flex items-center gap-1.5">
+                      <Filter className="h-3 w-3" />
+                      Business Filters
+                    </h4>
+                    <div className="grid grid-cols-2 gap-2">
+                      <FormField
+                        control={form.control}
+                        name="minReviewCount"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-[10px]">Min Reviews</FormLabel>
+                            <FormControl>
+                              <Input
+                                type="number"
+                                min="0"
+                                value={field.value || ''}
+                                onChange={(e) => field.onChange(parseInt(e.target.value) || undefined)}
+                                className="h-7 text-xs"
+                                placeholder="Any"
+                              />
+                            </FormControl>
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name="maxReviewCount"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-[10px]">Max Reviews</FormLabel>
+                            <FormControl>
+                              <Input
+                                type="number"
+                                min="0"
+                                value={field.value || ''}
+                                onChange={(e) => field.onChange(parseInt(e.target.value) || undefined)}
+                                className="h-7 text-xs"
+                                placeholder="Any"
+                              />
+                            </FormControl>
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name="mustHaveWebsite"
+                        render={({ field }) => (
+                          <FormItem className="flex items-center justify-between rounded-lg border p-1.5">
+                            <FormLabel className="text-[10px]">Must Have Website</FormLabel>
+                            <FormControl>
+                              <Switch
+                                checked={field.value}
+                                onCheckedChange={field.onChange}
+                              />
+                            </FormControl>
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name="mustHavePhone"
+                        render={({ field }) => (
+                          <FormItem className="flex items-center justify-between rounded-lg border p-1.5">
+                            <FormLabel className="text-[10px]">Must Have Phone</FormLabel>
+                            <FormControl>
+                              <Switch
+                                checked={field.value}
+                                onCheckedChange={field.onChange}
+                              />
+                            </FormControl>
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name="multiLanguageSearch"
+                        render={({ field }) => (
+                          <FormItem className="col-span-2 flex items-center justify-between rounded-lg border p-2">
+                            <div>
+                              <FormLabel className="text-xs">Multi-Language Search</FormLabel>
+                              <FormDescription className="text-[10px]">
+                                Search in both local + English (2× cost, better discovery)
+                              </FormDescription>
+                            </div>
+                            <FormControl>
+                              <Switch
+                                checked={field.value}
+                                onCheckedChange={field.onChange}
+                              />
+                            </FormControl>
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+                  </div>
+
+                  {/* Momentum Tracking */}
+                  <div className="space-y-2 pt-2 border-t">
+                    <h4 className="text-xs font-semibold flex items-center gap-1.5">
+                      <TrendingUp className="h-3 w-3" />
+                      Review Momentum
+                    </h4>
+                    <FormField
+                      control={form.control}
+                      name="enableMomentum"
+                      render={({ field }) => (
+                        <FormItem className="flex items-center justify-between rounded-lg border p-2">
+                          <div>
+                            <FormLabel className="text-xs">Track Momentum</FormLabel>
+                            <FormDescription className="text-[10px]">
+                              Find trending/declining businesses
+                            </FormDescription>
+                          </div>
+                          <FormControl>
+                            <Switch
+                              checked={field.value}
+                              onCheckedChange={field.onChange}
+                            />
+                          </FormControl>
+                        </FormItem>
+                      )}
+                    />
+
+                    {form.watch('enableMomentum') && (
+                      <div className="grid grid-cols-2 gap-2">
+                        <FormField
+                          control={form.control}
+                          name="momentumPeriod"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel className="text-[10px]">Period (days)</FormLabel>
+                              <FormControl>
+                                <Input
+                                  type="number"
+                                  min="7"
+                                  max="90"
+                                  {...field}
+                                  onChange={(e) => field.onChange(parseInt(e.target.value) || 30)}
+                                  className="h-7 text-xs"
+                                />
+                              </FormControl>
+                            </FormItem>
+                          )}
+                        />
+
+                        <FormField
+                          control={form.control}
+                          name="momentumMinReviews"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel className="text-[10px]">Min Reviews</FormLabel>
+                              <FormControl>
+                                <Input
+                                  type="number"
+                                  min="1"
+                                  {...field}
+                                  onChange={(e) => field.onChange(parseInt(e.target.value) || 5)}
+                                  className="h-7 text-xs"
+                                />
+                              </FormControl>
+                            </FormItem>
+                          )}
+                        />
+
+                        <FormField
+                          control={form.control}
+                          name="momentumType"
+                          render={({ field }) => (
+                            <FormItem className="col-span-2">
+                              <FormLabel className="text-[10px]">Trend Type</FormLabel>
+                              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                <FormControl>
+                                  <SelectTrigger className="h-7 text-xs">
+                                    <SelectValue />
+                                  </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                  <SelectItem value="any" className="text-xs">Any Trend</SelectItem>
+                                  <SelectItem value="growing" className="text-xs">Growing (50%+ increase)</SelectItem>
+                                  <SelectItem value="declining" className="text-xs">Declining (50%+ decrease)</SelectItem>
+                                  <SelectItem value="spike" className="text-xs">Spike (200%+ increase)</SelectItem>
+                                  <SelectItem value="stable" className="text-xs">Stable (±50%)</SelectItem>
+                                </SelectContent>
+                              </Select>
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+                    )}
+                  </div>
                 </motion.div>
               )}
             </AnimatePresence>
-
-            {/* Filter Parameters */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    {/* Min Business Score */}
-                    <FormField
-                      control={form.control}
-                      name="minRating"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className="flex items-center gap-1 text-sm font-medium">
-                            <Star className="h-4 w-4" />
-                            Min Business Score
-                          </FormLabel>
-                          <FormControl>
-                            <Input
-                              type="number"
-                              min="1"
-                              max="5"
-                              step="0.1"
-                              value={field.value || ''}
-                              onChange={(e) => field.onChange(parseFloat(e.target.value) || undefined)}
-                              className="h-11 bg-white/10 backdrop-blur-sm border border-white/20"
-                              placeholder="e.g. 3.5"
-                            />
-                          </FormControl>
-                          <FormDescription className="text-xs">
-                            Filter out businesses with poor overall ratings
-                          </FormDescription>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-
-                    {/* Max Review Stars */}
-                    <FormField
-                      control={form.control}
-                      name="maxStars"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className="flex items-center gap-1 text-sm font-medium">
-                            <Star className="h-4 w-4" />
-                            Max Review Stars
-                          </FormLabel>
-                          <FormControl>
-                            <Input
-                              type="number"
-                              min="1"
-                              max="5"
-                              {...field}
-                              onChange={(e) => field.onChange(parseInt(e.target.value))}
-                              className="h-11 bg-white/10 backdrop-blur-sm border border-white/20"
-                            />
-                          </FormControl>
-                          <FormDescription className="text-xs">
-                            Capture only negative reviews (3 or lower)
-                          </FormDescription>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-
-                    {/* Time Range */}
-                    <FormField
-                      control={form.control}
-                      name="dayLimit"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className="flex items-center gap-1 text-sm font-medium">
-                            <Calendar className="h-4 w-4" />
-                            Review Age
-                          </FormLabel>
-                          <Select onValueChange={(value) => field.onChange(parseInt(value))} defaultValue={field.value.toString()}>
-                            <FormControl>
-                              <SelectTrigger className="h-11 bg-white/10 backdrop-blur-sm border border-white/20">
-                                <SelectValue />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                              {timeRanges.map((range) => (
-                                <SelectItem key={range.value} value={range.value.toString()}>
-                                  <span className={range.color}>{range.label}</span>
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                          <FormDescription className="text-xs">
-                            How recent the reviews should be
-                          </FormDescription>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-
-                    {/* Max Businesses to Crawl */}
-                    <FormField
-                      control={form.control}
-                      name="businessLimit"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className="flex items-center gap-1 text-sm font-medium">
-                            <Building className="h-4 w-4" />
-                            Max Businesses
-                          </FormLabel>
-                          <FormControl>
-                            <Input
-                              type="number"
-                              min="1"
-                              {...field}
-                              value={field.value || ''}
-                              onChange={(e) => {
-                                const value = e.target.value
-                                field.onChange(value === '' ? undefined : parseInt(value) || 1)
-                              }}
-                              className="h-11 bg-white/10 backdrop-blur-sm border border-white/20"
-                              placeholder="No limit - set as high as needed"
-                            />
-                          </FormControl>
-                          <FormDescription className="text-xs">
-                            No maximum limit - you control the budget (default: 50)
-                          </FormDescription>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-
-                    {/* Reviews Per Business */}
-                    <FormField
-                      control={form.control}
-                      name="maxReviewsPerBusiness"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className="flex items-center gap-1 text-sm font-medium">
-                            <Star className="h-4 w-4" />
-                            Reviews Per Business
-                          </FormLabel>
-                          <FormControl>
-                            <Input
-                              type="number"
-                              min="1"
-                              max="50"
-                              {...field}
-                              value={field.value || ''}
-                              onChange={(e) => {
-                                const value = e.target.value
-                                field.onChange(value === '' ? undefined : parseInt(value) || 1)
-                              }}
-                              className="h-11 bg-white/10 backdrop-blur-sm border border-white/20"
-                              placeholder="2 reviews (default)"
-                            />
-                          </FormControl>
-                          <FormDescription className="text-xs">
-                            Reviews to extract per business (default: 2, max: 50)
-                          </FormDescription>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-
-            </div>
-
-            {/* Search Summary */}
-            <Card className="p-3 bg-white/5 backdrop-blur-sm border border-white/10">
-              <div className="flex items-center gap-1 text-xs text-foreground flex-wrap">
-                {(() => {
-                  const selectedCategory = businessCategories.find(cat => cat.id === form.watch('category'))
-                  const country = countries.find(c => c.value === form.watch('countryCode'))
-                  const location = locationValue || form.watch('location')
-                  const targetLocation = location !== country?.defaultLocation ? location : country?.flag || '🌍'
-
-                  const parts = [
-                    `${selectedCategory?.icon || '🔍'} ${selectedCategory?.label || 'Select Category'}`,
-                    `Target: ${targetLocation}`,
-                    `Business score: ${form.watch('minRating') ? `≥${form.watch('minRating')}⭐` : 'Any'}`,
-                    `Review stars: ≤${form.watch('maxStars')}⭐`,
-                    `Timeframe: ${form.watch('dayLimit')} days`,
-                    `Max businesses: ${form.watch('businessLimit')}`
-                  ]
-
-                  return parts.map((part, index) => (
-                    <span key={index} className="inline-flex items-center">
-                      {part}
-                      {index < parts.length - 1 && (
-                        <span className="mx-2 text-muted-foreground">|</span>
-                      )}
-                    </span>
-                  ))
-                })()}
-              </div>
-            </Card>
           </Card>
 
           {/* Cache Detection Banner */}
@@ -594,31 +1059,25 @@ export function EnhancedSearchForm({ onSearch, isExtracting }: SearchFormProps) 
             />
           )}
 
-          {/* Prominent Submit Button */}
-          <div className="flex justify-center pt-2">
-            <motion.div
-              whileTap={{ scale: 0.98 }}
-              whileHover={{ scale: 1.02 }}
+          {/* Submit Button - Normal Size */}
+          <div className="flex justify-center pt-1">
+            <Button
+              type="submit"
+              disabled={isExtracting}
+              className="w-full md:w-auto px-8"
             >
-              <Button
-                type="submit"
-                disabled={isExtracting}
-                size="lg"
-                className="min-w-[300px] h-14 bg-primary text-primary-foreground border-0 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-200"
-              >
-                {isExtracting ? (
-                  <>
-                    <Loader2 className="mr-3 h-6 w-6 animate-spin" />
-                    Extracting Data...
-                  </>
-                ) : (
-                  <>
-                    <Zap className="mr-3 h-6 w-6" />
-                    Start AI Extraction
-                  </>
-                )}
-              </Button>
-            </motion.div>
+              {isExtracting ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Extracting...
+                </>
+              ) : (
+                <>
+                  <Zap className="mr-2 h-4 w-4" />
+                  Start Extraction
+                </>
+              )}
+            </Button>
           </div>
         </form>
       </Form>

@@ -12,6 +12,20 @@ interface SearchCriteria {
   dayLimit?: number
   businessLimit?: number
   maxReviewsPerBusiness?: number
+  // Universal format support
+  limits?: {
+    maxBusinesses?: number
+    maxReviewsPerBusiness?: number
+  }
+  reviewFilters?: {
+    enabled?: boolean
+    maxStars?: number
+    dayLimit?: number
+  }
+  enrichment?: {
+    enabled?: boolean
+  }
+  useCached?: boolean
 }
 
 interface ExtractionConfirmationModalProps {
@@ -19,28 +33,82 @@ interface ExtractionConfirmationModalProps {
   onClose: () => void
   onConfirm: () => void
   criteria: SearchCriteria | null
+  useCached?: boolean
 }
 
 export function ExtractionConfirmationModal({
   isOpen,
   onClose,
   onConfirm,
-  criteria
+  criteria,
+  useCached = false
 }: ExtractionConfirmationModalProps) {
   if (!criteria) return null
 
-  const estimatedCost = Math.ceil((criteria.businessLimit || 50) / 50) * 5 // Rough $5 per 50 businesses
+  // Helper functions to get values from either universal or legacy format
+  const getBusinessLimit = () => criteria.limits?.maxBusinesses || criteria.businessLimit || 50
+  const getMaxReviewsPerBusiness = () => criteria.limits?.maxReviewsPerBusiness || criteria.maxReviewsPerBusiness || 5
+  const getMaxStars = () => criteria.reviewFilters?.maxStars || criteria.maxStars || 3
+  const getDayLimit = () => criteria.reviewFilters?.dayLimit || criteria.dayLimit || 14
+
+  const businessLimit = getBusinessLimit()
+  const maxReviewsPerBusiness = getMaxReviewsPerBusiness()
+
+  // ✅ Detect cache mode from prop or criteria
+  const isCacheMode = useCached || criteria.useCached || false
+
+  // ✅ Detect enrichment and review extraction
+  const enrichmentEnabled = criteria.enrichment?.enabled || false
+  const reviewsEnabled = criteria.reviewFilters?.enabled !== false // Default true for legacy
+
+  // 🎯 DYNAMIC COST CALCULATION
+  let estimatedCost = 0
+  let costBreakdown = {
+    businesses: 0,
+    reviews: 0,
+    enrichment: 0
+  }
+
+  if (isCacheMode) {
+    // Cache mode: $0 cost
+    estimatedCost = 0
+  } else {
+    // Business scraping cost
+    const businessCost = enrichmentEnabled ? 0.009 : 0.004
+    costBreakdown.businesses = businessLimit * businessCost
+
+    // Review extraction cost (only if enabled)
+    if (reviewsEnabled) {
+      const estimatedReviewsTotal = businessLimit * maxReviewsPerBusiness
+      costBreakdown.reviews = estimatedReviewsTotal * 0.02
+    }
+
+    // Total cost
+    estimatedCost = costBreakdown.businesses + costBreakdown.reviews + costBreakdown.enrichment
+  }
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-2xl">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 text-xl">
-            <AlertTriangle className="h-6 w-6 text-amber-500" />
-            Confirm Extraction Parameters
+            {isCacheMode ? (
+              <>
+                <CheckCircle2 className="h-6 w-6 text-green-500" />
+                Load Cached Businesses
+              </>
+            ) : (
+              <>
+                <AlertTriangle className="h-6 w-6 text-amber-500" />
+                Confirm Extraction Parameters
+              </>
+            )}
           </DialogTitle>
           <DialogDescription>
-            Please verify these search parameters before starting the extraction. This will prevent incorrect searches and wasted API credits.
+            {isCacheMode
+              ? 'Verify these search parameters. Businesses will be loaded instantly from cache at no cost.'
+              : 'Please verify these search parameters before starting the extraction. This will prevent incorrect searches and wasted API credits.'
+            }
           </DialogDescription>
         </DialogHeader>
 
@@ -76,7 +144,7 @@ export function ExtractionConfirmationModal({
               <div className="flex-1">
                 <p className="text-sm font-medium text-muted-foreground">Maximum Review Rating</p>
                 <p className="text-lg font-semibold text-foreground">
-                  ≤ {criteria.maxStars || 3} stars
+                  ≤ {getMaxStars()} stars
                 </p>
               </div>
             </div>
@@ -89,7 +157,7 @@ export function ExtractionConfirmationModal({
               <div className="flex-1">
                 <p className="text-sm font-medium text-muted-foreground">Time Window</p>
                 <p className="text-lg font-semibold text-foreground">
-                  Last {criteria.dayLimit || 14} days
+                  Last {getDayLimit()} days
                 </p>
               </div>
             </div>
@@ -102,32 +170,59 @@ export function ExtractionConfirmationModal({
               <div className="flex-1">
                 <p className="text-sm font-medium text-muted-foreground">Business Limit</p>
                 <p className="text-lg font-semibold text-foreground">
-                  {criteria.businessLimit || 50} businesses
+                  {businessLimit} businesses
                 </p>
                 <p className="text-xs text-muted-foreground mt-1">
-                  Up to {criteria.maxReviewsPerBusiness || 5} reviews per business
+                  Up to {getMaxReviewsPerBusiness()} reviews per business
                 </p>
               </div>
             </div>
           </CardContent>
         </Card>
 
-        {/* Cost Estimate */}
-        <Card className="border-amber-200 bg-amber-50 dark:bg-amber-950/20">
-          <CardContent className="pt-6">
-            <div className="flex items-start gap-3">
-              <AlertTriangle className="h-5 w-5 text-amber-600 mt-0.5" />
-              <div className="flex-1">
-                <p className="font-medium text-amber-900 dark:text-amber-100">
-                  Estimated Cost: ~${estimatedCost}
-                </p>
-                <p className="text-sm text-amber-700 dark:text-amber-300 mt-1">
-                  This extraction will consume Apify API credits. Make sure these parameters are correct.
-                </p>
+        {/* Cost Estimate - Different for Cache vs Scraping */}
+        {isCacheMode ? (
+          <Card className="border-green-200 bg-green-50 dark:bg-green-950/20">
+            <CardContent className="pt-6">
+              <div className="flex items-start gap-3">
+                <CheckCircle2 className="h-5 w-5 text-green-600 mt-0.5" />
+                <div className="flex-1">
+                  <p className="font-medium text-green-900 dark:text-green-100">
+                    Cache Mode: Instant Load, $0 Cost
+                  </p>
+                  <p className="text-sm text-green-700 dark:text-green-300 mt-1">
+                    Loading from cached data. No API calls will be made.
+                  </p>
+                </div>
               </div>
-            </div>
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
+        ) : (
+          <Card className="border-amber-200 bg-amber-50 dark:bg-amber-950/20">
+            <CardContent className="pt-6">
+              <div className="flex items-start gap-3">
+                <AlertTriangle className="h-5 w-5 text-amber-600 mt-0.5" />
+                <div className="flex-1">
+                  <p className="font-medium text-amber-900 dark:text-amber-100">
+                    Estimated Cost: ${estimatedCost.toFixed(2)}
+                  </p>
+                  <div className="text-sm text-amber-700 dark:text-amber-300 mt-2 space-y-1">
+                    <div>• Businesses: ${costBreakdown.businesses.toFixed(2)} ({businessLimit} × ${enrichmentEnabled ? '0.009' : '0.004'})</div>
+                    {reviewsEnabled && (
+                      <div>• Reviews: ${costBreakdown.reviews.toFixed(2)} (up to {businessLimit * maxReviewsPerBusiness} × $0.02)</div>
+                    )}
+                    {!reviewsEnabled && (
+                      <div className="text-green-600 dark:text-green-400">• Reviews: Disabled (saves ${(businessLimit * maxReviewsPerBusiness * 0.02).toFixed(2)})</div>
+                    )}
+                  </div>
+                  <p className="text-sm text-amber-700 dark:text-amber-300 mt-2">
+                    This will consume Apify API credits. Verify parameters are correct.
+                  </p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        )}
 
         {/* Confirmation Checklist */}
         <Card>

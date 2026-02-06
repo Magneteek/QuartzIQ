@@ -3,13 +3,15 @@
  *
  * Coordinates the entire contact enrichment workflow:
  * 1. Claude website research (FREE - 30-40% success rate)
- * 2. Apollo Search API (if needed - find executives)
- * 3. Apollo Enrichment API (reveal contact details)
- * 4. Database storage and usage tracking
+ * 2. Apify leads enrichment ($0.005 per lead - 25-35% success rate)
+ * 3. Apollo Search API (if needed - find executives)
+ * 4. Apollo Enrichment API (reveal contact details)
+ * 5. Database storage and usage tracking
  *
  * Cost Optimization Strategy:
  * - Try Claude first (free) → saves 40% of API costs
- * - If Claude finds name → skip Search API (1 call instead of 2)
+ * - Try Apify second ($0.005) → saves 50-70% vs Apollo
+ * - If Claude/Apify finds name → skip Apollo Search API
  * - Target 1 executive per business
  * - Track all API usage for cost analysis
  */
@@ -17,6 +19,7 @@
 import { Pool, PoolClient } from 'pg';
 import { ApolloClient, ApolloPerson, ApolloAPIUsage } from './apollo-client';
 import { ClaudeWebsiteResearcher, ExecutiveInfo, WebsiteResearchResult } from './claude-website-researcher';
+import { ApifyLeadsClient, ApifyLead, ApifyLeadsResult } from './apify-leads-client';
 
 export interface Business {
   id: string;
@@ -49,7 +52,7 @@ export interface EnrichmentResult {
   contactsEnriched: number;
   totalApiCalls: number;
   totalCostUsd: number;
-  method: 'claude_only' | 'enrich_only' | 'search_then_enrich';
+  method: 'claude_only' | 'apify_only' | 'enrich_only' | 'search_then_enrich';
   durationMs: number;
   error?: string;
 }
@@ -67,7 +70,8 @@ export interface ContactEnrichment {
   apollo_person_id: string | null;
   apollo_search_cost: number;
   apollo_enrich_cost: number;
-  reveal_method: 'claude_only' | 'enrich_only' | 'search_then_enrich';
+  apify_leads_cost: number;
+  reveal_method: 'claude_only' | 'apify_only' | 'enrich_only' | 'search_then_enrich';
   enrichment_status: 'completed' | 'failed';
   confidence_score: number;
   source: string;
@@ -80,16 +84,19 @@ export interface ContactEnrichment {
 export class ContactEnrichmentOrchestrator {
   private apollo: ApolloClient;
   private claude: ClaudeWebsiteResearcher;
+  private apify: ApifyLeadsClient | null;
   private db: Pool;
 
   constructor(
     apolloApiKey: string,
     apolloMonthlyLimit: number = 100,
-    claudeApiKey?: string
+    claudeApiKey?: string,
+    apifyApiKey?: string
   ) {
     // Initialize API clients
     this.apollo = new ApolloClient(apolloApiKey, apolloMonthlyLimit);
     this.claude = new ClaudeWebsiteResearcher(claudeApiKey);
+    this.apify = apifyApiKey ? new ApifyLeadsClient(apifyApiKey) : null;
 
     // Initialize database connection
     this.db = new Pool({
@@ -169,6 +176,7 @@ export class ContactEnrichmentOrchestrator {
 
           // Save contact without Apollo API
           const contact = await this.saveContact(business.id, {
+            business_id: business.id,
             first_name: executive.firstName,
             last_name: executive.lastName,
             full_name: executive.fullName,
@@ -180,6 +188,7 @@ export class ContactEnrichmentOrchestrator {
             apollo_person_id: null,
             apollo_search_cost: 0,
             apollo_enrich_cost: 0,
+            apify_leads_cost: 0,
             reveal_method: 'claude_only',
             enrichment_status: 'completed',
             confidence_score: executive.confidence,
@@ -225,6 +234,7 @@ export class ContactEnrichmentOrchestrator {
 
           // Save enriched contact
           const contact = await this.saveContact(business.id, {
+            business_id: business.id,
             first_name: person.first_name,
             last_name: person.last_name,
             full_name: person.name,
@@ -236,6 +246,7 @@ export class ContactEnrichmentOrchestrator {
             apollo_person_id: person.id,
             apollo_search_cost: 0,
             apollo_enrich_cost: usage.costUsd,
+            apify_leads_cost: 0,
             reveal_method: 'enrich_only',
             enrichment_status: 'completed',
             confidence_score: executive.confidence,
@@ -259,8 +270,67 @@ export class ContactEnrichmentOrchestrator {
         }
       }
 
-      // 4. Claude failed or Apollo enrichment failed → Full Apollo workflow (2 API calls)
-      console.log('\n🔎 Step 2: Apollo Search API (finding executives)...');
+      // 3. Try Apify Leads Enrichment ($0.005 per lead) - cheaper than Apollo!
+      if (this.apify && business.place_id) {
+        console.log('\n🔍 Step 2: Apify Leads Enrichment ($0.005 per lead)...');
+        const apifyResult = await this.apify.enrichBusinessLeads(business.place_id, 1, ['executive', 'management']);
+
+        totalApiCalls += 1; // Count as 1 API call
+        totalCostUsd += apifyResult.costUsd;
+
+        if (apifyResult.success && apifyResult.leads.length > 0) {
+          const lead = apifyResult.leads[0];
+          console.log(`✅ Apify found lead: ${lead.name}`);
+          console.log(`   Email: ${lead.email || 'N/A'}`);
+          console.log(`   Phone: ${lead.phoneNumber || 'N/A'}`);
+          console.log(`   Title: ${lead.jobTitle || 'N/A'}`);
+
+          // Save contact from Apify
+          const contact = await this.saveContact(business.id, {
+            business_id: business.id,
+            first_name: lead.firstName || '',
+            last_name: lead.lastName || '',
+            full_name: lead.name,
+            title: lead.jobTitle || null,
+            seniority: null,
+            email: lead.email || null,
+            phone: lead.phoneNumber || null,
+            linkedin_url: lead.linkedInUrl || null,
+            apollo_person_id: null,
+            apollo_search_cost: 0,
+            apollo_enrich_cost: 0,
+            apify_leads_cost: apifyResult.costUsd,
+            reveal_method: 'apify_only',
+            enrichment_status: 'completed',
+            confidence_score: 0.85, // High confidence from Apify
+            source: 'apify',
+          });
+
+          const durationMs = Date.now() - startTime;
+          console.log(`\n✅ Enrichment complete via Apify! Cost: $${apifyResult.costUsd.toFixed(4)}`);
+
+          return {
+            success: true,
+            businessId: business.id,
+            businessName: business.name,
+            executivesFound: 1,
+            contactsEnriched: 1,
+            totalApiCalls,
+            totalCostUsd,
+            method: 'apify_only',
+            durationMs,
+          };
+        } else {
+          console.log('⚠️  Apify enrichment failed or no leads found');
+        }
+      } else if (!this.apify) {
+        console.log('⚠️  Apify not configured, skipping...');
+      } else if (!business.place_id) {
+        console.log('⚠️  No place_id available for Apify enrichment');
+      }
+
+      // 4. Claude & Apify failed → Full Apollo workflow (2 API calls)
+      console.log('\n🔎 Step 3: Apollo Search API (finding executives)...');
       const { people, usage: searchUsage } = await this.apollo.searchPeopleByDomain(domain, 1);
 
       totalApiCalls += 1;
@@ -331,6 +401,7 @@ export class ContactEnrichmentOrchestrator {
 
       // 6. Save enriched contact
       const contact = await this.saveContact(business.id, {
+        business_id: business.id,
         first_name: enrichedPerson.first_name,
         last_name: enrichedPerson.last_name,
         full_name: enrichedPerson.name,
@@ -342,6 +413,7 @@ export class ContactEnrichmentOrchestrator {
         apollo_person_id: enrichedPerson.id,
         apollo_search_cost: searchUsage.costUsd,
         apollo_enrich_cost: enrichUsage.costUsd,
+        apify_leads_cost: 0,
         reveal_method: 'search_then_enrich',
         enrichment_status: 'completed',
         confidence_score: 0.9,
@@ -429,9 +501,9 @@ export class ContactEnrichmentOrchestrator {
       `INSERT INTO contact_enrichments (
         business_id, first_name, last_name, full_name, title, seniority,
         email, phone, linkedin_url, apollo_person_id,
-        apollo_search_cost, apollo_enrich_cost, reveal_method,
+        apollo_search_cost, apollo_enrich_cost, apify_leads_cost, reveal_method,
         enrichment_status, confidence_score, source, extracted_at
-      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, NOW())
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, NOW())
       RETURNING *`,
       [
         businessId,
@@ -446,6 +518,7 @@ export class ContactEnrichmentOrchestrator {
         contact.apollo_person_id,
         contact.apollo_search_cost,
         contact.apollo_enrich_cost,
+        contact.apify_leads_cost,
         contact.reveal_method,
         contact.enrichment_status,
         contact.confidence_score,
@@ -483,13 +556,22 @@ export class ContactEnrichmentOrchestrator {
   async getNextEnrichmentJob(): Promise<EnrichmentQueueItem | null> {
     const result = await this.db.query(
       `SELECT
-        eq.id,
+        eq.id as queue_id,
         eq.organization_id,
         eq.business_id,
         eq.priority,
         eq.target_executive_count,
         eq.enrichment_config,
-        b.id, b.place_id, b.name, b.website, b.phone, b.address, b.city, b.country_code, b.rating, b.reviews_count
+        b.id as business_id_actual,
+        b.place_id,
+        b.name,
+        b.website,
+        b.phone,
+        b.address,
+        b.city,
+        b.country_code,
+        b.rating,
+        b.reviews_count
       FROM enrichment_queue eq
       INNER JOIN businesses b ON b.id = eq.business_id
       WHERE eq.status = 'queued'
@@ -504,14 +586,14 @@ export class ContactEnrichmentOrchestrator {
 
     const row = result.rows[0];
     return {
-      id: row.id,
+      id: row.queue_id,
       organization_id: row.organization_id,
       business_id: row.business_id,
       priority: row.priority,
       target_executive_count: row.target_executive_count,
       enrichment_config: row.enrichment_config,
       business: {
-        id: row.id,
+        id: row.business_id_actual,
         place_id: row.place_id,
         name: row.name,
         website: row.website,

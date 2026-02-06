@@ -80,7 +80,7 @@ class ReviewCacheService {
     );
 
     // Check which hashes exist in database
-    const result = await query<{ review_hash: string }>(`
+    const result = await query(`
       SELECT review_hash
       FROM reviews
       WHERE business_id = $1 AND review_hash = ANY($2::varchar[])
@@ -140,7 +140,7 @@ class ReviewCacheService {
       review.published_date
     );
 
-    const result = await query<{ id: string }>(`
+    const result = await query(`
       INSERT INTO reviews (
         business_id, review_id, reviewer_name, rating, text,
         published_date, sentiment_score, sentiment_label,
@@ -203,7 +203,7 @@ class ReviewCacheService {
           new Date(review.publishedAtDate || review.published_date || review.date)
         );
 
-        const result = await client.query<{ id: string }>(`
+        const result = await client.query(`
           INSERT INTO reviews (
             business_id, review_id, reviewer_name, rating, text,
             published_date, source, language, review_hash, raw_data
@@ -282,7 +282,7 @@ class ReviewCacheService {
     `;
     params.push(filters.limit || 100);
 
-    const result = await query<CachedReview>(sql, params);
+    const result = await query(sql, params);
     return result.rows;
   }
 
@@ -291,7 +291,7 @@ class ReviewCacheService {
    * Used to determine incremental extraction start date
    */
   async getLatestReviewDate(businessId: string): Promise<Date | null> {
-    const result = await query<{ latest_date: Date }>(`
+    const result = await query(`
       SELECT MAX(published_date) as latest_date
       FROM reviews
       WHERE business_id = $1
@@ -338,7 +338,7 @@ class ReviewCacheService {
     }
 
     const whereClause = conditions.length > 0 ? `WHERE ${conditions.join(' AND ')}` : '';
-    const result = await query<{ count: string }>(`
+    const result = await query(`
       SELECT COUNT(*) as count
       FROM reviews
       ${whereClause}
@@ -399,7 +399,7 @@ class ReviewCacheService {
    * Delete old reviews (data retention)
    */
   async deleteOld(daysToKeep: number = 365): Promise<number> {
-    const result = await query<{ count: string }>(`
+    const result = await query(`
       WITH deleted AS (
         DELETE FROM reviews
         WHERE published_date < CURRENT_DATE - $1

@@ -82,6 +82,10 @@ export function EnhancedBusinessCard({
   isSelected = false,
   onToggleSelect
 }: BusinessCardProps) {
+  // Extract and type searchCriteria values
+  const searchQuery = searchCriteria?.query ? String(searchCriteria.query) : null
+  const searchLocation = typeof searchCriteria?.location === 'string' ? searchCriteria.location : null
+
   const [isScraped, setIsScraped] = useState<boolean | null>(null)
   const [scrapedDate, setScrapedDate] = useState<string | null>(null)
   const [crawlInfo, setCrawlInfo] = useState<{
@@ -98,7 +102,7 @@ export function EnhancedBusinessCard({
       fetch(`/api/scraped-businesses?check=${business.placeId}`)
         .then(res => res.json())
         .then(data => {
-          if (data.results && data.results[business.placeId]) {
+          if (data.results && business.placeId && data.results[business.placeId]) {
             setIsScraped(true)
           } else {
             setIsScraped(false)
@@ -570,16 +574,18 @@ export function EnhancedBusinessCard({
           </div>
 
           {/* Search Parameters & Quick Stats */}
-          {searchCriteria && (
+          {(searchQuery || searchLocation) && (
             <div className="text-xs text-muted-foreground pt-2 border-t border/50 space-y-1">
-              <div className="flex items-center justify-between">
-                <span className="font-medium">Search:</span>
-                <span>{searchCriteria.query || 'N/A'}</span>
-              </div>
-              {searchCriteria.location && (
+              {searchQuery && (
+                <div className="flex items-center justify-between">
+                  <span className="font-medium">Search:</span>
+                  <span>{searchQuery}</span>
+                </div>
+              )}
+              {searchLocation && (
                 <div className="flex items-center justify-between">
                   <span>Location:</span>
-                  <span>{searchCriteria.location}</span>
+                  <span>{searchLocation}</span>
                 </div>
               )}
             </div>

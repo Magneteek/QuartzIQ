@@ -9,22 +9,13 @@ import { db } from '../../../../database/db'
 export async function GET(request: NextRequest) {
   try {
     // Total businesses count
-    const totalResult = await db.query<{ rows: Array<{ count: string }> }>(
+    const totalResult = await db.query(
       'SELECT COUNT(*) as count FROM businesses'
     )
     const totalBusinesses = parseInt(totalResult.rows[0].count)
 
     // Businesses by scrape status
-    const scrapeStats = await db.query<{
-      rows: Array<{
-        scraped_count: string
-        never_scraped: string
-        scraped_last_7_days: string
-        scraped_last_30_days: string
-        avg_scrape_count: string
-        max_scrape_count: number
-      }>
-    }>(`
+    const scrapeStats = await db.query(`
       SELECT
         COUNT(*) FILTER (WHERE last_scraped_at IS NOT NULL) as scraped_count,
         COUNT(*) FILTER (WHERE last_scraped_at IS NULL) as never_scraped,
@@ -36,9 +27,7 @@ export async function GET(request: NextRequest) {
     `)
 
     // Top categories
-    const categoriesResult = await db.query<{
-      rows: Array<{ category: string; count: string }>
-    }>(`
+    const categoriesResult = await db.query(`
       SELECT category, COUNT(*) as count
       FROM businesses
       WHERE category IS NOT NULL
@@ -48,9 +37,7 @@ export async function GET(request: NextRequest) {
     `)
 
     // Top cities
-    const citiesResult = await db.query<{
-      rows: Array<{ city: string; country_code: string; count: string }>
-    }>(`
+    const citiesResult = await db.query(`
       SELECT city, country_code, COUNT(*) as count
       FROM businesses
       WHERE city IS NOT NULL
@@ -60,14 +47,7 @@ export async function GET(request: NextRequest) {
     `)
 
     // Average rating
-    const ratingResult = await db.query<{
-      rows: Array<{
-        avg_rating: string
-        min_rating: number
-        max_rating: number
-        total_reviews: string
-      }>
-    }>(`
+    const ratingResult = await db.query(`
       SELECT
         AVG(rating)::NUMERIC(3,2) as avg_rating,
         MIN(rating) as min_rating,
@@ -78,12 +58,7 @@ export async function GET(request: NextRequest) {
     `)
 
     // Storage size estimate
-    const sizeResult = await db.query<{
-      rows: Array<{
-        businesses_table_size: string
-        reviews_table_size: string
-      }>
-    }>(`
+    const sizeResult = await db.query(`
       SELECT
         pg_size_pretty(pg_total_relation_size('businesses')) as businesses_table_size,
         pg_size_pretty(pg_total_relation_size('reviews')) as reviews_table_size
@@ -108,11 +83,11 @@ export async function GET(request: NextRequest) {
         maxRating: ratingResult.rows[0]?.max_rating || 0,
         totalReviews: parseInt(ratingResult.rows[0]?.total_reviews || '0'),
       },
-      topCategories: categoriesResult.rows.map(row => ({
+      topCategories: categoriesResult.rows.map((row: any) => ({
         category: row.category,
         count: parseInt(row.count),
       })),
-      topLocations: citiesResult.rows.map(row => ({
+      topLocations: citiesResult.rows.map((row: any) => ({
         city: row.city,
         countryCode: row.country_code,
         count: parseInt(row.count),

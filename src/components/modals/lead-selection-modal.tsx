@@ -471,58 +471,30 @@ export function LeadSelectionModal({ isOpen, onClose, enrichedBusinesses, busine
                     </motion.div>
                   )}
 
-                  <div className="flex gap-3">
-                    <Button
-                      variant="outline"
-                      onClick={onClose}
-                    >
-                      Cancel
-                    </Button>
-                    <Button
-                      onClick={handleSendToAirtable}
-                      disabled={sendingAirtable || selectedLeads.size === 0 || sentAirtable || sent}
-                      variant="outline"
-                      className="flex-1"
-                    >
-                      {sendingAirtable ? (
-                        <>
-                          <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                          Sending...
-                        </>
-                      ) : sentAirtable ? (
-                        <>
-                          <CheckCircle className="h-4 w-4 mr-2" />
-                          Sent!
-                        </>
-                      ) : (
-                        <>
-                          <Database className="h-4 w-4 mr-2" />
-                          Send to Airtable ({selectedNewCount} new{selectedLeads.size !== selectedNewCount && `, ${selectedLeads.size - selectedNewCount} seen`})
-                        </>
-                      )}
-                    </Button>
-                    <Button
-                      onClick={handleSendToQuartzLeads}
-                      disabled={sending || selectedLeads.size === 0 || sent || sentAirtable}
-                      className="flex-1"
-                    >
-                      {sending ? (
-                        <>
-                          <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                          Sending...
-                        </>
-                      ) : sent ? (
-                        <>
-                          <CheckCircle className="h-4 w-4 mr-2" />
-                          Sent!
-                        </>
-                      ) : (
-                        <>
-                          <Send className="h-4 w-4 mr-2" />
-                          Send to Quartz Leads ({selectedNewCount} new{selectedLeads.size !== selectedNewCount && `, ${selectedLeads.size - selectedNewCount} seen`})
-                        </>
-                      )}
-                    </Button>
+                  <div className="space-y-3">
+                    {/* Modern Workflow Info */}
+                    <div className="rounded-lg border border-blue-500/20 bg-blue-500/10 p-3">
+                      <p className="text-sm text-blue-300 font-medium mb-1">✅ Businesses Saved to Database</p>
+                      <p className="text-xs text-muted-foreground">
+                        Next: <strong>Leads</strong> page → Qualify → <strong>Enrichment</strong> → Export to Quartz
+                      </p>
+                    </div>
+
+                    <div className="flex gap-3">
+                      <Button
+                        variant="outline"
+                        onClick={onClose}
+                      >
+                        Close
+                      </Button>
+                      <Button
+                        onClick={() => window.location.href = '/dashboard/leads'}
+                        className="flex-1"
+                      >
+                        <Users className="h-4 w-4 mr-2" />
+                        Go to Leads Page
+                      </Button>
+                    </div>
                   </div>
                 </div>
               )}

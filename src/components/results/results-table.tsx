@@ -238,26 +238,26 @@ export function ResultsTable({ results, qualifyingBusinesses, selectedReviews, o
 
                       return (
                         <div className="space-y-1">
-                          {business.phone && (
+                          {Boolean(business.phone) && (
                             <div className="text-xs flex items-center gap-1">
                               <Phone className="h-3 w-3 text-primary" />
                               <a href={`tel:${business.phone}`} className="hover:underline">
-                                {business.phone}
+                                {String(business.phone)}
                               </a>
                             </div>
                           )}
-                          {business.email && (
+                          {Boolean(business.email) && (
                             <div className="text-xs flex items-center gap-1">
                               <Mail className="h-3 w-3 text-primary" />
                               <a href={`mailto:${business.email}`} className="hover:underline">
-                                {business.email}
+                                {String(business.email)}
                               </a>
                             </div>
                           )}
-                          {business.website && (
+                          {Boolean(business.website) && (
                             <div className="text-xs flex items-center gap-1">
                               <Globe className="h-3 w-3 text-primary" />
-                              <a href={business.website} target="_blank" rel="noopener noreferrer" className="hover:underline">
+                              <a href={String(business.website)} target="_blank" rel="noopener noreferrer" className="hover:underline">
                                 Website
                               </a>
                             </div>
@@ -312,10 +312,14 @@ export function ResultsTable({ results, qualifyingBusinesses, selectedReviews, o
                   <div className="space-y-1">
                     <div className="text-sm flex items-center gap-1">
                       <Calendar className="h-3 w-3" />
-                      {format(new Date(review.publishedAtDate), 'MMM dd, yyyy')}
+                      {review.publishedAtDate && !isNaN(new Date(review.publishedAtDate).getTime())
+                        ? format(new Date(review.publishedAtDate), 'MMM dd, yyyy')
+                        : 'Unknown date'}
                     </div>
                     <div className="text-xs text-muted-foreground">
-                      {getDaysAgo(review.publishedAtDate)} days ago
+                      {review.publishedAtDate && !isNaN(new Date(review.publishedAtDate).getTime())
+                        ? `${getDaysAgo(review.publishedAtDate)} days ago`
+                        : 'Date unavailable'}
                     </div>
                   </div>
                 </TableCell>

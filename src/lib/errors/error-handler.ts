@@ -126,10 +126,10 @@ export function handleAPIError(
  *     return NextResponse.json({ data })
  *   })
  */
-export function asyncHandler(
-  handler: (req: NextRequest, context?: { params: Record<string, string> }) => Promise<NextResponse>
+export function asyncHandler<T extends Record<string, string> = Record<string, string>>(
+  handler: (req: NextRequest, context?: { params: Promise<T> }) => Promise<NextResponse>
 ) {
-  return async (req: NextRequest, context?: { params: Record<string, string> }) => {
+  return async (req: NextRequest, context?: { params: Promise<T> }) => {
     try {
       return await handler(req, context)
     } catch (error) {
@@ -240,6 +240,6 @@ export function assert(
   context?: Record<string, unknown>
 ): asserts condition {
   if (!condition) {
-    throw new ErrorClass(message, context)
+    throw new ErrorClass(message, 500, true, context)
   }
 }

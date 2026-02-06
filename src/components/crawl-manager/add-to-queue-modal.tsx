@@ -27,7 +27,7 @@ interface AddToQueueModalProps {
 interface CrawlConfig {
   maxReviewsPerBusiness: number
   maxReviewStars: number
-  dayLimit: number
+  requireContent: boolean  // Must have text OR image
   incremental: boolean
 }
 
@@ -42,7 +42,7 @@ export function AddToQueueModal({
   const [config, setConfig] = useState<CrawlConfig>({
     maxReviewsPerBusiness: 2,
     maxReviewStars: 3,
-    dayLimit: 14,
+    requireContent: true,  // Default: must have text OR image
     incremental: false
   })
   const [loading, setLoading] = useState(false)
@@ -244,25 +244,25 @@ export function AddToQueueModal({
                         </select>
                       </div>
 
-                      <div>
-                        <Label htmlFor="dayLimit" className="text-sm font-medium mb-2 block">
-                          Day Limit
-                        </Label>
-                        <Input
-                          id="dayLimit"
-                          type="number"
-                          min="7"
-                          max="365"
-                          value={config.dayLimit}
+                      <div className="flex items-center space-x-2 pt-6">
+                        <input
+                          type="checkbox"
+                          id="requireContent"
+                          checked={config.requireContent}
                           onChange={(e) => setConfig({
                             ...config,
-                            dayLimit: parseInt(e.target.value) || 14
+                            requireContent: e.target.checked
                           })}
-                          className="w-full"
+                          className="rounded"
                         />
-                        <p className="text-xs text-muted-foreground mt-1">
-                          Reviews from last {config.dayLimit} days
-                        </p>
+                        <div>
+                          <Label htmlFor="requireContent" className="text-sm font-medium cursor-pointer block">
+                            Require Content
+                          </Label>
+                          <p className="text-xs text-muted-foreground mt-1">
+                            Reviews must have text OR image
+                          </p>
+                        </div>
                       </div>
 
                       <div className="flex items-center space-x-2 pt-6">

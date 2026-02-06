@@ -262,14 +262,17 @@ class OptimizedExtractor {
             fetchedReviews = await apifyExtractor.extractReviewsFromBusiness(
               {
                 placeId: business.place_id,
-                title: business.name
+                title: business.name,
+                address: business.address || '',
+                totalScore: business.rating || 0,
+                reviewsCount: business.reviews_count || 0
               },
               {
                 maxStars: options.maxReviewStars || 3,
                 maxReviewsPerBusiness: options.maxReviewsPerBusiness || 2, // Default: 2 reviews (cost optimization)
                 language: options.language || 'nl',
                 dayLimit: options.dayLimit || 14
-              }
+              } as any
             );
 
             // Filter for new reviews only
@@ -384,7 +387,7 @@ class OptimizedExtractor {
    * Create extraction record in database
    */
   private async createExtractionRecord(options: ExtractionOptions): Promise<string> {
-    const result = await db.query<{ id: string }>(`
+    const result = await db.query(`
       INSERT INTO extractions (
         organization_id,
         search_criteria,

@@ -7,9 +7,9 @@ export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  try {
-    const { id } = await params
+  const { id } = await params
 
+  try {
     if (!id) {
       return NextResponse.json(
         { success: false, error: 'Extraction ID is required' },
@@ -61,7 +61,7 @@ export async function GET(
     return NextResponse.json({ success: true, data: extraction })
 
   } catch (error: any) {
-    console.error(`History load error for ${params.id}:`, error)
+    console.error(`History load error for ${id}:`, error)
     return NextResponse.json(
       { success: false, error: error.message },
       { status: 500 }

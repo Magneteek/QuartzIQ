@@ -4,6 +4,8 @@ import { scrapedBusinessTracker } from '@/lib/scraped-businesses'
 import { logger } from '@/lib/logger'
 import { db } from '../../../../database/db'
 import { generateCategoryWhereClause } from '@/lib/utils/category-mapping'
+import { convertLegacyToUniversal, UniversalSearchCriteria } from '@/lib/types/universal-search'
+import { universalSearchExtractor } from '@/lib/services/universal-extractor'
 
 // 🔒 GLOBAL LOCK: Only allow ONE extraction at a time
 let isExtractionRunning = false
@@ -19,7 +21,7 @@ export async function POST(request: NextRequest) {
       frontendRequestId,
       category: searchCriteria.category,
       location: searchCriteria.location,
-      businessLimit: searchCriteria.businessLimit
+      businessLimit: searchCriteria.limits?.maxBusinesses || searchCriteria.businessLimit
     })
 
     // Validate required fields
@@ -33,6 +35,27 @@ export async function POST(request: NextRequest) {
         { error: 'Category and location are required' },
         { status: 400 }
       )
+    }
+
+    // 🆕 DETECT UNIVERSAL VS LEGACY FORMAT
+    const isUniversalFormat = searchCriteria.businessFilters !== undefined ||
+                              searchCriteria.enrichment !== undefined ||
+                              searchCriteria.reviewFilters !== undefined ||
+                              searchCriteria.limits !== undefined
+
+    let universalCriteria: UniversalSearchCriteria
+    if (isUniversalFormat) {
+      universalCriteria = searchCriteria
+      logger.info('Using universal search format', {
+        enrichmentEnabled: searchCriteria.enrichment?.enabled,
+        reviewsEnabled: searchCriteria.reviewFilters?.enabled,
+      })
+    } else {
+      // Convert legacy to universal
+      universalCriteria = convertLegacyToUniversal(searchCriteria)
+      logger.info('Converted legacy to universal format', {
+        businessLimit: searchCriteria.businessLimit,
+      })
     }
 
     // 🛡️ CRITICAL: Check if another extraction is already running
@@ -85,9 +108,9 @@ export async function POST(request: NextRequest) {
     console.log(`Timestamp: ${new Date().toISOString()}`)
     console.log(`Category: ${searchCriteria.category}`)
     console.log(`Location: ${searchCriteria.location}`)
-    console.log(`Business Limit: ${searchCriteria.businessLimit || 50}`)
-    console.log(`Max Stars: ${searchCriteria.maxStars || 3}`)
-    console.log(`Day Limit: ${searchCriteria.dayLimit || 14}`)
+    console.log(`Business Limit: ${searchCriteria.limits?.maxBusinesses || searchCriteria.businessLimit || 50}`)
+    console.log(`Max Stars: ${searchCriteria.reviewFilters?.maxStars || searchCriteria.maxStars || 3}`)
+    console.log(`Day Limit: ${searchCriteria.reviewFilters?.dayLimit || searchCriteria.dayLimit || 14}`)
     console.log(`Use Cached: ${searchCriteria.useCached || false}`)
     console.log(`Lock Status: ACQUIRED ✅`)
     console.log(`══════════════════════════════════════════════════════\n`)
@@ -104,6 +127,53 @@ export async function POST(request: NextRequest) {
         try {
           sendUpdate('progress', { progress: 10, step: 'Initializing extraction system...' })
 
+          // 🆕 UNIVERSAL SEARCH PATH (simplified, no legacy cache logic)
+          if (isUniversalFormat) {
+            sendUpdate('progress', { progress: 20, step: 'Using universal search system...' })
+            sendUpdate('progress', { progress: 30, step: 'Finding businesses...' })
+
+            // ✅ Pass useCached flag to universal extractor
+            universalCriteria.useCached = searchCriteria.useCached || false
+
+            // Use universal extractor
+            const results = await universalSearchExtractor.search(universalCriteria)
+
+            sendUpdate('progress', { progress: 80, step: 'Processing results...' })
+
+            // Send the final results
+            sendUpdate('result', {
+              result: {
+                businesses: results.businesses,
+                reviews: results.reviews || [],
+                searchCriteria: results.searchCriteria,
+                extractionDate: results.extractionDate,
+              },
+              summary: {
+                totalBusinesses: results.stats.totalBusinesses,
+                totalReviews: results.stats.totalReviews,
+                extractionDate: results.extractionDate,
+                enrichedBusinesses: results.stats.enrichedBusinesses,
+                totalCostUsd: results.stats.totalCostUsd,
+                savingsUsd: results.stats.savingsUsd,
+              }
+            })
+
+            sendUpdate('progress', { progress: 100, step: 'Extraction completed successfully!' })
+
+            console.log(`\n✅ UNIVERSAL SEARCH COMPLETED`)
+            console.log(`══════════════════════════════════════════════════════`)
+            console.log(`Request ID: ${requestId}`)
+            console.log(`Businesses: ${results.stats.totalBusinesses}`)
+            console.log(`Reviews: ${results.stats.totalReviews}`)
+            console.log(`Enriched: ${results.stats.enrichedBusinesses}`)
+            console.log(`Cost: $${results.stats.totalCostUsd}`)
+            console.log(`Savings: $${results.stats.savingsUsd}`)
+            console.log(`══════════════════════════════════════════════════════\n`)
+
+            return // Exit early for universal search
+          }
+
+          // LEGACY SEARCH PATH (existing logic)
           // Load already-scraped businesses for deduplication
           sendUpdate('progress', { progress: 15, step: 'Loading scraped business history...' })
           const scrapedBusinesses = await scrapedBusinessTracker.load()
@@ -132,7 +202,7 @@ export async function POST(request: NextRequest) {
             WHERE
               ${categoryClause}
               AND (LOWER(city) LIKE LOWER($${locationParam}) OR LOWER(address) LIKE LOWER($${locationParam}))
-            LIMIT ${searchCriteria.businessLimit || 50}
+            LIMIT ${searchCriteria.limits?.maxBusinesses || searchCriteria.businessLimit || 50}
           `
 
           console.log('📋 Cache query:', cachedQuery)
@@ -141,8 +211,8 @@ export async function POST(request: NextRequest) {
           const cachedResult = await db.query(cachedQuery, allParams)
           placeIds = cachedResult.rows.map((row: any) => row.place_id)
 
-          const requestedLimit = searchCriteria.businessLimit || 50
-          const cachedCount = placeIds.length
+          const requestedLimit = searchCriteria.limits?.maxBusinesses || searchCriteria.businessLimit || 50
+          const cachedCount = placeIds?.length || 0
           const needsNewBusinesses = cachedCount < requestedLimit
 
           // 🎯 SMART HYBRID APPROACH: Cache + New Businesses

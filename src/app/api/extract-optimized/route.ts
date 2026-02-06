@@ -19,7 +19,7 @@ async function authenticateApiKey(apiKey: string): Promise<string | null> {
   }
 
   try {
-    const result = await db.query<{ id: string, subscription_status: string, monthly_extraction_limit: number }>(`
+    const result = await db.query(`
       SELECT id, subscription_status, monthly_extraction_limit
       FROM organizations
       WHERE api_key = $1 AND subscription_status = 'active'
@@ -33,7 +33,7 @@ async function authenticateApiKey(apiKey: string): Promise<string | null> {
     const org = result.rows[0];
     const currentMonth = new Date().toISOString().slice(0, 7); // YYYY-MM
 
-    const usageResult = await db.query<{ extraction_count: string }>(`
+    const usageResult = await db.query(`
       SELECT COUNT(*) as extraction_count
       FROM extractions
       WHERE organization_id = $1

@@ -52,7 +52,7 @@ export async function POST(request: NextRequest) {
 
     // Start background crawl (non-blocking)
     // In production, this should be a separate worker process
-    executeCrawlInBackground(queueItems.map(item => item.id));
+    executeCrawlInBackground(queueItems.map((item: any) => item.id));
 
     return NextResponse.json({
       success: true,

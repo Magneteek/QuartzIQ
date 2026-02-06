@@ -21,28 +21,6 @@ export async function POST(request: NextRequest) {
       // WebSearch tool import disabled for build stability
       console.log(`⚠️ WebSearch tool disabled for build stability`)
       throw new Error('WebSearch tool not available in API runtime context')
-
-      if (webSearchResults && webSearchResults.length > 0) {
-        // Transform WebSearch results to our expected format
-        const searchResults = {
-          success: true,
-          query: query,
-          results: webSearchResults.map((result: any, index: number) => ({
-            title: result.title || `Search result ${index + 1}`,
-            url: result.url || result.link || '#',
-            snippet: result.snippet || result.description || 'No description available',
-            source: result.source || new URL(result.url || result.link || 'https://web.com').hostname
-          })).slice(0, maxResults),
-          timestamp: new Date().toISOString(),
-          totalResults: webSearchResults.length
-        }
-
-        console.log(`✅ Real web search completed: ${searchResults.results.length} results`)
-        return NextResponse.json(searchResults)
-      } else {
-        throw new Error('No search results returned')
-      }
-
     } catch (webSearchError) {
       console.log(`⚠️ WebSearch tool not available in API context, using enhanced search simulation:`, webSearchError)
 

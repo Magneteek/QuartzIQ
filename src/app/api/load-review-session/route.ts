@@ -22,23 +22,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Fetch all businesses that had reviews extracted on this date
-    const businessesResult = await db.query<{
-      rows: Array<{
-        business_id: string
-        place_id: string
-        name: string
-        category: string
-        city: string
-        address: string
-        phone: string
-        website: string
-        email: string
-        rating: number
-        reviews_count: number
-        google_maps_url: string
-        review_count_from_crawl: number
-      }>
-    }>(`
+    const businessesResult = await db.query(`
       SELECT
         b.id as business_id,
         b.place_id,
@@ -63,21 +47,16 @@ export async function GET(request: NextRequest) {
     `, [date])
 
     // Fetch all qualified reviews from this date
-    const reviewsResult = await db.query<{
-      rows: Array<{
-        business_id: string
-        reviewer_name: string
-        rating: number
-        text: string
-        published_date: string
-      }>
-    }>(`
+    const reviewsResult = await db.query(`
       SELECT
+        r.id,
         r.business_id,
         r.reviewer_name,
         r.rating,
         r.text,
-        r.published_date
+        r.published_date,
+        r.language as original_language,
+        r.raw_data
       FROM reviews r
       WHERE DATE(r.extracted_at) = $1
         AND r.rating <= 3
@@ -86,7 +65,7 @@ export async function GET(request: NextRequest) {
 
     // Group reviews by business
     const reviewsByBusiness: Record<string, any[]> = {}
-    reviewsResult.rows.forEach(review => {
+    reviewsResult.rows.forEach((review: any) => {
       if (!reviewsByBusiness[review.business_id]) {
         reviewsByBusiness[review.business_id] = []
       }
@@ -94,7 +73,7 @@ export async function GET(request: NextRequest) {
     })
 
     // Format businesses with their reviews
-    const businesses = businessesResult.rows.map(business => ({
+    const businesses = businessesResult.rows.map((business: any) => ({
       place_id: business.place_id,
       title: business.name,
       category: business.category,
@@ -106,9 +85,36 @@ export async function GET(request: NextRequest) {
       totalScore: business.rating,
       reviewsCount: business.reviews_count,
       googleMapsUrl: business.google_maps_url,
-      reviews: reviewsByBusiness[business.business_id] || [],
       qualifiedReviewCount: business.review_count_from_crawl
     }))
+
+    // Extract all reviews into a flat array with business info
+    const reviews = reviewsResult.rows.map((review: any) => {
+      const business = businessesResult.rows.find((b: any) => b.business_id === review.business_id)
+      // Extract additional fields from raw_data if available
+      const rawData = review.raw_data || {}
+
+      return {
+        reviewId: review.id,
+        name: review.reviewer_name,
+        stars: review.rating,
+        rating: review.rating,
+        publishedAtDate: review.published_date,
+        text: review.text,
+        originalLanguage: review.original_language || 'nl',
+        reviewUrl: rawData.reviewUrl || rawData.review_url || null,
+        url: business?.google_maps_url || rawData.url,
+        reviewerUrl: rawData.reviewerUrl || rawData.reviewer_url || null,
+        reviewerNumberOfReviews: rawData.reviewerNumberOfReviews || rawData.reviewer_number_of_reviews || 0,
+        isLocalGuide: rawData.isLocalGuide || rawData.is_local_guide || false,
+        // Include business info for each review
+        title: business?.name || 'Unknown Business',
+        business_name: business?.name || 'Unknown Business',
+        placeId: business?.place_id,
+        address: business?.address,
+        totalScore: business?.rating
+      }
+    })
 
     // Return in the same format as extraction history
     const response = {
@@ -122,11 +128,21 @@ export async function GET(request: NextRequest) {
           countryCode: 'NL',
           maxStars: 3
         },
-        results: businesses,
+        results: {
+          businesses: businesses,
+          reviews: reviews,
+          searchCriteria: {
+            category: 'Mixed',
+            location: 'Netherlands',
+            countryCode: 'NL',
+            maxStars: 3
+          },
+          extractionDate: new Date(date)
+        },
         statistics: {
           businessesFound: businesses.length,
           reviewsFound: reviewsResult.rows.length,
-          avgRating: businesses.reduce((sum, b) => sum + b.totalScore, 0) / businesses.length || 0,
+          avgRating: businesses.reduce((sum: number, b: any) => sum + b.totalScore, 0) / businesses.length || 0,
           extractionTime: 0
         }
       }

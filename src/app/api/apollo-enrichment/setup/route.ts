@@ -88,7 +88,11 @@ export async function POST(request: NextRequest) {
     }
 
     // Verify created objects
-    const verificationResults = {
+    const verificationResults: {
+      tables: string[];
+      functions: string[];
+      views: string[];
+    } = {
       tables: [],
       functions: [],
       views: [],

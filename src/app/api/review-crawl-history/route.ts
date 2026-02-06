@@ -11,19 +11,7 @@ import { db } from '../../../../database/db'
 export async function GET(request: NextRequest) {
   try {
     // Group reviews by extraction date to create crawl sessions
-    const result = await db.query<{
-      rows: Array<{
-        crawl_date: string
-        total_reviews: number
-        total_businesses: number
-        avg_rating: number
-        rating_1: number
-        rating_2: number
-        rating_3: number
-        categories: string[]
-        cities: string[]
-      }>
-    }>(`
+    const result = await db.query(`
       SELECT
         DATE(r.extracted_at) as crawl_date,
         COUNT(r.id) as total_reviews,
@@ -45,15 +33,8 @@ export async function GET(request: NextRequest) {
 
     // For each crawl session, get sample businesses
     const sessions = await Promise.all(
-      result.rows.map(async (session) => {
-        const sampleBusinesses = await db.query<{
-          rows: Array<{
-            business_name: string
-            business_category: string
-            business_city: string
-            review_count: number
-          }>
-        }>(`
+      result.rows.map(async (session: any) => {
+        const sampleBusinesses = await db.query(`
           SELECT
             b.name as business_name,
             b.category as business_category,

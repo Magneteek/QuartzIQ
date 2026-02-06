@@ -8,6 +8,19 @@ interface Contact {
   email?: string
   website?: string
   source: string
+  customFieldsData?: {
+    companyName?: string
+    website?: string
+    googleUrl?: string
+    nicheCategory?: string
+    reviewDate?: string
+    reviewStars?: string
+    qualifiedReviewsContent?: string
+    qualifiedReviewUrl?: string
+    googleQualifiedReviews?: string
+    reviewImageUrl?: string
+  }
+  hasReviewImage?: boolean
 }
 
 interface SendContactsRequest {
@@ -59,8 +72,10 @@ export async function POST(request: NextRequest) {
 
       apiKey = clientConfig.ghlApiKey
       locationId = clientConfig.ghlLocationId
-      customFields = clientConfig.customFields || {}
-      console.log(`✅ Using client configuration for: ${clientConfig.clientName}`)
+      customFields = (clientConfig as any).customFields || {}
+      console.log(`✅ Using client configuration for: ${clientConfig.name}`)
+      console.log(`🔑 API Key (first 20 chars): ${apiKey?.substring(0, 20)}...`)
+      console.log(`📍 Location ID: ${locationId}`)
     }
 
     const results = []
@@ -73,9 +88,6 @@ export async function POST(request: NextRequest) {
         const contactData: any = {
           name: contact.name,
           address1: contact.address,
-          phone: contact.phone || '',
-          email: contact.email || '',
-          website: contact.website || '',
           source: contact.source,
           locationId: locationId,
           // Additional fields that GoHighLevel expects
@@ -84,14 +96,57 @@ export async function POST(request: NextRequest) {
           tags: ['QuartzIQ-Lead', 'Review-Extraction']
         }
 
-        // Add custom field mappings if configured
-        if (customFields.businessName && contact.name) {
-          contactData.customFields = contactData.customFields || {}
-          contactData.customFields[customFields.businessName] = contact.name
+        // Only include email/phone/website if they have actual values (not empty strings)
+        if (contact.phone && contact.phone.trim()) {
+          contactData.phone = contact.phone
         }
-        if (customFields.businessCategory && contact.source) {
-          contactData.customFields = contactData.customFields || {}
-          contactData.customFields[customFields.businessCategory] = contact.source
+        if (contact.email && contact.email.trim()) {
+          contactData.email = contact.email
+        }
+        if (contact.website && contact.website.trim()) {
+          contactData.website = contact.website
+        }
+
+        // Add custom field mappings from contact data
+        if (contact.customFieldsData && customFields) {
+          contactData.customField = contactData.customField || {}
+
+          // Map all custom fields
+          if (customFields.companyName && contact.customFieldsData.companyName) {
+            contactData.customField[customFields.companyName] = contact.customFieldsData.companyName
+          }
+          if (customFields.website && contact.customFieldsData.website) {
+            contactData.customField[customFields.website] = contact.customFieldsData.website
+          }
+          if (customFields.googleUrl && contact.customFieldsData.googleUrl) {
+            contactData.customField[customFields.googleUrl] = contact.customFieldsData.googleUrl
+          }
+          if (customFields.nicheCategory && contact.customFieldsData.nicheCategory) {
+            contactData.customField[customFields.nicheCategory] = contact.customFieldsData.nicheCategory
+          }
+          if (customFields.reviewDate && contact.customFieldsData.reviewDate) {
+            contactData.customField[customFields.reviewDate] = contact.customFieldsData.reviewDate
+          }
+          if (customFields.reviewStars && contact.customFieldsData.reviewStars) {
+            contactData.customField[customFields.reviewStars] = contact.customFieldsData.reviewStars
+          }
+          if (customFields.qualifiedReviewsContent && contact.customFieldsData.qualifiedReviewsContent) {
+            contactData.customField[customFields.qualifiedReviewsContent] = contact.customFieldsData.qualifiedReviewsContent
+          }
+          if (customFields.qualifiedReviewUrl && contact.customFieldsData.qualifiedReviewUrl) {
+            contactData.customField[customFields.qualifiedReviewUrl] = contact.customFieldsData.qualifiedReviewUrl
+          }
+          if (customFields.googleQualifiedReviews && contact.customFieldsData.googleQualifiedReviews) {
+            contactData.customField[customFields.googleQualifiedReviews] = contact.customFieldsData.googleQualifiedReviews
+          }
+          if (customFields.reviewImageUrl && contact.customFieldsData.reviewImageUrl) {
+            contactData.customField[customFields.reviewImageUrl] = contact.customFieldsData.reviewImageUrl
+          }
+        }
+
+        // Add "image-content" tag if review has image
+        if (contact.hasReviewImage) {
+          contactData.tags.push('image-content')
         }
 
         // Make API call to GoHighLevel
@@ -114,10 +169,16 @@ export async function POST(request: NextRequest) {
             message: 'Contact created successfully'
           })
         } else {
+          console.error(`❌ GHL API Error for ${contact.name}:`, {
+            status: response.status,
+            statusText: response.statusText,
+            response: responseData
+          })
           errors.push({
             contact: contact.name,
             status: 'error',
-            message: responseData.message || responseData.error || 'Failed to create contact'
+            message: responseData.message || responseData.error || 'Failed to create contact',
+            details: responseData
           })
         }
       } catch (error) {

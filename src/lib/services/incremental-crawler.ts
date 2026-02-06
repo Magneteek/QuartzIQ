@@ -96,7 +96,10 @@ class IncrementalCrawler {
       const fetchedReviews = await apifyExtractor.extractReviewsFromBusiness(
         {
           placeId: business.place_id,
-          title: business.name
+          title: business.name,
+          address: business.address || '',
+          totalScore: business.rating || 0,
+          reviewsCount: business.reviews_count || 0
         },
         {
           maxStars: maxReviewStars,
@@ -105,7 +108,7 @@ class IncrementalCrawler {
           dayLimit: dayLimit,
           // IMPORTANT: Filter by publish date if incremental
           publishedAfter: reviewsSinceDate
-        }
+        } as any
       );
 
       reviewsFound = fetchedReviews.length;
@@ -296,7 +299,7 @@ class IncrementalCrawler {
    * Get business details
    */
   private async getBusinessDetails(businessId: string): Promise<CachedBusiness | null> {
-    const result = await db.query<CachedBusiness>(`
+    const result = await db.query(`
       SELECT * FROM businesses WHERE id = $1 LIMIT 1;
     `, [businessId]);
 

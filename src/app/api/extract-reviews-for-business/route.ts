@@ -68,7 +68,7 @@ export async function POST(request: NextRequest) {
       for (const review of reviewsData) {
         try {
           // Get business ID from place_id
-          const businessResult = await db.query<{ rows: Array<{ id: string }> }>(
+          const businessResult = await db.query(
             'SELECT id FROM businesses WHERE place_id = $1',
             [placeId]
           )

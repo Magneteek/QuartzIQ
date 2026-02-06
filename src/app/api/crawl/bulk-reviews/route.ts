@@ -38,24 +38,14 @@ export async function POST(request: NextRequest) {
         })
 
         // Fetch business details from database
-        const businessesResult = await db.query<{
-          rows: Array<{
-            place_id: string
-            name: string
-            category: string
-            city: string
-            address: string
-            google_maps_url: string
-            reviews_count: number
-          }>
-        }>(`
+        const businessesResult = await db.query(`
           SELECT
             place_id,
             name,
             category,
             city,
             address,
-            google_maps_url,
+            COALESCE(google_maps_url, google_profile_url) as google_maps_url,
             reviews_count
           FROM businesses
           WHERE place_id = ANY($1::varchar[])

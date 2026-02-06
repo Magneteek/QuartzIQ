@@ -11,6 +11,18 @@ export interface ClientConfig {
   airtableApiKey?: string
   airtableBaseId?: string
   airtableTableName?: string
+  customFields?: {
+    companyName?: string
+    website?: string
+    googleUrl?: string
+    nicheCategory?: string
+    reviewDate?: string
+    reviewStars?: string
+    qualifiedReviewsContent?: string
+    qualifiedReviewUrl?: string
+    googleQualifiedReviews?: string
+    reviewImageUrl?: string
+  }
 }
 
 // Client configurations
@@ -23,6 +35,18 @@ const CLIENT_CONFIGS: Record<string, ClientConfig> = {
     airtableApiKey: process.env.AIRTABLE_API_KEY,
     airtableBaseId: process.env.AIRTABLE_BASE_ID,
     airtableTableName: process.env.AIRTABLE_TABLE_NAME || 'Leads',
+    customFields: {
+      companyName: process.env.GHL_FIELD_COMPANY_NAME,
+      website: process.env.GHL_FIELD_WEBSITE,
+      googleUrl: process.env.GHL_FIELD_GOOGLE_URL,
+      nicheCategory: process.env.GHL_FIELD_NICHE_CATEGORY,
+      reviewDate: process.env.GHL_FIELD_REVIEW_DATE,
+      reviewStars: process.env.GHL_FIELD_REVIEW_STARS,
+      qualifiedReviewsContent: process.env.GHL_FIELD_QUALIFIED_REVIEWS_CONTENT,
+      qualifiedReviewUrl: process.env.GHL_FIELD_QUALIFIED_REVIEW_URL,
+      googleQualifiedReviews: process.env.GHL_FIELD_GOOGLE_QUALIFIED_REVIEWS,
+      reviewImageUrl: process.env.GHL_FIELD_REVIEW_IMAGE_URL,
+    },
   },
 }
 

@@ -113,10 +113,18 @@ interface Review {
 }
 
 interface ExtractionResult {
-  businesses: Record<string, unknown>[]
-  reviews: Record<string, unknown>[]
+  businesses: any[]
+  reviews: any[]
   searchCriteria: Record<string, unknown>
   extractionDate: Date
+  cost?: any
+  performance?: any
+  cache?: {
+    businesses_cached: number
+    businesses_new: number
+    reviews_cached: number
+    reviews_new: number
+  }
 }
 
 export function EnhancedReviewExtractionDashboard() {
@@ -365,6 +373,7 @@ export function EnhancedReviewExtractionDashboard() {
           finalResult = {
             businesses: jsonResponse.businesses.list || [],
             reviews: jsonResponse.reviews.list || [],
+            searchCriteria: criteria,
             extractionDate: new Date(jsonResponse.metadata.extraction_date),
             cost: jsonResponse.cost,
             performance: jsonResponse.performance,
@@ -691,7 +700,7 @@ export function EnhancedReviewExtractionDashboard() {
 
   // Clean up binary garbage email data
   const handleCleanupGarbageEmails = async () => {
-    if (!filteredQualifyingBusinesses.length) {
+    if (!results || !results.businesses || !filteredQualifyingBusinesses.length) {
       alert('No business data available for cleanup.')
       return
     }
@@ -813,7 +822,7 @@ export function EnhancedReviewExtractionDashboard() {
   }
 
   const handleSelectAllReviews = (selectAll: boolean) => {
-    if (selectAll && results) {
+    if (selectAll && results && results.reviews) {
       const allReviewIndices = new Set(results.reviews.map((_, index) => index.toString()))
       setSelectedReviews(allReviewIndices)
     } else {
@@ -884,7 +893,9 @@ export function EnhancedReviewExtractionDashboard() {
           location: params.get('city') || 'Amsterdam',
           maxStars: parseInt(params.get('maxRating') || '3'),
           dayLimit: parseInt(params.get('dayLimit') || '30'),
-          businessLimit: parseInt(params.get('limit') || '100')
+          businessLimit: parseInt(params.get('limit') || '100'),
+          language: 'nl',
+          countryCode: 'nl'
         }
 
         // Set search criteria if it wasn't set
@@ -1014,16 +1025,17 @@ export function EnhancedReviewExtractionDashboard() {
 
     // Get unique business titles that have qualifying reviews
     // Use business_name from reviews (set during API transformation)
-    const businessesWithReviews = new Set(results.reviews.map((review: any) => review.business_name || review.business_title))
+    const reviewsArray = results.reviews || []
+    const businessesWithReviews = new Set(reviewsArray.map((review: any) => review.business_name || review.business_title))
 
     // Filter businesses to only include those with qualifying reviews
-    const filteredBusinesses = results.businesses.filter((business: any) =>
+    const filteredBusinesses = (results.businesses || []).filter((business: any) =>
       businessesWithReviews.has(business.title) || businessesWithReviews.has(business.name)
     )
 
     // Add quality scores to each business
     const businessesWithQuality = filteredBusinesses.map((business: any) => {
-      const businessReviews = results.reviews.filter((review: any) =>
+      const businessReviews = reviewsArray.filter((review: any) =>
         (review.business_name === business.title || review.business_name === business.name) ||
         (review.business_title === business.title || review.business_title === business.name)
       )
@@ -1092,7 +1104,7 @@ export function EnhancedReviewExtractionDashboard() {
 
     return {
       businesses: qualifyingBusinesses.length,
-      reviews: results.reviews.length,
+      reviews: results.reviews?.length || 0,
       enriched,
       avgRating: qualifyingBusinesses.length > 0 ? totalRating / qualifyingBusinesses.length : 0,
       phoneNumbers,
@@ -1267,7 +1279,7 @@ export function EnhancedReviewExtractionDashboard() {
                     </div>
                   </div>
 
-                  {(lastSearchCriteria.minRating || lastSearchCriteria.maxRating) && (
+                  {Boolean(lastSearchCriteria.minRating || lastSearchCriteria.maxRating) && (
                     <div className="space-y-1">
                       <div className="text-xs text-muted-foreground">Business Rating</div>
                       <div className="font-medium text-sm flex items-center gap-1">
@@ -1444,7 +1456,7 @@ export function EnhancedReviewExtractionDashboard() {
                           </TooltipProvider>
                         </div>
                         <p className="text-sm text-muted-foreground">
-                          Found {qualifyingBusinesses.length} qualifying businesses • {results.reviews.length} reviews analyzed
+                          Found {qualifyingBusinesses.length} qualifying businesses • {results.reviews?.length || 0} reviews analyzed
                           {statsData?.enriched && statsData.enriched > 0 && (
                             <span className="ml-2 text-green-400 font-medium">
                               • {statsData.enriched} contacts available
@@ -1655,7 +1667,7 @@ export function EnhancedReviewExtractionDashboard() {
                       </Button>
 
                       {/* Contact Enrichment Button */}
-                      {!isEnrichingContacts && results.businesses.length > 0 && (
+                      {!isEnrichingContacts && results.businesses && results.businesses.length > 0 && (
                         <motion.div
                           initial={{ scale: 0.9, opacity: 0 }}
                           animate={{ scale: 1, opacity: 1 }}
@@ -1699,7 +1711,6 @@ export function EnhancedReviewExtractionDashboard() {
 
                   {/* Results Display */}
                   <div className="space-y-4">
-                    {console.log('Rendering view, current viewMode:', viewMode) || null}
 
                     {viewMode === 'cards' && (
                       <motion.div
@@ -1708,7 +1719,6 @@ export function EnhancedReviewExtractionDashboard() {
                         animate={{ opacity: 1 }}
                         className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
                       >
-                        {console.log('Rendering CARDS view - Qualifying Business Grid') || null}
                         {filteredQualifyingBusinesses.map((business: any, index) => (
                           <EnhancedBusinessCard
                             key={business.placeId || index}
@@ -1728,7 +1738,6 @@ export function EnhancedReviewExtractionDashboard() {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                       >
-                        {console.log('Rendering TABLE view - Reviews Table') || null}
                         {results.reviews && results.reviews.length > 0 ? (
                           <ResultsTable
                             results={results}
@@ -1750,7 +1759,6 @@ export function EnhancedReviewExtractionDashboard() {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                       >
-                        {console.log('Rendering LIST view - Reviews List') || null}
                         {results.reviews && results.reviews.length > 0 ? (
                           <ResultsList
                             results={results}
@@ -1791,6 +1799,7 @@ export function EnhancedReviewExtractionDashboard() {
           }}
           onConfirm={handleConfirmExtraction}
           criteria={pendingCriteria}
+          useCached={!!pendingCriteria?.useCached}
         />
 
         {/* Lead Selection Modal */}

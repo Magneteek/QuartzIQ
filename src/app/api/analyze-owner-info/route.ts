@@ -19,43 +19,6 @@ export async function POST(request: NextRequest) {
       // Task tool import disabled for build stability
       console.log(`⚠️ Task tool disabled for build stability`)
       throw new Error('Task tool not available in API runtime context')
-
-      // Parse the agent result to extract owner information
-      let ownerInfo = null
-
-      try {
-        // Try to parse JSON response from agent
-        const parsed = JSON.parse(agentResult)
-        if (parsed.firstName || parsed.lastName || parsed.title) {
-          ownerInfo = parsed
-        }
-      } catch (parseError) {
-        // If not JSON, try to extract information from text response
-        console.log(`📝 Parsing text response from agent`)
-        ownerInfo = parseOwnerInfoFromText(agentResult, businessName)
-      }
-
-      if (ownerInfo) {
-        console.log(`🎯 Successfully extracted owner info:`)
-        console.log(`   Name: ${ownerInfo.firstName} ${ownerInfo.lastName}`)
-        console.log(`   Title: ${ownerInfo.title}`)
-        if (ownerInfo.email) console.log(`   Email: ${ownerInfo.email}`)
-
-        return NextResponse.json({
-          success: true,
-          ownerInfo: ownerInfo,
-          businessName: businessName,
-          timestamp: new Date().toISOString()
-        })
-      } else {
-        console.log(`❌ No owner information found by AI agent`)
-        return NextResponse.json({
-          success: false,
-          message: 'No owner information found in search results',
-          businessName: businessName
-        })
-      }
-
     } catch (taskError) {
       console.error('❌ Task tool failed:', taskError)
 

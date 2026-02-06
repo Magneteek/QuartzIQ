@@ -197,7 +197,7 @@ class CrawlQueueManager {
 
     const result = await db.query(query, params);
 
-    const batches = result.rows.map(row => ({
+    const batches = result.rows.map((row: any) => ({
       batchId: row.batch_id,
       batchName: row.batch_name,
       organizationId: row.organization_id,
@@ -216,11 +216,11 @@ class CrawlQueueManager {
 
     // Calculate overall stats
     const stats = {
-      totalQueued: batches.reduce((sum, b) => sum + b.queued, 0),
-      totalInProgress: batches.reduce((sum, b) => sum + b.inProgress, 0),
+      totalQueued: batches.reduce((sum: number, b: any) => sum + b.queued, 0),
+      totalInProgress: batches.reduce((sum: number, b: any) => sum + b.inProgress, 0),
       estimatedTotalCost: batches
-        .filter(b => b.status === 'queued')
-        .reduce((sum, b) => sum + (b.businessCount * 0.02), 0)
+        .filter((b: any) => b.status === 'queued')
+        .reduce((sum: number, b: any) => sum + (b.businessCount * 0.02), 0)
     };
 
     return { batches, stats };
@@ -327,7 +327,7 @@ class CrawlQueueManager {
     const countResult = await db.query(countQuery, params.slice(0, -2));
     const total = parseInt(countResult.rows[0].total);
 
-    const businesses = result.rows.map(row => ({
+    const businesses = result.rows.map((row: any) => ({
       id: row.id,
       placeId: row.place_id,
       name: row.name,

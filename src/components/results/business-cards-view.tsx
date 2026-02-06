@@ -23,7 +23,7 @@ interface BusinessCardsViewProps {
 }
 
 export function BusinessCardsView({ results }: BusinessCardsViewProps) {
-  const { businesses, reviews, cache, cost } = results
+  const { businesses, reviews = [], cache, cost } = results
 
   // Group reviews by business
   const reviewsByBusiness = reviews.reduce((acc: any, review: any) => {

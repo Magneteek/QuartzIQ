@@ -9,7 +9,7 @@ export async function POST(request: NextRequest) {
 
     console.log('📊 Request data:', {
       businessesCount: businesses?.length || 0,
-      businesses: businesses?.map(b => ({ title: b.title, placeId: b.placeId })) || [],
+      businesses: businesses?.map((b: any) => ({ title: b.title, placeId: b.placeId })) || [],
       options
     })
 
@@ -116,7 +116,7 @@ export async function POST(request: NextRequest) {
               const historyManager = new HistoryManager()
               await historyManager.updateEnrichment(
                 extractionId,
-                enrichedBusinesses,
+                enrichedBusinesses as unknown as Record<string, unknown>[],
                 {
                   enrichedBusinesses: enrichedCount,
                   phoneNumbers: phoneCount,

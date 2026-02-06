@@ -24,13 +24,7 @@ export async function POST(request: NextRequest) {
     console.log('✅ Migration completed successfully!')
 
     // Verify the changes
-    const verifyResult = await db.query<{
-      rows: Array<{
-        column_name: string
-        data_type: string
-        is_nullable: string
-      }>
-    }>(`
+    const verifyResult = await db.query(`
       SELECT
         column_name,
         data_type,
@@ -47,13 +41,7 @@ export async function POST(request: NextRequest) {
     `)
 
     // Show summary statistics
-    const statsResult = await db.query<{
-      rows: Array<{
-        crawl_priority: string
-        count: string
-        avg_reviews: string
-      }>
-    }>(`
+    const statsResult = await db.query(`
       SELECT
         crawl_priority,
         COUNT(*) as count,
@@ -70,9 +58,7 @@ export async function POST(request: NextRequest) {
     `)
 
     // Show 0-review businesses
-    const zeroReviewsResult = await db.query<{
-      rows: Array<{ count: string }>
-    }>(`
+    const zeroReviewsResult = await db.query(`
       SELECT COUNT(*) as count
       FROM businesses
       WHERE reviews_count = 0 OR reviews_count IS NULL
@@ -82,7 +68,7 @@ export async function POST(request: NextRequest) {
       success: true,
       message: 'Smart Crawl Strategy migration completed successfully!',
       newColumns: verifyResult.rows,
-      priorityDistribution: statsResult.rows.map(row => ({
+      priorityDistribution: statsResult.rows.map((row: any) => ({
         priority: row.crawl_priority,
         count: parseInt(row.count),
         avgReviews: parseFloat(row.avg_reviews || '0'),

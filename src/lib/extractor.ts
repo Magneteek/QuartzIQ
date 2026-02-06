@@ -6,6 +6,7 @@
 
 import * as https from 'https'
 import { logger } from './logger'
+import { businessCache } from './services/business-cache'
 
 interface SearchCriteria {
   category: string
@@ -14,14 +15,28 @@ interface SearchCriteria {
   maxReviewsPerBusiness?: number // Max reviews to check per business
   maxStars?: number // Review star rating filter
   dayLimit?: number // Review age limit in days
+  mustHavePhotos?: boolean // Require reviews with images (when true, dayLimit is IGNORED - searches ALL reviews)
+  reviewsStartDate?: string // Start date for review filtering (e.g., '2024-01-15' or '7 days') - tells Apify to only scrape reviews after this date
   businessLimit?: number // Max businesses to crawl
   language?: string
   maxQueries?: number
   resultsPerQuery?: number
   countryCode?: string
+  multiLanguageSearch?: boolean // Search in both local + English (default: false, costs 2×)
+  // 🆕 Enrichment options
+  enrichment?: {
+    enabled?: boolean
+    apifyEnrichment?: {
+      enabled?: boolean
+      scrapeWebsite?: boolean
+      scrapeSocialMedia?: boolean
+      maxPagesPerSite?: number
+    }
+  }
 }
 
 interface Business {
+  id?: string  // Database ID (set after caching)
   title: string
   address: string
   totalScore: number
@@ -56,6 +71,8 @@ interface Review {
   reviewerUrl: string
   url: string
   placeId: string
+  reviewImageUrls?: string[]  // ✅ Photos/images attached to review
+  reviewerPhotoUrl?: string    // Reviewer profile photo
 }
 
 // 🛑 Global tracking for running extractions (allows abort from API)
@@ -277,7 +294,8 @@ export class UniversalBusinessReviewExtractor {
           query,
           targetLimit, // Request full limit, not divided
           searchCriteria.countryCode || 'nl',
-          searchCriteria.language || 'nl'
+          searchCriteria.language || 'nl',
+          searchCriteria.enrichment?.apifyEnrichment?.enabled || false // 🆕 Pass enrichment flag
         )
 
         // 🛡️ POST-SEARCH VALIDATION - Filter results by geographic correctness
@@ -287,6 +305,45 @@ export class UniversalBusinessReviewExtractor {
         if (filteredCount > 0) {
           console.log(`   🌍 GEOGRAPHIC FILTER: Removed ${filteredCount} businesses from wrong region`)
           console.log(`   ✅ Keeping ${validatedBusinesses.length} geographically correct results`)
+        }
+
+        // 💾 CACHE BUSINESSES - Store with enrichment data to prevent re-enrichment
+        if (validatedBusinesses.length > 0) {
+          console.log(`   💾 Caching ${validatedBusinesses.length} businesses with enrichment data...`)
+          for (const business of validatedBusinesses) {
+            try {
+              // ✅ Capture the returned database ID for momentum tracking
+              const businessId = await businessCache.upsert({
+                place_id: business.placeId,
+                name: business.title,
+                category: searchCriteria.category || undefined, // ✅ FIX: Add category for cache detection
+                address: business.address || undefined,
+                city: searchCriteria.location || undefined, // ✅ FIX: Add city for cache detection
+                rating: business.totalScore || undefined,
+                reviews_count: business.reviewsCount || 0,
+                phone: business.phone || undefined,
+                website: business.website || undefined,
+                email: business.email || undefined,
+                google_maps_url: business.url || undefined,
+                country_code: searchCriteria.countryCode || 'nl',
+                raw_data: business as any,
+                // 🆕 Enrichment fields from Apify
+                email_enriched: business.email || undefined,
+                email_source: business.email ? 'apify' : undefined,
+                email_confidence: business.email ? 'medium' : undefined,
+                facebook_url: business.socialMedia?.facebook || undefined,
+                linkedin_url: business.socialMedia?.linkedin || undefined,
+                instagram_url: business.socialMedia?.instagram || undefined,
+                twitter_url: business.socialMedia?.twitter || undefined,
+                enrichment_provider: searchCriteria.enrichment?.apifyEnrichment?.enabled ? 'apify' : undefined,
+                enrichment_cost_usd: searchCriteria.enrichment?.apifyEnrichment?.enabled ? 0.009 : undefined,
+              })
+              // ✅ Attach the database ID to the business object
+              business.id = businessId
+            } catch (error: any) {
+              console.log(`   ⚠️ Cache failed for ${business.title}: ${error.message}`)
+            }
+          }
         }
 
         // 🛡️ CRITICAL FIX: Only add businesses up to the limit
@@ -340,18 +397,21 @@ export class UniversalBusinessReviewExtractor {
           majorCities.forEach(city => {
             queries.push(`${localizedCategory} ${city}`)
           })
-          // Add English variation for first city (international businesses)
-          if (localizedCategory !== category) {
+          // Add English variation for first city (international businesses) - optional
+          if (criteria.multiLanguageSearch && localizedCategory !== category) {
             queries.push(`${category} Amsterdam`)
           }
         } else {
           // For city-specific searches, use more diverse patterns
           queries.push(
-            `${localizedCategory} ${location}`,
-            `${category} ${location}`, // English variation
+            `${localizedCategory} ${location}`, // Primary: Dutch category
             `${localizedCategory} in ${location}`,
             `${localizedCategory} nabij ${location}` // "near [city]"
           )
+          // English variation - optional for international business discovery
+          if (criteria.multiLanguageSearch && localizedCategory !== category) {
+            queries.push(`${category} ${location}`)
+          }
         }
         break
 
@@ -364,7 +424,7 @@ export class UniversalBusinessReviewExtractor {
             `beste ${localizedCategory}`,
             `top ${localizedCategory}`
           )
-          if (localizedCategory !== category) {
+          if (criteria.multiLanguageSearch && localizedCategory !== category) {
             queries.push(`${category}`) // English fallback without country name
           }
         } else {
@@ -375,7 +435,7 @@ export class UniversalBusinessReviewExtractor {
             `beste ${localizedCategory} ${location}`,
             `${localizedCategory} ${location} Deutschland`
           )
-          if (localizedCategory !== category) {
+          if (criteria.multiLanguageSearch && localizedCategory !== category) {
             queries.push(`${category} ${location}`)
           }
         }
@@ -390,7 +450,7 @@ export class UniversalBusinessReviewExtractor {
             `beste ${localizedCategory}`,
             `top ${localizedCategory}`
           )
-          if (localizedCategory !== category) {
+          if (criteria.multiLanguageSearch && localizedCategory !== category) {
             queries.push(`${category}`) // English fallback without country name
           }
         } else {
@@ -401,7 +461,7 @@ export class UniversalBusinessReviewExtractor {
             `beste ${localizedCategory} ${location}`,
             `${localizedCategory} ${location} Österreich`
           )
-          if (localizedCategory !== category) {
+          if (criteria.multiLanguageSearch && localizedCategory !== category) {
             queries.push(`${category} ${location}`)
           }
         }
@@ -416,7 +476,7 @@ export class UniversalBusinessReviewExtractor {
             `beste ${localizedCategory}`,
             `top ${localizedCategory}`
           )
-          if (localizedCategory !== category) {
+          if (criteria.multiLanguageSearch && localizedCategory !== category) {
             queries.push(`${category}`) // English fallback without country name
           }
         } else {
@@ -427,7 +487,7 @@ export class UniversalBusinessReviewExtractor {
             `beste ${localizedCategory} ${location}`,
             `${localizedCategory} ${location} Schweiz`
           )
-          if (localizedCategory !== category) {
+          if (criteria.multiLanguageSearch && localizedCategory !== category) {
             queries.push(`${category} ${location}`)
           }
         }
@@ -442,7 +502,7 @@ export class UniversalBusinessReviewExtractor {
             `mejor ${localizedCategory}`,
             `mejores ${localizedCategory}`
           )
-          if (localizedCategory !== category) {
+          if (criteria.multiLanguageSearch && localizedCategory !== category) {
             queries.push(`${category}`) // English fallback without country name
           }
         } else {
@@ -453,7 +513,7 @@ export class UniversalBusinessReviewExtractor {
             `mejor ${localizedCategory} ${location}`,
             `mejores ${localizedCategory} ${location}`
           )
-          if (localizedCategory !== category) {
+          if (criteria.multiLanguageSearch && localizedCategory !== category) {
             queries.push(`${category} ${location}`)
           }
         }
@@ -466,7 +526,7 @@ export class UniversalBusinessReviewExtractor {
           `${localizedCategory} Belgique`,
           `beste ${localizedCategory} ${location}`
         )
-        if (localizedCategory !== category) {
+        if (criteria.multiLanguageSearch && localizedCategory !== category) {
           queries.push(`${category} ${location}`)
         }
         break
@@ -480,7 +540,7 @@ export class UniversalBusinessReviewExtractor {
             `najboljši ${localizedCategory}`,
             `najbolje ${localizedCategory}`
           )
-          if (localizedCategory !== category) {
+          if (criteria.multiLanguageSearch && localizedCategory !== category) {
             queries.push(`${category}`) // English fallback without country name
           }
         } else {
@@ -491,7 +551,7 @@ export class UniversalBusinessReviewExtractor {
             `najboljši ${localizedCategory} ${location}`,
             `najbolje ${localizedCategory} ${location}`
           )
-          if (localizedCategory !== category) {
+          if (criteria.multiLanguageSearch && localizedCategory !== category) {
             queries.push(`${category} ${location}`)
           }
         }
@@ -506,7 +566,7 @@ export class UniversalBusinessReviewExtractor {
             `najbolji ${localizedCategory}`,
             `najbolje ${localizedCategory}`
           )
-          if (localizedCategory !== category) {
+          if (criteria.multiLanguageSearch && localizedCategory !== category) {
             queries.push(`${category}`) // English fallback without country name
           }
         } else {
@@ -517,7 +577,7 @@ export class UniversalBusinessReviewExtractor {
             `najbolji ${localizedCategory} ${location}`,
             `najbolje ${localizedCategory} ${location}`
           )
-          if (localizedCategory !== category) {
+          if (criteria.multiLanguageSearch && localizedCategory !== category) {
             queries.push(`${category} ${location}`)
           }
         }
@@ -746,14 +806,20 @@ export class UniversalBusinessReviewExtractor {
     return category
   }
 
-  private async searchGoogleMaps(query: string, maxItems = 10, countryCode = 'nl', language = 'nl'): Promise<Business[]> {
+  private async searchGoogleMaps(query: string, maxItems = 10, countryCode = 'nl', language = 'nl', enrichment = false): Promise<Business[]> {
     const input = {
       searchStringsArray: [query],
       maxCrawledPlacesPerSearch: maxItems,
       language: language,
       countryCode: countryCode,
       includeImages: false,
-      includeReviews: false
+      includeReviews: false,
+
+      // 🆕 ENRICHMENT - Happens in Stage 1 (same API call!)
+      includeWebsiteData: enrichment,      // Scrape business websites
+      scrapeContactInfo: enrichment,        // Extract emails/phones
+      scrapeSocialMedia: enrichment,        // Get social media links
+      maxPagesPerQuery: enrichment ? 1 : 0, // Limit website crawl depth
     }
 
     const runId = await this.runApifyActor(this.actorMapsId, input)
@@ -765,6 +831,30 @@ export class UniversalBusinessReviewExtractor {
     }
 
     const results = await this.getApifyResults(runId, this.actorMapsId)
+
+    // 🆕 Map enrichment data from Apify response
+    if (enrichment && results) {
+      return results.map((business: any) => ({
+        ...business,
+        // Contact enrichment
+        email: business.emails?.[0] || business.email || null,
+        phone: business.phone || null,
+        website: business.website || null,
+
+        // Social media enrichment
+        socialMedia: {
+          facebook: business.facebookUrl || business.socialMedia?.facebook || null,
+          linkedin: business.linkedInUrl || business.socialMedia?.linkedin || null,
+          instagram: business.instagramUrl || business.socialMedia?.instagram || null,
+          twitter: business.twitterUrl || business.socialMedia?.twitter || null,
+        },
+
+        // Enrichment metadata for caching
+        contactEnriched: !!(business.emails?.[0] || business.facebookUrl || business.linkedInUrl),
+        enrichmentDate: new Date(),
+      }))
+    }
+
     return results || []
   }
 
@@ -773,11 +863,32 @@ export class UniversalBusinessReviewExtractor {
       throw new Error('No place ID available')
     }
 
+    // Construct google_maps_url if not present
+    const googleMapsUrl = business.url || `https://www.google.com/maps/place/?q=place_id:${business.placeId}`
+
+    // Calculate reviewsStartDate - CRITICAL LOGIC:
+    // - Image searches: NO time limit (search ALL reviews for images)
+    // - Text searches: WITH time limit (search within dayLimit)
+    // - Monitoring: Incremental from last check
+    let reviewsStartDate: string | undefined
+
+    // If searching for images, DON'T apply time limits
+    if (criteria.mustHavePhotos) {
+      reviewsStartDate = undefined // Search ALL reviews for images
+    } else if (criteria.reviewsStartDate) {
+      // Use explicit start date (for customer monitoring)
+      reviewsStartDate = criteria.reviewsStartDate
+    } else if (criteria.dayLimit) {
+      // Convert dayLimit to relative date format (for text-based searches)
+      reviewsStartDate = `${criteria.dayLimit} days`
+    }
+
     const input = {
-      placeIds: [business.placeId],
+      startUrls: [{ url: googleMapsUrl }], // Use URL format, not placeIds
       maxReviews: criteria.maxReviewsPerBusiness || 5, // Only check 5 newest reviews for recent reputation issues
       language: criteria.language || 'nl',
-      sort: 'newest'
+      sort: 'newest',
+      ...(reviewsStartDate && { reviewsStartDate }) // Only include if defined (omitted for image searches)
     }
 
     const runId = await this.runApifyActor(this.actorReviewsId, input)
@@ -794,9 +905,9 @@ export class UniversalBusinessReviewExtractor {
     if (results && results.length > 0) {
       return results.map((review: any) => ({
         ...review,
-        title: review.title || business.title || business.name,
-        businessName: business.title || business.name,
-        business_name: business.title || business.name,
+        title: review.title || business.title,
+        businessName: business.title,
+        business_name: business.title,
         address: review.address || business.address,
         placeId: review.placeId || business.placeId
       }))
@@ -813,6 +924,24 @@ export class UniversalBusinessReviewExtractor {
     const qualifyingReviews: Review[] = []
 
     for (const review of sorted) {
+      // ✅ CRITICAL: Validate review has required fields
+      if (!review.stars || !review.publishedAtDate || !review.text || !review.name) {
+        console.log(`⚠️ Skipping incomplete review (missing required fields)`)
+        continue
+      }
+
+      // Validate stars is a valid number
+      if (typeof review.stars !== 'number' || review.stars < 1 || review.stars > 5) {
+        console.log(`⚠️ Skipping review with invalid rating: ${review.stars}`)
+        continue
+      }
+
+      // Validate date is valid
+      if (isNaN(new Date(review.publishedAtDate).getTime())) {
+        console.log(`⚠️ Skipping review with invalid date: ${review.publishedAtDate}`)
+        continue
+      }
+
       // Check rating criteria
       if (criteria.maxStars && review.stars > criteria.maxStars) {
         continue

@@ -116,7 +116,7 @@ export async function GET(request: NextRequest) {
       if (city) params.push(city)
     }
 
-    const result = await db.query<{ rows: any[] }>(query, params)
+    const result = await db.query(query, params)
 
     // Get summary statistics
     const statsQuery = mode === 'primary'
@@ -143,7 +143,7 @@ export async function GET(request: NextRequest) {
           AND (reviews_count = 0 OR reviews_count IS NULL)
       `
 
-    const statsResult = await db.query<{ rows: any[] }>(statsQuery)
+    const statsResult = await db.query(statsQuery)
 
     return NextResponse.json({
       success: true,

@@ -133,7 +133,6 @@ export class QuotaExceededError extends AppError {
 export class ConfigurationError extends AppError {
   constructor(message: string, context?: Record<string, unknown>) {
     super(message, 500, false, { ...context, errorType: 'configuration' })
-    this.isOperational = false // Configuration errors are not operational
   }
 }
 
