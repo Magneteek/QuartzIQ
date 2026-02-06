@@ -29,6 +29,16 @@ import {
 } from '@/components/ui/select'
 import { Badge } from '@/components/ui/badge'
 import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog'
+import {
   ArrowUpDown,
   Search,
   Star,
@@ -42,6 +52,7 @@ import {
   Shield,
   Award,
   Zap,
+  Trash2,
 } from 'lucide-react'
 
 interface Customer {
@@ -96,6 +107,8 @@ export default function CustomersPage() {
   const [searchTerm, setSearchTerm] = useState('')
   const [tierFilter, setTierFilter] = useState('all')
   const [monitoringFilter, setMonitoringFilter] = useState('all')
+  const [customerToRemove, setCustomerToRemove] = useState<Customer | null>(null)
+  const [isRemoving, setIsRemoving] = useState(false)
 
   const fetchCustomers = async () => {
     try {
@@ -124,6 +137,33 @@ export default function CustomersPage() {
       console.error('Error fetching customers:', error)
     } finally {
       setLoading(false)
+    }
+  }
+
+  const handleRemoveCustomer = async () => {
+    if (!customerToRemove) return
+
+    try {
+      setIsRemoving(true)
+      const response = await fetch(`/api/customers/${customerToRemove.id}/remove`, {
+        method: 'POST',
+      })
+
+      if (!response.ok) throw new Error('Failed to remove customer')
+
+      const data = await response.json()
+      console.log('Customer removed:', data)
+
+      // Refresh the customer list
+      await fetchCustomers()
+
+      // Close the dialog
+      setCustomerToRemove(null)
+    } catch (error) {
+      console.error('Error removing customer:', error)
+      alert('Failed to remove customer. Please try again.')
+    } finally {
+      setIsRemoving(false)
     }
   }
 
@@ -318,12 +358,23 @@ export default function CustomersPage() {
         id: 'actions',
         header: 'Actions',
         cell: ({ row }) => (
-          <Link href={`/dashboard/customers/${row.original.id}`}>
-            <Button size="sm" variant="outline" className="gap-1">
-              <Eye className="h-3 w-3" />
-              View
+          <div className="flex gap-2">
+            <Link href={`/dashboard/customers/${row.original.id}`}>
+              <Button size="sm" variant="outline" className="gap-1">
+                <Eye className="h-3 w-3" />
+                View
+              </Button>
+            </Link>
+            <Button
+              size="sm"
+              variant="outline"
+              className="gap-1 text-red-600 hover:text-red-700 hover:bg-red-50"
+              onClick={() => setCustomerToRemove(row.original)}
+            >
+              <Trash2 className="h-3 w-3" />
+              Remove
             </Button>
-          </Link>
+          </div>
         ),
       },
     ],
@@ -501,6 +552,46 @@ export default function CustomersPage() {
           </TableBody>
         </Table>
       </div>
+
+      {/* Remove Customer Confirmation Dialog */}
+      <AlertDialog open={!!customerToRemove} onOpenChange={() => setCustomerToRemove(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Remove Customer Status</AlertDialogTitle>
+            <AlertDialogDescription>
+              Are you sure you want to remove customer status from{' '}
+              <strong>{customerToRemove?.business_name}</strong>?
+              <br />
+              <br />
+              This will:
+              <ul className="list-disc list-inside mt-2 space-y-1">
+                <li>Disable monitoring for this business</li>
+                <li>Change lifecycle stage back to &quot;lead&quot;</li>
+                <li>Keep all historical data and alerts</li>
+              </ul>
+              <br />
+              You can always re-add them as a customer later.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel disabled={isRemoving}>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleRemoveCustomer}
+              disabled={isRemoving}
+              className="bg-red-600 hover:bg-red-700"
+            >
+              {isRemoving ? (
+                <>
+                  <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                  Removing...
+                </>
+              ) : (
+                'Remove Customer'
+              )}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   )
 }
