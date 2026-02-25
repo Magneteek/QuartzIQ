@@ -412,7 +412,7 @@ class BusinessCacheService {
       SELECT *
       FROM businesses
       ${whereClause}
-      ORDER BY rating DESC, reviews_count DESC
+      ORDER BY rating DESC NULLS LAST, reviews_count DESC NULLS LAST
       ${limitClause}
     `;
 

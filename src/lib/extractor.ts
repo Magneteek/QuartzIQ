@@ -886,7 +886,7 @@ export class UniversalBusinessReviewExtractor {
     const input = {
       startUrls: [{ url: googleMapsUrl }], // Use URL format, not placeIds
       maxReviews: criteria.maxReviewsPerBusiness || 5, // Only check 5 newest reviews for recent reputation issues
-      language: criteria.language || 'nl',
+      language: criteria.language || 'en', // 'en' avoids EU GDPR consent screen (hl=nl triggers it); reviews still come in original language
       sort: 'newest',
       ...(reviewsStartDate && { reviewsStartDate }) // Only include if defined (omitted for image searches)
     }

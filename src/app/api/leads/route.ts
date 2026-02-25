@@ -46,7 +46,7 @@ export async function GET(request: NextRequest) {
     const limit = parseInt(searchParams.get('limit') || '15')
     const offset = parseInt(searchParams.get('offset') || '0')
     const search = searchParams.get('search') || null
-    const sortBy = searchParams.get('sortBy') || 'created_at'
+    const sortBy = searchParams.get('sortBy') || 'last_qualified_review'
     const sortOrder = searchParams.get('sortOrder') || 'DESC'
     const hasReviews = searchParams.get('hasReviews') === 'true'
 
@@ -159,12 +159,13 @@ export async function GET(request: NextRequest) {
         'created_at': 'first_discovered_at',
         'business_name': 'name',
         'rating': 'rating',
-        'total_reviews': 'reviews_count'
+        'total_reviews': 'reviews_count',
+        'last_qualified_review': 'last_qualified_review_date'
       }
 
       // Whitelist allowed sort columns for security
-      const allowedSortColumns = ['created_at', 'business_name', 'rating', 'total_reviews']
-      const frontendSort = allowedSortColumns.includes(sortBy) ? sortBy : 'created_at'
+      const allowedSortColumns = ['created_at', 'business_name', 'rating', 'total_reviews', 'last_qualified_review']
+      const frontendSort = allowedSortColumns.includes(sortBy) ? sortBy : 'last_qualified_review'
       const dbSort = columnMap[frontendSort]
       const safeSortOrder = sortOrder === 'ASC' ? 'ASC' : 'DESC'
 
@@ -195,6 +196,10 @@ export async function GET(request: NextRequest) {
           b.va_notes,
           b.first_discovered_at AS created_at,
           b.last_updated_at AS updated_at,
+          b.last_qualified_review_date,
+          b.qualified_reviews_count,
+          b.exported_to_ghl,
+          b.exported_to_ghl_at,
           u.name AS qualified_by_name,
           COUNT(r.id)::bigint AS review_count,
           MAX(r.published_date) AS latest_review_date,
@@ -205,7 +210,7 @@ export async function GET(request: NextRequest) {
         WHERE ${whereClause}
         GROUP BY b.id, u.name
         HAVING COUNT(r.id) > 0
-        ORDER BY b.${dbSort} ${safeSortOrder}
+        ORDER BY b.${dbSort} ${safeSortOrder} NULLS LAST
         LIMIT $1 OFFSET $2`,
         queryParams
       )
@@ -215,11 +220,12 @@ export async function GET(request: NextRequest) {
         'created_at': 'first_discovered_at',
         'business_name': 'name',
         'rating': 'rating',
-        'total_reviews': 'reviews_count'
+        'total_reviews': 'reviews_count',
+        'last_qualified_review': 'last_qualified_review_date'
       }
 
-      const allowedSortColumns = ['created_at', 'business_name', 'rating', 'total_reviews']
-      const frontendSort = allowedSortColumns.includes(sortBy) ? sortBy : 'created_at'
+      const allowedSortColumns = ['created_at', 'business_name', 'rating', 'total_reviews', 'last_qualified_review']
+      const frontendSort = allowedSortColumns.includes(sortBy) ? sortBy : 'last_qualified_review'
       const dbSort = columnMap[frontendSort]
       const safeSortOrder = sortOrder === 'ASC' ? 'ASC' : 'DESC'
 
@@ -249,6 +255,10 @@ export async function GET(request: NextRequest) {
           b.va_notes,
           b.first_discovered_at AS created_at,
           b.last_updated_at AS updated_at,
+          b.last_qualified_review_date,
+          b.qualified_reviews_count,
+          b.exported_to_ghl,
+          b.exported_to_ghl_at,
           u.name AS qualified_by_name,
           COALESCE(
             (SELECT COUNT(*) FROM reviews WHERE business_id = b.id),
@@ -259,7 +269,7 @@ export async function GET(request: NextRequest) {
         FROM businesses b
         LEFT JOIN users u ON b.qualified_by = u.id
         WHERE ${whereClause}
-        ORDER BY b.${dbSort} ${safeSortOrder}
+        ORDER BY b.${dbSort} ${safeSortOrder} NULLS LAST
         LIMIT $1 OFFSET $2`,
         queryParams
       )

@@ -353,11 +353,17 @@ export function EnhancedBusinessCard({
           <div className="space-y-3">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-1">
-                {getStarRating(parseFloat(String(business.totalScore || 0)))}
+                {business.totalScore > 0
+                  ? getStarRating(parseFloat(String(business.totalScore)))
+                  : <span className="text-xs text-muted-foreground italic">No rating data</span>
+                }
               </div>
 
               <div className="text-sm text-muted-foreground">
-                {Number(business.reviewsCount || 0).toLocaleString()} reviews
+                {business.reviewsCount > 0
+                  ? `${Number(business.reviewsCount).toLocaleString()} Google reviews`
+                  : 'Reviews: unknown'
+                }
               </div>
             </div>
 

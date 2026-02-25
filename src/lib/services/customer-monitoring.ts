@@ -274,12 +274,13 @@ export class CustomerMonitoringService {
       else if (review.stars === 2) severity = 'high'
       else if (review.stars === 3) severity = 'medium'
 
-      // Create alert
+      // Create alert with new status field
       const alertResult = await this.pool.query(
         `INSERT INTO customer_monitoring_alerts (
           business_id, alert_type, severity,
-          review_stars, review_text, review_date, reviewer_name
-        ) VALUES ($1, $2, $3, $4, $5, $6, $7)
+          review_stars, review_text, review_date, reviewer_name,
+          status, ghl_webhook_sent
+        ) VALUES ($1, $2, $3, $4, $5, $6, $7, 'new', false)
         RETURNING id`,
         [
           businessId,
@@ -309,6 +310,15 @@ export class CustomerMonitoringService {
           reviewImages: imageUrls,
           severity,
         })
+
+        // Mark webhook as sent
+        await this.pool.query(
+          `UPDATE customer_monitoring_alerts
+           SET ghl_webhook_sent = true, ghl_webhook_sent_at = CURRENT_TIMESTAMP
+           WHERE id = $1`,
+          [alertId]
+        )
+
         monitoringLogger.info('Alert sent to GHL', {
           businessId,
           alertId,

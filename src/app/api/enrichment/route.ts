@@ -22,6 +22,7 @@ export async function GET(request: NextRequest) {
     const sortBy = searchParams.get('sortBy') || 'qualification_date'
     const sortOrder = searchParams.get('sortOrder') || 'DESC'
     const status = searchParams.get('status') || 'all' // 'all', 'pending', 'in_progress', 'completed'
+    const hideExported = searchParams.get('hideExported') === 'true'
 
     // Build status filter
     let statusFilter = ''
@@ -32,6 +33,9 @@ export async function GET(request: NextRequest) {
     } else if (status === 'completed') {
       statusFilter = "AND b.enrichment_status = 'completed'"
     }
+
+    // Build export filter
+    const exportFilter = hideExported ? "AND (b.exported_to_ghl = FALSE OR b.exported_to_ghl IS NULL)" : ''
 
     // Get leads ready for enrichment
     const query = `
@@ -60,10 +64,17 @@ export async function GET(request: NextRequest) {
         CAST(qualified_user.name AS TEXT) AS qualified_by_name,
         CAST(enriched_user.name AS TEXT) AS enriched_by_name,
         b.va_notes,
+        b.google_profile_url,
+        b.negative_review_url,
         COUNT(r.id) AS review_count,
         MAX(r.published_date) AS latest_review_date,
         b.first_discovered_at AS created_at,
-        b.last_updated_at AS updated_at
+        b.last_updated_at AS updated_at,
+        b.last_qualified_review_date,
+        b.qualified_reviews_count,
+        b.exported_to_ghl,
+        b.exported_to_ghl_at,
+        b.ghl_contact_id
       FROM businesses b
       LEFT JOIN users qualified_user ON b.qualified_by = qualified_user.id
       LEFT JOIN users enriched_user ON b.enriched_by = enriched_user.id
@@ -71,6 +82,7 @@ export async function GET(request: NextRequest) {
       WHERE b.ready_for_enrichment = TRUE
         AND b.lifecycle_stage IN ('lead', 'qualified')
         ${statusFilter}
+        ${exportFilter}
         AND ($1::text IS NULL OR
              b.name ILIKE '%' || $1 || '%' OR
              b.email ILIKE '%' || $1 || '%' OR
@@ -97,6 +109,7 @@ export async function GET(request: NextRequest) {
       WHERE b.ready_for_enrichment = TRUE
         AND b.lifecycle_stage IN ('lead', 'qualified')
         ${statusFilter}
+        ${exportFilter}
         AND ($1::text IS NULL OR b.name ILIKE '%' || $1 || '%')
     `
     const countResult = await pool.query(countQuery, [search])

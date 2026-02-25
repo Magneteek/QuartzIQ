@@ -35,12 +35,16 @@ export async function GET(request: NextRequest) {
     }
 
     let statusCondition = ''
-    if (statusFilter === 'unacknowledged') {
-      statusCondition = 'AND cma.acknowledged_at IS NULL'
-    } else if (statusFilter === 'acknowledged') {
-      statusCondition = 'AND cma.acknowledged_at IS NOT NULL AND cma.resolved_at IS NULL'
+    if (statusFilter === 'new') {
+      statusCondition = "AND cma.status = 'new'"
+    } else if (statusFilter === 'in_progress') {
+      statusCondition = "AND cma.status = 'in_progress'"
     } else if (statusFilter === 'resolved') {
-      statusCondition = 'AND cma.resolved_at IS NOT NULL'
+      statusCondition = "AND cma.status = 'resolved'"
+    } else if (statusFilter === 'dismissed') {
+      statusCondition = "AND cma.status = 'dismissed'"
+    } else if (statusFilter === 'unresolved') {
+      statusCondition = "AND cma.status IN ('new', 'in_progress')"
     }
 
     const query = `
@@ -56,6 +60,9 @@ export async function GET(request: NextRequest) {
         cma.review_date,
         CAST(cma.alert_type AS TEXT) AS alert_type,
         CAST(cma.severity AS TEXT) AS severity,
+        CAST(cma.status AS TEXT) AS status,
+        cma.ghl_webhook_sent,
+        cma.ghl_webhook_sent_at,
         cma.detected_at,
         cma.acknowledged_at,
         cma.acknowledged_by,
@@ -73,7 +80,7 @@ export async function GET(request: NextRequest) {
         ${statusCondition}
         AND ($1::text IS NULL OR b.name ILIKE '%' || $1 || '%')
       ORDER BY
-        CASE WHEN cma.acknowledged_at IS NULL THEN 0 ELSE 1 END,
+        CASE WHEN cma.status = 'new' THEN 0 ELSE 1 END,
         cma.detected_at DESC
       LIMIT $2 OFFSET $3
     `
@@ -96,14 +103,17 @@ export async function GET(request: NextRequest) {
     const statsQuery = `
       SELECT
         COUNT(*)::INTEGER AS total_alerts,
-        COUNT(*) FILTER (WHERE acknowledged_at IS NULL)::INTEGER AS unacknowledged,
-        COUNT(*) FILTER (WHERE acknowledged_at IS NOT NULL AND resolved_at IS NULL)::INTEGER AS acknowledged,
-        COUNT(*) FILTER (WHERE resolved_at IS NOT NULL)::INTEGER AS resolved,
-        COUNT(*) FILTER (WHERE resolved_at >= CURRENT_DATE)::INTEGER AS resolved_today,
+        COUNT(*) FILTER (WHERE status = 'new')::INTEGER AS new_alerts,
+        COUNT(*) FILTER (WHERE status = 'in_progress')::INTEGER AS in_progress,
+        COUNT(*) FILTER (WHERE status = 'resolved')::INTEGER AS resolved,
+        COUNT(*) FILTER (WHERE status = 'dismissed')::INTEGER AS dismissed,
+        COUNT(*) FILTER (WHERE status IN ('new', 'in_progress'))::INTEGER AS unresolved,
+        COUNT(*) FILTER (WHERE status = 'resolved' AND resolved_at >= CURRENT_DATE)::INTEGER AS resolved_today,
         COUNT(*) FILTER (WHERE severity = 'critical')::INTEGER AS critical_alerts,
         COUNT(*) FILTER (WHERE severity = 'high')::INTEGER AS high_alerts,
         COUNT(*) FILTER (WHERE severity = 'medium')::INTEGER AS medium_alerts,
-        COUNT(*) FILTER (WHERE severity = 'low')::INTEGER AS low_alerts
+        COUNT(*) FILTER (WHERE severity = 'low')::INTEGER AS low_alerts,
+        COUNT(*) FILTER (WHERE ghl_webhook_sent = true)::INTEGER AS webhooks_sent
       FROM customer_monitoring_alerts
     `
     const statsResult = await pool.query(statsQuery)
@@ -114,14 +124,17 @@ export async function GET(request: NextRequest) {
       total: parseInt(countResult.rows[0].total),
       stats: {
         totalAlerts: parseInt(stats.total_alerts || 0),
-        unacknowledged: parseInt(stats.unacknowledged || 0),
-        acknowledged: parseInt(stats.acknowledged || 0),
+        newAlerts: parseInt(stats.new_alerts || 0),
+        inProgress: parseInt(stats.in_progress || 0),
         resolved: parseInt(stats.resolved || 0),
+        dismissed: parseInt(stats.dismissed || 0),
+        unresolved: parseInt(stats.unresolved || 0),
         resolvedToday: parseInt(stats.resolved_today || 0),
         criticalAlerts: parseInt(stats.critical_alerts || 0),
         highAlerts: parseInt(stats.high_alerts || 0),
         mediumAlerts: parseInt(stats.medium_alerts || 0),
         lowAlerts: parseInt(stats.low_alerts || 0),
+        webhooksSent: parseInt(stats.webhooks_sent || 0),
       },
     })
 

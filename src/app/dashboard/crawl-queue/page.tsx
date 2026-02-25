@@ -153,7 +153,7 @@ export default function CrawlQueuePage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-card p-6">
+    <div className="space-y-4 p-4 max-w-7xl mx-auto">
       {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: -20 }}

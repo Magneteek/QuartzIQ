@@ -11,6 +11,7 @@ import {
   getSortedRowModel,
 } from '@tanstack/react-table'
 import { Button } from '@/components/ui/button'
+import { Card } from '@/components/ui/card'
 import {
   Table,
   TableBody,
@@ -393,68 +394,68 @@ export default function CustomersPage() {
   })
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 p-4 max-w-7xl mx-auto">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-bold">Customers</h1>
-        <p className="text-gray-600 dark:text-gray-400">
+        <h1 className="text-2xl font-bold">Customers</h1>
+        <p className="text-sm text-muted-foreground">
           Manage paying customers and monitoring settings
         </p>
       </div>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
+        <Card className="p-4">
           <div className="flex items-center gap-3">
             <div className="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
               <Users className="h-5 w-5 text-blue-600" />
             </div>
             <div>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Total Customers</p>
+              <p className="text-sm text-muted-foreground">Total Customers</p>
               <p className="text-2xl font-bold">{stats.totalCustomers}</p>
             </div>
           </div>
-        </div>
+        </Card>
 
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4">
+        <Card className="p-4">
           <div className="flex items-center gap-3">
             <div className="p-2 bg-green-100 dark:bg-green-900/30 rounded-lg">
               <Bell className="h-5 w-5 text-green-600" />
             </div>
             <div>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Monitoring</p>
+              <p className="text-sm text-muted-foreground">Monitoring</p>
               <p className="text-2xl font-bold">{stats.monitoringEnabled}</p>
             </div>
           </div>
-        </div>
+        </Card>
 
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4">
+        <Card className="p-4">
           <div className="flex items-center gap-3">
             <div className="p-2 bg-purple-100 dark:bg-purple-900/30 rounded-lg">
               <TrendingUp className="h-5 w-5 text-purple-600" />
             </div>
             <div>
-              <p className="text-sm text-gray-600 dark:text-gray-400">New This Month</p>
+              <p className="text-sm text-muted-foreground">New This Month</p>
               <p className="text-2xl font-bold">{stats.newThisMonth}</p>
             </div>
           </div>
-        </div>
+        </Card>
 
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4">
+        <Card className="p-4">
           <div className="flex items-center gap-3">
             <div className="p-2 bg-green-100 dark:bg-green-900/30 rounded-lg">
               <CheckCircle2 className="h-5 w-5 text-green-600" />
             </div>
             <div>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Total Removals</p>
+              <p className="text-sm text-muted-foreground">Total Removals</p>
               <p className="text-2xl font-bold">{stats.totalRemovals}</p>
             </div>
           </div>
-        </div>
+        </Card>
       </div>
 
       {/* Tier Breakdown */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4">
+      <Card className="p-4">
         <h3 className="font-semibold mb-3">Customer Tiers</h3>
         <div className="flex gap-6">
           <div className="flex items-center gap-2">
@@ -470,7 +471,7 @@ export default function CustomersPage() {
             <span className="text-sm">Enterprise: {stats.enterpriseTier}</span>
           </div>
         </div>
-      </div>
+      </Card>
 
       {/* Filters */}
       <div className="flex gap-4">
@@ -507,7 +508,7 @@ export default function CustomersPage() {
       </div>
 
       {/* Table */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow">
+      <Card className="p-0 overflow-hidden">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -551,7 +552,7 @@ export default function CustomersPage() {
             )}
           </TableBody>
         </Table>
-      </div>
+      </Card>
 
       {/* Remove Customer Confirmation Dialog */}
       <AlertDialog open={!!customerToRemove} onOpenChange={() => setCustomerToRemove(null)}>

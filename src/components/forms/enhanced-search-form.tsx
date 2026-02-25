@@ -65,6 +65,7 @@ const formSchema = z.object({
   enableReviews: z.boolean().default(true),
   minStars: z.number().min(1).max(5).optional(),
   mustHavePhotos: z.boolean().default(false),
+  requireReviews: z.boolean().default(false), // Only scrape businesses that have Google reviews (reviews_count > 0)
 
   // Universal search - Enrichment
   enableEnrichment: z.boolean().default(false),
@@ -111,8 +112,9 @@ const USE_CASE_PRESETS = {
       enableEnrichment: true,
       maxStars: 3,
       dayLimit: 14,
-      mustHavePhotos: false, // Optional: user can enable if needed
+      mustHavePhotos: false,
       enableMomentum: false,
+      requireReviews: true, // Default ON: skip businesses with 0 Google reviews
     }
   },
   momentumTracking: {
@@ -127,6 +129,7 @@ const USE_CASE_PRESETS = {
       momentumPeriod: 30,
       momentumMinReviews: 5,
       maxStars: 3,
+      requireReviews: true, // Default ON: skip businesses with 0 Google reviews
     }
   },
   businessDiscovery: {
@@ -310,6 +313,7 @@ export function EnhancedSearchForm({ onSearch, isExtracting }: SearchFormProps) 
       mustHaveWebsite: false,
       mustHavePhone: false,
       mustHavePhotos: false,
+      requireReviews: false,
       multiLanguageSearch: false,
       enableMomentum: false,
       momentumPeriod: 30,
@@ -349,7 +353,8 @@ export function EnhancedSearchForm({ onSearch, isExtracting }: SearchFormProps) 
       businessFilters: {
         minRating: data.minRating,
         maxRating: data.maxRating,
-        minReviewCount: data.minReviewCount,
+        // requireReviews overrides minReviewCount: if ON, ensure at least 1 review required
+        minReviewCount: data.requireReviews ? Math.max((data.minReviewCount || 0), 1) : data.minReviewCount,
         maxReviewCount: data.maxReviewCount,
         mustHaveWebsite: data.mustHaveWebsite,
         mustHavePhone: data.mustHavePhone,
@@ -458,198 +463,192 @@ export function EnhancedSearchForm({ onSearch, isExtracting }: SearchFormProps) 
               <h3 className="text-sm font-semibold">Search Configuration</h3>
             </div>
 
-            {/* All fields in 2 rows */}
-            <div className="space-y-2">
-              {/* Row 1: Country, Category, Location */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
-                <FormField
-                  control={form.control}
-                  name="countryCode"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-xs font-medium">Country</FormLabel>
-                      <Select onValueChange={(value) => {
-                        field.onChange(value)
-                        const country = countries.find(c => c.value === value)
-                        if (country) {
-                          form.setValue('language', country.language)
-                          form.setValue('location', country.defaultLocation)
-                          setLocationValue(country.defaultLocation)
-                        }
-                      }} defaultValue={field.value}>
-                        <FormControl>
-                          <SelectTrigger className="h-8 text-xs">
-                            <SelectValue placeholder="Select country" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          {countries.map((country) => (
-                            <SelectItem key={country.value} value={country.value} className="text-xs">
-                              {country.label}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                      <FormMessage className="text-xs" />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="category"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-xs font-medium">Category</FormLabel>
-                      <Select onValueChange={field.onChange} defaultValue={field.value}>
-                        <FormControl>
-                          <SelectTrigger className="h-8 text-xs">
-                            <SelectValue placeholder="Select category" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent className="max-h-[400px]">
-                          {businessCategories.map((category) => (
-                            <SelectItem key={category.id} value={category.id} className="text-xs">
-                              <div className="flex items-center gap-1.5">
-                                <span className="text-sm">{category.icon}</span>
-                                <span>{category.label}</span>
-                              </div>
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                      <FormMessage className="text-xs" />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="location"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-xs font-medium">Location</FormLabel>
+            {/* All fields in 1 row */}
+            <div className="grid grid-cols-2 md:grid-cols-8 gap-2">
+              <FormField
+                control={form.control}
+                name="countryCode"
+                render={({ field }) => (
+                  <FormItem className="col-span-1 md:col-span-2">
+                    <FormLabel className="text-xs font-medium">Country</FormLabel>
+                    <Select onValueChange={(value) => {
+                      field.onChange(value)
+                      const country = countries.find(c => c.value === value)
+                      if (country) {
+                        form.setValue('language', country.language)
+                        form.setValue('location', country.defaultLocation)
+                        setLocationValue(country.defaultLocation)
+                      }
+                    }} defaultValue={field.value}>
                       <FormControl>
-                        <Input
-                          placeholder="e.g., Amsterdam"
-                          value={locationValue}
-                          onChange={handleLocationChange}
-                          className="h-8 text-xs"
-                        />
+                        <SelectTrigger className="h-8 text-xs">
+                          <SelectValue placeholder="Select country" />
+                        </SelectTrigger>
                       </FormControl>
-                    </FormItem>
-                  )}
-                />
-              </div>
+                      <SelectContent>
+                        {countries.map((country) => (
+                          <SelectItem key={country.value} value={country.value} className="text-xs">
+                            {country.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage className="text-xs" />
+                  </FormItem>
+                )}
+              />
 
-              {/* Row 2: Parameters */}
-              <div className="grid grid-cols-2 md:grid-cols-5 gap-2">
-                <FormField
-                  control={form.control}
-                  name="businessLimit"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-xs font-medium">Max Businesses</FormLabel>
+              <FormField
+                control={form.control}
+                name="category"
+                render={({ field }) => (
+                  <FormItem className="col-span-1 md:col-span-2">
+                    <FormLabel className="text-xs font-medium">Category</FormLabel>
+                    <Select onValueChange={field.onChange} defaultValue={field.value}>
                       <FormControl>
-                        <Input
-                          type="number"
-                          min="1"
-                          {...field}
-                          value={field.value || ''}
-                          onChange={(e) => field.onChange(parseInt(e.target.value) || 50)}
-                          className="h-8 text-xs"
-                        />
+                        <SelectTrigger className="h-8 text-xs">
+                          <SelectValue placeholder="Select category" />
+                        </SelectTrigger>
                       </FormControl>
-                    </FormItem>
-                  )}
-                />
+                      <SelectContent className="max-h-[400px]">
+                        {businessCategories.map((category) => (
+                          <SelectItem key={category.id} value={category.id} className="text-xs">
+                            <div className="flex items-center gap-1.5">
+                              <span className="text-sm">{category.icon}</span>
+                              <span>{category.label}</span>
+                            </div>
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage className="text-xs" />
+                  </FormItem>
+                )}
+              />
 
-                <FormField
-                  control={form.control}
-                  name="minRating"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-xs font-medium">Min Rating</FormLabel>
+              <FormField
+                control={form.control}
+                name="location"
+                render={({ field }) => (
+                  <FormItem className="col-span-1 md:col-span-2">
+                    <FormLabel className="text-xs font-medium">Location</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="e.g., Amsterdam"
+                        value={locationValue}
+                        onChange={handleLocationChange}
+                        className="h-8 text-xs"
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="businessLimit"
+                render={({ field }) => (
+                  <FormItem className="col-span-1">
+                    <FormLabel className="text-xs font-medium">Max Biz</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="number"
+                        min="1"
+                        {...field}
+                        value={field.value || ''}
+                        onChange={(e) => field.onChange(parseInt(e.target.value) || 50)}
+                        className="h-8 text-xs"
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="minRating"
+                render={({ field }) => (
+                  <FormItem className="col-span-1">
+                    <FormLabel className="text-xs font-medium" title="Min business rating on Google (e.g. 3.5 = only show businesses rated 3.5+). Leave blank for any rating.">Min Biz★</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="number"
+                        min="1"
+                        max="5"
+                        step="0.1"
+                        value={field.value || ''}
+                        onChange={(e) => field.onChange(parseFloat(e.target.value) || undefined)}
+                        className="h-8 text-xs"
+                        placeholder="Any"
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="maxStars"
+                render={({ field }) => (
+                  <FormItem className="col-span-1">
+                    <FormLabel className="text-xs font-medium" title="Max stars for a review to qualify as negative (default 3 = collect 1★ 2★ 3★ reviews)">Max Rev★</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="number"
+                        min="1"
+                        max="5"
+                        {...field}
+                        onChange={(e) => field.onChange(parseInt(e.target.value))}
+                        className="h-8 text-xs"
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="dayLimit"
+                render={({ field }) => (
+                  <FormItem className="col-span-1">
+                    <FormLabel className="text-xs font-medium">Days</FormLabel>
+                    <Select onValueChange={(value) => field.onChange(parseInt(value))} defaultValue={field.value.toString()}>
                       <FormControl>
-                        <Input
-                          type="number"
-                          min="1"
-                          max="5"
-                          step="0.1"
-                          value={field.value || ''}
-                          onChange={(e) => field.onChange(parseFloat(e.target.value) || undefined)}
-                          className="h-8 text-xs"
-                          placeholder="3.5"
-                        />
+                        <SelectTrigger className="h-8 text-xs">
+                          <SelectValue />
+                        </SelectTrigger>
                       </FormControl>
-                    </FormItem>
-                  )}
-                />
+                      <SelectContent>
+                        {timeRanges.map((range) => (
+                          <SelectItem key={range.value} value={range.value.toString()} className="text-xs">
+                            {range.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </FormItem>
+                )}
+              />
 
-                <FormField
-                  control={form.control}
-                  name="maxStars"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-xs font-medium">Max Stars</FormLabel>
-                      <FormControl>
-                        <Input
-                          type="number"
-                          min="1"
-                          max="5"
-                          {...field}
-                          onChange={(e) => field.onChange(parseInt(e.target.value))}
-                          className="h-8 text-xs"
-                        />
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="dayLimit"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-xs font-medium">Day Limit</FormLabel>
-                      <Select onValueChange={(value) => field.onChange(parseInt(value))} defaultValue={field.value.toString()}>
-                        <FormControl>
-                          <SelectTrigger className="h-8 text-xs">
-                            <SelectValue />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          {timeRanges.map((range) => (
-                            <SelectItem key={range.value} value={range.value.toString()} className="text-xs">
-                              {range.label}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="maxReviewsPerBusiness"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-xs font-medium">Reviews/Biz</FormLabel>
-                      <FormControl>
-                        <Input
-                          type="number"
-                          min="1"
-                          max="50"
-                          {...field}
-                          onChange={(e) => field.onChange(parseInt(e.target.value) || 2)}
-                          className="h-8 text-xs"
-                        />
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
-              </div>
+              <FormField
+                control={form.control}
+                name="maxReviewsPerBusiness"
+                render={({ field }) => (
+                  <FormItem className="col-span-1">
+                    <FormLabel className="text-xs font-medium">Rev/Biz</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="number"
+                        min="1"
+                        max="50"
+                        {...field}
+                        onChange={(e) => field.onChange(parseInt(e.target.value) || 2)}
+                        className="h-8 text-xs"
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
             </div>
           </Card>
 
@@ -680,171 +679,275 @@ export function EnhancedSearchForm({ onSearch, isExtracting }: SearchFormProps) 
                   transition={{ duration: 0.2 }}
                   className="mt-2 space-y-3 overflow-hidden"
                 >
-                  {/* Review Options */}
-                  <div className="space-y-2">
-                    <h4 className="text-xs font-semibold flex items-center gap-1.5">
-                      <Star className="h-3 w-3" />
-                      Review Options
-                    </h4>
-                    <div className="grid gap-2">
-                      <FormField
-                        control={form.control}
-                        name="enableReviews"
-                        render={({ field }) => (
-                          <FormItem className="flex items-center justify-between rounded-lg border p-2">
-                            <div>
-                              <FormLabel className="text-xs">Extract Reviews</FormLabel>
-                              <FormDescription className="text-[10px]">
-                                Disable for lead gen only (saves $0.02/biz)
-                              </FormDescription>
-                            </div>
-                            <FormControl>
-                              <Switch
-                                checked={field.value}
-                                onCheckedChange={field.onChange}
-                              />
-                            </FormControl>
-                          </FormItem>
-                        )}
-                      />
-
-                      {form.watch('enableReviews') && (
-                        <>
-                          <FormField
-                            control={form.control}
-                            name="mustHavePhotos"
-                            render={({ field }) => (
-                              <FormItem className="flex items-center justify-between rounded-lg border p-2">
-                                <div>
-                                  <FormLabel className="text-xs">Require Photos (Optional)</FormLabel>
-                                  <FormDescription className="text-[10px]">
-                                    Only return reviews with images. Default: OFF (photos are optional)
-                                  </FormDescription>
-                                </div>
-                                <FormControl>
-                                  <Switch
-                                    checked={field.value}
-                                    onCheckedChange={field.onChange}
-                                  />
-                                </FormControl>
-                              </FormItem>
-                            )}
-                          />
-
-                          {/* Review Qualification Rules Explanation */}
-                          <div className="rounded-lg border border-blue-500/20 bg-blue-500/10 p-3 space-y-2">
-                            <h4 className="text-xs font-semibold text-blue-400 flex items-center gap-1.5">
-                              <Star className="h-3 w-3" />
-                              Review Qualification Rules
-                            </h4>
-                            <div className="space-y-1.5 text-[10px] text-muted-foreground">
-                              {form.watch('mustHavePhotos') ? (
-                                // Image search mode - NO time limit
-                                <>
-                                  <div className="flex items-start gap-1.5">
-                                    <span className="text-blue-400 font-bold mt-0.5">✓</span>
-                                    <div>
-                                      <span className="font-medium text-blue-300">Active Rule:</span> 1-3⭐ reviews
-                                      with image (any age, <span className="text-yellow-400 font-semibold">no time limit</span>)
-                                    </div>
-                                  </div>
-                                  <div className="pt-1 border-t border-blue-500/20 text-blue-300/80 italic">
-                                    Searching ALL reviews for images regardless of age. Day limit is ignored.
-                                  </div>
-                                </>
-                              ) : (
-                                // Text search mode - WITH time limit
-                                <>
-                                  <div className="flex items-start gap-1.5">
-                                    <span className="text-blue-400 font-bold mt-0.5">✓</span>
-                                    <div>
-                                      <span className="font-medium text-blue-300">Active Rule:</span> 1-3⭐ reviews,
-                                      ≤{form.watch('dayLimit')} days old, must have text OR image
-                                    </div>
-                                  </div>
-                                  <div className="pt-1 border-t border-blue-500/20 text-blue-300/80 italic">
-                                    Searching reviews within {form.watch('dayLimit')}-day timeframe.
-                                  </div>
-                                </>
-                              )}
-                            </div>
+                  {/* Main Toggles - 3 Column Grid */}
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
+                    <FormField
+                      control={form.control}
+                      name="enableReviews"
+                      render={({ field }) => (
+                        <FormItem className="flex items-center justify-between rounded-lg border p-2">
+                          <div className="flex-1 mr-2">
+                            <FormLabel className="text-xs">Extract Reviews</FormLabel>
+                            <FormDescription className="text-[10px]">
+                              Disable for lead gen only (saves $0.02/biz)
+                            </FormDescription>
                           </div>
-                        </>
+                          <FormControl>
+                            <Switch
+                              checked={field.value}
+                              onCheckedChange={field.onChange}
+                            />
+                          </FormControl>
+                        </FormItem>
                       )}
-                    </div>
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="enableEnrichment"
+                      render={({ field }) => (
+                        <FormItem className="flex items-center justify-between rounded-lg border p-2">
+                          <div className="flex-1 mr-2">
+                            <FormLabel className="text-xs">Contact Enrichment</FormLabel>
+                            <FormDescription className="text-[10px]">
+                              Get emails, phones, social (+$0.005/biz)
+                            </FormDescription>
+                          </div>
+                          <FormControl>
+                            <Switch
+                              checked={field.value}
+                              onCheckedChange={field.onChange}
+                            />
+                          </FormControl>
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="multiLanguageSearch"
+                      render={({ field }) => (
+                        <FormItem className="flex items-center justify-between rounded-lg border p-2">
+                          <div className="flex-1 mr-2">
+                            <FormLabel className="text-xs">Multi-Language</FormLabel>
+                            <FormDescription className="text-[10px]">
+                              Search in both local + English (2× cost, better discovery)
+                            </FormDescription>
+                          </div>
+                          <FormControl>
+                            <Switch
+                              checked={field.value}
+                              onCheckedChange={field.onChange}
+                            />
+                          </FormControl>
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="enableMomentum"
+                      render={({ field }) => (
+                        <FormItem className="flex items-center justify-between rounded-lg border p-2">
+                          <div className="flex-1 mr-2">
+                            <FormLabel className="text-xs">Review Momentum</FormLabel>
+                            <FormDescription className="text-[10px]">
+                              Find trending/declining businesses
+                            </FormDescription>
+                          </div>
+                          <FormControl>
+                            <Switch
+                              checked={field.value}
+                              onCheckedChange={field.onChange}
+                            />
+                          </FormControl>
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="mustHaveWebsite"
+                      render={({ field }) => (
+                        <FormItem className="flex items-center justify-between rounded-lg border p-2">
+                          <div className="flex-1 mr-2">
+                            <FormLabel className="text-xs">Must Have Website</FormLabel>
+                            <FormDescription className="text-[10px]">
+                              Filter for businesses with websites
+                            </FormDescription>
+                          </div>
+                          <FormControl>
+                            <Switch
+                              checked={field.value}
+                              onCheckedChange={field.onChange}
+                            />
+                          </FormControl>
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="mustHavePhone"
+                      render={({ field }) => (
+                        <FormItem className="flex items-center justify-between rounded-lg border p-2">
+                          <div className="flex-1 mr-2">
+                            <FormLabel className="text-xs">Must Have Phone</FormLabel>
+                            <FormDescription className="text-[10px]">
+                              Filter for businesses with phone numbers
+                            </FormDescription>
+                          </div>
+                          <FormControl>
+                            <Switch
+                              checked={field.value}
+                              onCheckedChange={field.onChange}
+                            />
+                          </FormControl>
+                        </FormItem>
+                      )}
+                    />
                   </div>
 
-                  {/* Enrichment Options */}
-                  <div className="space-y-2 pt-2 border-t">
-                    <h4 className="text-xs font-semibold flex items-center gap-1.5">
-                      <Mail className="h-3 w-3" />
-                      Contact Enrichment
-                    </h4>
-                    <div className="grid gap-2">
-                      <FormField
-                        control={form.control}
-                        name="enableEnrichment"
-                        render={({ field }) => (
-                          <FormItem className="flex items-center justify-between rounded-lg border p-2">
-                            <div>
-                              <FormLabel className="text-xs">Enable Apify Enrichment</FormLabel>
-                              <FormDescription className="text-[10px]">
-                                Get emails, phones, social (+$0.005/biz)
-                              </FormDescription>
-                            </div>
-                            <FormControl>
-                              <Switch
-                                checked={field.value}
-                                onCheckedChange={field.onChange}
-                              />
-                            </FormControl>
-                          </FormItem>
-                        )}
-                      />
+                  {/* Review Options - Only show additional options if reviews enabled */}
+                  {form.watch('enableReviews') && (
+                    <div className="space-y-2 pt-2 border-t">
+                      <h4 className="text-xs font-semibold flex items-center gap-1.5">
+                        <Star className="h-3 w-3" />
+                        Review Options
+                      </h4>
+                      <div className="grid gap-2">
+                        <FormField
+                          control={form.control}
+                          name="requireReviews"
+                          render={({ field }) => (
+                            <FormItem className="flex items-center justify-between rounded-lg border border-blue-500/30 bg-blue-500/5 p-2">
+                              <div>
+                                <FormLabel className="text-xs">Has Reviews (Recommended)</FormLabel>
+                                <FormDescription className="text-[10px]">
+                                  Skip businesses with 0 Google reviews — no reviews = nothing to extract
+                                </FormDescription>
+                              </div>
+                              <FormControl>
+                                <Switch
+                                  checked={field.value}
+                                  onCheckedChange={field.onChange}
+                                />
+                              </FormControl>
+                            </FormItem>
+                          )}
+                        />
 
-                      {form.watch('enableEnrichment') && (
-                        <div className="grid grid-cols-2 gap-2">
-                          <FormField
-                            control={form.control}
-                            name="scrapeWebsite"
-                            render={({ field }) => (
-                              <FormItem className="flex items-center justify-between rounded-lg border p-1.5">
-                                <FormLabel className="text-[10px]">Websites</FormLabel>
-                                <FormControl>
-                                  <Switch
-                                    checked={field.value}
-                                    onCheckedChange={field.onChange}
-                                  />
-                                </FormControl>
-                              </FormItem>
-                            )}
-                          />
+                        <FormField
+                          control={form.control}
+                          name="mustHavePhotos"
+                          render={({ field }) => (
+                            <FormItem className="flex items-center justify-between rounded-lg border p-2">
+                              <div>
+                                <FormLabel className="text-xs">Require Photos</FormLabel>
+                                <FormDescription className="text-[10px]">
+                                  Only return reviews with images. Default: OFF (photos are optional)
+                                </FormDescription>
+                              </div>
+                              <FormControl>
+                                <Switch
+                                  checked={field.value}
+                                  onCheckedChange={field.onChange}
+                                />
+                              </FormControl>
+                            </FormItem>
+                          )}
+                        />
 
-                          <FormField
-                            control={form.control}
-                            name="scrapeSocialMedia"
-                            render={({ field }) => (
-                              <FormItem className="flex items-center justify-between rounded-lg border p-1.5">
-                                <FormLabel className="text-[10px]">Social Media</FormLabel>
-                                <FormControl>
-                                  <Switch
-                                    checked={field.value}
-                                    onCheckedChange={field.onChange}
-                                  />
-                                </FormControl>
-                              </FormItem>
+                        {/* Review Qualification Rules Explanation */}
+                        <div className="rounded-lg border border-blue-500/20 bg-blue-500/10 p-3 space-y-2">
+                          <h4 className="text-xs font-semibold text-blue-400 flex items-center gap-1.5">
+                            <Star className="h-3 w-3" />
+                            Review Qualification Rules
+                          </h4>
+                          <div className="space-y-1.5 text-[10px] text-muted-foreground">
+                            {form.watch('mustHavePhotos') ? (
+                              // Image search mode - NO time limit
+                              <>
+                                <div className="flex items-start gap-1.5">
+                                  <span className="text-blue-400 font-bold mt-0.5">✓</span>
+                                  <div>
+                                    <span className="font-medium text-blue-300">Active Rule:</span> 1-3⭐ reviews
+                                    with image (any age, <span className="text-yellow-400 font-semibold">no time limit</span>)
+                                  </div>
+                                </div>
+                                <div className="pt-1 border-t border-blue-500/20 text-blue-300/80 italic">
+                                  Searching ALL reviews for images regardless of age. Day limit is ignored.
+                                </div>
+                              </>
+                            ) : (
+                              // Text search mode - WITH time limit
+                              <>
+                                <div className="flex items-start gap-1.5">
+                                  <span className="text-blue-400 font-bold mt-0.5">✓</span>
+                                  <div>
+                                    <span className="font-medium text-blue-300">Active Rule:</span> 1-3⭐ reviews,
+                                    ≤{form.watch('dayLimit')} days old, must have text OR image
+                                  </div>
+                                </div>
+                                <div className="pt-1 border-t border-blue-500/20 text-blue-300/80 italic">
+                                  Searching reviews within {form.watch('dayLimit')}-day timeframe.
+                                </div>
+                              </>
                             )}
-                          />
+                          </div>
                         </div>
-                      )}
+                      </div>
                     </div>
-                  </div>
+                  )}
 
-                  {/* Business Filters */}
+                  {/* Enrichment Sub-Options */}
+                  {form.watch('enableEnrichment') && (
+                    <div className="space-y-2 pt-2 border-t">
+                      <h4 className="text-xs font-semibold flex items-center gap-1.5">
+                        <Mail className="h-3 w-3" />
+                        Enrichment Sources
+                      </h4>
+                      <div className="grid grid-cols-2 gap-2">
+                        <FormField
+                          control={form.control}
+                          name="scrapeWebsite"
+                          render={({ field }) => (
+                            <FormItem className="flex items-center justify-between rounded-lg border p-1.5">
+                              <FormLabel className="text-[10px]">Websites</FormLabel>
+                              <FormControl>
+                                <Switch
+                                  checked={field.value}
+                                  onCheckedChange={field.onChange}
+                                />
+                              </FormControl>
+                            </FormItem>
+                          )}
+                        />
+
+                        <FormField
+                          control={form.control}
+                          name="scrapeSocialMedia"
+                          render={({ field }) => (
+                            <FormItem className="flex items-center justify-between rounded-lg border p-1.5">
+                              <FormLabel className="text-[10px]">Social Media</FormLabel>
+                              <FormControl>
+                                <Switch
+                                  checked={field.value}
+                                  onCheckedChange={field.onChange}
+                                />
+                              </FormControl>
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Business Filters - Min/Max Review Count */}
                   <div className="space-y-2 pt-2 border-t">
                     <h4 className="text-xs font-semibold flex items-center gap-1.5">
                       <Filter className="h-3 w-3" />
-                      Business Filters
+                      Review Count Filters
                     </h4>
                     <div className="grid grid-cols-2 gap-2">
                       <FormField
@@ -886,90 +989,16 @@ export function EnhancedSearchForm({ onSearch, isExtracting }: SearchFormProps) 
                           </FormItem>
                         )}
                       />
-
-                      <FormField
-                        control={form.control}
-                        name="mustHaveWebsite"
-                        render={({ field }) => (
-                          <FormItem className="flex items-center justify-between rounded-lg border p-1.5">
-                            <FormLabel className="text-[10px]">Must Have Website</FormLabel>
-                            <FormControl>
-                              <Switch
-                                checked={field.value}
-                                onCheckedChange={field.onChange}
-                              />
-                            </FormControl>
-                          </FormItem>
-                        )}
-                      />
-
-                      <FormField
-                        control={form.control}
-                        name="mustHavePhone"
-                        render={({ field }) => (
-                          <FormItem className="flex items-center justify-between rounded-lg border p-1.5">
-                            <FormLabel className="text-[10px]">Must Have Phone</FormLabel>
-                            <FormControl>
-                              <Switch
-                                checked={field.value}
-                                onCheckedChange={field.onChange}
-                              />
-                            </FormControl>
-                          </FormItem>
-                        )}
-                      />
-
-                      <FormField
-                        control={form.control}
-                        name="multiLanguageSearch"
-                        render={({ field }) => (
-                          <FormItem className="col-span-2 flex items-center justify-between rounded-lg border p-2">
-                            <div>
-                              <FormLabel className="text-xs">Multi-Language Search</FormLabel>
-                              <FormDescription className="text-[10px]">
-                                Search in both local + English (2× cost, better discovery)
-                              </FormDescription>
-                            </div>
-                            <FormControl>
-                              <Switch
-                                checked={field.value}
-                                onCheckedChange={field.onChange}
-                              />
-                            </FormControl>
-                          </FormItem>
-                        )}
-                      />
                     </div>
                   </div>
 
-                  {/* Momentum Tracking */}
-                  <div className="space-y-2 pt-2 border-t">
-                    <h4 className="text-xs font-semibold flex items-center gap-1.5">
-                      <TrendingUp className="h-3 w-3" />
-                      Review Momentum
-                    </h4>
-                    <FormField
-                      control={form.control}
-                      name="enableMomentum"
-                      render={({ field }) => (
-                        <FormItem className="flex items-center justify-between rounded-lg border p-2">
-                          <div>
-                            <FormLabel className="text-xs">Track Momentum</FormLabel>
-                            <FormDescription className="text-[10px]">
-                              Find trending/declining businesses
-                            </FormDescription>
-                          </div>
-                          <FormControl>
-                            <Switch
-                              checked={field.value}
-                              onCheckedChange={field.onChange}
-                            />
-                          </FormControl>
-                        </FormItem>
-                      )}
-                    />
-
-                    {form.watch('enableMomentum') && (
+                  {/* Momentum Settings */}
+                  {form.watch('enableMomentum') && (
+                    <div className="space-y-2 pt-2 border-t">
+                      <h4 className="text-xs font-semibold flex items-center gap-1.5">
+                        <TrendingUp className="h-3 w-3" />
+                        Momentum Settings
+                      </h4>
                       <div className="grid grid-cols-2 gap-2">
                         <FormField
                           control={form.control}
@@ -1034,8 +1063,8 @@ export function EnhancedSearchForm({ onSearch, isExtracting }: SearchFormProps) 
                           )}
                         />
                       </div>
-                    )}
-                  </div>
+                    </div>
+                  )}
                 </motion.div>
               )}
             </AnimatePresence>

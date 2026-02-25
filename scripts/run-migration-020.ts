@@ -1,10 +1,6 @@
-/**
- * Run Migration 020: Improve Alert Status Tracking
- */
-
 import { Pool } from 'pg'
-import { readFileSync } from 'fs'
-import { join } from 'path'
+import * as fs from 'fs'
+import * as path from 'path'
 
 const pool = new Pool({
   host: process.env.POSTGRES_HOST,
@@ -16,40 +12,26 @@ const pool = new Pool({
 
 async function runMigration() {
   try {
-    console.log('🚀 Running Migration 020: Improve Alert Status Tracking')
+    console.log('🔄 Running migration 020: Review Tracking and Export Status...')
 
-    // Read migration file
-    const migrationSQL = readFileSync(
-      join(__dirname, '../database/migrations/020_improve_alert_status_tracking.sql'),
-      'utf-8'
-    )
+    const migrationPath = path.join(__dirname, '..', 'database', 'migrations', '020_review_tracking_and_export.sql')
+    const sql = fs.readFileSync(migrationPath, 'utf8')
 
-    // Execute migration
-    await pool.query(migrationSQL)
+    await pool.query(sql)
 
-    console.log('✅ Migration 020 completed successfully')
+    console.log('✅ Migration 020 completed successfully!')
+    console.log('   - Added last_qualified_review_date column')
+    console.log('   - Added qualified_reviews_count column')
+    console.log('   - Added last_review_check_date column')
+    console.log('   - Added exported_to_ghl column')
+    console.log('   - Added exported_to_ghl_at column')
+    console.log('   - Added ghl_contact_id column')
+    console.log('   - Created indexes for performance')
 
-    // Verify the changes
-    const alertsCheck = await pool.query(`
-      SELECT
-        COUNT(*) as total,
-        COUNT(*) FILTER (WHERE status = 'new') as new_count,
-        COUNT(*) FILTER (WHERE status = 'in_progress') as in_progress_count,
-        COUNT(*) FILTER (WHERE status = 'resolved') as resolved_count
-      FROM customer_monitoring_alerts
-    `)
-
-    console.log('\n📊 Alert Status Summary:')
-    console.log(`Total alerts: ${alertsCheck.rows[0].total}`)
-    console.log(`New: ${alertsCheck.rows[0].new_count}`)
-    console.log(`In Progress: ${alertsCheck.rows[0].in_progress_count}`)
-    console.log(`Resolved: ${alertsCheck.rows[0].resolved_count}`)
-
+    process.exit(0)
   } catch (error) {
     console.error('❌ Migration failed:', error)
-    throw error
-  } finally {
-    await pool.end()
+    process.exit(1)
   }
 }
 

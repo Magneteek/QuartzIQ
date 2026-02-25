@@ -20,7 +20,7 @@ export class UniversalSearchExtractor {
   /**
    * Main search method - handles all use cases
    */
-  async search(criteria: UniversalSearchCriteria): Promise<UniversalSearchResponse> {
+  async search(criteria: UniversalSearchCriteria, extractionId?: string): Promise<UniversalSearchResponse> {
     const startTime = Date.now()
 
     universalLogger.info('Starting universal search', {
@@ -29,6 +29,7 @@ export class UniversalSearchExtractor {
       enrichmentEnabled: criteria.enrichment?.enabled,
       reviewsEnabled: criteria.reviewFilters?.enabled,
       momentumEnabled: criteria.businessFilters?.reviewMomentum?.enabled,
+      extractionId,
     })
 
     try {
@@ -46,12 +47,12 @@ export class UniversalSearchExtractor {
         // ✅ NEW: Run enrichment on cached businesses if enabled
         if (criteria.enrichment?.enabled && criteria.enrichment?.apifyEnrichment?.enabled) {
           universalLogger.info('Running enrichment on cached businesses', { step: '1b', count: businesses.length })
-          businesses = await this.enrichCachedBusinesses(businesses, criteria)
+          businesses = await this.enrichCachedBusinesses(businesses, criteria, extractionId)
           universalLogger.info('Enrichment complete', { step: '1b', enriched: businesses.filter(b => b.contactEnriched).length })
         }
       } else {
         // Regular mode: Search Google Maps
-        businesses = await this.findBusinesses(criteria)
+        businesses = await this.findBusinesses(criteria, extractionId)
         universalLogger.info('Businesses found', { step: 1, count: businesses.length })
       }
 
@@ -80,7 +81,7 @@ export class UniversalSearchExtractor {
       let reviews: any[] = []
       if (criteria.reviewFilters?.enabled) {
         universalLogger.info('Extracting reviews', { step: 4 })
-        reviews = await this.extractReviews(filteredBusinesses, criteria)
+        reviews = await this.extractReviews(filteredBusinesses, criteria, extractionId)
         universalLogger.info('Reviews extracted', { step: 4, count: reviews.length })
       } else {
         universalLogger.info('Skipping review extraction (disabled)', { step: 4 })
@@ -152,8 +153,8 @@ export class UniversalSearchExtractor {
       id: business.id,
       placeId: business.place_id,
       title: business.name,
-      totalScore: business.rating || 0,
-      reviewsCount: business.reviews_count || 0,
+      totalScore: business.rating ? parseFloat(business.rating) : 0,
+      reviewsCount: business.reviews_count ? parseInt(business.reviews_count) : 0,
       address: business.address,
       phone: business.phone,
       website: business.website,
@@ -177,9 +178,10 @@ export class UniversalSearchExtractor {
    */
   private async enrichCachedBusinesses(
     businesses: BusinessWithMomentum[],
-    criteria: UniversalSearchCriteria
+    criteria: UniversalSearchCriteria,
+    extractionId?: string
   ): Promise<BusinessWithMomentum[]> {
-    const extractor = new UniversalBusinessReviewExtractor()
+    const extractor = new UniversalBusinessReviewExtractor(extractionId)
     const enrichedBusinesses: BusinessWithMomentum[] = []
 
     for (const business of businesses) {
@@ -287,8 +289,8 @@ export class UniversalSearchExtractor {
   /**
    * Find businesses using existing extractor with enrichment support
    */
-  private async findBusinesses(criteria: UniversalSearchCriteria): Promise<BusinessWithMomentum[]> {
-    const extractor = new UniversalBusinessReviewExtractor()
+  private async findBusinesses(criteria: UniversalSearchCriteria, extractionId?: string): Promise<BusinessWithMomentum[]> {
+    const extractor = new UniversalBusinessReviewExtractor(extractionId)
 
     // Convert to legacy format for extractor
     const legacyCriteria = {
@@ -332,9 +334,11 @@ export class UniversalSearchExtractor {
     if (!filters) return filtered
 
     // Rating filters
+    // Note: totalScore = 0 means "no rating data" (null in DB → 0 via || 0).
+    // Real Google ratings are always ≥1.0, so 0 = unknown. Don't filter out unknowns.
     if (filters.minRating !== undefined) {
       const before = filtered.length
-      filtered = filtered.filter(b => b.totalScore >= filters.minRating!)
+      filtered = filtered.filter(b => !b.totalScore || b.totalScore >= filters.minRating!)
       universalLogger.debug('Applied minRating filter', {
         minRating: filters.minRating,
         removed: before - filtered.length,
@@ -342,7 +346,7 @@ export class UniversalSearchExtractor {
     }
     if (filters.maxRating !== undefined) {
       const before = filtered.length
-      filtered = filtered.filter(b => b.totalScore <= filters.maxRating!)
+      filtered = filtered.filter(b => !b.totalScore || b.totalScore <= filters.maxRating!)
       universalLogger.debug('Applied maxRating filter', {
         maxRating: filters.maxRating,
         removed: before - filtered.length,
@@ -350,9 +354,10 @@ export class UniversalSearchExtractor {
     }
 
     // Review count filters
+    // reviewsCount = 0 is genuine: business has no Google reviews. This IS a real value to filter on.
     if (filters.minReviewCount !== undefined) {
       const before = filtered.length
-      filtered = filtered.filter(b => b.reviewsCount >= filters.minReviewCount!)
+      filtered = filtered.filter(b => (b.reviewsCount ?? 0) >= filters.minReviewCount!)
       universalLogger.debug('Applied minReviewCount filter', {
         minReviewCount: filters.minReviewCount,
         removed: before - filtered.length,
@@ -360,7 +365,7 @@ export class UniversalSearchExtractor {
     }
     if (filters.maxReviewCount !== undefined) {
       const before = filtered.length
-      filtered = filtered.filter(b => b.reviewsCount <= filters.maxReviewCount!)
+      filtered = filtered.filter(b => !b.reviewsCount || b.reviewsCount <= filters.maxReviewCount!)
       universalLogger.debug('Applied maxReviewCount filter', {
         maxReviewCount: filters.maxReviewCount,
         removed: before - filtered.length,
@@ -391,9 +396,10 @@ export class UniversalSearchExtractor {
    */
   private async extractReviews(
     businesses: BusinessWithMomentum[],
-    criteria: UniversalSearchCriteria
+    criteria: UniversalSearchCriteria,
+    extractionId?: string
   ): Promise<any[]> {
-    const extractor = new UniversalBusinessReviewExtractor()
+    const extractor = new UniversalBusinessReviewExtractor(extractionId)
     const allReviews: any[] = []
 
     const maxReviewsPerBusiness = criteria.limits?.maxReviewsPerBusiness || 5

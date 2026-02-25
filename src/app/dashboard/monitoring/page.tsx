@@ -35,6 +35,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog'
 import { Badge } from '@/components/ui/badge'
+import { Card } from '@/components/ui/card'
 import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
 import {
@@ -61,6 +62,9 @@ interface Alert {
   review_date: string | null
   alert_type: string
   severity: string
+  status: 'new' | 'in_progress' | 'resolved' | 'dismissed'
+  ghl_webhook_sent: boolean
+  ghl_webhook_sent_at: string | null
   detected_at: string
   acknowledged_at: string | null
   acknowledged_by: string | null
@@ -73,28 +77,34 @@ interface Alert {
 
 interface Stats {
   totalAlerts: number
-  unacknowledged: number
-  acknowledged: number
+  newAlerts: number
+  inProgress: number
   resolved: number
+  dismissed: number
+  unresolved: number
   resolvedToday: number
   criticalAlerts: number
   highAlerts: number
   mediumAlerts: number
   lowAlerts: number
+  webhooksSent: number
 }
 
 export default function MonitoringAlertsPage() {
   const [alerts, setAlerts] = useState<Alert[]>([])
   const [stats, setStats] = useState<Stats>({
     totalAlerts: 0,
-    unacknowledged: 0,
-    acknowledged: 0,
+    newAlerts: 0,
+    inProgress: 0,
     resolved: 0,
+    dismissed: 0,
+    unresolved: 0,
     resolvedToday: 0,
     criticalAlerts: 0,
     highAlerts: 0,
     mediumAlerts: 0,
     lowAlerts: 0,
+    webhooksSent: 0,
   })
   const [total, setTotal] = useState(0)
   const [loading, setLoading] = useState(true)
@@ -174,26 +184,25 @@ export default function MonitoringAlertsPage() {
     }
   }
 
-  const handleAction = async (alert: Alert, action: 'acknowledge' | 'resolve') => {
+  const handleStatusChange = async (alert: Alert, newStatus: 'in_progress' | 'resolved' | 'dismissed') => {
     try {
       setProcessing(true)
-      const response = await fetch('/api/monitoring/alerts', {
-        method: 'POST',
+      const response = await fetch(`/api/alerts/${alert.id}/status`, {
+        method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          alertId: alert.id,
-          action,
-          actionTaken,
+          status: newStatus,
+          notes: actionTaken || undefined,
         }),
       })
 
-      if (!response.ok) throw new Error('Failed to update alert')
+      if (!response.ok) throw new Error('Failed to update alert status')
 
       setSelectedAlert(null)
       setActionTaken('')
       fetchAlerts()
     } catch (error) {
-      console.error('Error updating alert:', error)
+      console.error('Error updating alert status:', error)
     } finally {
       setProcessing(false)
     }
@@ -240,7 +249,7 @@ export default function MonitoringAlertsPage() {
                 </div>
               )}
               {text && (
-                <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-2">
+                <p className="text-sm text-muted-foreground line-clamp-2">
                   {text}
                 </p>
               )}
@@ -276,28 +285,46 @@ export default function MonitoringAlertsPage() {
         header: 'Status',
         cell: ({ row }) => {
           const alert = row.original
-          if (alert.resolved_at) {
-            return (
-              <Badge variant="outline" className="gap-1 text-green-600">
-                <CheckCircle2 className="h-3 w-3" />
-                Resolved
-              </Badge>
-            )
-          } else if (alert.acknowledged_at) {
-            return (
-              <Badge variant="outline" className="gap-1 text-blue-600">
-                <Clock className="h-3 w-3" />
-                Acknowledged
-              </Badge>
-            )
-          } else {
-            return (
-              <Badge variant="destructive" className="gap-1">
-                <Bell className="h-3 w-3" />
-                New
-              </Badge>
-            )
+          const statusConfig = {
+            new: {
+              label: 'New',
+              icon: Bell,
+              className: 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400',
+            },
+            in_progress: {
+              label: 'In Progress',
+              icon: Clock,
+              className: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400',
+            },
+            resolved: {
+              label: 'Resolved',
+              icon: CheckCircle2,
+              className: 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400',
+            },
+            dismissed: {
+              label: 'Dismissed',
+              icon: XCircle,
+              className: 'bg-gray-100 text-gray-800 dark:bg-gray-900/30 dark:text-gray-400',
+            },
           }
+
+          const config = statusConfig[alert.status]
+          const Icon = config.icon
+
+          return (
+            <div className="flex flex-col gap-1">
+              <Badge className={`gap-1 ${config.className}`}>
+                <Icon className="h-3 w-3" />
+                {config.label}
+              </Badge>
+              {alert.ghl_webhook_sent && (
+                <Badge variant="outline" className="gap-1 text-xs text-green-600">
+                  <CheckCircle2 className="h-2 w-2" />
+                  Webhook Sent
+                </Badge>
+              )}
+            </div>
+          )
         },
       },
       {
@@ -331,81 +358,81 @@ export default function MonitoringAlertsPage() {
   })
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 p-4 max-w-7xl mx-auto">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold">Monitoring Alerts</h1>
-          <p className="text-gray-600 dark:text-gray-400">
+          <h1 className="text-2xl font-bold">Monitoring Alerts</h1>
+          <p className="text-sm text-muted-foreground">
             Review and manage customer monitoring alerts
           </p>
         </div>
         <Link href="/dashboard/monitoring/stats">
-          <Button variant="outline">View Stats</Button>
+          <Button variant="outline" size="sm">View Stats</Button>
         </Link>
       </div>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4">
+      <div className="grid grid-cols-1 md:grid-cols-5 gap-3">
+        <Card className="p-4">
           <div className="flex items-center gap-3">
             <div className="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
               <Bell className="h-5 w-5 text-blue-600" />
             </div>
             <div>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Total Alerts</p>
-              <p className="text-2xl font-bold">{stats.totalAlerts}</p>
+              <p className="text-sm text-muted-foreground">New</p>
+              <p className="text-2xl font-bold">{stats.newAlerts}</p>
             </div>
           </div>
-        </div>
+        </Card>
 
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4">
-          <div className="flex items-center gap-3">
-            <div className="p-2 bg-red-100 dark:bg-red-900/30 rounded-lg">
-              <AlertTriangle className="h-5 w-5 text-red-600" />
-            </div>
-            <div>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Unacknowledged</p>
-              <p className="text-2xl font-bold">{stats.unacknowledged}</p>
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4">
+        <Card className="p-4">
           <div className="flex items-center gap-3">
             <div className="p-2 bg-yellow-100 dark:bg-yellow-900/30 rounded-lg">
               <Clock className="h-5 w-5 text-yellow-600" />
             </div>
             <div>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Acknowledged</p>
-              <p className="text-2xl font-bold">{stats.acknowledged}</p>
+              <p className="text-sm text-muted-foreground">In Progress</p>
+              <p className="text-2xl font-bold">{stats.inProgress}</p>
             </div>
           </div>
-        </div>
+        </Card>
 
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4">
+        <Card className="p-4">
           <div className="flex items-center gap-3">
             <div className="p-2 bg-green-100 dark:bg-green-900/30 rounded-lg">
               <CheckCircle2 className="h-5 w-5 text-green-600" />
             </div>
             <div>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Resolved</p>
+              <p className="text-sm text-muted-foreground">Resolved</p>
               <p className="text-2xl font-bold">{stats.resolved}</p>
             </div>
           </div>
-        </div>
+        </Card>
 
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4">
+        <Card className="p-4">
+          <div className="flex items-center gap-3">
+            <div className="p-2 bg-orange-100 dark:bg-orange-900/30 rounded-lg">
+              <AlertTriangle className="h-5 w-5 text-orange-600" />
+            </div>
+            <div>
+              <p className="text-sm text-muted-foreground">Unresolved</p>
+              <p className="text-2xl font-bold">{stats.unresolved}</p>
+            </div>
+          </div>
+        </Card>
+
+        <Card className="p-4">
           <div className="flex items-center gap-3">
             <div className="p-2 bg-purple-100 dark:bg-purple-900/30 rounded-lg">
               <XCircle className="h-5 w-5 text-purple-600" />
             </div>
             <div>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Critical</p>
+              <p className="text-sm text-muted-foreground">Critical</p>
               <p className="text-2xl font-bold">{stats.criticalAlerts}</p>
             </div>
           </div>
-        </div>
+        </Card>
       </div>
 
       {/* Filters */}
@@ -437,15 +464,17 @@ export default function MonitoringAlertsPage() {
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="all">All Status</SelectItem>
-            <SelectItem value="unacknowledged">Unacknowledged</SelectItem>
-            <SelectItem value="acknowledged">Acknowledged</SelectItem>
+            <SelectItem value="new">New</SelectItem>
+            <SelectItem value="in_progress">In Progress</SelectItem>
             <SelectItem value="resolved">Resolved</SelectItem>
+            <SelectItem value="dismissed">Dismissed</SelectItem>
+            <SelectItem value="unresolved">Unresolved (New + In Progress)</SelectItem>
           </SelectContent>
         </Select>
       </div>
 
       {/* Table */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow">
+      <Card className="p-0 overflow-hidden">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -489,7 +518,7 @@ export default function MonitoringAlertsPage() {
             )}
           </TableBody>
         </Table>
-      </div>
+      </Card>
 
       {/* Alert Detail Dialog */}
       <Dialog open={!!selectedAlert} onOpenChange={() => setSelectedAlert(null)}>
@@ -551,7 +580,7 @@ export default function MonitoringAlertsPage() {
               {/* Alert Info */}
               <div className="bg-gray-50 dark:bg-gray-900 p-4 rounded-lg">
                 <h3 className="font-semibold mb-2">Alert Information</h3>
-                <div className="space-y-1">
+                <div className="space-y-2">
                   <p className="text-sm">
                     <span className="font-medium">Severity:</span>{' '}
                     <Badge className={getSeverityColor(selectedAlert.severity)}>
@@ -559,9 +588,31 @@ export default function MonitoringAlertsPage() {
                     </Badge>
                   </p>
                   <p className="text-sm">
+                    <span className="font-medium">Status:</span>{' '}
+                    <Badge className={
+                      selectedAlert.status === 'new' ? 'bg-blue-100 text-blue-800' :
+                      selectedAlert.status === 'in_progress' ? 'bg-yellow-100 text-yellow-800' :
+                      selectedAlert.status === 'resolved' ? 'bg-green-100 text-green-800' :
+                      'bg-gray-100 text-gray-800'
+                    }>
+                      {selectedAlert.status === 'in_progress' ? 'In Progress' :
+                       selectedAlert.status.charAt(0).toUpperCase() + selectedAlert.status.slice(1)}
+                    </Badge>
+                  </p>
+                  <p className="text-sm">
                     <span className="font-medium">Detected:</span>{' '}
                     {new Date(selectedAlert.detected_at).toLocaleString()}
                   </p>
+                  {selectedAlert.ghl_webhook_sent && (
+                    <p className="text-sm">
+                      <span className="font-medium">GHL Webhook:</span>{' '}
+                      <Badge variant="outline" className="text-green-600">
+                        <CheckCircle2 className="h-3 w-3 mr-1" />
+                        Sent {selectedAlert.ghl_webhook_sent_at &&
+                          `on ${new Date(selectedAlert.ghl_webhook_sent_at).toLocaleString()}`}
+                      </Badge>
+                    </p>
+                  )}
                   {selectedAlert.acknowledged_at && (
                     <p className="text-sm">
                       <span className="font-medium">Acknowledged:</span>{' '}
@@ -582,21 +633,21 @@ export default function MonitoringAlertsPage() {
               </div>
 
               {/* Action Section */}
-              {!selectedAlert.resolved_at && (
+              {selectedAlert.status !== 'resolved' && selectedAlert.status !== 'dismissed' && (
                 <div className="space-y-3">
-                  <Label htmlFor="action_taken">Action Taken (Optional)</Label>
+                  <Label htmlFor="action_taken">Notes (Optional)</Label>
                   <Textarea
                     id="action_taken"
-                    placeholder="Describe what action was taken..."
+                    placeholder="Add notes about this alert..."
                     value={actionTaken}
                     onChange={(e) => setActionTaken(e.target.value)}
                     rows={3}
                   />
 
                   <div className="flex gap-2">
-                    {!selectedAlert.acknowledged_at && (
+                    {selectedAlert.status === 'new' && (
                       <Button
-                        onClick={() => handleAction(selectedAlert, 'acknowledge')}
+                        onClick={() => handleStatusChange(selectedAlert, 'in_progress')}
                         disabled={processing}
                         variant="outline"
                         className="flex-1"
@@ -606,20 +657,33 @@ export default function MonitoringAlertsPage() {
                         ) : (
                           <Clock className="h-4 w-4 mr-2" />
                         )}
-                        Acknowledge
+                        Mark In Progress
                       </Button>
                     )}
                     <Button
-                      onClick={() => handleAction(selectedAlert, 'resolve')}
+                      onClick={() => handleStatusChange(selectedAlert, 'resolved')}
                       disabled={processing}
-                      className="flex-1"
+                      className="flex-1 bg-green-600 hover:bg-green-700"
                     >
                       {processing ? (
                         <Loader2 className="h-4 w-4 animate-spin mr-2" />
                       ) : (
                         <CheckCircle2 className="h-4 w-4 mr-2" />
                       )}
-                      Resolve
+                      Mark Resolved
+                    </Button>
+                    <Button
+                      onClick={() => handleStatusChange(selectedAlert, 'dismissed')}
+                      disabled={processing}
+                      variant="outline"
+                      className="flex-1"
+                    >
+                      {processing ? (
+                        <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                      ) : (
+                        <XCircle className="h-4 w-4 mr-2" />
+                      )}
+                      Dismiss
                     </Button>
                   </div>
                 </div>

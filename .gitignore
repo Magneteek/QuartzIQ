@@ -67,8 +67,15 @@ next-env.d.ts
 /backup-*
 /apify-dataset-*
 /data/apify-backup-*
+/data/apify-imports/
+/data/backups/
 /data/extraction-history/*.json
 /data/scraped-businesses.json
+/data/businesses-import.csv
+/data/extraction-results.json
+/data/place-ids-*.txt
+/data/place-ids-*.json
+/data/*.log
 
 # Backup and temporary files
 *.backup

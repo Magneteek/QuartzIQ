@@ -41,7 +41,7 @@ export async function PATCH(
     // Build update query based on status
     let updateQuery = `
       UPDATE customer_monitoring_alerts
-      SET status = $1, last_updated_at = CURRENT_TIMESTAMP
+      SET status = $1
     `
     const params_arr: any[] = [status, id]
 

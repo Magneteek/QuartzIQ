@@ -6,6 +6,7 @@ import { db } from '../../../../database/db'
 import { generateCategoryWhereClause } from '@/lib/utils/category-mapping'
 import { convertLegacyToUniversal, UniversalSearchCriteria } from '@/lib/types/universal-search'
 import { universalSearchExtractor } from '@/lib/services/universal-extractor'
+import { ApifyStatusTracker } from '@/lib/services/apify-status-tracker'
 
 // 🔒 GLOBAL LOCK: Only allow ONE extraction at a time
 let isExtractionRunning = false
@@ -124,6 +125,10 @@ export async function POST(request: NextRequest) {
           controller.enqueue(chunk)
         }
 
+        // 🆕 Apify tracking variables (scoped to entire stream)
+        let apifyTracker: ApifyStatusTracker | null = null
+        let pollingInterval: NodeJS.Timeout | null = null
+
         try {
           sendUpdate('progress', { progress: 10, step: 'Initializing extraction system...' })
 
@@ -135,8 +140,66 @@ export async function POST(request: NextRequest) {
             // ✅ Pass useCached flag to universal extractor
             universalCriteria.useCached = searchCriteria.useCached || false
 
-            // Use universal extractor
-            const results = await universalSearchExtractor.search(universalCriteria)
+            // 🆕 Start polling for Apify run status (universal path)
+            const requestedLimit = universalCriteria.limits?.maxBusinesses || 50
+            const startUniversalApifyTracking = () => {
+              pollingInterval = setInterval(async () => {
+                try {
+                  // Check if we have a run ID yet
+                  const extraction = runningExtractions.get(extractionId)
+                  if (!extraction || extraction.actorRunIds.length === 0) {
+                    return // Wait for run to start
+                  }
+
+                  // Create tracker if we don't have one yet
+                  if (!apifyTracker && extraction.actorRunIds.length > 0) {
+                    const runId = extraction.actorRunIds[0] // Track the first (maps) actor
+                    apifyTracker = new ApifyStatusTracker(runId, requestedLimit)
+                    console.log(`📊 Started Apify tracking for run ${runId} (Universal Search)`)
+                  }
+
+                  // Get real-time progress
+                  if (apifyTracker) {
+                    const progress = await apifyTracker.getRealTimeProgress()
+
+                    // Stream real-time data to frontend
+                    sendUpdate('progress', {
+                      progress: Math.max(30, progress.progressPercent), // Keep at least 30% during extraction
+                      step: progress.stepMessage,
+                      realTimeData: {
+                        businessesFound: progress.businessesFound,
+                        reviewsExtracted: progress.reviewsExtracted,
+                        elapsedSeconds: progress.elapsedSeconds,
+                        estimatedSecondsRemaining: progress.estimatedSecondsRemaining,
+                        costEstimate: progress.costEstimate,
+                        computeUnits: progress.computeUnits,
+                        apifyRunId: extraction.actorRunIds[0],
+                        apifyStatus: progress.status
+                      }
+                    })
+
+                    // Stop polling if run completed
+                    if (progress.status === 'SUCCEEDED' || progress.status === 'FAILED' || progress.status === 'ABORTED') {
+                      if (pollingInterval) {
+                        clearInterval(pollingInterval)
+                        pollingInterval = null
+                      }
+                    }
+                  }
+                } catch (error: any) {
+                  console.error('Apify tracking error (Universal):', error.message)
+                }
+              }, 2500) // Poll every 2.5 seconds
+            }
+
+            // Start tracking in background
+            if (!universalCriteria.useCached) {
+              // Only track if we're actually calling Apify (not using cached data)
+              startUniversalApifyTracking()
+            }
+
+            // Use universal extractor (pass extractionId for tracking)
+            const results = await universalSearchExtractor.search(universalCriteria, extractionId)
 
             sendUpdate('progress', { progress: 80, step: 'Processing results...' })
 
@@ -254,6 +317,61 @@ export async function POST(request: NextRequest) {
             sendUpdate('progress', { progress: 50, step: 'Finding businesses on Google Maps...' })
           }
 
+          // 🆕 Start polling for Apify run status
+          const startApifyTracking = () => {
+            pollingInterval = setInterval(async () => {
+              try {
+                // Check if we have a run ID yet
+                const extraction = runningExtractions.get(extractionId)
+                if (!extraction || extraction.actorRunIds.length === 0) {
+                  return // Wait for run to start
+                }
+
+                // Create tracker if we don't have one yet
+                if (!apifyTracker && extraction.actorRunIds.length > 0) {
+                  const runId = extraction.actorRunIds[0] // Track the first (maps) actor
+                  const targetBusinessCount = hybridMode ? newBusinessLimit : requestedLimit
+                  apifyTracker = new ApifyStatusTracker(runId, targetBusinessCount)
+                  console.log(`📊 Started Apify tracking for run ${runId}`)
+                }
+
+                // Get real-time progress
+                if (apifyTracker) {
+                  const progress = await apifyTracker.getRealTimeProgress()
+
+                  // Stream real-time data to frontend
+                  sendUpdate('progress', {
+                    progress: Math.max(50, progress.progressPercent), // Keep at least 50% during extraction
+                    step: progress.stepMessage,
+                    realTimeData: {
+                      businessesFound: progress.businessesFound,
+                      reviewsExtracted: progress.reviewsExtracted,
+                      elapsedSeconds: progress.elapsedSeconds,
+                      estimatedSecondsRemaining: progress.estimatedSecondsRemaining,
+                      costEstimate: progress.costEstimate,
+                      computeUnits: progress.computeUnits,
+                      apifyRunId: extraction.actorRunIds[0],
+                      apifyStatus: progress.status
+                    }
+                  })
+
+                  // Stop polling if run completed
+                  if (progress.status === 'SUCCEEDED' || progress.status === 'FAILED' || progress.status === 'ABORTED') {
+                    if (pollingInterval) {
+                      clearInterval(pollingInterval)
+                      pollingInterval = null
+                    }
+                  }
+                }
+              } catch (error: any) {
+                console.error('Apify tracking error:', error.message)
+              }
+            }, 2500) // Poll every 2.5 seconds
+          }
+
+          // Start tracking in background
+          startApifyTracking()
+
           // Run the real extraction with smart cache + search logic
           const results = await extractor.extractBusinessReviews({
             ...searchCriteria,
@@ -313,6 +431,13 @@ export async function POST(request: NextRequest) {
           isExtractionRunning = false
           currentExtractionDetails = null
           console.log(`🔓 LOCK RELEASED - System ready for next extraction\n`)
+
+          // 🆕 Clean up Apify tracking
+          if (pollingInterval) {
+            clearInterval(pollingInterval)
+            pollingInterval = null
+            console.log(`📊 Stopped Apify tracking`)
+          }
 
           controller.close()
         }

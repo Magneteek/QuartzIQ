@@ -1,18 +1,29 @@
-  import { EnhancedReviewExtractionDashboard } from '@/components/dashboard/enhanced-review-extraction-dashboard'             
-                                                                                                                            
-  export default function Home() {                                                                                          
-    return (
-      <main className="min-h-screen bg-gradient-to-br from-background via-background to-card">
-        <div className="relative">
-          {/* Background Effects */}
-          <div className="absolute inset-0 bg-grid-white/[0.02] bg-grid-16" />
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/5 to-transparent" />
+'use client'
 
-          {/* Main Content */}
-          <div className="relative z-10">
-            <EnhancedReviewExtractionDashboard />
-          </div>
-        </div>
+import { EnhancedReviewExtractionDashboard } from '@/components/dashboard/enhanced-review-extraction-dashboard'
+import { Navbar } from '@/components/layout/navbar'
+import { SettingsModal } from '@/components/modals/settings-modal'
+import { useState, useEffect } from 'react'
+
+export default function Home() {
+  const [showSettingsModal, setShowSettingsModal] = useState(false)
+
+  useEffect(() => {
+    const handleOpenSettings = () => setShowSettingsModal(true)
+    window.addEventListener('openSettings', handleOpenSettings)
+    return () => window.removeEventListener('openSettings', handleOpenSettings)
+  }, [])
+
+  return (
+    <>
+      <Navbar />
+      <main className="min-h-screen bg-background">
+        <EnhancedReviewExtractionDashboard />
       </main>
-    )
-  }
+      <SettingsModal
+        isOpen={showSettingsModal}
+        onClose={() => setShowSettingsModal(false)}
+      />
+    </>
+  )
+}

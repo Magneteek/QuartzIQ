@@ -43,7 +43,7 @@ export async function POST(request: NextRequest) {
       body: JSON.stringify({
         startUrls: [{ url: googleMapsUrl }],
         maxReviews: maxReviews,
-        language: 'nl',
+        language: 'en', // 'en' avoids EU GDPR consent screen (hl=nl triggers it); reviews still come in original language
         scrapeReviewId: true,
         scrapeReviewUrl: true,
         scrapeReviewerId: true,

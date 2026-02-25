@@ -1158,7 +1158,7 @@ export default function LeadsPage() {
               <Users className="h-8 w-8 text-blue-600" />
               Lead Qualification
             </h1>
-            <p className="text-gray-600 dark:text-gray-400 mt-1">
+            <p className="text-muted-foreground mt-1">
               Stage 1: Manual lead entry and qualification
             </p>
           </div>
@@ -1176,61 +1176,61 @@ export default function LeadsPage() {
 
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-6">
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4">
+          <div className="bg-card p-4">
             <div className="flex items-center gap-3">
               <div className="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
                 <Users className="h-5 w-5 text-blue-600" />
               </div>
               <div>
-                <p className="text-sm text-gray-600 dark:text-gray-400">Total Leads</p>
+                <p className="text-sm text-muted-foreground">Total Leads</p>
                 <p className="text-2xl font-bold">{stats.totalLeads}</p>
               </div>
             </div>
           </div>
 
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4">
+          <div className="bg-card p-4">
             <div className="flex items-center gap-3">
               <div className="p-2 bg-green-100 dark:bg-green-900/30 rounded-lg">
                 <CheckCircle className="h-5 w-5 text-green-600" />
               </div>
               <div>
-                <p className="text-sm text-gray-600 dark:text-gray-400">Ready</p>
+                <p className="text-sm text-muted-foreground">Ready</p>
                 <p className="text-2xl font-bold">{stats.readyForEnrichment}</p>
               </div>
             </div>
           </div>
 
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4">
+          <div className="bg-card p-4">
             <div className="flex items-center gap-3">
               <div className="p-2 bg-purple-100 dark:bg-purple-900/30 rounded-lg">
                 <Calendar className="h-5 w-5 text-purple-600" />
               </div>
               <div>
-                <p className="text-sm text-gray-600 dark:text-gray-400">Added Today</p>
+                <p className="text-sm text-muted-foreground">Added Today</p>
                 <p className="text-2xl font-bold">{stats.addedToday}</p>
               </div>
             </div>
           </div>
 
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4">
+          <div className="bg-card p-4">
             <div className="flex items-center gap-3">
               <div className="p-2 bg-orange-100 dark:bg-orange-900/30 rounded-lg">
                 <TrendingUp className="h-5 w-5 text-orange-600" />
               </div>
               <div>
-                <p className="text-sm text-gray-600 dark:text-gray-400">This Week</p>
+                <p className="text-sm text-muted-foreground">This Week</p>
                 <p className="text-2xl font-bold">{stats.addedThisWeek}</p>
               </div>
             </div>
           </div>
 
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4">
+          <div className="bg-card p-4">
             <div className="flex items-center gap-3">
               <div className="p-2 bg-yellow-100 dark:bg-yellow-900/30 rounded-lg">
                 <Star className="h-5 w-5 text-yellow-600" />
               </div>
               <div>
-                <p className="text-sm text-gray-600 dark:text-gray-400">Avg Rating</p>
+                <p className="text-sm text-muted-foreground">Avg Rating</p>
                 <p className="text-2xl font-bold">
                   {stats.averageRating ? stats.averageRating.toFixed(1) : 'N/A'}
                 </p>
@@ -1531,7 +1531,7 @@ export default function LeadsPage() {
         </div>
 
         {/* Table */}
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow">
+        <div className="bg-card">
           {isLoading ? (
             <div className="flex items-center justify-center py-12">
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
@@ -1587,7 +1587,7 @@ export default function LeadsPage() {
 
               {/* Pagination */}
               <div className="flex items-center justify-between px-4 py-4 border-t">
-                <div className="text-sm text-gray-600 dark:text-gray-400">
+                <div className="text-sm text-muted-foreground">
                   Showing {pagination.pageIndex * pagination.pageSize + 1} to{' '}
                   {Math.min(
                     (pagination.pageIndex + 1) * pagination.pageSize,

@@ -1,5 +1,101 @@
 [
   {
+    "id": "extraction_1771696219853_piy6pzoie",
+    "timestamp": "2026-02-21T17:50:19.853Z",
+    "searchCriteria": {
+      "category": "dentist",
+      "location": "Amsterdam",
+      "countryCode": "nl"
+    },
+    "statistics": {
+      "businessesFound": 3,
+      "reviewsFound": 0,
+      "avgRating": 0,
+      "extractionTime": 2752
+    },
+    "enrichmentHistory": []
+  },
+  {
+    "id": "extraction_1771695439034_sjm3swchv",
+    "timestamp": "2026-02-21T17:37:19.034Z",
+    "searchCriteria": {
+      "category": "dentist",
+      "location": "Amsterdam",
+      "countryCode": "nl"
+    },
+    "statistics": {
+      "businessesFound": 3,
+      "reviewsFound": 0,
+      "avgRating": 0,
+      "extractionTime": 1401
+    },
+    "enrichmentHistory": []
+  },
+  {
+    "id": "extraction_1771691667754_x38stissi",
+    "timestamp": "2026-02-21T16:34:27.754Z",
+    "searchCriteria": {
+      "category": "dentist",
+      "location": "Amsterdam",
+      "countryCode": "nl"
+    },
+    "statistics": {
+      "businessesFound": 3,
+      "reviewsFound": 0,
+      "avgRating": 0,
+      "extractionTime": 1658
+    },
+    "enrichmentHistory": []
+  },
+  {
+    "id": "extraction_1771691020294_ffmgnkkxi",
+    "timestamp": "2026-02-21T16:23:40.294Z",
+    "searchCriteria": {
+      "category": "dentist",
+      "location": "Amsterdam",
+      "countryCode": "nl"
+    },
+    "statistics": {
+      "businessesFound": 0,
+      "reviewsFound": 0,
+      "avgRating": 0,
+      "extractionTime": 1037
+    },
+    "enrichmentHistory": []
+  },
+  {
+    "id": "extraction_1770475603349_bvdqu9q0q",
+    "timestamp": "2026-02-07T14:46:43.349Z",
+    "searchCriteria": {
+      "category": "dentist",
+      "location": "Rotterdam",
+      "countryCode": "nl"
+    },
+    "statistics": {
+      "businessesFound": 5,
+      "reviewsFound": 2,
+      "avgRating": 2,
+      "extractionTime": 94794
+    },
+    "enrichmentHistory": []
+  },
+  {
+    "id": "extraction_1770474463918_vsmu9zgoo",
+    "timestamp": "2026-02-07T14:27:43.918Z",
+    "searchCriteria": {
+      "category": "dentist",
+      "location": "Amsterdam",
+      "countryCode": "nl"
+    },
+    "statistics": {
+      "businessesFound": 3,
+      "reviewsFound": 0,
+      "avgRating": 0,
+      "extractionTime": 21485
+    },
+    "enrichmentHistory": []
+  },
+  {
     "id": "extraction_1770366945714_5xqfpuuia",
     "timestamp": "2026-02-06T08:35:45.714Z",
     "searchCriteria": {
@@ -755,293 +851,6 @@
         "phoneNumbers": 1,
         "websites": 1,
         "emails": 0,
-        "ownerContacts": 0,
-        "managementContacts": 0
-      }
-    ]
-  },
-  {
-    "id": "extraction_1759483349399_bcn9r6ht0",
-    "timestamp": "2025-10-03T09:22:29.399Z",
-    "searchCriteria": {
-      "category": "tandarts",
-      "location": "Netherlands",
-      "countryCode": "nl"
-    },
-    "statistics": {
-      "businessesFound": 16,
-      "reviewsFound": 3,
-      "avgRating": 1.6666666666666667,
-      "extractionTime": 679694
-    },
-    "enrichmentHistory": [
-      {
-        "timestamp": "2025-10-04T07:10:58.358Z",
-        "enrichedBusinesses": 3,
-        "phoneNumbers": 3,
-        "websites": 3,
-        "emails": 2,
-        "ownerContacts": 0,
-        "managementContacts": 0
-      },
-      {
-        "timestamp": "2025-10-04T07:10:58.795Z",
-        "enrichedBusinesses": 3,
-        "phoneNumbers": 3,
-        "websites": 3,
-        "emails": 2,
-        "ownerContacts": 0,
-        "managementContacts": 0
-      },
-      {
-        "timestamp": "2025-10-07T12:21:32.678Z",
-        "enrichedBusinesses": 3,
-        "phoneNumbers": 3,
-        "websites": 3,
-        "emails": 2,
-        "ownerContacts": 0,
-        "managementContacts": 0
-      },
-      {
-        "timestamp": "2025-10-07T12:21:32.695Z",
-        "enrichedBusinesses": 3,
-        "phoneNumbers": 3,
-        "websites": 3,
-        "emails": 2,
-        "ownerContacts": 0,
-        "managementContacts": 0
-      }
-    ]
-  },
-  {
-    "id": "extraction_1759234424026_w1effbnpo",
-    "timestamp": "2025-09-30T12:13:44.026Z",
-    "searchCriteria": {
-      "category": "tandarts",
-      "location": "Netherlands",
-      "countryCode": "nl"
-    },
-    "statistics": {
-      "businessesFound": 18,
-      "reviewsFound": 1,
-      "avgRating": 1,
-      "extractionTime": 150362
-    },
-    "enrichmentHistory": []
-  },
-  {
-    "id": "extraction_1758622076308_nb115t4pn",
-    "timestamp": "2025-09-23T10:07:56.308Z",
-    "searchCriteria": {
-      "category": "tandarts",
-      "location": "Netherlands",
-      "countryCode": "nl"
-    },
-    "statistics": {
-      "businessesFound": 16,
-      "reviewsFound": 1,
-      "avgRating": 3,
-      "extractionTime": 205028
-    },
-    "enrichmentHistory": [
-      {
-        "timestamp": "2025-09-23T10:08:14.573Z",
-        "enrichedBusinesses": 1,
-        "phoneNumbers": 1,
-        "websites": 1,
-        "emails": 1,
-        "ownerContacts": 0,
-        "managementContacts": 0
-      },
-      {
-        "timestamp": "2025-09-23T10:08:14.588Z",
-        "enrichedBusinesses": 1,
-        "phoneNumbers": 1,
-        "websites": 1,
-        "emails": 1,
-        "ownerContacts": 0,
-        "managementContacts": 0
-      }
-    ]
-  },
-  {
-    "id": "extraction_1758618244270_43ebbibq0",
-    "timestamp": "2025-09-23T09:04:04.270Z",
-    "searchCriteria": {
-      "category": "real_estate_agency",
-      "location": "Schweiz",
-      "countryCode": "ch"
-    },
-    "statistics": {
-      "businessesFound": 13,
-      "reviewsFound": 0,
-      "avgRating": 0,
-      "extractionTime": 409697
-    },
-    "enrichmentHistory": []
-  },
-  {
-    "id": "extraction_1758569549291_wm24zf59n",
-    "timestamp": "2025-09-22T19:32:29.291Z",
-    "searchCriteria": {
-      "category": "tandarts",
-      "location": "Norge",
-      "countryCode": "no"
-    },
-    "statistics": {
-      "businessesFound": 16,
-      "reviewsFound": 0,
-      "avgRating": 0,
-      "extractionTime": 250482
-    },
-    "enrichmentHistory": []
-  },
-  {
-    "id": "extraction_1758540062040_89rz610km",
-    "timestamp": "2025-09-22T11:21:02.040Z",
-    "searchCriteria": {
-      "category": "doctor",
-      "location": "Netherlands",
-      "countryCode": "nl"
-    },
-    "statistics": {
-      "businessesFound": 15,
-      "reviewsFound": 3,
-      "avgRating": 1,
-      "extractionTime": 269689
-    },
-    "enrichmentHistory": [
-      {
-        "timestamp": "2025-09-22T11:43:19.497Z",
-        "enrichedBusinesses": 14,
-        "phoneNumbers": 13,
-        "websites": 13,
-        "emails": 6
-      },
-      {
-        "timestamp": "2025-09-22T11:43:19.631Z",
-        "enrichedBusinesses": 14,
-        "phoneNumbers": 13,
-        "websites": 13,
-        "emails": 6
-      },
-      {
-        "timestamp": "2025-09-22T14:58:33.230Z",
-        "enrichedBusinesses": 3,
-        "phoneNumbers": 3,
-        "websites": 3,
-        "emails": 1
-      },
-      {
-        "timestamp": "2025-09-22T14:58:33.536Z",
-        "enrichedBusinesses": 3,
-        "phoneNumbers": 3,
-        "websites": 3,
-        "emails": 1
-      },
-      {
-        "timestamp": "2025-09-22T15:16:53.190Z",
-        "enrichedBusinesses": 3,
-        "phoneNumbers": 3,
-        "websites": 3,
-        "emails": 1
-      },
-      {
-        "timestamp": "2025-09-22T15:16:53.208Z",
-        "enrichedBusinesses": 3,
-        "phoneNumbers": 3,
-        "websites": 3,
-        "emails": 1
-      },
-      {
-        "timestamp": "2025-09-22T15:17:27.307Z",
-        "enrichedBusinesses": 3,
-        "phoneNumbers": 3,
-        "websites": 3,
-        "emails": 1
-      },
-      {
-        "timestamp": "2025-09-22T15:17:27.320Z",
-        "enrichedBusinesses": 3,
-        "phoneNumbers": 3,
-        "websites": 3,
-        "emails": 1
-      },
-      {
-        "timestamp": "2025-09-22T15:20:02.629Z",
-        "enrichedBusinesses": 3,
-        "phoneNumbers": 3,
-        "websites": 3,
-        "emails": 1
-      },
-      {
-        "timestamp": "2025-09-22T15:20:02.729Z",
-        "enrichedBusinesses": 3,
-        "phoneNumbers": 3,
-        "websites": 3,
-        "emails": 1
-      },
-      {
-        "timestamp": "2025-09-22T15:22:02.567Z",
-        "enrichedBusinesses": 3,
-        "phoneNumbers": 3,
-        "websites": 3,
-        "emails": 1
-      },
-      {
-        "timestamp": "2025-09-22T15:22:03.376Z",
-        "enrichedBusinesses": 3,
-        "phoneNumbers": 3,
-        "websites": 3,
-        "emails": 1
-      },
-      {
-        "timestamp": "2025-09-22T15:43:01.766Z",
-        "enrichedBusinesses": 3,
-        "phoneNumbers": 3,
-        "websites": 3,
-        "emails": 2
-      },
-      {
-        "timestamp": "2025-09-22T15:43:01.944Z",
-        "enrichedBusinesses": 3,
-        "phoneNumbers": 3,
-        "websites": 3,
-        "emails": 2
-      },
-      {
-        "timestamp": "2025-09-22T17:48:29.519Z",
-        "enrichedBusinesses": 3,
-        "phoneNumbers": 3,
-        "websites": 3,
-        "emails": 2,
-        "ownerContacts": 0,
-        "managementContacts": 0
-      },
-      {
-        "timestamp": "2025-09-22T17:48:29.562Z",
-        "enrichedBusinesses": 3,
-        "phoneNumbers": 3,
-        "websites": 3,
-        "emails": 2,
-        "ownerContacts": 0,
-        "managementContacts": 0
-      },
-      {
-        "timestamp": "2025-09-22T19:12:29.623Z",
-        "enrichedBusinesses": 3,
-        "phoneNumbers": 3,
-        "websites": 3,
-        "emails": 2,
-        "ownerContacts": 0,
-        "managementContacts": 0
-      },
-      {
-        "timestamp": "2025-09-22T19:12:29.692Z",
-        "enrichedBusinesses": 3,
-        "phoneNumbers": 3,
-        "websites": 3,
-        "emails": 2,
         "ownerContacts": 0,
         "managementContacts": 0
       }

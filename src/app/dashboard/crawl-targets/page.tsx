@@ -248,7 +248,7 @@ export default function CrawlTargetsPage() {
   }
 
   return (
-    <div className="container mx-auto p-6 space-y-6">
+    <div className="space-y-4 p-4 max-w-7xl mx-auto">
       {/* Header */}
       <div className="space-y-2">
         <h1 className="text-3xl font-bold flex items-center gap-3">

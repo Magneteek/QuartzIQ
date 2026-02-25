@@ -9,14 +9,16 @@ import { Label } from '@/components/ui/label'
 import {
   X,
   Settings,
-  Save,
-  Key,
   CheckCircle,
   AlertCircle,
   Database,
   Trash2,
   Eye,
-  Sparkles
+  Key,
+  Zap,
+  Users,
+  Webhook,
+  RefreshCw
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Badge } from '@/components/ui/badge'
@@ -27,46 +29,87 @@ interface SettingsModalProps {
   onClose: () => void
 }
 
-export function SettingsModal({ isOpen, onClose }: SettingsModalProps) {
-  const [ghlApiKey, setGhlApiKey] = useState('')
-  const [ghlLocationId, setGhlLocationId] = useState('')
-  const [airtableApiKey, setAirtableApiKey] = useState('')
-  const [airtableBaseId, setAirtableBaseId] = useState('')
-  const [airtableTableName, setAirtableTableName] = useState('Leads')
-  const [saving, setSaving] = useState(false)
-  const [saved, setSaved] = useState(false)
-  const [error, setError] = useState<string | null>(null)
+interface APIStatus {
+  name: string
+  configured: boolean
+  icon: any
+  color: string
+  description: string
+  envVars: string[]
+}
 
+export function SettingsModal({ isOpen, onClose }: SettingsModalProps) {
   // Scraped businesses management state
   const [scrapedStats, setScrapedStats] = useState<any>(null)
   const [clearDays, setClearDays] = useState('90')
   const [clearing, setClearing] = useState(false)
+  const [loadingStatus, setLoadingStatus] = useState(true)
+  const [apiStatuses, setApiStatuses] = useState<APIStatus[]>([])
 
   // API endpoint selection
-  const [apiEndpoint, setApiEndpoint] = useState<'standard' | 'optimized'>('standard')
+  const [apiEndpoint, setApiEndpoint] = useState<'standard' | 'optimized'>('optimized')
 
   useEffect(() => {
     if (isOpen) {
       loadSettings()
       loadScrapedStats()
+      loadAPIStatus()
     }
   }, [isOpen])
 
   const loadSettings = () => {
-    // Load from localStorage
-    const savedApiKey = localStorage.getItem('ghl_api_key')
-    const savedLocationId = localStorage.getItem('ghl_location_id')
-    const savedAirtableApiKey = localStorage.getItem('airtable_api_key')
-    const savedAirtableBaseId = localStorage.getItem('airtable_base_id')
-    const savedAirtableTableName = localStorage.getItem('airtable_table_name')
+    // Load API endpoint preference from localStorage
     const savedApiEndpoint = localStorage.getItem('api_endpoint') as 'standard' | 'optimized'
-
-    if (savedApiKey) setGhlApiKey(savedApiKey)
-    if (savedLocationId) setGhlLocationId(savedLocationId)
-    if (savedAirtableApiKey) setAirtableApiKey(savedAirtableApiKey)
-    if (savedAirtableBaseId) setAirtableBaseId(savedAirtableBaseId)
-    if (savedAirtableTableName) setAirtableTableName(savedAirtableTableName)
     if (savedApiEndpoint) setApiEndpoint(savedApiEndpoint)
+  }
+
+  const loadAPIStatus = async () => {
+    setLoadingStatus(true)
+    try {
+      const response = await fetch('/api/settings/status')
+      const data = await response.json()
+
+      const statuses: APIStatus[] = [
+        {
+          name: 'GoHighLevel (Quartz Leads)',
+          configured: data.ghl?.configured || false,
+          icon: Zap,
+          color: 'text-blue-400',
+          description: 'CRM integration for lead management',
+          envVars: ['GHL_API_KEY', 'GHL_LOCATION_ID']
+        },
+        {
+          name: 'Apify',
+          configured: data.apify?.configured || false,
+          icon: Database,
+          color: 'text-purple-400',
+          description: 'Google Maps scraping and review extraction',
+          envVars: ['APIFY_API_TOKEN']
+        },
+        {
+          name: 'Apollo.io',
+          configured: data.apollo?.configured || false,
+          icon: Users,
+          color: 'text-green-400',
+          description: 'Contact enrichment (email & phone)',
+          envVars: ['APOLLO_API_KEY']
+        },
+        {
+          name: 'GHL Webhooks',
+          configured: data.webhooks?.configured || false,
+          icon: Webhook,
+          color: 'text-orange-400',
+          description: 'Inbound webhooks for automation',
+          envVars: ['GHL_WEBHOOK_URL', 'GHL_WEBHOOK_SECRET']
+        }
+      ]
+
+      setApiStatuses(statuses)
+    } catch (error) {
+      console.error('Failed to load API status:', error)
+    } finally {
+      setLoadingStatus(false)
+    }
   }
 
   const loadScrapedStats = async () => {
@@ -136,62 +179,6 @@ export function SettingsModal({ isOpen, onClose }: SettingsModalProps) {
     }
   }
 
-  const handleSave = async () => {
-    setSaving(true)
-    setError(null)
-
-    try {
-      // Validate Quartz Leads credentials if provided
-      if (ghlApiKey.trim() && !ghlLocationId.trim()) {
-        throw new Error('Quartz Leads: Location ID is required when API Key is provided')
-      }
-      if (!ghlApiKey.trim() && ghlLocationId.trim()) {
-        throw new Error('Quartz Leads: API Key is required when Location ID is provided')
-      }
-
-      // Validate Airtable credentials if provided
-      if (airtableApiKey.trim() && !airtableBaseId.trim()) {
-        throw new Error('Airtable: Base ID is required when API Key is provided')
-      }
-      if (!airtableApiKey.trim() && airtableBaseId.trim()) {
-        throw new Error('Airtable: API Key is required when Base ID is provided')
-      }
-
-      // At least one CRM must be configured
-      if (!ghlApiKey.trim() && !airtableApiKey.trim()) {
-        throw new Error('Please configure at least one CRM integration')
-      }
-
-      // Save to localStorage
-      if (ghlApiKey.trim()) {
-        localStorage.setItem('ghl_api_key', ghlApiKey.trim())
-        localStorage.setItem('ghl_location_id', ghlLocationId.trim())
-      }
-
-      if (airtableApiKey.trim()) {
-        localStorage.setItem('airtable_api_key', airtableApiKey.trim())
-        localStorage.setItem('airtable_base_id', airtableBaseId.trim())
-        localStorage.setItem('airtable_table_name', airtableTableName.trim() || 'Leads')
-      }
-
-      // Save API endpoint selection
-      localStorage.setItem('api_endpoint', apiEndpoint)
-
-      setSaved(true)
-      setTimeout(() => setSaved(false), 2000)
-
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to save settings')
-    } finally {
-      setSaving(false)
-    }
-  }
-
-  const handleTestConnection = async () => {
-    // TODO: Implement API connection test
-    console.log('Testing GoHighLevel connection...')
-  }
-
   if (!isOpen) return null
 
   return (
@@ -218,10 +205,13 @@ export function SettingsModal({ isOpen, onClose }: SettingsModalProps) {
           >
             <Card className="w-full max-w-2xl max-h-[85vh] overflow-y-auto p-6 space-y-6">
               {/* Header */}
-              <div className="flex items-center justify-between sticky top-0 bg-card z-10 pb-4">
+              <div className="flex items-center justify-between sticky top-0 bg-card z-10 pb-4 border-b">
                 <div className="flex items-center gap-3">
                   <Settings className="h-6 w-6 text-primary" />
-                  <h2 className="text-xl font-semibold">Settings</h2>
+                  <div>
+                    <h2 className="text-xl font-semibold">System Settings</h2>
+                    <p className="text-xs text-muted-foreground">Configuration managed via environment variables</p>
+                  </div>
                 </div>
                 <Button
                   variant="ghost"
@@ -232,6 +222,155 @@ export function SettingsModal({ isOpen, onClose }: SettingsModalProps) {
                   <X className="h-4 w-4" />
                 </Button>
               </div>
+
+              {/* API Integrations Status */}
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <Key className="h-5 w-5 text-primary" />
+                    <h3 className="font-medium">API Integrations</h3>
+                  </div>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={loadAPIStatus}
+                    disabled={loadingStatus}
+                  >
+                    <RefreshCw className={cn("h-4 w-4", loadingStatus && "animate-spin")} />
+                  </Button>
+                </div>
+
+                {loadingStatus ? (
+                  <div className="text-center py-4 text-muted-foreground">
+                    Loading API status...
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    {apiStatuses.map((api) => {
+                      const Icon = api.icon
+                      return (
+                        <div
+                          key={api.name}
+                          className={cn(
+                            "p-4 rounded-lg border",
+                            api.configured
+                              ? "bg-green-500/10 border-green-500/20"
+                              : "bg-red-500/10 border-red-500/20"
+                          )}
+                        >
+                          <div className="flex items-start gap-3">
+                            <Icon className={cn("h-5 w-5 mt-0.5", api.color)} />
+                            <div className="flex-1 min-w-0">
+                              <div className="flex items-center gap-2 mb-1">
+                                <p className="text-sm font-medium truncate">{api.name}</p>
+                                {api.configured ? (
+                                  <CheckCircle className="h-4 w-4 text-green-500 flex-shrink-0" />
+                                ) : (
+                                  <AlertCircle className="h-4 w-4 text-red-500 flex-shrink-0" />
+                                )}
+                              </div>
+                              <p className="text-xs text-muted-foreground mb-2">{api.description}</p>
+                              <div className="flex flex-wrap gap-1">
+                                {api.envVars.map((envVar) => (
+                                  <Badge key={envVar} variant="outline" className="text-[10px] font-mono">
+                                    {envVar}
+                                  </Badge>
+                                ))}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      )
+                    })}
+                  </div>
+                )}
+
+                {/* Configuration Help */}
+                <div className="p-3 rounded-lg bg-blue-500/10 border border-blue-500/20">
+                  <div className="flex items-start gap-2">
+                    <AlertCircle className="h-4 w-4 text-blue-400 mt-0.5" />
+                    <div className="text-sm text-blue-300">
+                      <p className="font-medium mb-1">Configure via .env file:</p>
+                      <p className="text-xs">
+                        API keys are managed through environment variables. Update your <span className="font-mono">.env.local</span> file and restart the server to apply changes.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Divider */}
+              <div className="border-t"></div>
+
+              {/* API Endpoint Selection Section */}
+              <div className="space-y-4">
+                <div className="flex items-center gap-2">
+                  <Database className="h-5 w-5 text-primary" />
+                  <h3 className="font-medium">API Endpoint</h3>
+                  <Badge variant="outline" className="ml-auto">
+                    Cost Optimization
+                  </Badge>
+                </div>
+
+                <div className="space-y-4">
+                  <div className="space-y-3">
+                    <Label htmlFor="api-endpoint">Extraction API</Label>
+                    <select
+                      id="api-endpoint"
+                      value={apiEndpoint}
+                      onChange={(e) => {
+                        const value = e.target.value as 'standard' | 'optimized'
+                        setApiEndpoint(value)
+                        localStorage.setItem('api_endpoint', value)
+                      }}
+                      className="w-full p-2.5 rounded-md border bg-background text-sm"
+                    >
+                      <option value="standard">Standard API (No caching)</option>
+                      <option value="optimized">Optimized API (Uses database cache) ⭐</option>
+                    </select>
+                  </div>
+
+                  {/* API Status Card */}
+                  {apiEndpoint === 'optimized' ? (
+                    <div className="p-4 rounded-lg bg-green-500/10 border border-green-500/20">
+                      <div className="flex items-start gap-3">
+                        <CheckCircle className="h-5 w-5 text-green-500 mt-0.5" />
+                        <div className="flex-1">
+                          <p className="text-sm font-medium text-green-500 mb-1">
+                            Cost Optimization Enabled
+                          </p>
+                          <p className="text-xs text-muted-foreground">
+                            Using database cache to minimize Apify costs. Expected savings: 60-80%
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="p-4 rounded-lg bg-orange-500/10 border border-orange-500/20">
+                      <div className="flex items-start gap-3">
+                        <AlertCircle className="h-5 w-5 text-orange-500 mt-0.5" />
+                        <div className="flex-1">
+                          <p className="text-sm font-medium text-orange-500 mb-1">
+                            No Cost Optimization
+                          </p>
+                          <p className="text-xs text-muted-foreground">
+                            Every search calls Apify directly. Switch to Optimized API to save money.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Database Status */}
+                  <div className="space-y-2">
+                    <Label>Database Cache Status</Label>
+                    <DatabaseStatusIndicator />
+                  </div>
+                </div>
+              </div>
+
+              {/* Divider */}
+              <div className="border-t"></div>
 
               {/* Scraped Businesses Management Section */}
               <div className="space-y-4">
@@ -329,242 +468,13 @@ export function SettingsModal({ isOpen, onClose }: SettingsModalProps) {
                 )}
               </div>
 
-              {/* Divider */}
-              <div className="border-t border-white/10"></div>
-
-              {/* API Endpoint Selection Section */}
-              <div className="space-y-4">
-                <div className="flex items-center gap-2">
-                  <Database className="h-5 w-5 text-primary" />
-                  <h3 className="font-medium">API Endpoint</h3>
-                  <Badge variant="outline" className="ml-auto">
-                    Cost Optimization
-                  </Badge>
-                </div>
-
-                <div className="space-y-4">
-                  <div className="space-y-3">
-                    <Label htmlFor="api-endpoint">Extraction API</Label>
-                    <select
-                      id="api-endpoint"
-                      value={apiEndpoint}
-                      onChange={(e) => {
-                        const value = e.target.value as 'standard' | 'optimized'
-                        setApiEndpoint(value)
-                        localStorage.setItem('api_endpoint', value)
-                      }}
-                      className="w-full p-2.5 rounded-md border bg-background text-sm"
-                    >
-                      <option value="standard">Standard API (No caching)</option>
-                      <option value="optimized">Optimized API (Uses database cache) ⭐</option>
-                    </select>
-                  </div>
-
-                  {/* API Status Card */}
-                  {apiEndpoint === 'optimized' ? (
-                    <div className="p-4 rounded-lg bg-green-500/10 border border-green-500/20">
-                      <div className="flex items-start gap-3">
-                        <CheckCircle className="h-5 w-5 text-green-500 mt-0.5" />
-                        <div className="flex-1">
-                          <p className="text-sm font-medium text-green-500 mb-1">
-                            Cost Optimization Enabled
-                          </p>
-                          <p className="text-xs text-muted-foreground">
-                            Using database cache to minimize Apify costs. Expected savings: 60-80%
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  ) : (
-                    <div className="p-4 rounded-lg bg-orange-500/10 border border-orange-500/20">
-                      <div className="flex items-start gap-3">
-                        <AlertCircle className="h-5 w-5 text-orange-500 mt-0.5" />
-                        <div className="flex-1">
-                          <p className="text-sm font-medium text-orange-500 mb-1">
-                            No Cost Optimization
-                          </p>
-                          <p className="text-xs text-muted-foreground">
-                            Every search calls Apify directly. Switch to Optimized API to save money.
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Database Status */}
-                  <div className="space-y-2">
-                    <Label>Database Cache Status</Label>
-                    <DatabaseStatusIndicator />
-                  </div>
-                </div>
-              </div>
-
-              {/* Divider */}
-              <div className="border-t border-white/10"></div>
-
-              {/* Quartz Leads Section */}
-              <div className="space-y-4">
-                <div className="flex items-center gap-2">
-                  <Key className="h-5 w-5 text-primary" />
-                  <h3 className="font-medium">Quartz Leads Integration</h3>
-                </div>
-
-                <div className="space-y-4">
-                  {/* API Key Input */}
-                  <div className="space-y-2">
-                    <Label htmlFor="ghl-api-key">API Key</Label>
-                    <Input
-                      id="ghl-api-key"
-                      type="password"
-                      placeholder="Enter your Quartz Leads API key"
-                      value={ghlApiKey}
-                      onChange={(e) => setGhlApiKey(e.target.value)}
-                      className="font-mono text-sm"
-                    />
-                  </div>
-
-                  {/* Location ID Input */}
-                  <div className="space-y-2">
-                    <Label htmlFor="ghl-location-id">Location ID</Label>
-                    <Input
-                      id="ghl-location-id"
-                      placeholder="Enter your Quartz Leads Location ID"
-                      value={ghlLocationId}
-                      onChange={(e) => setGhlLocationId(e.target.value)}
-                      className="font-mono text-sm"
-                    />
-                  </div>
-                </div>
-
-                {/* Help Text */}
-                <div className="p-3 rounded-lg bg-blue-500/10 border border-blue-500/20">
-                  <div className="flex items-start gap-2">
-                    <AlertCircle className="h-4 w-4 text-blue-400 mt-0.5" />
-                    <div className="text-sm text-blue-300">
-                      <p className="font-medium mb-1">How to get your API credentials:</p>
-                      <ol className="list-decimal list-inside space-y-1 text-xs">
-                        <li>Go to Quartz Leads Settings → Integrations</li>
-                        <li>Create a new API key with contact permissions</li>
-                        <li>Copy your Location ID from the URL or settings</li>
-                      </ol>
-                    </div>
-                  </div>
-                </div>
-
-              </div>
-
-              {/* Divider */}
-              <div className="border-t border-white/10"></div>
-
-              {/* Airtable Section */}
-              <div className="space-y-4">
-                <div className="flex items-center gap-2">
-                  <Database className="h-5 w-5 text-primary" />
-                  <h3 className="font-medium">Airtable Integration</h3>
-                </div>
-
-                <div className="space-y-4">
-                  {/* API Key Input */}
-                  <div className="space-y-2">
-                    <Label htmlFor="airtable-api-key">API Key</Label>
-                    <Input
-                      id="airtable-api-key"
-                      type="password"
-                      placeholder="Enter your Airtable API key"
-                      value={airtableApiKey}
-                      onChange={(e) => setAirtableApiKey(e.target.value)}
-                      className="font-mono text-sm"
-                    />
-                  </div>
-
-                  {/* Base ID Input */}
-                  <div className="space-y-2">
-                    <Label htmlFor="airtable-base-id">Base ID</Label>
-                    <Input
-                      id="airtable-base-id"
-                      placeholder="appXXXXXXXXXXXXXX"
-                      value={airtableBaseId}
-                      onChange={(e) => setAirtableBaseId(e.target.value)}
-                      className="font-mono text-sm"
-                    />
-                  </div>
-
-                  {/* Table Name Input */}
-                  <div className="space-y-2">
-                    <Label htmlFor="airtable-table-name">Table Name (Optional)</Label>
-                    <Input
-                      id="airtable-table-name"
-                      placeholder="Leads"
-                      value={airtableTableName}
-                      onChange={(e) => setAirtableTableName(e.target.value)}
-                      className="text-sm"
-                    />
-                  </div>
-                </div>
-
-                {/* Help Text */}
-                <div className="p-3 rounded-lg bg-purple-500/10 border border-purple-500/20">
-                  <div className="flex items-start gap-2">
-                    <AlertCircle className="h-4 w-4 text-purple-400 mt-0.5" />
-                    <div className="text-sm text-purple-300">
-                      <p className="font-medium mb-1">How to get your Airtable credentials:</p>
-                      <ol className="list-decimal list-inside space-y-1 text-xs">
-                        <li>Go to <span className="font-mono">airtable.com/create/tokens</span></li>
-                        <li>Create token with <span className="font-mono">data.records:read</span> and <span className="font-mono">write</span> scopes</li>
-                        <li>Find Base ID at <span className="font-mono">airtable.com/api</span> (starts with <span className="font-mono">app</span>)</li>
-                        <li>Table name defaults to "Leads" if not specified</li>
-                      </ol>
-                    </div>
-                  </div>
-                </div>
-
-              </div>
-
-              {/* Error Message */}
-              {error && (
-                <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="p-3 rounded-lg bg-red-500/10 border border-red-500/20 text-red-300 text-sm"
-                >
-                  {error}
-                </motion.div>
-              )}
-
               {/* Actions */}
-              <div className="flex gap-3">
+              <div className="flex justify-end pt-4 border-t">
                 <Button
-                  variant="outline"
                   onClick={onClose}
-                  className="flex-1"
+                  className="min-w-[120px]"
                 >
-                  Cancel
-                </Button>
-                <Button
-                  onClick={handleSave}
-                  disabled={saving || (!ghlApiKey.trim() && !airtableApiKey.trim())}
-                  className="flex-1"
-                >
-                  {saving ? (
-                    <>
-                      <motion.div
-                        animate={{ rotate: 360 }}
-                        transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                        className="w-4 h-4 border-2 border-white border-t-transparent rounded-full mr-2"
-                      />
-                      Saving...
-                    </>
-                  ) : saved ? (
-                    <>
-                      <CheckCircle className="h-4 w-4 mr-2" />
-                      Saved!
-                    </>
-                  ) : (
-                    <>
-                      <Save className="h-4 w-4 mr-2" />
-                      Save Settings
-                    </>
-                  )}
+                  Close
                 </Button>
               </div>
             </Card>

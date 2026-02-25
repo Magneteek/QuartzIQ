@@ -1,7 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getClientConfig } from '@/lib/client-config'
+import { Pool } from 'pg'
+
+const pool = new Pool({
+  host: process.env.POSTGRES_HOST,
+  port: Number(process.env.POSTGRES_PORT),
+  database: process.env.POSTGRES_DATABASE,
+  user: process.env.POSTGRES_USER,
+  password: process.env.POSTGRES_PASSWORD,
+})
 
 interface Contact {
+  businessId?: string
+  placeId?: string
   name: string
   address: string
   phone?: string
@@ -162,10 +173,27 @@ export async function POST(request: NextRequest) {
         const responseData = await response.json()
 
         if (response.ok) {
+          const ghlContactId = responseData.contact?.id || responseData.id
+
+          // Update database to mark business as exported
+          if (contact.businessId || contact.placeId) {
+            try {
+              const updateQuery = contact.businessId
+                ? 'UPDATE businesses SET exported_to_ghl = true, exported_to_ghl_at = NOW(), ghl_contact_id = $1 WHERE id = $2'
+                : 'UPDATE businesses SET exported_to_ghl = true, exported_to_ghl_at = NOW(), ghl_contact_id = $1 WHERE place_id = $2'
+
+              await pool.query(updateQuery, [ghlContactId, contact.businessId || contact.placeId])
+              console.log(`✅ Marked business ${contact.name} as exported to GHL`)
+            } catch (dbError) {
+              console.error(`⚠️ Failed to update database for ${contact.name}:`, dbError)
+              // Don't fail the export if database update fails - contact was successfully sent to GHL
+            }
+          }
+
           results.push({
             contact: contact.name,
             status: 'success',
-            id: responseData.contact?.id || responseData.id,
+            id: ghlContactId,
             message: 'Contact created successfully'
           })
         } else {

@@ -123,7 +123,7 @@ export function LeadSelectionModal({ isOpen, onClose, enrichedBusinesses, busine
 
   const handleSendToQuartzLeads = async () => {
     if (selectedLeads.size === 0) {
-      setError('Please select at least one lead to send')
+      setError('Please select at least one business to save')
       return
     }
 
@@ -135,29 +135,35 @@ export function LeadSelectionModal({ isOpen, onClose, enrichedBusinesses, busine
         selectedLeads.has(index.toString())
       )
 
-      const response = await fetch('/api/quartz-leads/send-contacts', {
+      // Step 1: Save to database and queue for enrichment
+      const response = await fetch('/api/leads/queue-for-enrichment', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          contacts: selectedBusinesses.map(business => ({
-            name: business.title,
+          businesses: selectedBusinesses.map(business => ({
+            title: business.title,
             address: business.address,
             phone: business.phone,
             email: business.email,
             website: business.website,
-            source: 'QuartzIQ Review Extraction'
+            placeId: business.placeId || `discovery_${Date.now()}`,
+            url: business.url,
+            totalScore: business.totalScore,
+            reviewsCount: business.reviewsCount
           })),
-          clientId: selectedClientId
+          autoEnrich: true // Automatically queue for enrichment
         })
       })
 
       const data = await response.json()
 
       if (!response.ok) {
-        throw new Error(data.error || 'Failed to send contacts to Quartz Leads')
+        throw new Error(data.error || 'Failed to save businesses')
       }
+
+      console.log(`✅ Saved ${data.saved} businesses to Leads and queued for enrichment`)
 
       setSent(true)
       setTimeout(() => {
@@ -165,7 +171,7 @@ export function LeadSelectionModal({ isOpen, onClose, enrichedBusinesses, busine
       }, 2000)
 
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to send contacts')
+      setError(err instanceof Error ? err.message : 'Failed to save businesses')
     } finally {
       setSending(false)
     }
@@ -278,9 +284,9 @@ export function LeadSelectionModal({ isOpen, onClose, enrichedBusinesses, busine
                 <div className="flex items-center gap-3">
                   <Users className="h-6 w-6 text-primary" />
                   <div>
-                    <h2 className="text-xl font-semibold">Send Leads to CRM</h2>
+                    <h2 className="text-xl font-semibold">Save & Queue for Enrichment</h2>
                     <p className="text-sm text-muted-foreground">
-                      Select businesses to send to Quartz Leads or Airtable (enrichment optional)
+                      Businesses will be saved to Leads and automatically queued for contact enrichment
                     </p>
                   </div>
                 </div>
@@ -467,16 +473,16 @@ export function LeadSelectionModal({ isOpen, onClose, enrichedBusinesses, busine
                       className="mb-4 p-3 rounded-lg bg-green-500/10 border border-green-500/20 text-green-300 text-sm"
                     >
                       <CheckCircle className="h-4 w-4 mr-2 inline" />
-                      Successfully sent {selectedLeads.size} contacts to {sent ? 'Quartz Leads' : 'Airtable'}!
+                      Successfully saved {selectedLeads.size} businesses and queued for enrichment!
                     </motion.div>
                   )}
 
                   <div className="space-y-3">
                     {/* Modern Workflow Info */}
-                    <div className="rounded-lg border border-blue-500/20 bg-blue-500/10 p-3">
-                      <p className="text-sm text-blue-300 font-medium mb-1">✅ Businesses Saved to Database</p>
+                    <div className="rounded-lg border border-green-500/20 bg-green-500/10 p-3">
+                      <p className="text-sm text-green-300 font-medium mb-1">✅ Saved to Leads & Queued for Enrichment</p>
                       <p className="text-xs text-muted-foreground">
-                        Next: <strong>Leads</strong> page → Qualify → <strong>Enrichment</strong> → Export to Quartz
+                        Next: Enrichment runs automatically → Then export to Quartz CRM when ready
                       </p>
                     </div>
 

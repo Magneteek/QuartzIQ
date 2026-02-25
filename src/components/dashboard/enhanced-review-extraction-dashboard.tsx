@@ -19,7 +19,6 @@ import { ResultsTable } from '@/components/results/results-table'
 import { ResultsList } from '@/components/results/results-list'
 import { BusinessCardsView } from '@/components/results/business-cards-view'
 import { ExportModal } from '@/components/modals/export-modal'
-import { SettingsModal } from '@/components/modals/settings-modal'
 import { ExtractionConfirmationModal } from '@/components/modals/extraction-confirmation-modal'
 import { LeadSelectionModal } from '@/components/modals/lead-selection-modal'
 import { ClientSelector } from '@/components/client-config/client-selector'
@@ -132,6 +131,16 @@ export function EnhancedReviewExtractionDashboard() {
   const [results, setResults] = useState<ExtractionResult | null>(null)
   const [progress, setProgress] = useState(0)
   const [currentStep, setCurrentStep] = useState('')
+  const [realTimeData, setRealTimeData] = useState<{
+    businessesFound?: number
+    reviewsExtracted?: number
+    elapsedSeconds?: number
+    estimatedSecondsRemaining?: number | null
+    costEstimate?: number
+    computeUnits?: number
+    apifyRunId?: string
+    apifyStatus?: string
+  } | undefined>(undefined)
   const [viewMode, setViewMode] = useState<'table' | 'list' | 'cards'>(() => {
     if (typeof window !== 'undefined') {
       return localStorage.getItem('quartziq-view-mode') as 'table' | 'list' | 'cards' || 'cards'
@@ -139,7 +148,6 @@ export function EnhancedReviewExtractionDashboard() {
     return 'cards'
   })
   const [showExportModal, setShowExportModal] = useState(false)
-  const [showSettingsModal, setShowSettingsModal] = useState(false)
   const [showLeadSelectionModal, setShowLeadSelectionModal] = useState(false)
   const [showConfirmationModal, setShowConfirmationModal] = useState(false)
   const [pendingCriteria, setPendingCriteria] = useState<SearchCriteria | null>(null)
@@ -172,6 +180,17 @@ export function EnhancedReviewExtractionDashboard() {
   // Deduplication filter state
   const [showNewOnly, setShowNewOnly] = useState(false)
   const [businessScrapedStatus, setBusinessScrapedStatus] = useState<Record<string, boolean>>({})
+
+  // Review fetch result state (for post-fetch feedback)
+  const [fetchReviewsResult, setFetchReviewsResult] = useState<{
+    count: number
+    maxStars: number
+    dayLimit: number
+    businessCount: number
+  } | null>(null)
+
+  // Flag to skip selection reset on reviews-only update
+  const isReviewsOnlyUpdate = React.useRef(false)
 
   // Apply dark mode
   useEffect(() => {
@@ -229,6 +248,7 @@ export function EnhancedReviewExtractionDashboard() {
       }
     }
   }, [])
+
 
   // Wrapper function that shows confirmation modal before search
   const handleSearchRequest = (criteria: SearchCriteria) => {
@@ -307,6 +327,7 @@ export function EnhancedReviewExtractionDashboard() {
     setIsExtracting(true)
     setProgress(0)
     setCurrentStep('Initializing AI extraction engine...')
+    setRealTimeData(undefined) // 🆕 Reset real-time data
     setLastSearchCriteria(criteria)
     const extractionStartTime = Date.now()
 
@@ -411,6 +432,10 @@ export function EnhancedReviewExtractionDashboard() {
                 if (data.type === 'progress') {
                   setProgress(data.progress)
                   setCurrentStep(data.step)
+                  // 🆕 Capture real-time Apify data
+                  if (data.realTimeData) {
+                    setRealTimeData(data.realTimeData)
+                  }
                 } else if (data.type === 'result') {
                   finalResult = data.result
                   setResults(finalResult)
@@ -505,6 +530,85 @@ export function EnhancedReviewExtractionDashboard() {
     } finally {
       setIsExtracting(false)
       abortControllerRef.current = null
+    }
+  }
+
+  const handleFetchReviewsForSelected = async () => {
+    if (selectedBusinesses.size === 0) {
+      alert('Please select at least one business to fetch reviews for.')
+      return
+    }
+
+    const selectedList = filteredQualifyingBusinesses.filter((_: any, i: number) =>
+      selectedBusinesses.has(i.toString())
+    )
+
+    const maxStars = (lastSearchCriteria?.maxStars as number) || 3
+    const dayLimit = (lastSearchCriteria?.dayLimit as number) || 30
+    const maxReviewsPerBusiness = (lastSearchCriteria?.maxReviewsPerBusiness as number) || 10
+
+    setIsExtracting(true)
+    setCurrentStep(`Fetching reviews for ${selectedList.length} business${selectedList.length !== 1 ? 'es' : ''}...`)
+    setProgress(5)
+
+    try {
+      // Step 1: Extract reviews from Apify for each selected business
+      for (let i = 0; i < selectedList.length; i++) {
+        const business = selectedList[i] as any
+        setCurrentStep(`Scraping reviews for ${business.title} (${i + 1}/${selectedList.length})...`)
+        setProgress(10 + Math.round((i / selectedList.length) * 60))
+
+        await fetch('/api/extract-reviews-for-business', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Internal-Request': 'true',
+          },
+          body: JSON.stringify({
+            placeId: business.placeId,
+            name: business.title,
+            googleMapsUrl: business.url,
+            maxReviews: maxReviewsPerBusiness,
+          }),
+        })
+      }
+
+      // Step 2: Fetch qualifying reviews from DB for all selected businesses
+      setCurrentStep('Loading qualifying reviews...')
+      setProgress(80)
+
+      const placeIds = selectedList.map((b: any) => b.placeId).filter(Boolean)
+      const reviewsRes = await fetch('/api/reviews/for-businesses', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ placeIds, maxStars, dayLimit }),
+      })
+      const reviewsData = await reviewsRes.json()
+
+      setProgress(95)
+
+      // Step 3: Update results with newly fetched reviews (skip selection reset)
+      isReviewsOnlyUpdate.current = true
+      setResults((prev: any) => ({
+        ...prev,
+        reviews: reviewsData.reviews || [],
+      }))
+
+      const qualifyingCount = reviewsData.count || 0
+      setFetchReviewsResult({
+        count: qualifyingCount,
+        maxStars,
+        dayLimit,
+        businessCount: selectedList.length,
+      })
+
+      setCurrentStep(`Done — found ${qualifyingCount} qualifying review${qualifyingCount !== 1 ? 's' : ''}`)
+      setProgress(100)
+    } catch (error) {
+      console.error('Review fetch error:', error)
+      setCurrentStep('Error fetching reviews')
+    } finally {
+      setTimeout(() => setIsExtracting(false), 1500)
     }
   }
 
@@ -931,8 +1035,12 @@ export function EnhancedReviewExtractionDashboard() {
     }
   }
 
-  // Reset selections when new results arrive
+  // Reset selections when new results arrive (but not on reviews-only updates)
   useEffect(() => {
+    if (isReviewsOnlyUpdate.current) {
+      isReviewsOnlyUpdate.current = false
+      return
+    }
     setSelectedReviews(new Set())
     setSelectedBusinesses(new Set())
     setSelectAll(false)
@@ -1028,10 +1136,13 @@ export function EnhancedReviewExtractionDashboard() {
     const reviewsArray = results.reviews || []
     const businessesWithReviews = new Set(reviewsArray.map((review: any) => review.business_name || review.business_title))
 
-    // Filter businesses to only include those with qualifying reviews
-    const filteredBusinesses = (results.businesses || []).filter((business: any) =>
-      businessesWithReviews.has(business.title) || businessesWithReviews.has(business.name)
-    )
+    // Filter businesses to only include those with qualifying reviews.
+    // If no reviews were extracted (Business Discovery mode), show ALL businesses.
+    const filteredBusinesses = reviewsArray.length === 0
+      ? (results.businesses || [])
+      : (results.businesses || []).filter((business: any) =>
+          businessesWithReviews.has(business.title) || businessesWithReviews.has(business.name)
+        )
 
     // Add quality scores to each business
     const businessesWithQuality = filteredBusinesses.map((business: any) => {
@@ -1092,7 +1203,7 @@ export function EnhancedReviewExtractionDashboard() {
       if (b.phone) phoneNumbers++
       if (b.email) emails++
       if (b.website) websites++
-      if (b.totalScore) totalRating += b.totalScore
+      if (b.totalScore) totalRating += Number(b.totalScore)
 
       // Check for garbage emails
       if (b.email) {
@@ -1126,77 +1237,26 @@ export function EnhancedReviewExtractionDashboard() {
       />
 
       {/* Main Content */}
-      <div className="space-y-8 p-6">
-        {/* Header Section */}
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="relative"
-        >
-          <Card className="p-8 text-center">
-            <div className="space-y-4">
-              <div className="flex items-center justify-center gap-4">
-                <Gem className="h-12 w-12 text-primary" />
-                
-                <div>
-                  <h1 className="text-4xl font-bold text-primary">
-                    QuartzIQ
-                  </h1>
-                </div>
-
-                <div className="absolute top-4 right-4 flex gap-2">
-                  {/* Database Status Indicator */}
-                  <DatabaseStatusIndicator compact className="bg-white/10 backdrop-blur-sm border border-white/20" />
-
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => setShowSettingsModal(true)}
-                    className="bg-white/10 backdrop-blur-sm border border-white/20"
-                  >
-                    <Settings className="h-4 w-4" />
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => setDarkMode(!darkMode)}
-                    className="bg-white/10 backdrop-blur-sm border border-white/20"
-                  >
-                    {darkMode ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-                  </Button>
-                </div>
-              </div>
-
-              {/* Quick Stats */}
-            </div>
-          </Card>
-        </motion.div>
-
-
+      <div className="space-y-4 p-4 max-w-7xl mx-auto">
         {/* Search Configuration */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
         >
-          <Card className="p-6">
-            <div className="flex items-center justify-between mb-6">
-              <div className="flex items-center gap-3">
-                <Database className="h-6 w-6 text-primary" />
-                <div>
-                  <h2 className="text-xl font-semibold text-foreground">Search Configuration</h2>
-                  <p className="text-sm text-muted-foreground">
-                    Configure search parameters
-                  </p>
-                </div>
+          <Card className="p-4">
+            <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center gap-2">
+                <Search className="h-5 w-5 text-primary" />
+                <h2 className="text-lg font-semibold text-foreground">Search</h2>
                 {currentExtractionId && (
                   <motion.div
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
-                    className="flex items-center gap-2 ml-4 px-3 py-1 rounded-full bg-green-500/20 border border-green-500/30"
+                    className="flex items-center gap-1 ml-2 px-2 py-0.5 rounded-full bg-green-500/20 border border-green-500/30"
                   >
-                    <div className="h-2 w-2 bg-green-400 rounded-full animate-pulse"></div>
-                    <span className="text-xs text-green-300 font-medium">Loaded from vault</span>
+                    <div className="h-1.5 w-1.5 bg-green-400 rounded-full animate-pulse"></div>
+                    <span className="text-xs text-green-300">From vault</span>
                   </motion.div>
                 )}
               </div>
@@ -1204,45 +1264,17 @@ export function EnhancedReviewExtractionDashboard() {
               <div className="flex items-center gap-2">
                 <Button
                   variant="outline"
-                  onClick={handleLoadCachedReviews}
-                  disabled={isExtracting}
-                  className="bg-blue-500/10 backdrop-blur-sm border border-blue-500/30 hover:scale-105 hover:shadow-lg transition-all duration-200"
-                  title={`Load cached reviews: ${lastSearchCriteria?.dayLimit || 14} days, ≤${lastSearchCriteria?.maxStars || 3}★`}
-                >
-                  <Database className="h-4 w-4 mr-2" />
-                  Load Cached Reviews
-                </Button>
-                <Link href="/dashboard/crawl-targets">
-                  <Button
-                    variant="outline"
-                    className="bg-primary/10 backdrop-blur-sm border border-primary/30 hover:scale-105 hover:shadow-lg transition-all duration-200"
-                  >
-                    <Target className="h-4 w-4 mr-2" />
-                    Smart Crawl Targets
-                  </Button>
-                </Link>
-                <Button
-                  variant="outline"
+                  size="sm"
                   onClick={() => setShowHistory(true)}
-                  className="bg-white/10 backdrop-blur-sm border border-white/20 hover:scale-105 hover:shadow-lg transition-all duration-200"
                 >
-                  <History className="h-4 w-4 mr-2" />
-                  Contact Vault
+                  <History className="h-4 w-4 mr-1" />
+                  History
                 </Button>
               </div>
             </div>
 
             <EnhancedSearchForm onSearch={handleSearchRequest} isExtracting={isExtracting} />
           </Card>
-        </motion.div>
-
-        {/* Quick Access Panel - Qualified Reviews & Crawl Targets */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-        >
-          <QuickAccessPanel />
         </motion.div>
 
         {/* Search Criteria Overview */}
@@ -1254,19 +1286,16 @@ export function EnhancedReviewExtractionDashboard() {
               exit={{ opacity: 0, y: -20 }}
               transition={{ delay: 0.15 }}
             >
-              <Card className="p-4">
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center gap-3">
-                    <Target className="h-5 w-5 text-primary" />
-                    <div>
-                      <h3 className="text-lg font-semibold text-foreground">Search Criteria</h3>
-                      <p className="text-sm text-muted-foreground">Current extraction parameters</p>
-                    </div>
+              <Card className="p-3">
+                <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center gap-2">
+                    <Target className="h-4 w-4 text-primary" />
+                    <h3 className="text-sm font-semibold text-foreground">Last Search</h3>
                   </div>
                 </div>
 
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-                  <div className="space-y-1">
+                <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
+                  <div className="space-y-0.5">
                     <div className="text-xs text-muted-foreground">Category</div>
                     <div className="font-medium text-sm">{lastSearchCriteria.category}</div>
                   </div>
@@ -1336,6 +1365,7 @@ export function EnhancedReviewExtractionDashboard() {
                 progress={progress}
                 currentStep={currentStep}
                 isVisible={true}
+                realTimeData={realTimeData}
               />
 
               {/* Stop Extraction Button */}
@@ -1647,7 +1677,7 @@ export function EnhancedReviewExtractionDashboard() {
                             className="bg-primary/10 backdrop-blur-sm border border-primary/20 hover:scale-105 hover:shadow-lg transition-all duration-200 text-primary hover:text-primary"
                           >
                             <Users className="h-4 w-4 mr-2" />
-                            Send to CRM ({enrichedCount > 0 ? `${enrichedCount} enriched` : totalCount})
+                            Save & Queue for Enrichment ({totalCount})
                           </Button>
                         )
                       })()}
@@ -1665,6 +1695,40 @@ export function EnhancedReviewExtractionDashboard() {
                       >
                         {selectAll ? 'Deselect All' : 'Select All'}
                       </Button>
+
+                      {/* Fetch Reviews for Selected Button */}
+                      {/* Fetch Reviews for Selected — always visible, disabled when nothing selected */}
+                      <TooltipProvider>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <span>
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={handleFetchReviewsForSelected}
+                                disabled={isExtracting || selectedBusinesses.size === 0}
+                                className="bg-blue-500/10 border border-blue-500/30 text-blue-400 hover:bg-blue-500/20 hover:scale-105 transition-all duration-200 gap-1 disabled:opacity-40"
+                              >
+                                <MessageSquare className="h-4 w-4" />
+                                Fetch Reviews
+                                {selectedBusinesses.size > 0 && ` (${selectedBusinesses.size})`}
+                              </Button>
+                            </span>
+                          </TooltipTrigger>
+                          <TooltipContent side="top" className="bg-card border border-border max-w-xs">
+                            <div className="text-xs space-y-1">
+                              <div className="font-semibold">Scrape reviews for selected businesses</div>
+                              <div className="text-muted-foreground">
+                                Filters: ≤ {lastSearchCriteria?.maxStars ?? 3} stars •{' '}
+                                last {lastSearchCriteria?.dayLimit ?? 30} days
+                              </div>
+                              {selectedBusinesses.size === 0 && (
+                                <div className="text-amber-400">Select businesses first</div>
+                              )}
+                            </div>
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
 
                       {/* Contact Enrichment Button */}
                       {!isEnrichingContacts && results.businesses && results.businesses.length > 0 && (
@@ -1708,6 +1772,38 @@ export function EnhancedReviewExtractionDashboard() {
                       </span>
                     </div>
                   </div>
+
+                  {/* Fetch Reviews Result Banner */}
+                  {fetchReviewsResult && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className={`flex items-center justify-between px-4 py-2.5 rounded-lg border text-sm ${
+                        fetchReviewsResult.count > 0
+                          ? 'bg-green-500/10 border-green-500/30 text-green-300'
+                          : 'bg-amber-500/10 border-amber-500/30 text-amber-300'
+                      }`}
+                    >
+                      <div className="flex items-center gap-2">
+                        <MessageSquare className="h-4 w-4 flex-shrink-0" />
+                        {fetchReviewsResult.count > 0 ? (
+                          <span>
+                            Found <strong>{fetchReviewsResult.count}</strong> qualifying review{fetchReviewsResult.count !== 1 ? 's' : ''} across {fetchReviewsResult.businessCount} business{fetchReviewsResult.businessCount !== 1 ? 'es' : ''} — select them and click <strong>Get Contact Info</strong>
+                          </span>
+                        ) : (
+                          <span>
+                            No qualifying reviews found (filter: ≤ {fetchReviewsResult.maxStars}★, last {fetchReviewsResult.dayLimit} days). These businesses may have no recent negative reviews — try widening <strong>Max Rev★</strong> or <strong>Day limit</strong> in the search form.
+                          </span>
+                        )}
+                      </div>
+                      <button
+                        onClick={() => setFetchReviewsResult(null)}
+                        className="ml-3 opacity-60 hover:opacity-100 text-xs"
+                      >
+                        ×
+                      </button>
+                    </motion.div>
+                  )}
 
                   {/* Results Display */}
                   <div className="space-y-4">
@@ -1783,12 +1879,6 @@ export function EnhancedReviewExtractionDashboard() {
             results={results}
           />
         )}
-
-        {/* Settings Modal */}
-        <SettingsModal
-          isOpen={showSettingsModal}
-          onClose={() => setShowSettingsModal(false)}
-        />
 
         {/* Extraction Confirmation Modal */}
         <ExtractionConfirmationModal

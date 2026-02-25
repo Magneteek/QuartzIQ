@@ -1,27 +1,46 @@
 'use client'
 
 import { motion, AnimatePresence } from 'framer-motion'
+import { useState, useEffect } from 'react'
 import { Card } from '@/components/ui/card'
 import { Progress } from '@/components/ui/progress'
 import { Badge } from '@/components/ui/badge'
-import { 
-  CheckCircle, 
-  Clock, 
-  Search, 
-  Database, 
-  FileText, 
+import { Button } from '@/components/ui/button'
+import {
+  CheckCircle,
+  Clock,
+  Search,
+  Database,
+  FileText,
   AlertCircle,
   Zap,
   TrendingUp,
   Target,
-  Filter
+  Filter,
+  Building2,
+  MessageSquare,
+  DollarSign,
+  Terminal,
+  ChevronDown,
+  ChevronUp
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
+
+interface RealTimeData {
+  businessesFound?: number
+  reviewsExtracted?: number
+  elapsedSeconds?: number
+  estimatedSecondsRemaining?: number | null
+  costEstimate?: number
+  apifyRunId?: string
+  apifyStatus?: string
+}
 
 interface ExtractionProgressProps {
   progress: number
   currentStep: string
   isVisible?: boolean
+  realTimeData?: RealTimeData
 }
 
 const progressSteps = [
@@ -70,12 +89,48 @@ const loadingStates = [
   { text: "Finalizing extraction..." }
 ]
 
-export function EnhancedExtractionProgress({ 
-  progress, 
-  currentStep, 
-  isVisible = true 
+export function EnhancedExtractionProgress({
+  progress,
+  currentStep,
+  isVisible = true,
+  realTimeData
 }: ExtractionProgressProps) {
-  
+  const [showLogs, setShowLogs] = useState(false)
+  const [logs, setLogs] = useState<string>('')
+  const [loadingLogs, setLoadingLogs] = useState(false)
+
+  // Fetch logs when user expands logs section
+  useEffect(() => {
+    if (showLogs && realTimeData?.apifyRunId && !logs) {
+      fetchLogs()
+    }
+  }, [showLogs, realTimeData?.apifyRunId])
+
+  const fetchLogs = async () => {
+    if (!realTimeData?.apifyRunId) return
+
+    setLoadingLogs(true)
+    try {
+      const response = await fetch(`/api/apify-logs/${realTimeData.apifyRunId}`)
+      const data = await response.json()
+      if (data.success) {
+        setLogs(data.logs)
+      }
+    } catch (error) {
+      console.error('Failed to fetch logs:', error)
+      setLogs('Failed to load logs')
+    } finally {
+      setLoadingLogs(false)
+    }
+  }
+
+  const formatTime = (seconds?: number) => {
+    if (!seconds) return '0s'
+    const mins = Math.floor(seconds / 60)
+    const secs = seconds % 60
+    return mins > 0 ? `${mins}m ${secs}s` : `${secs}s`
+  }
+
   const getCurrentStepId = () => {
     const stepLower = currentStep.toLowerCase()
 
@@ -217,6 +272,111 @@ export function EnhancedExtractionProgress({
                   )}
                 </div>
               </div>
+
+              {/* Real-Time Statistics */}
+              {realTimeData && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="grid grid-cols-2 md:grid-cols-4 gap-3"
+                >
+                  {/* Businesses Found */}
+                  <Card className="p-3 bg-blue-500/10 border-blue-500/20">
+                    <div className="flex items-center gap-2 mb-1">
+                      <Building2 className="h-4 w-4 text-blue-400" />
+                      <span className="text-xs text-muted-foreground">Businesses</span>
+                    </div>
+                    <p className="text-xl font-bold text-blue-300">
+                      {realTimeData.businessesFound || 0}
+                    </p>
+                  </Card>
+
+                  {/* Reviews Extracted */}
+                  {realTimeData.reviewsExtracted !== undefined && (
+                    <Card className="p-3 bg-green-500/10 border-green-500/20">
+                      <div className="flex items-center gap-2 mb-1">
+                        <MessageSquare className="h-4 w-4 text-green-400" />
+                        <span className="text-xs text-muted-foreground">Reviews</span>
+                      </div>
+                      <p className="text-xl font-bold text-green-300">
+                        {realTimeData.reviewsExtracted}
+                      </p>
+                    </Card>
+                  )}
+
+                  {/* Time Elapsed/Remaining */}
+                  <Card className="p-3 bg-purple-500/10 border-purple-500/20">
+                    <div className="flex items-center gap-2 mb-1">
+                      <Clock className="h-4 w-4 text-purple-400" />
+                      <span className="text-xs text-muted-foreground">
+                        {realTimeData.estimatedSecondsRemaining !== null ? 'Remaining' : 'Elapsed'}
+                      </span>
+                    </div>
+                    <p className="text-xl font-bold text-purple-300">
+                      {realTimeData.estimatedSecondsRemaining !== null
+                        ? formatTime(realTimeData.estimatedSecondsRemaining)
+                        : formatTime(realTimeData.elapsedSeconds)}
+                    </p>
+                  </Card>
+
+                  {/* Cost Estimate */}
+                  {realTimeData.costEstimate !== undefined && (
+                    <Card className="p-3 bg-orange-500/10 border-orange-500/20">
+                      <div className="flex items-center gap-2 mb-1">
+                        <DollarSign className="h-4 w-4 text-orange-400" />
+                        <span className="text-xs text-muted-foreground">Cost</span>
+                      </div>
+                      <p className="text-xl font-bold text-orange-300">
+                        ${realTimeData.costEstimate.toFixed(3)}
+                      </p>
+                    </Card>
+                  )}
+                </motion.div>
+              )}
+
+              {/* Apify Logs Viewer */}
+              {realTimeData?.apifyRunId && (
+                <div className="space-y-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setShowLogs(!showLogs)}
+                    className="w-full"
+                  >
+                    <Terminal className="h-4 w-4 mr-2" />
+                    {showLogs ? 'Hide' : 'Show'} Apify Logs
+                    {showLogs ? <ChevronUp className="h-4 w-4 ml-2" /> : <ChevronDown className="h-4 w-4 ml-2" />}
+                  </Button>
+
+                  <AnimatePresence>
+                    {showLogs && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.3 }}
+                        className="overflow-hidden"
+                      >
+                        <Card className="p-3 bg-black/30 border-white/10 max-h-64 overflow-y-auto">
+                          {loadingLogs ? (
+                            <div className="text-center text-muted-foreground py-4">
+                              Loading logs...
+                            </div>
+                          ) : logs ? (
+                            <pre className="text-xs text-green-300 font-mono whitespace-pre-wrap">
+                              {logs}
+                            </pre>
+                          ) : (
+                            <div className="text-center text-muted-foreground py-4">
+                              No logs available
+                            </div>
+                          )}
+                        </Card>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              )}
 
               {/* Current Step Highlight */}
               {currentStepData && (

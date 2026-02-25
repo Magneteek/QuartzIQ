@@ -134,16 +134,23 @@ export function BusinessCardsView({ results }: BusinessCardsViewProps) {
                     </div>
 
                     {/* Rating */}
-                    {business.totalScore && (
+                    {business.totalScore > 0 ? (
                       <div className="flex items-center gap-2 text-sm">
                         <div className="flex items-center gap-1">
                           <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
                           <span className="font-medium">{Number(business.totalScore).toFixed(1)}</span>
                         </div>
                         <span className="text-muted-foreground">
-                          ({business.reviewsCount || 0} reviews)
+                          ({business.reviewsCount > 0 ? Number(business.reviewsCount).toLocaleString() : '?'} Google reviews)
                         </span>
                       </div>
+                    ) : business.reviewsCount > 0 ? (
+                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                        <Star className="h-4 w-4" />
+                        <span>{Number(business.reviewsCount).toLocaleString()} Google reviews</span>
+                      </div>
+                    ) : (
+                      <div className="text-xs text-muted-foreground italic">No rating data</div>
                     )}
                   </div>
                 </div>
@@ -198,7 +205,10 @@ export function BusinessCardsView({ results }: BusinessCardsViewProps) {
                       <div className="flex items-center gap-2 text-sm">
                         <MessageSquare className="h-4 w-4 text-muted-foreground" />
                         <span className="text-muted-foreground">
-                          0 reviews in cache
+                          No reviews extracted
+                          {business.reviewsCount > 0
+                            ? ` (${Number(business.reviewsCount).toLocaleString()} on Google)`
+                            : ' (Google count unknown)'}
                         </span>
                       </div>
                       <Button variant="outline" size="sm" className="gap-1">

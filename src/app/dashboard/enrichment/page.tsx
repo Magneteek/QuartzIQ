@@ -36,6 +36,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Badge } from '@/components/ui/badge'
+import { Card } from '@/components/ui/card'
 import { Checkbox } from '@/components/ui/checkbox'
 import {
   ArrowUpDown,
@@ -106,6 +107,7 @@ export default function EnrichmentPage() {
   ])
   const [searchTerm, setSearchTerm] = useState('')
   const [statusFilter, setStatusFilter] = useState('all')
+  const [hideExported, setHideExported] = useState(true) // Default: hide exported businesses
   const [selectedBusiness, setSelectedBusiness] = useState<Business | null>(null)
   const [enrichmentDialogOpen, setEnrichmentDialogOpen] = useState(false)
   const [saving, setSaving] = useState(false)
@@ -143,6 +145,7 @@ export default function EnrichmentPage() {
         sortBy,
         sortOrder,
         status: statusFilter,
+        hideExported: hideExported.toString(),
         ...(searchTerm && { search: searchTerm }),
       })
 
@@ -166,7 +169,7 @@ export default function EnrichmentPage() {
 
   useEffect(() => {
     fetchLeads()
-  }, [sorting, statusFilter])
+  }, [sorting, statusFilter, hideExported])
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -420,6 +423,10 @@ export default function EnrichmentPage() {
         }
 
         return {
+          // Business tracking
+          businessId: b.id,
+          placeId: b.place_id,
+
           // Basic contact info
           name: b.business_name,
           address: b.address || '',
@@ -714,12 +721,12 @@ export default function EnrichmentPage() {
   })
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 p-4 max-w-7xl mx-auto">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold">Contact Enrichment</h1>
-          <p className="text-gray-600 dark:text-gray-400">
+          <p className="text-muted-foreground">
             Find and verify contact information for qualified leads
           </p>
         </div>
@@ -799,67 +806,67 @@ export default function EnrichmentPage() {
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4">
+        <Card className="p-4">
           <div className="flex items-center gap-3">
             <div className="p-2 bg-yellow-100 dark:bg-yellow-900/30 rounded-lg">
               <Clock className="h-5 w-5 text-yellow-600" />
             </div>
             <div>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Pending</p>
+              <p className="text-sm text-muted-foreground">Pending</p>
               <p className="text-2xl font-bold">{stats.pending}</p>
             </div>
           </div>
-        </div>
+        </Card>
 
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4">
+        <Card className="p-4">
           <div className="flex items-center gap-3">
             <div className="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
               <Loader2 className="h-5 w-5 text-blue-600" />
             </div>
             <div>
-              <p className="text-sm text-gray-600 dark:text-gray-400">In Progress</p>
+              <p className="text-sm text-muted-foreground">In Progress</p>
               <p className="text-2xl font-bold">{stats.inProgress}</p>
             </div>
           </div>
-        </div>
+        </Card>
 
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4">
+        <Card className="p-4">
           <div className="flex items-center gap-3">
             <div className="p-2 bg-green-100 dark:bg-green-900/30 rounded-lg">
               <CheckCircle2 className="h-5 w-5 text-green-600" />
             </div>
             <div>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Completed</p>
+              <p className="text-sm text-muted-foreground">Completed</p>
               <p className="text-2xl font-bold">{stats.completed}</p>
             </div>
           </div>
-        </div>
+        </Card>
 
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4">
+        <Card className="p-4">
           <div className="flex items-center gap-3">
             <div className="p-2 bg-purple-100 dark:bg-purple-900/30 rounded-lg">
               <Star className="h-5 w-5 text-purple-600" />
             </div>
             <div>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Today</p>
+              <p className="text-sm text-muted-foreground">Today</p>
               <p className="text-2xl font-bold">{stats.completedToday}</p>
             </div>
           </div>
-        </div>
+        </Card>
 
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4">
+        <Card className="p-4">
           <div className="flex items-center gap-3">
             <div className="p-2 bg-indigo-100 dark:bg-indigo-900/30 rounded-lg">
               <CheckCircle2 className="h-5 w-5 text-indigo-600" />
             </div>
             <div>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Avg Confidence</p>
+              <p className="text-sm text-muted-foreground">Avg Confidence</p>
               <p className="text-2xl font-bold">
                 {stats.avgConfidence ? stats.avgConfidence.toFixed(0) : 0}%
               </p>
             </div>
           </div>
-        </div>
+        </Card>
       </div>
 
       {/* Notification */}
@@ -961,10 +968,22 @@ export default function EnrichmentPage() {
             <SelectItem value="completed">Completed</SelectItem>
           </SelectContent>
         </Select>
+        <div className="flex items-center gap-2">
+          <input
+            type="checkbox"
+            id="hideExported"
+            checked={hideExported}
+            onChange={(e) => setHideExported(e.target.checked)}
+            className="w-4 h-4 text-blue-600 rounded focus:ring-blue-500"
+          />
+          <label htmlFor="hideExported" className="text-sm text-gray-700 cursor-pointer">
+            Hide already exported to CRM
+          </label>
+        </div>
       </div>
 
       {/* Table */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow">
+      <Card className="p-0 overflow-hidden">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -1008,7 +1027,7 @@ export default function EnrichmentPage() {
             )}
           </TableBody>
         </Table>
-      </div>
+      </Card>
 
       {/* Process Queue Confirmation Dialog */}
       <Dialog open={isProcessQueueDialogOpen} onOpenChange={setIsProcessQueueDialogOpen}>
@@ -1209,7 +1228,7 @@ export default function EnrichmentPage() {
             {/* Business Info */}
             <div className="bg-gray-50 dark:bg-gray-900 p-4 rounded-lg">
               <h3 className="font-semibold mb-2">{selectedBusiness?.business_name}</h3>
-              <div className="text-sm text-gray-600 dark:text-gray-400 space-y-1">
+              <div className="text-sm text-muted-foreground space-y-1">
                 {selectedBusiness?.category && <div>Category: {selectedBusiness.category}</div>}
                 {selectedBusiness?.address && <div>Address: {selectedBusiness.address}</div>}
                 {selectedBusiness?.website && (
