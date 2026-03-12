@@ -10,6 +10,7 @@
     "test:apollo-enrichment": "ts-node --project tsconfig.json scripts/test-apollo-enrichment.ts"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.78.0",
     "@auth/pg-adapter": "^1.11.1",
     "@hookform/resolvers": "^5.2.2",
     "@radix-ui/react-alert-dialog": "^1.1.15",

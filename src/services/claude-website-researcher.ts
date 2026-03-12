@@ -2,17 +2,13 @@
  * Claude Website Researcher
  *
  * Scrapes company websites to find executive information (names, emails, phones)
- * Uses basic web scraping + optional Claude API for AI-powered extraction
- *
- * Implementation Options:
- * 1. Basic web scraping (FREE) - regex + cheerio parsing
- * 2. Claude API integration (paid) - AI-powered intelligent extraction
- *
- * For production, recommend adding Claude API for 40% better success rate
+ * Tier 1 (FREE): Firecrawl → Claude AI extraction (intelligent, understands Dutch)
+ * Tier 2 (fallback): Basic Cheerio/regex scraping
  */
 
 import axios from 'axios';
 import * as cheerio from 'cheerio';
+import Anthropic from '@anthropic-ai/sdk';
 
 export interface ExecutiveInfo {
   firstName: string;
@@ -42,19 +38,17 @@ export interface WebsiteResearchResult {
  * Finds executive information from company websites
  */
 export class ClaudeWebsiteResearcher {
-  private timeout = 15000; // 15 second timeout
+  private timeout = 15000;
   private userAgent =
     'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36';
 
-  constructor(private claudeApiKey?: string) {}
+  constructor(
+    private claudeApiKey?: string,
+    private firecrawlApiKey?: string
+  ) {}
 
   /**
    * Research a company website for executive information
-   *
-   * @param websiteUrl - Company website URL
-   * @param companyName - Company name for context
-   * @param domain - Domain for email pattern detection
-   * @returns Executive information found
    */
   async researchWebsite(
     websiteUrl: string,
@@ -64,13 +58,16 @@ export class ClaudeWebsiteResearcher {
     const startTime = Date.now();
 
     try {
-      // Normalize URL
       const normalizedUrl = this.normalizeUrl(websiteUrl);
 
-      // Try Claude API if available (AI-powered extraction)
-      if (this.claudeApiKey) {
-        console.log('🤖 Using Claude API for intelligent extraction...');
-        return await this.researchWithClaudeAPI(normalizedUrl, companyName, domain);
+      // Try Firecrawl + Claude first (intelligent extraction)
+      if (this.claudeApiKey && this.firecrawlApiKey) {
+        console.log('🤖 Using Firecrawl + Claude for intelligent extraction...');
+        try {
+          return await this.researchWithFirecrawlAndClaude(normalizedUrl, companyName, domain);
+        } catch (err: any) {
+          console.warn(`⚠️  Firecrawl+Claude failed (${err.message}), falling back to basic scraping`);
+        }
       }
 
       // Fallback to basic web scraping
@@ -94,7 +91,150 @@ export class ClaudeWebsiteResearcher {
   }
 
   /**
-   * Basic web scraping approach (FREE)
+   * Tier 1: Firecrawl → Claude AI extraction
+   * Uses Firecrawl to get clean markdown, then Claude to intelligently extract contacts
+   */
+  private async researchWithFirecrawlAndClaude(
+    websiteUrl: string,
+    companyName: string,
+    domain: string
+  ): Promise<WebsiteResearchResult> {
+    const startTime = Date.now();
+
+    // Step A: Firecrawl scrape → clean markdown
+    const firecrawlResponse = await fetch('https://api.firecrawl.dev/v1/scrape', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${this.firecrawlApiKey}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        url: websiteUrl,
+        formats: ['markdown'],
+        onlyMainContent: true,
+      }),
+    });
+
+    if (!firecrawlResponse.ok) {
+      throw new Error(`Firecrawl error: ${firecrawlResponse.status} ${firecrawlResponse.statusText}`);
+    }
+
+    const firecrawlData = await firecrawlResponse.json();
+
+    if (!firecrawlData.success || !firecrawlData.data?.markdown) {
+      throw new Error('Firecrawl returned no markdown content');
+    }
+
+    const markdown = firecrawlData.data.markdown as string;
+    console.log(`   Firecrawl: ${markdown.length} chars of markdown`);
+
+    // Step B: Claude extraction
+    const prompt = `You are extracting business contact data from a company website. Return ONLY valid JSON, no explanation.
+
+Company: ${companyName}
+Domain: ${domain}
+Website content (markdown):
+---
+${markdown.slice(0, 6000)}
+---
+
+Extract contact information and return this exact JSON structure:
+{
+  "executives": [
+    {
+      "firstName": "string",
+      "lastName": "string",
+      "fullName": "string",
+      "title": "string or null",
+      "email": "string or null",
+      "phone": "string or null",
+      "linkedinUrl": "string or null",
+      "confidence": 0.0-1.0
+    }
+  ],
+  "companyEmails": ["info@example.com"],
+  "phones": ["+31612345678"]
+}
+
+Rules:
+- Focus on owners, directors, founders, managers (Eigenaar, Directeur, Tandarts, CEO, etc.)
+- Include Dutch titles: Eigenaar, Directeur, Algemeen Directeur, Bedrijfsleider, Tandarts
+- Only include real person names (not company names or generic text)
+- Set confidence: 0.9 if email found, 0.8 if title found, 0.7 if name only
+- companyEmails: generic emails like info@, contact@, support@
+- If nothing found, return empty arrays
+- Return ONLY the JSON object, nothing else`;
+
+    const anthropic = new Anthropic({ apiKey: this.claudeApiKey });
+    const message = await anthropic.messages.create({
+      model: 'claude-sonnet-4-6',
+      max_tokens: 1024,
+      messages: [{ role: 'user', content: prompt }],
+    });
+
+    const responseText = message.content[0].type === 'text' ? message.content[0].text : '';
+    console.log(`   Claude response: ${responseText.length} chars`);
+
+    // Parse JSON response
+    let parsed: {
+      executives?: Array<{
+        firstName: string;
+        lastName: string;
+        fullName: string;
+        title?: string | null;
+        email?: string | null;
+        phone?: string | null;
+        linkedinUrl?: string | null;
+        confidence?: number;
+      }>;
+      companyEmails?: string[];
+      phones?: string[];
+    };
+
+    try {
+      // Strip potential markdown code fences
+      const jsonText = responseText.replace(/^```(?:json)?\n?/, '').replace(/\n?```$/, '').trim();
+      parsed = JSON.parse(jsonText);
+    } catch {
+      throw new Error(`Claude returned invalid JSON: ${responseText.slice(0, 200)}`);
+    }
+
+    const executives: ExecutiveInfo[] = (parsed.executives || [])
+      .filter((e) => e.firstName && e.lastName)
+      .map((e) => ({
+        firstName: e.firstName,
+        lastName: e.lastName,
+        fullName: e.fullName || `${e.firstName} ${e.lastName}`,
+        title: e.title || undefined,
+        email: e.email || undefined,
+        phone: e.phone || undefined,
+        linkedinUrl: e.linkedinUrl || undefined,
+        source: 'website' as const,
+        confidence: e.confidence ?? 0.8,
+      }));
+
+    const companyEmails = parsed.companyEmails || [];
+    const phones = parsed.phones || [];
+
+    // Detect email patterns from executive emails
+    const executiveEmails = executives.filter((e) => e.email).map((e) => e.email as string);
+    const emailPatterns = this.detectEmailPatterns(executiveEmails);
+
+    const durationMs = Date.now() - startTime;
+
+    return {
+      executives: executives.slice(0, 3),
+      emailPatterns,
+      companyEmails,
+      phones,
+      success: executives.length > 0 || companyEmails.length > 0,
+      method: 'claude_api',
+      durationMs,
+    };
+  }
+
+  /**
+   * Tier 2: Basic web scraping approach (FREE fallback)
    * Scrapes common pages and uses regex to find executives
    */
   private async researchWithBasicScraping(
@@ -108,11 +248,10 @@ export class ClaudeWebsiteResearcher {
     const companyEmails: string[] = [];
     const phones: string[] = [];
 
-    // Pages to check
     const pagesToCheck = [
-      websiteUrl, // Homepage
+      websiteUrl,
       `${websiteUrl}/about`,
-      `${websiteUrl}/over-ons`, // Dutch "About Us"
+      `${websiteUrl}/over-ons`,
       `${websiteUrl}/team`,
       `${websiteUrl}/contact`,
       `${websiteUrl}/about-us`,
@@ -126,58 +265,41 @@ export class ClaudeWebsiteResearcher {
         if (!html) continue;
 
         const $ = cheerio.load(html);
-
-        // Extract all text content
         const textContent = $('body').text();
 
-        // Find emails
         const foundEmails = this.extractEmails(textContent, domain);
         foundEmails.forEach((email) => {
           if (this.isGenericEmail(email)) {
-            if (!companyEmails.includes(email)) {
-              companyEmails.push(email);
-            }
+            if (!companyEmails.includes(email)) companyEmails.push(email);
           } else {
-            if (!emailPatterns.includes(email)) {
-              emailPatterns.push(email);
-            }
+            if (!emailPatterns.includes(email)) emailPatterns.push(email);
           }
         });
 
-        // Find phone numbers
         const foundPhones = this.extractPhones(textContent);
         foundPhones.forEach((phone) => {
-          if (!phones.includes(phone)) {
-            phones.push(phone);
-          }
+          if (!phones.includes(phone)) phones.push(phone);
         });
 
-        // Find executives (look for titles + names)
         const foundExecutives = this.extractExecutives(html, domain, pageUrl);
         foundExecutives.forEach((exec) => {
-          // Avoid duplicates
           const exists = executives.some(
             (e) =>
               e.fullName.toLowerCase() === exec.fullName.toLowerCase() ||
               (e.email && exec.email && e.email === exec.email)
           );
-          if (!exists) {
-            executives.push(exec);
-          }
+          if (!exists) executives.push(exec);
         });
-      } catch (error) {
-        // Skip failed pages
+      } catch {
         continue;
       }
     }
 
-    // Detect email patterns from found emails
     const detectedPatterns = this.detectEmailPatterns(emailPatterns);
-
     const durationMs = Date.now() - startTime;
 
     return {
-      executives: executives.slice(0, 3), // Limit to top 3
+      executives: executives.slice(0, 3),
       emailPatterns: detectedPatterns,
       companyEmails,
       phones,
@@ -187,71 +309,6 @@ export class ClaudeWebsiteResearcher {
     };
   }
 
-  /**
-   * Claude API approach (PAID - requires @anthropic-ai/sdk)
-   * Uses AI to intelligently extract executive information
-   *
-   * To implement:
-   * 1. npm install @anthropic-ai/sdk
-   * 2. Add ANTHROPIC_API_KEY to .env
-   * 3. Uncomment this implementation
-   */
-  private async researchWithClaudeAPI(
-    websiteUrl: string,
-    companyName: string,
-    domain: string
-  ): Promise<WebsiteResearchResult> {
-    const startTime = Date.now();
-
-    // TODO: Implement Claude API integration
-    // Example implementation:
-    /*
-    import Anthropic from '@anthropic-ai/sdk';
-
-    const anthropic = new Anthropic({ apiKey: this.claudeApiKey });
-
-    const message = await anthropic.messages.create({
-      model: 'claude-3-5-sonnet-20241022',
-      max_tokens: 1024,
-      messages: [{
-        role: 'user',
-        content: `Research the website ${websiteUrl} for ${companyName}.
-
-        Find:
-        1. Owner/CEO/Managing Director name(s)
-        2. Email addresses (especially with @${domain})
-        3. Phone numbers
-        4. LinkedIn profiles
-
-        Return as JSON:
-        {
-          "executives": [
-            {
-              "firstName": "Jan",
-              "lastName": "de Vries",
-              "fullName": "Dr. Jan de Vries",
-              "title": "Owner & Managing Director",
-              "email": "jan@${domain}",
-              "phone": "+31612345678",
-              "confidence": 0.9
-            }
-          ],
-          "emailPatterns": ["firstname@domain.com"],
-          "companyEmails": ["info@${domain}"],
-          "phones": ["+31201234567"]
-        }`
-      }]
-    });
-    */
-
-    // For now, fallback to basic scraping
-    console.warn('Claude API not implemented yet, falling back to basic scraping');
-    return await this.researchWithBasicScraping(websiteUrl, companyName, domain);
-  }
-
-  /**
-   * Fetch a web page with error handling
-   */
   private async fetchPage(url: string): Promise<string | null> {
     try {
       const response = await axios.get(url, {
@@ -264,76 +321,46 @@ export class ClaudeWebsiteResearcher {
         maxRedirects: 5,
         validateStatus: (status) => status < 400,
       });
-
       return response.data;
-    } catch (error) {
+    } catch {
       return null;
     }
   }
 
-  /**
-   * Extract emails from text using regex
-   */
   private extractEmails(text: string, domain: string): string[] {
     const emailRegex = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g;
     const matches = text.match(emailRegex) || [];
-
-    // Prioritize emails from the company domain
     return matches
       .filter((email) => email.toLowerCase().includes(domain.toLowerCase()))
       .map((email) => email.toLowerCase());
   }
 
-  /**
-   * Extract phone numbers from text
-   */
   private extractPhones(text: string): string[] {
-    // Match Dutch/international phone formats
     const phoneRegex =
       /(\+31|0031|0)\s?([1-9][0-9])\s?([0-9]{3})\s?([0-9]{2})\s?([0-9]{2})|(\+31|0031|0)([1-9][0-9]{8})/g;
     const matches = text.match(phoneRegex) || [];
-
-    return [...new Set(matches)].slice(0, 5); // Max 5 unique phone numbers
+    return [...new Set(matches)].slice(0, 5);
   }
 
-  /**
-   * Extract executives from HTML
-   */
   private extractExecutives(html: string, domain: string, source: string): ExecutiveInfo[] {
     const $ = cheerio.load(html);
     const executives: ExecutiveInfo[] = [];
 
-    // Executive titles to look for (English + Dutch)
     const titles = [
-      'CEO',
-      'Chief Executive Officer',
-      'Owner',
-      'Co-Owner',
-      'Founder',
-      'Co-Founder',
-      'Managing Director',
-      'Director',
-      'President',
-      'Eigenaar',
-      'Mede-eigenaar',
-      'Directeur',
-      'Algemeen Directeur',
-      'Bedrijfsleider',
-      'Tandarts', // Dentist (often the owner in dental clinics)
-      'Dr.',
+      'CEO', 'Chief Executive Officer', 'Owner', 'Co-Owner', 'Founder', 'Co-Founder',
+      'Managing Director', 'Director', 'President',
+      'Eigenaar', 'Mede-eigenaar', 'Directeur', 'Algemeen Directeur', 'Bedrijfsleider',
+      'Tandarts', 'Dr.',
     ];
 
-    // Look for title patterns in text
     const bodyText = $('body').text();
     titles.forEach((title) => {
       const titleRegex = new RegExp(`(${title})[:\\s-]+([A-Z][a-z]+ [A-Z][a-z]+)`, 'gi');
       const matches = bodyText.matchAll(titleRegex);
-
       for (const match of matches) {
         const fullName = match[2].trim();
         const [firstName, ...lastNameParts] = fullName.split(' ');
         const lastName = lastNameParts.join(' ');
-
         if (firstName && lastName) {
           executives.push({
             firstName,
@@ -347,7 +374,6 @@ export class ClaudeWebsiteResearcher {
       }
     });
 
-    // Look for team member cards/sections
     $('.team-member, .team-card, .member, .profile, .bio').each((i, elem) => {
       const $elem = $(elem);
       const name = $elem.find('h1, h2, h3, h4, .name, .member-name').first().text().trim();
@@ -358,7 +384,6 @@ export class ClaudeWebsiteResearcher {
       if (name && this.looksLikeName(name)) {
         const [firstName, ...lastNameParts] = name.split(' ');
         const lastName = lastNameParts.join(' ');
-
         if (firstName && lastName) {
           executives.push({
             firstName,
@@ -377,16 +402,11 @@ export class ClaudeWebsiteResearcher {
     return executives;
   }
 
-  /**
-   * Detect email pattern from examples
-   */
   private detectEmailPatterns(emails: string[]): string[] {
     const patterns: Set<string> = new Set();
-
     emails.forEach((email) => {
       const [local] = email.split('@');
       const parts = local.split('.');
-
       if (parts.length === 2) {
         patterns.add('firstname.lastname');
       } else if (parts.length === 1 && local.length <= 10) {
@@ -395,34 +415,23 @@ export class ClaudeWebsiteResearcher {
         patterns.add('firstname_lastname');
       }
     });
-
     return Array.from(patterns);
   }
 
-  /**
-   * Check if email is generic (info@, contact@, etc.)
-   */
   private isGenericEmail(email: string): boolean {
     const genericPrefixes = ['info', 'contact', 'sales', 'support', 'hello', 'mail', 'office'];
     const [local] = email.split('@');
     return genericPrefixes.some((prefix) => local.toLowerCase().startsWith(prefix));
   }
 
-  /**
-   * Check if string looks like a person's name
-   */
   private looksLikeName(text: string): boolean {
-    // Should be 2-4 words, capitalized, no numbers
     const words = text.trim().split(/\s+/);
     if (words.length < 2 || words.length > 4) return false;
-    if (/\d/.test(text)) return false; // No numbers
-    if (words.some((w) => w.length < 2)) return false; // All words >= 2 chars
-    return words.every((w) => /^[A-Z]/.test(w)); // All capitalized
+    if (/\d/.test(text)) return false;
+    if (words.some((w) => w.length < 2)) return false;
+    return words.every((w) => /^[A-Z]/.test(w));
   }
 
-  /**
-   * Determine page type from URL
-   */
   private getPageType(url: string): ExecutiveInfo['source'] {
     const lower = url.toLowerCase();
     if (lower.includes('team')) return 'team_page';
@@ -431,14 +440,11 @@ export class ClaudeWebsiteResearcher {
     return 'website';
   }
 
-  /**
-   * Normalize URL
-   */
   private normalizeUrl(url: string): string {
     if (!url.startsWith('http://') && !url.startsWith('https://')) {
       url = 'https://' + url;
     }
-    return url.replace(/\/$/, ''); // Remove trailing slash
+    return url.replace(/\/$/, '');
   }
 }
 

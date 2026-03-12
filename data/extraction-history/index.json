@@ -1,5 +1,53 @@
 [
   {
+    "id": "extraction_1773210440546_w0vpnsn2u",
+    "timestamp": "2026-03-11T06:27:20.546Z",
+    "searchCriteria": {
+      "category": "dentist",
+      "location": "Amsterdam",
+      "countryCode": "nl"
+    },
+    "statistics": {
+      "businessesFound": 2,
+      "reviewsFound": 0,
+      "avgRating": 0,
+      "extractionTime": 685
+    },
+    "enrichmentHistory": []
+  },
+  {
+    "id": "extraction_1772660826093_lk5i9pnbk",
+    "timestamp": "2026-03-04T21:47:06.093Z",
+    "searchCriteria": {
+      "category": "dentist",
+      "location": "Amsterdam",
+      "countryCode": "nl"
+    },
+    "statistics": {
+      "businessesFound": 3,
+      "reviewsFound": 0,
+      "avgRating": 0,
+      "extractionTime": 85208
+    },
+    "enrichmentHistory": []
+  },
+  {
+    "id": "extraction_1772059562780_zbos8cstg",
+    "timestamp": "2026-02-25T22:46:02.780Z",
+    "searchCriteria": {
+      "category": "dentist",
+      "location": "Amsterdam",
+      "countryCode": "nl"
+    },
+    "statistics": {
+      "businessesFound": 2,
+      "reviewsFound": 0,
+      "avgRating": 0,
+      "extractionTime": 959
+    },
+    "enrichmentHistory": []
+  },
+  {
     "id": "extraction_1771696219853_piy6pzoie",
     "timestamp": "2026-02-21T17:50:19.853Z",
     "searchCriteria": {
@@ -750,110 +798,5 @@
       "extractionTime": 0
     },
     "enrichmentHistory": []
-  },
-  {
-    "id": "extraction_1759997356476_yoy6vwp78_resumed_1760089284979",
-    "timestamp": "2025-10-10T09:41:24.979Z",
-    "searchCriteria": {
-      "category": "hospital",
-      "location": "Netherlands",
-      "countryCode": "nl"
-    },
-    "statistics": {
-      "businessesFound": 16,
-      "reviewsFound": 7,
-      "avgRating": 1,
-      "extractionTime": 307337
-    },
-    "enrichmentHistory": [
-      {
-        "timestamp": "2025-10-09T08:10:57.053Z",
-        "enrichedBusinesses": 7,
-        "phoneNumbers": 7,
-        "websites": 7,
-        "emails": 2,
-        "ownerContacts": 0,
-        "managementContacts": 0
-      },
-      {
-        "timestamp": "2025-10-09T08:10:57.483Z",
-        "enrichedBusinesses": 7,
-        "phoneNumbers": 7,
-        "websites": 7,
-        "emails": 2,
-        "ownerContacts": 0,
-        "managementContacts": 0
-      }
-    ]
-  },
-  {
-    "id": "extraction_1759997356476_yoy6vwp78",
-    "timestamp": "2025-10-09T08:09:16.476Z",
-    "searchCriteria": {
-      "category": "hospital",
-      "location": "Netherlands",
-      "countryCode": "nl"
-    },
-    "statistics": {
-      "businessesFound": 16,
-      "reviewsFound": 7,
-      "avgRating": 1,
-      "extractionTime": 307337
-    },
-    "enrichmentHistory": [
-      {
-        "timestamp": "2025-10-09T08:10:57.053Z",
-        "enrichedBusinesses": 7,
-        "phoneNumbers": 7,
-        "websites": 7,
-        "emails": 2,
-        "ownerContacts": 0,
-        "managementContacts": 0
-      },
-      {
-        "timestamp": "2025-10-09T08:10:57.483Z",
-        "enrichedBusinesses": 7,
-        "phoneNumbers": 7,
-        "websites": 7,
-        "emails": 2,
-        "ownerContacts": 0,
-        "managementContacts": 0
-      }
-    ]
-  },
-  {
-    "id": "extraction_1759993173751_e95bt82lj",
-    "timestamp": "2025-10-09T06:59:33.751Z",
-    "searchCriteria": {
-      "category": "spa",
-      "location": "Netherlands",
-      "countryCode": "nl"
-    },
-    "statistics": {
-      "businessesFound": 15,
-      "reviewsFound": 2,
-      "avgRating": 1.5,
-      "extractionTime": 415887
-    },
-    "enrichmentHistory": [
-      {
-        "timestamp": "2025-10-09T07:07:11.570Z",
-        "enrichedBusinesses": 1,
-        "phoneNumbers": 1,
-        "websites": 1,
-        "emails": 0,
-        "ownerContacts": 0,
-        "managementContacts": 0
-      },
-      {
-        "timestamp": "2025-10-09T07:07:11.978Z",
-        "enrichedBusinesses": 1,
-        "phoneNumbers": 1,
-        "websites": 1,
-        "emails": 0,
-        "ownerContacts": 0,
-        "managementContacts": 0
-      }
-    ]
   }
 ]

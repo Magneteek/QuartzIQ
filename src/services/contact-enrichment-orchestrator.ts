@@ -91,11 +91,12 @@ export class ContactEnrichmentOrchestrator {
     apolloApiKey: string,
     apolloMonthlyLimit: number = 100,
     claudeApiKey?: string,
-    apifyApiKey?: string
+    apifyApiKey?: string,
+    firecrawlApiKey?: string
   ) {
     // Initialize API clients
     this.apollo = new ApolloClient(apolloApiKey, apolloMonthlyLimit);
-    this.claude = new ClaudeWebsiteResearcher(claudeApiKey);
+    this.claude = new ClaudeWebsiteResearcher(claudeApiKey, firecrawlApiKey);
     this.apify = apifyApiKey ? new ApifyLeadsClient(apifyApiKey) : null;
 
     // Initialize database connection

@@ -27,6 +27,7 @@ export async function POST(request: NextRequest) {
     const apolloApiKey = process.env.APOLLO_API_KEY
     const claudeApiKey = process.env.ANTHROPIC_API_KEY
     const apifyApiKey = process.env.APIFY_API_TOKEN
+    const firecrawlApiKey = process.env.FIRECRAWL_API_KEY
 
     if (!apolloApiKey) {
       return NextResponse.json(
@@ -43,6 +44,10 @@ export async function POST(request: NextRequest) {
       console.warn('⚠️  Apify API key not configured - will skip $0.005/lead enrichment tier')
     }
 
+    if (!firecrawlApiKey) {
+      console.warn('⚠️  Firecrawl API key not configured - Claude will fall back to basic scraping')
+    }
+
     console.log(`\n🚀 Starting enrichment queue processor...`)
     if (businessIds && businessIds.length > 0) {
       console.log(`   Mode: Selective (${businessIds.length} specific businesses)`)
@@ -50,6 +55,7 @@ export async function POST(request: NextRequest) {
       console.log(`   Mode: Queue (max ${maxJobs} jobs)`)
     }
     console.log(`   Claude enabled: ${!!claudeApiKey}`)
+    console.log(`   Firecrawl enabled: ${!!firecrawlApiKey}`)
     console.log(`   Apify enabled: ${!!apifyApiKey}`)
     console.log(`   Apollo enabled: ${!!apolloApiKey}`)
 
@@ -59,7 +65,8 @@ export async function POST(request: NextRequest) {
       apolloApiKey,
       apolloMonthlyLimit,
       claudeApiKey,
-      apifyApiKey
+      apifyApiKey,
+      firecrawlApiKey
     )
 
     // Process queue in background (non-blocking)
