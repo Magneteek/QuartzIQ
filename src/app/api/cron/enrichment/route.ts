@@ -50,20 +50,23 @@ export async function GET(request: NextRequest) {
   const claudeApiKey = process.env.ANTHROPIC_API_KEY
   const apifyApiKey = process.env.APIFY_API_TOKEN
   const firecrawlApiKey = process.env.FIRECRAWL_API_KEY
+  const betterEnrichApiKey = process.env.BETTER_ENRICH_API_KEY
   const apolloMonthlyLimit = parseInt(process.env.APOLLO_MONTHLY_LIMIT || '100')
 
   console.log('🔄 [CRON] Starting automated enrichment cycle...')
   console.log(`📅 [CRON] Timestamp: ${new Date().toISOString()}`)
   console.log(`   Claude+Firecrawl: ${!!(claudeApiKey && firecrawlApiKey)}`)
+  console.log(`   BetterEnrich: ${!!betterEnrichApiKey}`)
   console.log(`   Apify: ${!!apifyApiKey}`)
-  console.log(`   Apollo: ${!!apolloApiKey}`)
+  console.log(`   Apollo (backup): ${!!apolloApiKey}`)
 
   const orchestrator = new ContactEnrichmentOrchestrator(
     apolloApiKey,
     apolloMonthlyLimit,
     claudeApiKey,
     apifyApiKey,
-    firecrawlApiKey
+    firecrawlApiKey,
+    betterEnrichApiKey
   )
 
   try {

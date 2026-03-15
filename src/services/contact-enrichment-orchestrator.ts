@@ -20,6 +20,7 @@ import { Pool, PoolClient } from 'pg';
 import { ApolloClient, ApolloPerson, ApolloAPIUsage } from './apollo-client';
 import { ClaudeWebsiteResearcher, ExecutiveInfo, WebsiteResearchResult } from './claude-website-researcher';
 import { ApifyLeadsClient, ApifyLead, ApifyLeadsResult } from './apify-leads-client';
+import { BetterEnrichClient } from './better-enrich-client';
 
 export interface Business {
   id: string;
@@ -52,7 +53,7 @@ export interface EnrichmentResult {
   contactsEnriched: number;
   totalApiCalls: number;
   totalCostUsd: number;
-  method: 'claude_only' | 'apify_only' | 'enrich_only' | 'search_then_enrich';
+  method: 'claude_only' | 'apify_only' | 'enrich_only' | 'search_then_enrich' | 'better_enrich';
   durationMs: number;
   error?: string;
 }
@@ -71,7 +72,7 @@ export interface ContactEnrichment {
   apollo_search_cost: number;
   apollo_enrich_cost: number;
   apify_leads_cost: number;
-  reveal_method: 'claude_only' | 'apify_only' | 'enrich_only' | 'search_then_enrich';
+  reveal_method: 'claude_only' | 'apify_only' | 'enrich_only' | 'search_then_enrich' | 'better_enrich';
   enrichment_status: 'completed' | 'failed';
   confidence_score: number;
   source: string;
@@ -85,6 +86,7 @@ export class ContactEnrichmentOrchestrator {
   private apollo: ApolloClient;
   private claude: ClaudeWebsiteResearcher;
   private apify: ApifyLeadsClient | null;
+  private betterEnrich: BetterEnrichClient | null;
   private db: Pool;
 
   constructor(
@@ -92,12 +94,14 @@ export class ContactEnrichmentOrchestrator {
     apolloMonthlyLimit: number = 100,
     claudeApiKey?: string,
     apifyApiKey?: string,
-    firecrawlApiKey?: string
+    firecrawlApiKey?: string,
+    betterEnrichApiKey?: string
   ) {
     // Initialize API clients
     this.apollo = new ApolloClient(apolloApiKey, apolloMonthlyLimit);
     this.claude = new ClaudeWebsiteResearcher(claudeApiKey, firecrawlApiKey);
     this.apify = apifyApiKey ? new ApifyLeadsClient(apifyApiKey) : null;
+    this.betterEnrich = betterEnrichApiKey ? new BetterEnrichClient(betterEnrichApiKey) : null;
 
     // Initialize database connection
     this.db = new Pool({
@@ -163,6 +167,9 @@ export class ContactEnrichmentOrchestrator {
       console.log(`   Found ${claudeResults.companyEmails.length} company emails`);
       console.log(`   Duration: ${claudeResults.durationMs}ms`);
 
+      // Read enrichment config for optional phone
+      const includePhone = !!claudeResults // placeholder; real value comes from job config below
+
       // 3. Check if Claude found an executive with name
       if (claudeResults.executives.length > 0) {
         const executive = claudeResults.executives[0]; // Take the first/best one
@@ -172,11 +179,10 @@ export class ContactEnrichmentOrchestrator {
         console.log(`   Confidence: ${executive.confidence}`);
 
         // Check if Claude also found email/phone (complete enrichment)
-        if (executive.email || executive.phone) {
-          console.log('🎯 Claude found complete contact info! No Apollo API needed.');
+        if (executive.email) {
+          console.log('🎯 Claude found complete contact info! No paid API needed.');
 
-          // Save contact without Apollo API
-          const contact = await this.saveContact(business.id, {
+          await this.saveContact(business.id, {
             business_id: business.id,
             first_name: executive.firstName,
             last_name: executive.lastName,
@@ -210,8 +216,61 @@ export class ContactEnrichmentOrchestrator {
           };
         }
 
-        // Claude found name but not contact details → Use Apollo Enrichment only (1 API call)
-        console.log('📞 Enriching with Apollo API (1 call)...');
+        // Claude found name but no email → try BetterEnrich first (cheaper)
+        if (this.betterEnrich) {
+          console.log('📧 Step 2: BetterEnrich email lookup (~$0.031)...');
+          const beResult = await this.betterEnrich.findWorkEmail(
+            executive.fullName,
+            domain,
+            executive.linkedinUrl
+          );
+
+          totalApiCalls += 1;
+          totalCostUsd += beResult.costUsd;
+
+          if (beResult.success && beResult.email) {
+            console.log(`✅ BetterEnrich found email: ${beResult.email}`);
+            console.log(`   Cost: $${beResult.costUsd.toFixed(4)}`);
+
+            await this.saveContact(business.id, {
+              business_id: business.id,
+              first_name: executive.firstName,
+              last_name: executive.lastName,
+              full_name: executive.fullName,
+              title: executive.title || null,
+              seniority: null,
+              email: beResult.email,
+              phone: executive.phone || null,
+              linkedin_url: executive.linkedinUrl || null,
+              apollo_person_id: null,
+              apollo_search_cost: 0,
+              apollo_enrich_cost: 0,
+              apify_leads_cost: beResult.costUsd,
+              reveal_method: 'better_enrich',
+              enrichment_status: 'completed',
+              confidence_score: executive.confidence,
+              source: 'better_enrich',
+            });
+
+            const durationMs = Date.now() - startTime;
+            return {
+              success: true,
+              businessId: business.id,
+              businessName: business.name,
+              executivesFound: 1,
+              contactsEnriched: 1,
+              totalApiCalls,
+              totalCostUsd,
+              method: 'better_enrich',
+              durationMs,
+            };
+          } else {
+            console.log('⚠️  BetterEnrich email lookup failed, falling back to Apollo...');
+          }
+        }
+
+        // BetterEnrich failed or not configured → fall back to Apollo Enrichment
+        console.log('📞 Fallback: Apollo Enrichment API...');
         const { person, usage } = await this.apollo.enrichPerson({
           first_name: executive.firstName,
           last_name: executive.lastName,
@@ -224,8 +283,6 @@ export class ContactEnrichmentOrchestrator {
         totalApiCalls += 1;
         totalCostUsd += usage.costUsd;
         apiUsageLogs.push(usage);
-
-        // Log Apollo API usage
         await this.logApolloUsage(business.id, usage);
 
         if (person) {
@@ -233,8 +290,7 @@ export class ContactEnrichmentOrchestrator {
           console.log(`   Email: ${person.email || 'N/A'}`);
           console.log(`   Phone: ${person.phone_numbers?.length || 0} numbers found`);
 
-          // Save enriched contact
-          const contact = await this.saveContact(business.id, {
+          await this.saveContact(business.id, {
             business_id: business.id,
             first_name: person.first_name,
             last_name: person.last_name,

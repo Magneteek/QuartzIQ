@@ -28,6 +28,7 @@ export async function POST(request: NextRequest) {
     const claudeApiKey = process.env.ANTHROPIC_API_KEY
     const apifyApiKey = process.env.APIFY_API_TOKEN
     const firecrawlApiKey = process.env.FIRECRAWL_API_KEY
+    const betterEnrichApiKey = process.env.BETTER_ENRICH_API_KEY
 
     if (!apolloApiKey) {
       return NextResponse.json(
@@ -39,13 +40,14 @@ export async function POST(request: NextRequest) {
     if (!claudeApiKey) {
       console.warn('⚠️  Claude API key not configured - will skip free website research')
     }
-
-    if (!apifyApiKey) {
-      console.warn('⚠️  Apify API key not configured - will skip $0.005/lead enrichment tier')
-    }
-
     if (!firecrawlApiKey) {
       console.warn('⚠️  Firecrawl API key not configured - Claude will fall back to basic scraping')
+    }
+    if (!betterEnrichApiKey) {
+      console.warn('⚠️  BetterEnrich API key not configured - will fall back to Apollo for email lookup')
+    }
+    if (!apifyApiKey) {
+      console.warn('⚠️  Apify API key not configured - will skip $0.005/lead enrichment tier')
     }
 
     console.log(`\n🚀 Starting enrichment queue processor...`)
@@ -54,10 +56,10 @@ export async function POST(request: NextRequest) {
     } else {
       console.log(`   Mode: Queue (max ${maxJobs} jobs)`)
     }
-    console.log(`   Claude enabled: ${!!claudeApiKey}`)
-    console.log(`   Firecrawl enabled: ${!!firecrawlApiKey}`)
-    console.log(`   Apify enabled: ${!!apifyApiKey}`)
-    console.log(`   Apollo enabled: ${!!apolloApiKey}`)
+    console.log(`   Claude+Firecrawl: ${!!(claudeApiKey && firecrawlApiKey)}`)
+    console.log(`   BetterEnrich: ${!!betterEnrichApiKey}`)
+    console.log(`   Apify: ${!!apifyApiKey}`)
+    console.log(`   Apollo (backup): ${!!apolloApiKey}`)
 
     // Initialize orchestrator
     const apolloMonthlyLimit = parseInt(process.env.APOLLO_MONTHLY_LIMIT || '100')
@@ -66,7 +68,8 @@ export async function POST(request: NextRequest) {
       apolloMonthlyLimit,
       claudeApiKey,
       apifyApiKey,
-      firecrawlApiKey
+      firecrawlApiKey,
+      betterEnrichApiKey
     )
 
     // Process queue in background (non-blocking)
