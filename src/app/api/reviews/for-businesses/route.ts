@@ -49,7 +49,7 @@ export async function POST(request: NextRequest) {
     `, [...placeIds, maxStars, cutoffDate.toISOString().split('T')[0]])
 
     // Shape the reviews into the format the dashboard expects
-    const reviews = result.rows.map(row => ({
+    const reviews = result.rows.map((row: Record<string, unknown>) => ({
       reviewId: row.review_id,
       name: row.reviewer_name,
       stars: row.rating,
