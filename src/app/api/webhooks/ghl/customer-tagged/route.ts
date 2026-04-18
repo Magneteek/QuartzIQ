@@ -102,7 +102,7 @@ export async function POST(request: NextRequest) {
       customerId = existingId
       action = 'updated'
 
-      // Update monitoring flags + fill in any missing contact data from GHL
+      // Update monitoring flags + sync all available GHL data
       await pool.query(
         `UPDATE businesses SET
           lifecycle_stage = 'customer',
@@ -112,15 +112,18 @@ export async function POST(request: NextRequest) {
           monitoring_frequency_hours = COALESCE(monitoring_frequency_hours, 336),
           next_monitoring_check = CURRENT_TIMESTAMP,
           last_updated_at = CURRENT_TIMESTAMP,
-          place_id = COALESCE(place_id, $2),
-          google_maps_url = COALESCE(google_maps_url, $3),
-          email = COALESCE(email, $4),
-          phone = COALESCE(phone, $5),
-          website = COALESCE(website, $6),
-          category = COALESCE(category, $7),
-          ghl_contact_id = $8
+          name = COALESCE($2, name),
+          first_name = COALESCE($3, first_name),
+          last_name = COALESCE($4, last_name),
+          place_id = COALESCE(place_id, $5),
+          google_maps_url = COALESCE(google_maps_url, $6),
+          email = COALESCE(email, $7),
+          phone = COALESCE(phone, $8),
+          website = COALESCE(website, $9),
+          category = COALESCE(category, $10),
+          ghl_contact_id = COALESCE(ghl_contact_id, $11)
         WHERE id = $1`,
-        [customerId, placeId, googleMapsUrl, contactEmail, contactPhone, contactWebsite, contactCategory, contactId || null]
+        [customerId, companyName, firstName || null, lastName || null, placeId, googleMapsUrl, contactEmail, contactPhone, contactWebsite, contactCategory, contactId || null]
       )
       console.log(`[GHL Webhook] Updated existing customer (matched by ${matchedBy}):`, customerId)
 

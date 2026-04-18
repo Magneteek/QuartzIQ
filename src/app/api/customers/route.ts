@@ -73,6 +73,8 @@ export async function GET(request: NextRequest) {
         COUNT(DISTINCT r.id) AS review_count,
         COUNT(DISTINCT cma.id) FILTER (WHERE cma.acknowledged_at IS NULL) AS unacknowledged_alerts,
         MAX(cma.detected_at) AS latest_alert_date,
+        CAST(b.place_id AS TEXT) AS place_id,
+        CAST(b.ghl_contact_id AS TEXT) AS ghl_contact_id,
         b.first_discovered_at AS created_at,
         b.last_updated_at AS updated_at
       FROM businesses b

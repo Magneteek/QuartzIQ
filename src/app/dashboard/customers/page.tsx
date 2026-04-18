@@ -63,6 +63,8 @@ interface Customer {
   last_name: string | null
   email: string | null
   phone: string | null
+  place_id: string | null
+  ghl_contact_id: string | null
   city: string | null
   country: string | null
   rating: string
@@ -229,6 +231,11 @@ export default function CustomersPage() {
             <div className="text-xs text-gray-400">
               {row.original.city}, {row.original.country}
             </div>
+            {row.original.place_id && (
+              <div className="text-xs text-gray-300 font-mono truncate max-w-[180px]" title={row.original.place_id}>
+                {row.original.place_id}
+              </div>
+            )}
           </div>
         ),
       },
