@@ -18,6 +18,20 @@ const pool = new Pool({
   password: process.env.POSTGRES_PASSWORD,
 })
 
+/** GHL sends literal string "null" when template field is empty — treat as null */
+function sanitize(val: unknown): string | null {
+  if (!val || val === 'null' || val === 'undefined' || (typeof val === 'string' && val.trim() === '')) return null
+  return String(val).trim()
+}
+
+/** Only accept URLs that look like Google Maps */
+function sanitizeGoogleUrl(val: unknown): string | null {
+  const s = sanitize(val)
+  if (!s) return null
+  if (s.includes('google.com/maps') || s.includes('maps.google') || s.includes('goo.gl/maps')) return s
+  return null
+}
+
 /** Extract Google place_id from a Maps URL if possible */
 function extractPlaceIdFromUrl(url: string): string | null {
   if (!url) return null
@@ -41,19 +55,19 @@ export async function POST(request: NextRequest) {
     const payload = await request.json()
     console.log('[GHL Webhook] FULL PAYLOAD:', JSON.stringify(payload, null, 2))
 
-    // Extract all available fields from GHL payload
-    const contactId   = payload.contactId || payload.contact_id || payload.id
-    const firstName   = payload.firstName || payload.first_name || payload.contact?.firstName || ''
-    const lastName    = payload.lastName || payload.last_name || payload.contact?.lastName || ''
-    const companyName = payload.companyName || payload.company_name || payload.contact?.companyName || null
-    const contactEmail = payload.email || payload.contact?.email || null
-    const contactPhone = payload.phone || payload.contact?.phone || null
-    const contactWebsite = payload.website || payload.contact?.website || null
-    const contactCategory = payload.category || payload.niche__category || null
+    // Extract all available fields from GHL payload — sanitize "null" strings GHL sends for empty fields
+    const contactId      = sanitize(payload.contactId || payload.contact_id || payload.id)
+    const firstName      = sanitize(payload.firstName || payload.first_name || payload.contact?.firstName)
+    const lastName       = sanitize(payload.lastName || payload.last_name || payload.contact?.lastName)
+    const companyName    = sanitize(payload.companyName || payload.company_name || payload.contact?.companyName)
+    const contactEmail   = sanitize(payload.email || payload.contact?.email)
+    const contactPhone   = sanitize(payload.phone || payload.contact?.phone)
+    const contactWebsite = sanitize(payload.website || payload.contact?.website)
+    const contactCategory = sanitize(payload.category || payload.niche__category)
 
     // Place ID: direct field or extracted from Google Maps URL
-    let placeId = payload.placeId || payload.place_id || payload.customFields?.place_id || null
-    const googleMapsUrl = payload.googleMapsUrl || payload.google_url || payload.customFields?.google_url || null
+    let placeId = sanitize(payload.placeId || payload.place_id || payload.customFields?.place_id)
+    const googleMapsUrl = sanitizeGoogleUrl(payload.googleMapsUrl || payload.google_url || payload.customFields?.google_url)
     if (!placeId && googleMapsUrl) {
       placeId = extractPlaceIdFromUrl(googleMapsUrl)
       if (placeId) console.log('[GHL Webhook] Extracted place_id from Maps URL:', placeId)
