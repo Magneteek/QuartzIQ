@@ -92,6 +92,11 @@ interface Lead {
   oldest_review_date: string | null
   entry_method: string | null
   enrichment_priority: number | null
+  enrichment_status: string | null
+  lead_score: number | null
+  exported_to_ghl: boolean | null
+  exported_to_ghl_at: string | null
+  ghl_contact_id: string | null
   created_at: string
   updated_at: string
 }
@@ -136,7 +141,7 @@ export default function LeadsPage() {
 
   const [pagination, setPagination] = useState({
     pageIndex: 0,
-    pageSize: 15,
+    pageSize: 100,
   })
   const [total, setTotal] = useState(0)
   const [isDialogOpen, setIsDialogOpen] = useState(false)
@@ -148,6 +153,7 @@ export default function LeadsPage() {
   const [isBulkDeleting, setIsBulkDeleting] = useState(false)
   const [isBulkDeleteDialogOpen, setIsBulkDeleteDialogOpen] = useState(false)
   const [isBulkExporting, setIsBulkExporting] = useState(false)
+  const [isSendingToQuartz, setIsSendingToQuartz] = useState(false)
   const [isBulkQueuing, setIsBulkQueuing] = useState(false)
   const [isBulkQueueDialogOpen, setIsBulkQueueDialogOpen] = useState(false)
   const [queuingLeadId, setQueuingLeadId] = useState<string | null>(null)
@@ -469,6 +475,94 @@ export default function LeadsPage() {
       alert('Failed to export leads')
     } finally {
       setIsBulkExporting(false)
+    }
+  }
+
+  const handleSendToQuartz = async () => {
+    if (selectedRows.size === 0) return
+    setIsSendingToQuartz(true)
+    try {
+      const selectedLeads = leads.filter(l => selectedRows.has(l.id))
+
+      // Fetch qualifying reviews for context
+      let reviewsData: Record<string, any> = {}
+      try {
+        const reviewsResponse = await fetch('/api/enrichment/qualifying-reviews', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ businessIds: selectedLeads.map(l => l.id) }),
+        })
+        if (reviewsResponse.ok) {
+          reviewsData = await reviewsResponse.json()
+        }
+      } catch {
+        // reviews are optional — continue without them
+      }
+
+      const contacts = selectedLeads.map(lead => {
+        const review = reviewsData[lead.id]
+        let reviewImageUrl = ''
+        if (review?.raw_data?.reviewImageUrls?.[0]) reviewImageUrl = review.raw_data.reviewImageUrls[0]
+        else if (review?.raw_data?.images?.[0]) reviewImageUrl = review.raw_data.images[0]
+
+        return {
+          businessId: lead.id,
+          placeId: lead.place_id,
+          ghlContactId: lead.ghl_contact_id || undefined,
+          firstName: lead.first_name || lead.business_name,
+          lastName: lead.last_name || '',
+          email: lead.email || '',
+          phone: lead.phone || '',
+          country: lead.country || '',
+          city: lead.city || '',
+          companyName: lead.business_name,
+          website: lead.website || '',
+          address: lead.address || '',
+          source: 'QuartzIQ-Leads',
+          customFieldsData: {
+            companyName: lead.business_name,
+            website: lead.website || '',
+            googleUrl: lead.google_profile_url || '',
+            nicheCategory: lead.category || '',
+            reviewDate: review?.published_date || '',
+            reviewStars: review?.rating?.toString() || '',
+            qualifiedReviewsContent: review?.text || '',
+            qualifiedReviewUrl: lead.negative_review_url || '',
+            googleQualifiedReviews: lead.total_reviews?.toString() || '',
+            reviewImageUrl,
+          },
+          hasReviewImage: !!reviewImageUrl,
+        }
+      })
+
+      const response = await fetch('/api/quartz-leads/send-contacts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ contacts, clientId: 'default' }),
+      })
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        const detail = data.errors?.[0]?.message || data.errors?.[0]?.details?.message || data.error || data.message || 'Failed to send to Quartz'
+        throw new Error(detail)
+      }
+
+      setNotification({
+        type: 'success',
+        message: `✅ ${data.summary?.successful || contacts.length} contact(s) sent to Quartz`,
+      })
+      setSelectedRows(new Set())
+      await fetchLeads()
+    } catch (error) {
+      console.error('Send to Quartz error:', error)
+      setNotification({
+        type: 'error',
+        message: `❌ ${error instanceof Error ? error.message : 'Failed to send to Quartz'}`,
+      })
+    } finally {
+      setIsSendingToQuartz(false)
+      setTimeout(() => setNotification(null), 5000)
     }
   }
 
@@ -879,6 +973,33 @@ export default function LeadsPage() {
         ),
       },
       {
+        accessorKey: 'lead_score',
+        header: ({ column }) => (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+            className="hover:bg-transparent"
+          >
+            Score
+            <ArrowUpDown className="ml-2 h-4 w-4" />
+          </Button>
+        ),
+        cell: ({ row }) => {
+          const score = row.original.lead_score
+          if (score === null || score === undefined) return <span className="text-gray-400">—</span>
+          const color = score >= 70
+            ? 'bg-green-100 text-green-800 border-green-200'
+            : score >= 50
+            ? 'bg-yellow-100 text-yellow-800 border-yellow-200'
+            : 'bg-gray-100 text-gray-600 border-gray-200'
+          return (
+            <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold border ${color}`}>
+              {score}
+            </span>
+          )
+        },
+      },
+      {
         accessorKey: 'rating',
         header: ({ column }) => {
           return (
@@ -1014,6 +1135,27 @@ export default function LeadsPage() {
         accessorKey: 'ready_for_enrichment',
         header: 'Status',
         cell: ({ row }) => {
+          if (row.original.exported_to_ghl) {
+            return (
+              <Badge className="bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400">
+                Exported →
+              </Badge>
+            )
+          }
+          if (row.original.enrichment_status === 'completed') {
+            return (
+              <Badge className="bg-indigo-100 text-indigo-800 dark:bg-indigo-900/30 dark:text-indigo-400">
+                Enriched ✓
+              </Badge>
+            )
+          }
+          if (row.original.enrichment_status === 'in_progress') {
+            return (
+              <Badge className="bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400">
+                Partial
+              </Badge>
+            )
+          }
           return row.original.ready_for_enrichment ? (
             <Badge className="bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400">
               Ready
@@ -1493,13 +1635,23 @@ export default function LeadsPage() {
                   {isBulkMarkingCustomer ? 'Marking...' : 'Mark as Customer'}
                 </Button>
                 <Button
+                  variant="default"
+                  size="sm"
+                  onClick={handleSendToQuartz}
+                  disabled={isSendingToQuartz}
+                  className="bg-blue-600 hover:bg-blue-700"
+                >
+                  <Upload className="mr-2 h-4 w-4" />
+                  {isSendingToQuartz ? 'Sending...' : 'Send to Quartz ↑'}
+                </Button>
+                <Button
                   variant="outline"
                   size="sm"
                   onClick={handleBulkExport}
                   disabled={isBulkExporting}
                 >
                   <Download className="mr-2 h-4 w-4" />
-                  {isBulkExporting ? 'Exporting...' : 'Export Selected'}
+                  {isBulkExporting ? 'Downloading...' : 'Download CSV'}
                 </Button>
                 <Button
                   variant="destructive"
@@ -1528,6 +1680,21 @@ export default function LeadsPage() {
               </Button>
             </div>
           )}
+        </div>
+
+        {/* Page size selector */}
+        <div className="flex items-center gap-2 px-4 py-2 border-b">
+          <span className="text-sm text-muted-foreground">Rows per page:</span>
+          <select
+            value={pagination.pageSize}
+            onChange={(e) => setPagination({ pageIndex: 0, pageSize: Number(e.target.value) })}
+            className="h-8 px-2 rounded-md border border-input bg-background text-sm"
+          >
+            {[25, 50, 100, 250, 500].map((size) => (
+              <option key={size} value={size}>{size}</option>
+            ))}
+          </select>
+          <span className="text-sm text-muted-foreground">{total} total</span>
         </div>
 
         {/* Table */}

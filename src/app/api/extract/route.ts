@@ -223,6 +223,25 @@ export async function POST(request: NextRequest) {
 
             sendUpdate('progress', { progress: 100, step: 'Extraction completed successfully!' })
 
+            // Save search session to DB for history tracking
+            try {
+              await db.query(
+                `INSERT INTO search_sessions (category, location, country_code, businesses_found, lat, lng, zoom)
+                 VALUES ($1, $2, $3, $4, $5, $6, $7)`,
+                [
+                  universalCriteria.category,
+                  universalCriteria.location,
+                  universalCriteria.countryCode || null,
+                  results.stats.totalBusinesses,
+                  (universalCriteria as any).lat || null,
+                  (universalCriteria as any).lng || null,
+                  (universalCriteria as any).zoom || null,
+                ]
+              )
+            } catch (sessionErr: any) {
+              console.warn('⚠️ Failed to save search session:', sessionErr.message)
+            }
+
             console.log(`\n✅ UNIVERSAL SEARCH COMPLETED`)
             console.log(`══════════════════════════════════════════════════════`)
             console.log(`Request ID: ${requestId}`)

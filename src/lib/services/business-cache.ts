@@ -375,7 +375,7 @@ class BusinessCacheService {
     }
 
     if (filters.city) {
-      conditions.push(`city ILIKE $${paramIndex}`);
+      conditions.push(`(city ILIKE $${paramIndex} OR address ILIKE $${paramIndex})`);
       params.push(`%${filters.city}%`);
       paramIndex++;
     }

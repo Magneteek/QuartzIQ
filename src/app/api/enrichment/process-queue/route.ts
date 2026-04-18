@@ -29,6 +29,8 @@ export async function POST(request: NextRequest) {
     const apifyApiKey = process.env.APIFY_API_TOKEN
     const firecrawlApiKey = process.env.FIRECRAWL_API_KEY
     const betterEnrichApiKey = process.env.BETTER_ENRICH_API_KEY
+    const hunterApiKey = process.env.HUNTER_API_KEY
+    const enrichLayerApiKey = process.env.ENRICHLAYER_API_KEY
 
     if (!apolloApiKey) {
       return NextResponse.json(
@@ -44,7 +46,13 @@ export async function POST(request: NextRequest) {
       console.warn('⚠️  Firecrawl API key not configured - Claude will fall back to basic scraping')
     }
     if (!betterEnrichApiKey) {
-      console.warn('⚠️  BetterEnrich API key not configured - will fall back to Apollo for email lookup')
+      console.warn('⚠️  BetterEnrich API key not configured - will fall back to Hunter/Apollo for email lookup')
+    }
+    if (!hunterApiKey) {
+      console.warn('⚠️  Hunter API key not configured - will skip Hunter.io email finder')
+    }
+    if (!enrichLayerApiKey) {
+      console.warn('⚠️  EnrichLayer API key not configured - will skip LinkedIn enrichment')
     }
     if (!apifyApiKey) {
       console.warn('⚠️  Apify API key not configured - will skip $0.005/lead enrichment tier')
@@ -57,7 +65,10 @@ export async function POST(request: NextRequest) {
       console.log(`   Mode: Queue (max ${maxJobs} jobs)`)
     }
     console.log(`   Claude+Firecrawl: ${!!(claudeApiKey && firecrawlApiKey)}`)
+    console.log(`   Web Search Agent: ${!!claudeApiKey}`)
     console.log(`   BetterEnrich: ${!!betterEnrichApiKey}`)
+    console.log(`   Hunter.io: ${!!hunterApiKey}`)
+    console.log(`   EnrichLayer: ${!!enrichLayerApiKey}`)
     console.log(`   Apify: ${!!apifyApiKey}`)
     console.log(`   Apollo (backup): ${!!apolloApiKey}`)
 
@@ -69,7 +80,9 @@ export async function POST(request: NextRequest) {
       claudeApiKey,
       apifyApiKey,
       firecrawlApiKey,
-      betterEnrichApiKey
+      betterEnrichApiKey,
+      hunterApiKey,
+      enrichLayerApiKey
     )
 
     // Process queue in background (non-blocking)

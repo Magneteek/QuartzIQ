@@ -57,6 +57,7 @@ import {
 
 interface Business {
   id: string
+  place_id: string | null
   business_name: string
   first_name: string | null
   last_name: string | null
@@ -79,6 +80,7 @@ interface Business {
   review_count: number
   google_profile_url: string | null
   negative_review_url: string | null
+  ghl_contact_id: string | null
   created_at: string
   updated_at: string
 }
@@ -130,7 +132,7 @@ export default function EnrichmentPage() {
     email: '',
     phone: '',
     enrichment_confidence: 80,
-    enrichment_source: 'manual' as 'manual' | 'apollo' | 'apify' | 'multiple',
+    enrichment_source: 'manual' as 'manual' | 'web_research' | 'better_enrich' | 'hunter' | 'proxycurl' | 'multiple',
   })
 
   const fetchLeads = async () => {
@@ -427,12 +429,19 @@ export default function EnrichmentPage() {
           businessId: b.id,
           placeId: b.place_id,
 
-          // Basic contact info
-          name: b.business_name,
-          address: b.address || '',
-          phone: b.phone || '',
+          ghlContactId: b.ghl_contact_id || undefined,
+          // Owner (contact) info — use enriched owner name, fall back to business name
+          firstName: b.first_name || b.business_name,
+          lastName: b.last_name || '',
           email: b.email || '',
+          phone: b.phone || '',      // enriched personal phone (or GMB if no personal found)
+          country: b.country || '', // ISO code — mapped to full name in send-contacts route
+          city: b.city || '',
+
+          // Company info
+          companyName: b.business_name,
           website: b.website || '',
+          address: b.address || '',
           source: 'QuartzIQ-Enrichment',
 
           // Custom fields for GHL
@@ -926,8 +935,13 @@ export default function EnrichmentPage() {
                       <div key={idx} className="flex items-center gap-2 text-gray-700 dark:text-gray-300">
                         <span>{result.success ? '✅' : '❌'}</span>
                         <span className="font-medium">{result.businessName}</span>
+                        {result.method && (
+                          <span className="bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 px-1.5 py-0.5 rounded text-xs">
+                            {result.method.replace(/_/g, ' ')}
+                          </span>
+                        )}
                         <span className="text-gray-500">
-                          ({result.contactsEnriched} contacts, {result.apiCalls} API calls, ${result.cost.toFixed(4)})
+                          ({result.contactsEnriched} contacts, ${result.cost.toFixed(4)})
                         </span>
                         {result.error && <span className="text-red-600">- {result.error}</span>}
                       </div>
@@ -1035,7 +1049,7 @@ export default function EnrichmentPage() {
           <DialogHeader>
             <DialogTitle>Start Automatic Enrichment?</DialogTitle>
             <DialogDescription>
-              This will automatically process pending leads using a 3-tier cost-optimized strategy:
+              This will automatically process pending leads using a 5-tier cost-optimized strategy:
             </DialogDescription>
           </DialogHeader>
 
@@ -1044,85 +1058,109 @@ export default function EnrichmentPage() {
               <div className="flex items-start gap-2">
                 <div className="bg-green-100 text-green-800 px-2 py-1 rounded text-xs font-semibold">FREE</div>
                 <div>
-                  <p className="font-medium">1. Claude Website Research</p>
-                  <p className="text-sm text-gray-600">Scrapes business website for executive info (40% success rate)</p>
+                  <p className="font-medium">1. Claude + Firecrawl Website Research</p>
+                  <p className="text-sm text-gray-600">Scrapes business website for executive name, email &amp; phone</p>
                 </div>
               </div>
 
               <div className="flex items-start gap-2">
-                <div className="bg-yellow-100 text-yellow-800 px-2 py-1 rounded text-xs font-semibold">$0.005</div>
+                <div className="bg-yellow-100 text-yellow-800 px-2 py-1 rounded text-xs font-semibold">~$0.02</div>
                 <div>
-                  <p className="font-medium">2. Apify Leads Enrichment</p>
-                  <p className="text-sm text-gray-600">Extracts employee data from Google Maps (50% cheaper than Apollo!)</p>
+                  <p className="font-medium">2. Web Search Agent</p>
+                  <p className="text-sm text-gray-600">Searches the public web for owner name, phone &amp; LinkedIn (~60-70% hit rate)</p>
                 </div>
               </div>
 
               <div className="flex items-start gap-2">
-                <div className="bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs font-semibold">$0.01-0.02</div>
+                <div className="bg-orange-100 text-orange-800 px-2 py-1 rounded text-xs font-semibold">~$0.04</div>
                 <div>
-                  <p className="font-medium">3. Apollo API</p>
-                  <p className="text-sm text-gray-600">Professional database search (final fallback)</p>
+                  <p className="font-medium">2b. ProxyCurl LinkedIn Enrichment</p>
+                  <p className="text-sm text-gray-600">If LinkedIn URL found — pulls email &amp; phone directly from profile</p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-2">
+                <div className="bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs font-semibold">~$0.031</div>
+                <div>
+                  <p className="font-medium">3. BetterEnrich</p>
+                  <p className="text-sm text-gray-600">Email lookup by name + domain — pay per success only</p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-2">
+                <div className="bg-purple-100 text-purple-800 px-2 py-1 rounded text-xs font-semibold">~$0.01</div>
+                <div>
+                  <p className="font-medium">4. Hunter.io</p>
+                  <p className="text-sm text-gray-600">Email finder by name + domain — pay per success only</p>
                 </div>
               </div>
             </div>
 
-            {/* Queue Size Selection */}
-            <div className="space-y-3">
-              <Label className="text-sm font-medium">How many leads to process?</Label>
-              <div className="grid grid-cols-2 gap-2">
-                <Button
-                  type="button"
-                  variant={maxJobsToProcess === 'all' ? 'default' : 'outline'}
-                  onClick={() => setMaxJobsToProcess('all')}
-                  className="flex flex-col items-center py-4"
-                >
-                  <span className="text-lg font-bold">{stats.pending}</span>
-                  <span className="text-xs">All Pending</span>
-                </Button>
-                <Button
-                  type="button"
-                  variant={maxJobsToProcess === 10 ? 'default' : 'outline'}
-                  onClick={() => setMaxJobsToProcess(10)}
-                  className="flex flex-col items-center py-4"
-                >
-                  <span className="text-lg font-bold">10</span>
-                  <span className="text-xs">Test Batch</span>
-                </Button>
-                <Button
-                  type="button"
-                  variant={maxJobsToProcess === 50 ? 'default' : 'outline'}
-                  onClick={() => setMaxJobsToProcess(50)}
-                  className="flex flex-col items-center py-4"
-                >
-                  <span className="text-lg font-bold">50</span>
-                  <span className="text-xs">Medium Batch</span>
-                </Button>
-                <Button
-                  type="button"
-                  variant={maxJobsToProcess === 100 ? 'default' : 'outline'}
-                  onClick={() => setMaxJobsToProcess(100)}
-                  className="flex flex-col items-center py-4"
-                >
-                  <span className="text-lg font-bold">100</span>
-                  <span className="text-xs">Large Batch</span>
-                </Button>
+            {/* Queue Size Selection — hidden when specific rows are selected */}
+            {selectedRows.size === 0 && (
+              <div className="space-y-3">
+                <Label className="text-sm font-medium">How many leads to process?</Label>
+                <div className="grid grid-cols-2 gap-2">
+                  <Button
+                    type="button"
+                    variant={maxJobsToProcess === 'all' ? 'default' : 'outline'}
+                    onClick={() => setMaxJobsToProcess('all')}
+                    className="flex flex-col items-center py-4"
+                  >
+                    <span className="text-lg font-bold">{stats.pending}</span>
+                    <span className="text-xs">All Pending</span>
+                  </Button>
+                  <Button
+                    type="button"
+                    variant={maxJobsToProcess === 10 ? 'default' : 'outline'}
+                    onClick={() => setMaxJobsToProcess(10)}
+                    className="flex flex-col items-center py-4"
+                  >
+                    <span className="text-lg font-bold">10</span>
+                    <span className="text-xs">Test Batch</span>
+                  </Button>
+                  <Button
+                    type="button"
+                    variant={maxJobsToProcess === 50 ? 'default' : 'outline'}
+                    onClick={() => setMaxJobsToProcess(50)}
+                    className="flex flex-col items-center py-4"
+                  >
+                    <span className="text-lg font-bold">50</span>
+                    <span className="text-xs">Medium Batch</span>
+                  </Button>
+                  <Button
+                    type="button"
+                    variant={maxJobsToProcess === 100 ? 'default' : 'outline'}
+                    onClick={() => setMaxJobsToProcess(100)}
+                    className="flex flex-col items-center py-4"
+                  >
+                    <span className="text-lg font-bold">100</span>
+                    <span className="text-xs">Large Batch</span>
+                  </Button>
+                </div>
               </div>
-            </div>
+            )}
 
             <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
-              <p className="text-sm text-blue-900">
-                <strong>
-                  Will process: {maxJobsToProcess === 'all' ? stats.pending : Math.min(maxJobsToProcess, stats.pending)} leads
-                </strong>
-              </p>
+              {selectedRows.size > 0 ? (
+                <p className="text-sm text-blue-900">
+                  <strong>Will process {selectedRows.size} selected {selectedRows.size === 1 ? 'lead' : 'leads'}</strong>
+                </p>
+              ) : (
+                <p className="text-sm text-blue-900">
+                  <strong>
+                    Will process: {maxJobsToProcess === 'all' ? stats.pending : Math.min(maxJobsToProcess, stats.pending)} leads
+                  </strong>
+                </p>
+              )}
               <p className="text-xs text-blue-700 mt-1">
-                Estimated time: {Math.min(maxJobsToProcess === 'all' ? stats.pending : maxJobsToProcess, stats.pending) * 5}-
-                {Math.min(maxJobsToProcess === 'all' ? stats.pending : maxJobsToProcess, stats.pending) * 10} seconds
+                Estimated time: {(selectedRows.size > 0 ? selectedRows.size : Math.min(maxJobsToProcess === 'all' ? stats.pending : maxJobsToProcess, stats.pending)) * 5}–
+                {(selectedRows.size > 0 ? selectedRows.size : Math.min(maxJobsToProcess === 'all' ? stats.pending : maxJobsToProcess, stats.pending)) * 30} seconds
               </p>
               <p className="text-xs text-blue-700 mt-1">
                 Estimated cost: $
-                {(Math.min(maxJobsToProcess === 'all' ? stats.pending : maxJobsToProcess, stats.pending) * 0.0065).toFixed(2)}
-                {' '}(avg $0.0065/lead)
+                {((selectedRows.size > 0 ? selectedRows.size : Math.min(maxJobsToProcess === 'all' ? stats.pending : maxJobsToProcess, stats.pending)) * 0.03).toFixed(2)}
+                {' '}(avg ~$0.03/lead)
               </p>
             </div>
           </div>
@@ -1314,8 +1352,10 @@ export default function EnrichmentPage() {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="manual">Manual Research</SelectItem>
-                    <SelectItem value="apollo">Apollo.io</SelectItem>
-                    <SelectItem value="apify">Apify</SelectItem>
+                    <SelectItem value="web_research">Web Search Agent</SelectItem>
+                    <SelectItem value="better_enrich">BetterEnrich</SelectItem>
+                    <SelectItem value="hunter">Hunter.io</SelectItem>
+                    <SelectItem value="proxycurl">ProxyCurl (LinkedIn)</SelectItem>
                     <SelectItem value="multiple">Multiple Sources</SelectItem>
                   </SelectContent>
                 </Select>

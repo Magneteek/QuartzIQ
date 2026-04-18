@@ -129,7 +129,7 @@ export class ClaudeWebsiteResearcher {
     console.log(`   Firecrawl: ${markdown.length} chars of markdown`);
 
     // Step B: Claude extraction
-    const prompt = `You are extracting business contact data from a company website. Return ONLY valid JSON, no explanation.
+    const prompt = `You are finding the OWNER or top manager of a business from their website. Return ONLY valid JSON, no explanation.
 
 Company: ${companyName}
 Domain: ${domain}
@@ -138,7 +138,7 @@ Website content (markdown):
 ${markdown.slice(0, 6000)}
 ---
 
-Extract contact information and return this exact JSON structure:
+Return this exact JSON structure:
 {
   "executives": [
     {
@@ -157,12 +157,13 @@ Extract contact information and return this exact JSON structure:
 }
 
 Rules:
-- Focus on owners, directors, founders, managers (Eigenaar, Directeur, Tandarts, CEO, etc.)
-- Include Dutch titles: Eigenaar, Directeur, Algemeen Directeur, Bedrijfsleider, Tandarts
-- Only include real person names (not company names or generic text)
-- Set confidence: 0.9 if email found, 0.8 if title found, 0.7 if name only
-- companyEmails: generic emails like info@, contact@, support@
-- If nothing found, return empty arrays
+- ONLY include the owner, founder, or top manager (Eigenaar, Directeur, Algemeen Directeur, CEO, Managing Director, Bedrijfsleider, Tandarts, etc.)
+- Do NOT include general staff, receptionists, or unnamed contacts
+- The "email" field on an executive MUST be a personal email belonging to that named person (e.g. john.smith@domain.com)
+- NEVER put generic emails (info@, contact@, reservations@, support@, hello@, office@, mail@) in the executives array — put those in companyEmails instead
+- A named executive with no personal email is still valuable — set email to null and continue
+- Set confidence: 0.9 if personal email found, 0.8 if title confirmed, 0.7 if name only
+- If no owner/manager found, return empty executives array
 - Return ONLY the JSON object, nothing else`;
 
     const anthropic = new Anthropic({ apiKey: this.claudeApiKey });

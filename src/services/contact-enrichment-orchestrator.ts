@@ -2,18 +2,17 @@
  * Contact Enrichment Orchestrator
  *
  * Coordinates the entire contact enrichment workflow:
- * 1. Claude website research (FREE - 30-40% success rate)
- * 2. Apify leads enrichment ($0.005 per lead - 25-35% success rate)
- * 3. Apollo Search API (if needed - find executives)
- * 4. Apollo Enrichment API (reveal contact details)
- * 5. Database storage and usage tracking
+ * 1. Claude website research (FREE)
+ * 2. Web Search Agent — owner name + phone + LinkedIn URL (~$0.02)
+ *    └─ LinkedIn found? → EnrichLayer email + phone (~$0.02–0.06)
+ * 3. BetterEnrich email lookup (~$0.031, pay-per-success)
+ * 4. Hunter.io email finder (~$0.01, pay-per-success)
+ * 5. GMB phone always available as fallback
  *
- * Cost Optimization Strategy:
- * - Try Claude first (free) → saves 40% of API costs
- * - Try Apify second ($0.005) → saves 50-70% vs Apollo
- * - If Claude/Apify finds name → skip Apollo Search API
- * - Target 1 executive per business
- * - Track all API usage for cost analysis
+ * Disabled (low hit rate for small hospitality):
+ * - Apollo: <10% hit rate, $0.10/call regardless of outcome
+ * - Apify leads enrichment: low hit rate on small hotels (GBP rarely has staff profiles)
+ *   Note: Apify IS still used for review scraping / business discovery — just not contact enrichment.
  */
 
 import { Pool, PoolClient } from 'pg';
@@ -21,6 +20,9 @@ import { ApolloClient, ApolloPerson, ApolloAPIUsage } from './apollo-client';
 import { ClaudeWebsiteResearcher, ExecutiveInfo, WebsiteResearchResult } from './claude-website-researcher';
 import { ApifyLeadsClient, ApifyLead, ApifyLeadsResult } from './apify-leads-client';
 import { BetterEnrichClient } from './better-enrich-client';
+import { OwnerNameResearchAgent } from './owner-name-research-agent';
+import { HunterClient } from './hunter-client';
+import { EnrichLayerClient, EnrichLayerResult } from './enrichlayer-client';
 
 export interface Business {
   id: string;
@@ -53,16 +55,14 @@ export interface EnrichmentResult {
   contactsEnriched: number;
   totalApiCalls: number;
   totalCostUsd: number;
-  method: 'claude_only' | 'apify_only' | 'enrich_only' | 'search_then_enrich' | 'better_enrich';
+  method: 'claude_only' | 'apify_only' | 'enrich_only' | 'search_then_enrich' | 'better_enrich' | 'web_research';
   durationMs: number;
   error?: string;
 }
 
 export interface ContactEnrichment {
   business_id: string;
-  first_name: string;
-  last_name: string;
-  full_name: string;
+  owner_name: string;
   title: string | null;
   seniority: string | null;
   email: string | null;
@@ -72,10 +72,10 @@ export interface ContactEnrichment {
   apollo_search_cost: number;
   apollo_enrich_cost: number;
   apify_leads_cost: number;
-  reveal_method: 'claude_only' | 'apify_only' | 'enrich_only' | 'search_then_enrich' | 'better_enrich';
-  enrichment_status: 'completed' | 'failed';
+  reveal_method: 'claude_only' | 'apify_only' | 'enrich_only' | 'search_then_enrich' | 'better_enrich' | 'web_research';
+  enrichment_status: 'completed' | 'partial' | 'failed';
   confidence_score: number;
-  source: string;
+  enrichment_source: string;
 }
 
 /**
@@ -84,9 +84,19 @@ export interface ContactEnrichment {
  */
 export class ContactEnrichmentOrchestrator {
   private apollo: ApolloClient;
+  // Apollo disabled: <10% hit rate for small hospitality businesses, $0.10/call regardless of outcome.
+  // Re-enable if targeting larger B2B companies by setting this to false.
+  private apolloDisabled = true;
+  // Apify leads enrichment disabled: low hit rate on small hotels (GBP rarely has staff profiles).
+  // Apify is still used for review scraping / business discovery — just not contact enrichment.
+  // Re-enable by setting this to false.
+  private apifyEnrichmentDisabled = true;
   private claude: ClaudeWebsiteResearcher;
   private apify: ApifyLeadsClient | null;
   private betterEnrich: BetterEnrichClient | null;
+  private ownerNameAgent: OwnerNameResearchAgent | null;
+  private hunter: HunterClient | null;
+  private enrichLayer: EnrichLayerClient | null;
   private db: Pool;
 
   constructor(
@@ -95,13 +105,18 @@ export class ContactEnrichmentOrchestrator {
     claudeApiKey?: string,
     apifyApiKey?: string,
     firecrawlApiKey?: string,
-    betterEnrichApiKey?: string
+    betterEnrichApiKey?: string,
+    hunterApiKey?: string,
+    enrichLayerApiKey?: string
   ) {
     // Initialize API clients
     this.apollo = new ApolloClient(apolloApiKey, apolloMonthlyLimit);
     this.claude = new ClaudeWebsiteResearcher(claudeApiKey, firecrawlApiKey);
     this.apify = apifyApiKey ? new ApifyLeadsClient(apifyApiKey) : null;
     this.betterEnrich = betterEnrichApiKey ? new BetterEnrichClient(betterEnrichApiKey) : null;
+    this.ownerNameAgent = claudeApiKey ? new OwnerNameResearchAgent(claudeApiKey) : null;
+    this.hunter = hunterApiKey ? new HunterClient(hunterApiKey) : null;
+    this.enrichLayer = enrichLayerApiKey ? new EnrichLayerClient(enrichLayerApiKey) : null;
 
     // Initialize database connection
     this.db = new Pool({
@@ -128,7 +143,10 @@ export class ContactEnrichmentOrchestrator {
     const startTime = Date.now();
     let totalApiCalls = 0;
     let totalCostUsd = 0;
-    const apiUsageLogs: ApolloAPIUsage[] = [];
+
+    // Tracks the best name+phone+linkedin found even when email lookup fails.
+    // Saved as a partial contact at the end if no full enrichment succeeded.
+    let partialContact: ContactEnrichment | null = null;
 
     console.log(`\n🔍 Starting enrichment for business: ${businessId}`);
 
@@ -144,8 +162,6 @@ export class ContactEnrichmentOrchestrator {
 
       if (!business.website) {
         console.log('⚠️  No website available, skipping Claude research');
-
-        // Try Apollo Search directly
         return await this.enrichWithApolloSearchOnly(business, startTime);
       }
 
@@ -154,7 +170,7 @@ export class ContactEnrichmentOrchestrator {
         throw new Error('Invalid website URL');
       }
 
-      // 2. Try Claude Website Research First (FREE)
+      // ── Tier 1: Claude Website Research (FREE) ──────────────────────────
       console.log('🤖 Step 1: Claude website research (FREE)...');
       const claudeResults = await this.claude.researchWebsite(
         business.website,
@@ -167,39 +183,48 @@ export class ContactEnrichmentOrchestrator {
       console.log(`   Found ${claudeResults.companyEmails.length} company emails`);
       console.log(`   Duration: ${claudeResults.durationMs}ms`);
 
-      // Read enrichment config for optional phone
-      const includePhone = !!claudeResults // placeholder; real value comes from job config below
-
-      // 3. Check if Claude found an executive with name
       if (claudeResults.executives.length > 0) {
-        const executive = claudeResults.executives[0]; // Take the first/best one
+        const executive = claudeResults.executives[0];
 
         console.log(`\n✅ Claude found executive: ${executive.fullName}`);
         console.log(`   Title: ${executive.title || 'Unknown'}`);
         console.log(`   Confidence: ${executive.confidence}`);
 
-        // Check if Claude also found email/phone (complete enrichment)
-        if (executive.email) {
-          console.log('🎯 Claude found complete contact info! No paid API needed.');
+        // Track as best partial so far
+        partialContact = {
+          business_id: business.id,
+          owner_name: executive.fullName,
+          title: executive.title || null,
+          seniority: null,
+          email: null,
+          phone: executive.phone || null,
+          linkedin_url: executive.linkedinUrl || null,
+          apollo_person_id: null,
+          apollo_search_cost: 0,
+          apollo_enrich_cost: 0,
+          apify_leads_cost: 0,
+          reveal_method: 'claude_only',
+          enrichment_status: 'partial',
+          confidence_score: executive.confidence,
+          enrichment_source: 'claude',
+        };
+
+        // Only reject truly impersonal addresses (no-reply, donotreply, noreply).
+        // For small businesses, info@/contact@/office@ is often read by the owner directly.
+        const impersonalPrefixes = ['noreply', 'no-reply', 'donotreply', 'do-not-reply', 'unsubscribe', 'bounce'];
+        const isUsableEmail = executive.email &&
+          !impersonalPrefixes.some(p => executive.email!.toLowerCase().startsWith(p));
+
+        if (isUsableEmail) {
+          const isPersonal = !['info', 'contact', 'mail', 'hello', 'office', 'admin', 'reception', 'reservations', 'booking']
+            .some(p => executive.email!.toLowerCase().startsWith(p + '@'));
+          console.log(`🎯 Claude found ${isPersonal ? 'personal' : 'company'} email on website! No paid API needed.`);
 
           await this.saveContact(business.id, {
-            business_id: business.id,
-            first_name: executive.firstName,
-            last_name: executive.lastName,
-            full_name: executive.fullName,
-            title: executive.title || null,
-            seniority: null,
-            email: executive.email || null,
-            phone: executive.phone || null,
-            linkedin_url: executive.linkedinUrl || null,
-            apollo_person_id: null,
-            apollo_search_cost: 0,
-            apollo_enrich_cost: 0,
-            apify_leads_cost: 0,
-            reveal_method: 'claude_only',
+            ...partialContact,
+            email: executive.email!,
             enrichment_status: 'completed',
-            confidence_score: executive.confidence,
-            source: executive.source,
+            enrichment_source: isPersonal ? 'claude' : 'company_email',
           });
 
           const durationMs = Date.now() - startTime;
@@ -216,7 +241,7 @@ export class ContactEnrichmentOrchestrator {
           };
         }
 
-        // Claude found name but no email → try BetterEnrich first (cheaper)
+        // Claude found name but no email → try BetterEnrich
         if (this.betterEnrich) {
           console.log('📧 Step 2: BetterEnrich email lookup (~$0.031)...');
           const beResult = await this.betterEnrich.findWorkEmail(
@@ -233,23 +258,12 @@ export class ContactEnrichmentOrchestrator {
             console.log(`   Cost: $${beResult.costUsd.toFixed(4)}`);
 
             await this.saveContact(business.id, {
-              business_id: business.id,
-              first_name: executive.firstName,
-              last_name: executive.lastName,
-              full_name: executive.fullName,
-              title: executive.title || null,
-              seniority: null,
+              ...partialContact,
               email: beResult.email,
-              phone: executive.phone || null,
-              linkedin_url: executive.linkedinUrl || null,
-              apollo_person_id: null,
-              apollo_search_cost: 0,
-              apollo_enrich_cost: 0,
               apify_leads_cost: beResult.costUsd,
               reveal_method: 'better_enrich',
               enrichment_status: 'completed',
-              confidence_score: executive.confidence,
-              source: 'better_enrich',
+              enrichment_source: 'better_enrich',
             });
 
             const durationMs = Date.now() - startTime;
@@ -265,233 +279,307 @@ export class ContactEnrichmentOrchestrator {
               durationMs,
             };
           } else {
-            console.log('⚠️  BetterEnrich email lookup failed, falling back to Apollo...');
+            console.log('⚠️  BetterEnrich email lookup failed, trying Hunter.io...');
           }
         }
 
-        // BetterEnrich failed or not configured → fall back to Apollo Enrichment
-        console.log('📞 Fallback: Apollo Enrichment API...');
-        const { person, usage } = await this.apollo.enrichPerson({
-          first_name: executive.firstName,
-          last_name: executive.lastName,
-          domain: domain,
-          organization_name: business.name,
-          reveal_personal_emails: true,
-          reveal_phone_number: true,
+        // BetterEnrich failed → try Hunter.io
+        if (this.hunter) {
+          console.log('🎯 Hunter.io email finder (~$0.01)...');
+          const hunterResult = await this.hunter.findEmail(
+            executive.firstName,
+            executive.lastName,
+            domain
+          );
+
+          totalApiCalls += 1;
+          totalCostUsd += hunterResult.costUsd;
+
+          if (hunterResult.success && hunterResult.email) {
+            console.log(`✅ Hunter found email: ${hunterResult.email} (score: ${hunterResult.score})`);
+
+            await this.saveContact(business.id, {
+              ...partialContact,
+              email: hunterResult.email,
+              linkedin_url: hunterResult.linkedinUrl || executive.linkedinUrl || null,
+              apify_leads_cost: hunterResult.costUsd,
+              reveal_method: 'better_enrich',
+              enrichment_status: 'completed',
+              confidence_score: hunterResult.score / 100,
+              enrichment_source: 'hunter',
+            });
+
+            const durationMs = Date.now() - startTime;
+            return {
+              success: true,
+              businessId: business.id,
+              businessName: business.name,
+              executivesFound: 1,
+              contactsEnriched: 1,
+              totalApiCalls,
+              totalCostUsd,
+              method: 'better_enrich',
+              durationMs,
+            };
+          } else {
+            console.log('⚠️  Hunter email finder failed, no further email sources available.');
+          }
+        }
+      }
+
+      // ── Tier 2: Web Search Agent (~$0.02) ───────────────────────────────
+      if (this.ownerNameAgent) {
+        console.log('\n🌐 Step 2: Web Search Agent — hunting owner name...');
+        const webResult = await this.ownerNameAgent.findOwnerName(
+          business.name,
+          domain,
+          business.city,
+          business.country_code
+        );
+
+        console.log(`   Duration: ${webResult.durationMs}ms`);
+
+        if (webResult.success && webResult.fullName) {
+          console.log(`✅ Web agent found: ${webResult.fullName} (${webResult.title || 'unknown title'})`);
+          console.log(`   Confidence: ${webResult.confidence}`);
+          console.log(`   Sources: ${webResult.sources.join(', ')}`);
+
+          // Update partial if web agent found better data (higher confidence or adds phone/linkedin)
+          if (!partialContact || webResult.confidence >= partialContact.confidence_score) {
+            partialContact = {
+              business_id: business.id,
+              owner_name: webResult.fullName,
+              title: webResult.title || null,
+              seniority: null,
+              email: null,
+              phone: webResult.phone || partialContact?.phone || null,
+              linkedin_url: webResult.linkedinUrl || partialContact?.linkedin_url || null,
+              apollo_person_id: null,
+              apollo_search_cost: 0,
+              apollo_enrich_cost: 0,
+              apify_leads_cost: 0,
+              reveal_method: 'web_research',
+              enrichment_status: 'partial',
+              confidence_score: webResult.confidence,
+              enrichment_source: 'web_research',
+            };
+          }
+
+          // Step 2b: EnrichLayer — if LinkedIn URL found (~$0.02–0.06)
+          if (this.enrichLayer && webResult.linkedinUrl) {
+            console.log('🔗 Step 2b: EnrichLayer LinkedIn enrichment (~$0.02–0.06)...');
+            const pcResult = await this.enrichLayer.enrichFromLinkedIn(webResult.linkedinUrl);
+
+            totalApiCalls += 1;
+            totalCostUsd += pcResult.costUsd;
+
+            // Update partial with any phone EnrichLayer found
+            if (pcResult.phone) {
+              partialContact = { ...partialContact!, phone: pcResult.phone };
+            }
+
+            if (pcResult.success && (pcResult.email || pcResult.phone)) {
+              console.log(`✅ EnrichLayer found — email: ${pcResult.email || 'n/a'}, phone: ${pcResult.phone || 'n/a'}`);
+              console.log(`   Credits used: ${pcResult.creditsUsed}, cost: $${pcResult.costUsd.toFixed(4)}`);
+
+              await this.saveContact(business.id, {
+                ...partialContact!,
+                owner_name: pcResult.fullName || webResult.fullName,
+                title: pcResult.title || webResult.title || null,
+                email: pcResult.email || null,
+                phone: pcResult.phone || webResult.phone || null,
+                apify_leads_cost: pcResult.costUsd,
+                enrichment_status: pcResult.email ? 'completed' : 'partial',
+                enrichment_source: 'web_research+enrichlayer',
+              });
+
+              const durationMs = Date.now() - startTime;
+              return {
+                success: true,
+                businessId: business.id,
+                businessName: business.name,
+                executivesFound: 1,
+                contactsEnriched: 1,
+                totalApiCalls,
+                totalCostUsd,
+                method: 'web_research',
+                durationMs,
+              };
+            } else {
+              console.log('⚠️  EnrichLayer found no contact data, continuing...');
+            }
+          }
+
+          // Step 2c: BetterEnrich with web-discovered name
+          if (this.betterEnrich) {
+            console.log('📧 Step 2c: BetterEnrich email lookup with discovered name (~$0.031)...');
+            const beResult = await this.betterEnrich.findWorkEmail(
+              webResult.fullName,
+              domain,
+              webResult.linkedinUrl || undefined
+            );
+
+            totalApiCalls += 1;
+            totalCostUsd += beResult.costUsd;
+
+            if (beResult.success && beResult.email) {
+              console.log(`✅ BetterEnrich found email: ${beResult.email}`);
+
+              await this.saveContact(business.id, {
+                ...partialContact!,
+                email: beResult.email,
+                apify_leads_cost: beResult.costUsd,
+                enrichment_status: 'completed',
+                enrichment_source: 'web_research+better_enrich',
+              });
+
+              const durationMs = Date.now() - startTime;
+              return {
+                success: true,
+                businessId: business.id,
+                businessName: business.name,
+                executivesFound: 1,
+                contactsEnriched: 1,
+                totalApiCalls,
+                totalCostUsd,
+                method: 'web_research',
+                durationMs,
+              };
+            } else {
+              console.log('⚠️  BetterEnrich email lookup failed for web-discovered name, trying Hunter...');
+            }
+          }
+
+          // Step 2d: Hunter.io with web-discovered name
+          if (this.hunter && webResult.firstName && webResult.lastName) {
+            console.log('🎯 Step 2d: Hunter.io email finder with web-discovered name (~$0.01)...');
+            const hunterResult = await this.hunter.findEmail(
+              webResult.firstName,
+              webResult.lastName,
+              domain
+            );
+
+            totalApiCalls += 1;
+            totalCostUsd += hunterResult.costUsd;
+
+            if (hunterResult.success && hunterResult.email) {
+              console.log(`✅ Hunter found email: ${hunterResult.email} (score: ${hunterResult.score})`);
+
+              await this.saveContact(business.id, {
+                ...partialContact!,
+                email: hunterResult.email,
+                linkedin_url: hunterResult.linkedinUrl || webResult.linkedinUrl || null,
+                apify_leads_cost: hunterResult.costUsd,
+                enrichment_status: 'completed',
+                confidence_score: hunterResult.score / 100,
+                enrichment_source: 'web_research+hunter',
+              });
+
+              const durationMs = Date.now() - startTime;
+              return {
+                success: true,
+                businessId: business.id,
+                businessName: business.name,
+                executivesFound: 1,
+                contactsEnriched: 1,
+                totalApiCalls,
+                totalCostUsd,
+                method: 'web_research',
+                durationMs,
+              };
+            } else {
+              console.log('⚠️  Hunter email finder failed, no further email sources available.');
+            }
+          }
+        } else {
+          console.log('⚠️  Web agent could not find owner name.');
+        }
+      }
+
+      // Apify leads enrichment disabled — low hit rate on small hotels.
+      // (Apify is still used for review scraping; this only disables contact enrichment.)
+
+      // ── Company email fallback ────────────────────────────────────────────
+      // All personal email tiers exhausted. For small businesses the company inbox
+      // (info@, contact@) is typically read by the owner — use it rather than leaving blank.
+      const impersonal = ['noreply', 'no-reply', 'donotreply', 'unsubscribe', 'bounce'];
+      const fallbackEmail = claudeResults.companyEmails?.find(
+        e => !impersonal.some(p => e.toLowerCase().startsWith(p))
+      ) || null;
+
+      const fallbackBase = partialContact ?? {
+        business_id: business.id,
+        owner_name: business.name,
+        title: null,
+        seniority: null,
+        email: null,
+        phone: business.phone || null,
+        linkedin_url: null,
+        apollo_person_id: null,
+        apollo_search_cost: 0,
+        apollo_enrich_cost: 0,
+        apify_leads_cost: 0,
+        reveal_method: 'claude_only' as const,
+        enrichment_status: 'partial' as const,
+        confidence_score: 0.5,
+        enrichment_source: 'company_email',
+      };
+
+      if (fallbackEmail) {
+        console.log(`\n📧 Using company email fallback: ${fallbackEmail}`);
+        await this.saveContact(business.id, {
+          ...fallbackBase,
+          email: fallbackEmail,
+          enrichment_status: 'completed',
+          enrichment_source: 'company_email',
         });
-
-        totalApiCalls += 1;
-        totalCostUsd += usage.costUsd;
-        apiUsageLogs.push(usage);
-        await this.logApolloUsage(business.id, usage);
-
-        if (person) {
-          console.log('✅ Apollo enrichment successful!');
-          console.log(`   Email: ${person.email || 'N/A'}`);
-          console.log(`   Phone: ${person.phone_numbers?.length || 0} numbers found`);
-
-          await this.saveContact(business.id, {
-            business_id: business.id,
-            first_name: person.first_name,
-            last_name: person.last_name,
-            full_name: person.name,
-            title: person.title,
-            seniority: person.seniority,
-            email: person.email,
-            phone: ApolloClient.formatPhoneNumber(person.phone_numbers),
-            linkedin_url: person.linkedin_url,
-            apollo_person_id: person.id,
-            apollo_search_cost: 0,
-            apollo_enrich_cost: usage.costUsd,
-            apify_leads_cost: 0,
-            reveal_method: 'enrich_only',
-            enrichment_status: 'completed',
-            confidence_score: executive.confidence,
-            source: executive.source,
-          });
-
-          const durationMs = Date.now() - startTime;
-          return {
-            success: true,
-            businessId: business.id,
-            businessName: business.name,
-            executivesFound: 1,
-            contactsEnriched: 1,
-            totalApiCalls,
-            totalCostUsd,
-            method: 'enrich_only',
-            durationMs,
-          };
-        } else {
-          console.log('⚠️  Apollo enrichment failed, trying full search...');
-        }
-      }
-
-      // 3. Try Apify Leads Enrichment ($0.005 per lead) - cheaper than Apollo!
-      if (this.apify && business.place_id) {
-        console.log('\n🔍 Step 2: Apify Leads Enrichment ($0.005 per lead)...');
-        const apifyResult = await this.apify.enrichBusinessLeads(business.place_id, 1, ['executive', 'management']);
-
-        totalApiCalls += 1; // Count as 1 API call
-        totalCostUsd += apifyResult.costUsd;
-
-        if (apifyResult.success && apifyResult.leads.length > 0) {
-          const lead = apifyResult.leads[0];
-          console.log(`✅ Apify found lead: ${lead.name}`);
-          console.log(`   Email: ${lead.email || 'N/A'}`);
-          console.log(`   Phone: ${lead.phoneNumber || 'N/A'}`);
-          console.log(`   Title: ${lead.jobTitle || 'N/A'}`);
-
-          // Save contact from Apify
-          const contact = await this.saveContact(business.id, {
-            business_id: business.id,
-            first_name: lead.firstName || '',
-            last_name: lead.lastName || '',
-            full_name: lead.name,
-            title: lead.jobTitle || null,
-            seniority: null,
-            email: lead.email || null,
-            phone: lead.phoneNumber || null,
-            linkedin_url: lead.linkedInUrl || null,
-            apollo_person_id: null,
-            apollo_search_cost: 0,
-            apollo_enrich_cost: 0,
-            apify_leads_cost: apifyResult.costUsd,
-            reveal_method: 'apify_only',
-            enrichment_status: 'completed',
-            confidence_score: 0.85, // High confidence from Apify
-            source: 'apify',
-          });
-
-          const durationMs = Date.now() - startTime;
-          console.log(`\n✅ Enrichment complete via Apify! Cost: $${apifyResult.costUsd.toFixed(4)}`);
-
-          return {
-            success: true,
-            businessId: business.id,
-            businessName: business.name,
-            executivesFound: 1,
-            contactsEnriched: 1,
-            totalApiCalls,
-            totalCostUsd,
-            method: 'apify_only',
-            durationMs,
-          };
-        } else {
-          console.log('⚠️  Apify enrichment failed or no leads found');
-        }
-      } else if (!this.apify) {
-        console.log('⚠️  Apify not configured, skipping...');
-      } else if (!business.place_id) {
-        console.log('⚠️  No place_id available for Apify enrichment');
-      }
-
-      // 4. Claude & Apify failed → Full Apollo workflow (2 API calls)
-      console.log('\n🔎 Step 3: Apollo Search API (finding executives)...');
-      const { people, usage: searchUsage } = await this.apollo.searchPeopleByDomain(domain, 1);
-
-      totalApiCalls += 1;
-      totalCostUsd += searchUsage.costUsd;
-      apiUsageLogs.push(searchUsage);
-      await this.logApolloUsage(business.id, searchUsage);
-
-      if (people.length === 0) {
-        console.log('❌ No executives found in Apollo Search');
-
         const durationMs = Date.now() - startTime;
         return {
-          success: false,
-          businessId: business.id,
-          businessName: business.name,
-          executivesFound: 0,
-          contactsEnriched: 0,
-          totalApiCalls,
-          totalCostUsd,
-          method: 'search_then_enrich',
-          durationMs,
-          error: 'No executives found',
-        };
-      }
-
-      const topExecutive = people[0];
-      console.log(`✅ Found executive: ${topExecutive.name}`);
-      console.log(`   Title: ${topExecutive.title}`);
-      console.log(`   Seniority: ${topExecutive.seniority}`);
-
-      // 5. Enrich the found executive (2nd API call)
-      console.log('\n📞 Step 3: Apollo Enrichment API (revealing contact details)...');
-      const { person: enrichedPerson, usage: enrichUsage } = await this.apollo.enrichPerson({
-        first_name: topExecutive.first_name,
-        last_name: topExecutive.last_name,
-        domain: domain,
-        organization_name: business.name,
-        reveal_personal_emails: true,
-        reveal_phone_number: true,
-      });
-
-      totalApiCalls += 1;
-      totalCostUsd += enrichUsage.costUsd;
-      apiUsageLogs.push(enrichUsage);
-      await this.logApolloUsage(business.id, enrichUsage);
-
-      if (!enrichedPerson) {
-        console.log('❌ Apollo enrichment failed');
-
-        const durationMs = Date.now() - startTime;
-        return {
-          success: false,
+          success: true,
           businessId: business.id,
           businessName: business.name,
           executivesFound: 1,
-          contactsEnriched: 0,
+          contactsEnriched: 1,
           totalApiCalls,
           totalCostUsd,
-          method: 'search_then_enrich',
+          method: 'web_research',
           durationMs,
-          error: 'Enrichment failed',
         };
       }
 
-      console.log('✅ Apollo enrichment successful!');
-      console.log(`   Email: ${enrichedPerson.email || 'N/A'}`);
-      console.log(`   Phone: ${enrichedPerson.phone_numbers?.length || 0} numbers found`);
-
-      // 6. Save enriched contact
-      const contact = await this.saveContact(business.id, {
-        business_id: business.id,
-        first_name: enrichedPerson.first_name,
-        last_name: enrichedPerson.last_name,
-        full_name: enrichedPerson.name,
-        title: enrichedPerson.title,
-        seniority: enrichedPerson.seniority,
-        email: enrichedPerson.email,
-        phone: ApolloClient.formatPhoneNumber(enrichedPerson.phone_numbers),
-        linkedin_url: enrichedPerson.linkedin_url,
-        apollo_person_id: enrichedPerson.id,
-        apollo_search_cost: searchUsage.costUsd,
-        apollo_enrich_cost: enrichUsage.costUsd,
-        apify_leads_cost: 0,
-        reveal_method: 'search_then_enrich',
-        enrichment_status: 'completed',
-        confidence_score: 0.9,
-        source: 'apollo',
-      });
-
+      // ── Partial save: we found a name but no email ───────────────────────
       const durationMs = Date.now() - startTime;
-      console.log(`\n✅ Enrichment complete! Total cost: $${totalCostUsd.toFixed(4)}`);
-      console.log(`   Duration: ${durationMs}ms`);
-      console.log(`   API calls: ${totalApiCalls}`);
+      if (partialContact) {
+        console.log(`\n💾 Saving partial contact: ${partialContact.owner_name} (no email found)`);
+        await this.saveContact(business.id, partialContact);
+
+        return {
+          success: true,
+          businessId: business.id,
+          businessName: business.name,
+          executivesFound: 1,
+          contactsEnriched: 1,
+          totalApiCalls,
+          totalCostUsd,
+          method: 'web_research',
+          durationMs,
+        };
+      }
+
+      console.log(`\n⚠️  All enrichment layers exhausted. No contact found.`);
+      console.log(`   Duration: ${durationMs}ms | Cost: $${totalCostUsd.toFixed(4)}`);
 
       return {
-        success: true,
+        success: false,
         businessId: business.id,
         businessName: business.name,
-        executivesFound: 1,
-        contactsEnriched: 1,
+        executivesFound: 0,
+        contactsEnriched: 0,
         totalApiCalls,
         totalCostUsd,
         method: 'search_then_enrich',
         durationMs,
+        error: 'No contact found across all enrichment layers',
       };
     } catch (error: any) {
       console.error('❌ Enrichment error:', error.message);
@@ -556,17 +644,26 @@ export class ContactEnrichmentOrchestrator {
   private async saveContact(businessId: string, contact: ContactEnrichment): Promise<any> {
     const result = await this.db.query(
       `INSERT INTO contact_enrichments (
-        business_id, first_name, last_name, full_name, title, seniority,
+        business_id, owner_name, title, seniority,
         email, phone, linkedin_url, apollo_person_id,
         apollo_search_cost, apollo_enrich_cost, apify_leads_cost, reveal_method,
-        enrichment_status, confidence_score, source, extracted_at
-      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, NOW())
+        enrichment_status, confidence_score, enrichment_source
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)
+      ON CONFLICT (business_id) DO UPDATE SET
+        owner_name = EXCLUDED.owner_name,
+        title = EXCLUDED.title,
+        email = COALESCE(EXCLUDED.email, contact_enrichments.email),
+        phone = COALESCE(EXCLUDED.phone, contact_enrichments.phone),
+        linkedin_url = COALESCE(EXCLUDED.linkedin_url, contact_enrichments.linkedin_url),
+        reveal_method = EXCLUDED.reveal_method,
+        enrichment_status = EXCLUDED.enrichment_status,
+        confidence_score = EXCLUDED.confidence_score,
+        enrichment_source = EXCLUDED.enrichment_source,
+        updated_at = NOW()
       RETURNING *`,
       [
         businessId,
-        contact.first_name,
-        contact.last_name,
-        contact.full_name,
+        contact.owner_name,
         contact.title,
         contact.seniority,
         contact.email,
@@ -579,7 +676,36 @@ export class ContactEnrichmentOrchestrator {
         contact.reveal_method,
         contact.enrichment_status,
         contact.confidence_score,
-        contact.source,
+        contact.enrichment_source,
+      ]
+    );
+
+    // Write enriched data back to the businesses table so the UI reflects results
+    const TITLE_PREFIXES = /^(dr|drs|prof|mr|mrs|ms|ir|ing|dhr|mevr)\.?\s+/i;
+    const cleanedName = contact.owner_name.trim().replace(TITLE_PREFIXES, '');
+    const nameParts = cleanedName.split(/\s+/);
+    const firstName = nameParts[0] || '';
+    const lastName = nameParts.slice(1).join(' ') || '';
+    const bizStatus = contact.enrichment_status === 'completed' ? 'completed' : 'in_progress';
+
+    await this.db.query(
+      `UPDATE businesses SET
+        first_name = $1,
+        last_name = $2,
+        email = COALESCE($3, email),
+        phone = COALESCE($4, phone),
+        enrichment_status = $5,
+        enrichment_confidence = $6,
+        last_updated_at = NOW()
+       WHERE id = $7`,
+      [
+        firstName,
+        lastName,
+        contact.email,
+        contact.phone,
+        bizStatus,
+        Math.round(contact.confidence_score * 100),
+        businessId,
       ]
     );
 
@@ -752,14 +878,6 @@ export class ContactEnrichmentOrchestrator {
     }
 
     console.log(`\n✅ Queue processing complete! Processed ${processedJobs} jobs.`);
-
-    // Print Apollo API usage stats
-    const usage = this.apollo.getUsageStats();
-    console.log(`\n📈 Apollo API Usage:`);
-    console.log(`   Total requests: ${usage.totalRequests}`);
-    console.log(`   Monthly calls used: ${usage.monthlyCallsUsed}/${usage.monthlyLimit}`);
-    console.log(`   Remaining calls: ${usage.remainingCalls}`);
-    console.log(`   Utilization: ${usage.utilizationPercent}%`);
   }
 
   /**

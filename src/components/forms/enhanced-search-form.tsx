@@ -271,11 +271,39 @@ const countries = [
   { label: 'Croatia 🇭🇷', value: 'hr', language: 'hr', defaultLocation: 'Hrvatska' },
 ]
 
+async function geocodeLocation(location: string): Promise<{ lat: number; lng: number; zoom: number; bbox?: [number, number, number, number] } | null> {
+  try {
+    const params = new URLSearchParams({ q: location, format: 'json', limit: '1' })
+    const res = await fetch(`https://nominatim.openstreetmap.org/search?${params}`, {
+      headers: { 'User-Agent': 'QuartzIQ/1.0' }
+    })
+    if (!res.ok) return null
+    const data = await res.json()
+    if (!data.length) return null
+    const { lat, lon, type, class: cls, boundingbox } = data[0]
+    // Zoom: country=5, state/region=8, city=12, district=14
+    let zoom = 12
+    if (cls === 'boundary' && type === 'administrative') zoom = 8
+    if (type === 'country') zoom = 5
+    if (type === 'city' || type === 'town') zoom = 12
+    if (type === 'suburb' || type === 'borough') zoom = 14
+    // boundingbox from Nominatim: [south, north, west, east]
+    const bbox: [number, number, number, number] | undefined = boundingbox
+      ? [parseFloat(boundingbox[0]), parseFloat(boundingbox[1]), parseFloat(boundingbox[2]), parseFloat(boundingbox[3])]
+      : undefined
+    return { lat: parseFloat(lat), lng: parseFloat(lon), zoom, bbox }
+  } catch {
+    return null
+  }
+}
+
 export function EnhancedSearchForm({ onSearch, isExtracting }: SearchFormProps) {
   const [customCategory, setCustomCategory] = useState('')
   const [isMounted, setIsMounted] = useState(false)
-  const [locationValue, setLocationValue] = useState('')
+  const [locationValue, setLocationValue] = useState('Netherlands')
   const [useCached, setUseCached] = useState(false)
+  const [geocodeResult, setGeocodeResult] = useState<{ lat: number; lng: number; zoom: number; bbox?: [number, number, number, number] } | null>(null)
+  const [isGeocoding, setIsGeocoding] = useState(false)
   const [showAdvanced, setShowAdvanced] = useState(false)
   const [activePreset, setActivePreset] = useState<string | null>('businessDiscovery')
 
@@ -324,7 +352,7 @@ export function EnhancedSearchForm({ onSearch, isExtracting }: SearchFormProps) 
 
   // Cache detection
   const watchedCategory = form.watch('category')
-  const watchedLocation = locationValue || form.watch('location')
+  const watchedLocation = locationValue
 
   const { cacheData, isChecking } = useCacheDetection(
     watchedCategory !== 'custom' ? watchedCategory : customCategory,
@@ -346,7 +374,7 @@ export function EnhancedSearchForm({ onSearch, isExtracting }: SearchFormProps) 
     // Convert to universal search format
     const universalCriteria = {
       category: data.category === 'custom' ? customCategory : data.category,
-      location: locationValue || data.location,
+      location: locationValue,
       countryCode: data.countryCode,
       language: data.language,
 
@@ -399,6 +427,14 @@ export function EnhancedSearchForm({ onSearch, isExtracting }: SearchFormProps) 
 
       // Legacy compatibility
       useCached: useCached && cacheData?.hasCached,
+
+      // Geocoding coordinates (if resolved)
+      ...(geocodeResult && {
+        lat: geocodeResult.lat,
+        lng: geocodeResult.lng,
+        zoom: geocodeResult.zoom,
+        ...(geocodeResult.bbox && { bbox: geocodeResult.bbox }),
+      }),
     }
 
     onSearch(universalCriteria)
@@ -407,6 +443,16 @@ export function EnhancedSearchForm({ onSearch, isExtracting }: SearchFormProps) 
   const handleLocationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLocationValue(e.target.value)
     form.setValue('location', e.target.value)
+    setGeocodeResult(null) // reset coords when location changes
+  }
+
+  const handleLocationBlur = async () => {
+    const loc = locationValue.trim()
+    if (!loc || loc.length < 2) return
+    setIsGeocoding(true)
+    const result = await geocodeLocation(loc)
+    setGeocodeResult(result)
+    setIsGeocoding(false)
   }
 
   if (!isMounted) {
@@ -531,12 +577,21 @@ export function EnhancedSearchForm({ onSearch, isExtracting }: SearchFormProps) 
                 name="location"
                 render={({ field }) => (
                   <FormItem className="col-span-1 md:col-span-2">
-                    <FormLabel className="text-xs font-medium">Location</FormLabel>
+                    <FormLabel className="text-xs font-medium flex items-center gap-1">
+                      Location
+                      {isGeocoding && <Loader2 className="h-3 w-3 animate-spin text-muted-foreground" />}
+                      {geocodeResult && !isGeocoding && (
+                        <span className="text-green-500 text-[10px] font-normal">
+                          📍 {geocodeResult.lat.toFixed(3)}, {geocodeResult.lng.toFixed(3)}
+                        </span>
+                      )}
+                    </FormLabel>
                     <FormControl>
                       <Input
-                        placeholder="e.g., Amsterdam"
+                        placeholder="e.g., Fuerteventura, Spain"
                         value={locationValue}
                         onChange={handleLocationChange}
+                        onBlur={handleLocationBlur}
                         className="h-8 text-xs"
                       />
                     </FormControl>

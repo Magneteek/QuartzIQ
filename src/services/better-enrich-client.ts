@@ -25,8 +25,8 @@ export class BetterEnrichClient {
   private baseUrl = 'https://app.betterenrich.com/api/v1'
   private creditCostPerEmail = 1.25 * 0.025  // $0.03125
   private creditCostPerPhone = 16 * 0.025     // $0.40
-  private pollIntervalMs = 2000
-  private pollTimeoutMs = 30000
+  private pollIntervalMs = 3000
+  private pollTimeoutMs = 120000 // 2 min — waterfall across 17 sources can take ~60s
 
   constructor(private apiKey: string) {
     if (!apiKey) throw new Error('BetterEnrich API key is required')

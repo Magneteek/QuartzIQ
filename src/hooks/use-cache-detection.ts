@@ -52,6 +52,8 @@ export function useCacheDetection(category: string | undefined, location: string
   }, [category, location])
 
   useEffect(() => {
+    // Clear stale data immediately when params change
+    setCacheData(null)
     // Debounce cache check - wait 500ms after user stops typing
     const timer = setTimeout(() => {
       checkCache()

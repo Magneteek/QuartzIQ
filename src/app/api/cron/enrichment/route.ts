@@ -51,12 +51,17 @@ export async function GET(request: NextRequest) {
   const apifyApiKey = process.env.APIFY_API_TOKEN
   const firecrawlApiKey = process.env.FIRECRAWL_API_KEY
   const betterEnrichApiKey = process.env.BETTER_ENRICH_API_KEY
+  const hunterApiKey = process.env.HUNTER_API_KEY
+  const enrichLayerApiKey = process.env.ENRICHLAYER_API_KEY
   const apolloMonthlyLimit = parseInt(process.env.APOLLO_MONTHLY_LIMIT || '100')
 
   console.log('🔄 [CRON] Starting automated enrichment cycle...')
   console.log(`📅 [CRON] Timestamp: ${new Date().toISOString()}`)
   console.log(`   Claude+Firecrawl: ${!!(claudeApiKey && firecrawlApiKey)}`)
+  console.log(`   Web Search Agent: ${!!claudeApiKey}`)
   console.log(`   BetterEnrich: ${!!betterEnrichApiKey}`)
+  console.log(`   Hunter.io: ${!!hunterApiKey}`)
+  console.log(`   EnrichLayer: ${!!enrichLayerApiKey}`)
   console.log(`   Apify: ${!!apifyApiKey}`)
   console.log(`   Apollo (backup): ${!!apolloApiKey}`)
 
@@ -66,7 +71,9 @@ export async function GET(request: NextRequest) {
     claudeApiKey,
     apifyApiKey,
     firecrawlApiKey,
-    betterEnrichApiKey
+    betterEnrichApiKey,
+    hunterApiKey,
+    enrichLayerApiKey
   )
 
   try {

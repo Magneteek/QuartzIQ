@@ -18,7 +18,7 @@ const enrichmentSchema = z.object({
   email: z.string().email('Invalid email').or(z.literal('')).optional(),
   phone: z.string().optional(),
   enrichment_status: z.enum(['pending', 'in_progress', 'completed', 'failed']).optional(),
-  enrichment_source: z.enum(['manual', 'apollo', 'apify', 'multiple']).optional(),
+  enrichment_source: z.enum(['manual', 'web_research', 'better_enrich', 'hunter', 'proxycurl', 'multiple']).optional(),
   enrichment_confidence: z.number().int().min(0).max(100).optional(),
   complete_enrichment: z.boolean().optional(), // Special flag to mark as fully enriched
 })

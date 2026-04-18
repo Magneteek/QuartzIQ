@@ -115,6 +115,11 @@ export function generateCategoryWhereClause(
   const params: string[] = []
   let currentParam = paramOffset
 
+  // Always match the English category ID directly (covers non-Dutch databases like Spain)
+  conditions.push(`LOWER(category) = LOWER($${currentParam})`)
+  params.push(category)
+  currentParam++
+
   // Add exact Dutch category matches
   dutchCategories.forEach(dutchCat => {
     conditions.push(`LOWER(category) = LOWER($${currentParam})`)

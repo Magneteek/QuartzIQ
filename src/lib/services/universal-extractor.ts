@@ -302,6 +302,11 @@ export class UniversalSearchExtractor {
       multiLanguageSearch: criteria.businessFilters?.multiLanguageSearch || false,
       // Pass enrichment flag to extractor
       enrichment: criteria.enrichment,
+      // Geocoding coordinates for polygon bounding box
+      lat: criteria.lat,
+      lng: criteria.lng,
+      zoom: criteria.zoom,
+      bbox: criteria.bbox,
     }
 
     // This will call searchGoogleMaps with enrichment enabled

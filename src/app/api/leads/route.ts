@@ -68,8 +68,7 @@ export async function GET(request: NextRequest) {
     const queryParams: any[] = [limit, offset]
     let paramCount = 2
 
-    // Base lifecycle filter
-    whereConditions.push(`b.lifecycle_stage IN ('prospect', 'lead')`)
+    // No base lifecycle filter — show all businesses regardless of stage/status
 
     // Search filter
     if (search) {
@@ -149,7 +148,7 @@ export async function GET(request: NextRequest) {
       whereConditions.push(`b.ready_for_enrichment = false`)
     }
 
-    const whereClause = whereConditions.join(' AND ')
+    const whereClause = whereConditions.length > 0 ? whereConditions.join(' AND ') : 'TRUE'
 
     // Get leads with optional review filter
     let result
@@ -198,8 +197,11 @@ export async function GET(request: NextRequest) {
           b.last_updated_at AS updated_at,
           b.last_qualified_review_date,
           b.qualified_reviews_count,
+          b.enrichment_status,
           b.exported_to_ghl,
           b.exported_to_ghl_at,
+          b.ghl_contact_id,
+          b.lead_score,
           u.name AS qualified_by_name,
           COUNT(r.id)::bigint AS review_count,
           MAX(r.published_date) AS latest_review_date,
@@ -221,10 +223,11 @@ export async function GET(request: NextRequest) {
         'business_name': 'name',
         'rating': 'rating',
         'total_reviews': 'reviews_count',
-        'last_qualified_review': 'last_qualified_review_date'
+        'last_qualified_review': 'last_qualified_review_date',
+        'lead_score': 'lead_score'
       }
 
-      const allowedSortColumns = ['created_at', 'business_name', 'rating', 'total_reviews', 'last_qualified_review']
+      const allowedSortColumns = ['created_at', 'business_name', 'rating', 'total_reviews', 'last_qualified_review', 'lead_score']
       const frontendSort = allowedSortColumns.includes(sortBy) ? sortBy : 'last_qualified_review'
       const dbSort = columnMap[frontendSort]
       const safeSortOrder = sortOrder === 'ASC' ? 'ASC' : 'DESC'
@@ -257,8 +260,11 @@ export async function GET(request: NextRequest) {
           b.last_updated_at AS updated_at,
           b.last_qualified_review_date,
           b.qualified_reviews_count,
+          b.enrichment_status,
           b.exported_to_ghl,
           b.exported_to_ghl_at,
+          b.ghl_contact_id,
+          b.lead_score,
           u.name AS qualified_by_name,
           COALESCE(
             (SELECT COUNT(*) FROM reviews WHERE business_id = b.id),
@@ -280,12 +286,9 @@ export async function GET(request: NextRequest) {
     const countParams: any[] = []
     let countParamIndex = 1
 
-    // Base lifecycle filter
     if (lifecycleStage && lifecycleStage !== 'all') {
       countWhereConditions.push(`b.lifecycle_stage = $${countParamIndex++}`)
       countParams.push(lifecycleStage)
-    } else {
-      countWhereConditions.push(`b.lifecycle_stage IN ('prospect', 'lead')`)
     }
 
     // Rebuild filters for count query with new parameter numbering
@@ -335,7 +338,7 @@ export async function GET(request: NextRequest) {
       countWhereConditions.push(`b.ready_for_enrichment = false`)
     }
 
-    const countWhereClause = countWhereConditions.join(' AND ')
+    const countWhereClause = countWhereConditions.length > 0 ? countWhereConditions.join(' AND ') : 'TRUE'
 
     // Get total count for pagination
     const countResult = await pool.query(

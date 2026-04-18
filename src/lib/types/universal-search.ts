@@ -18,6 +18,12 @@ export interface UniversalSearchCriteria {
   language?: string;             // "en", "es", "nl" (auto-detected)
   useCached?: boolean;           // ✅ Skip Google Maps, use cached businesses only
 
+  // Geocoding coordinates (from Nominatim - passed to Apify customGeolocation)
+  lat?: number;
+  lng?: number;
+  zoom?: number;
+  bbox?: [number, number, number, number]; // [south, north, west, east] from Nominatim
+
   // ========================================
   // BUSINESS FILTERS (Optional - flexible)
   // ========================================

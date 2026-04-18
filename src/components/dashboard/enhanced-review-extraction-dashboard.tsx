@@ -13,6 +13,7 @@ import {
 } from '@/components/ui/tooltip'
 import { EnhancedSearchForm } from '@/components/forms/enhanced-search-form'
 import { EnhancedHistorySidebar } from '@/components/history/enhanced-history-sidebar'
+import { SearchHistoryPanel } from '@/components/dashboard/search-history-panel'
 import { EnhancedExtractionProgress } from '@/components/results/enhanced-extraction-progress'
 import { EnhancedBusinessCard } from '@/components/cards/enhanced-business-card'
 import { ResultsTable } from '@/components/results/results-table'
@@ -173,6 +174,7 @@ export function EnhancedReviewExtractionDashboard() {
   const [currentExtractionId, setCurrentExtractionId] = useState<string | null>(null)
   const [lastSearchCriteria, setLastSearchCriteria] = useState<SearchCriteria | null>(null)
   const [historyRefreshTrigger, setHistoryRefreshTrigger] = useState(0)
+  const [searchSessionRefreshTrigger, setSearchSessionRefreshTrigger] = useState(0)
 
   // Client configuration state
   const [selectedClientId, setSelectedClientId] = useState<string>('default')
@@ -530,6 +532,7 @@ export function EnhancedReviewExtractionDashboard() {
     } finally {
       setIsExtracting(false)
       abortControllerRef.current = null
+      setSearchSessionRefreshTrigger(prev => prev + 1)
     }
   }
 
@@ -1276,6 +1279,9 @@ export function EnhancedReviewExtractionDashboard() {
             <EnhancedSearchForm onSearch={handleSearchRequest} isExtracting={isExtracting} />
           </Card>
         </motion.div>
+
+        {/* Recent Searches */}
+        <SearchHistoryPanel refreshTrigger={searchSessionRefreshTrigger} />
 
         {/* Search Criteria Overview */}
         <AnimatePresence>

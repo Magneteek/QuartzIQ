@@ -8,6 +8,40 @@ import * as https from 'https'
 import { logger } from './logger'
 import { businessCache } from './services/business-cache'
 
+const COUNTRY_CODE_TO_NAME: Record<string, string> = {
+  es: 'Spain', nl: 'Netherlands', de: 'Germany', fr: 'France', it: 'Italy',
+  pt: 'Portugal', be: 'Belgium', at: 'Austria', ch: 'Switzerland', pl: 'Poland',
+  gb: 'United Kingdom', ie: 'Ireland', se: 'Sweden', no: 'Norway', dk: 'Denmark',
+  fi: 'Finland', gr: 'Greece', hr: 'Croatia', si: 'Slovenia', sk: 'Slovakia',
+  cz: 'Czech Republic', ro: 'Romania', hu: 'Hungary', tr: 'Turkey',
+  us: 'United States', ca: 'Canada', au: 'Australia', nz: 'New Zealand',
+  mx: 'Mexico', br: 'Brazil', ar: 'Argentina', co: 'Colombia',
+}
+
+// Build a GeoJSON Polygon bounding box — Apify customGeolocation strict area filter
+function buildBoundingBox(lat: number, lng: number, radiusKm: number): object {
+  const latDelta = radiusKm / 111
+  const lngDelta = radiusKm / (111 * Math.cos((lat * Math.PI) / 180))
+  return {
+    type: 'Polygon',
+    coordinates: [[
+      [lng - lngDelta, lat - latDelta],
+      [lng + lngDelta, lat - latDelta],
+      [lng + lngDelta, lat + latDelta],
+      [lng - lngDelta, lat + latDelta],
+      [lng - lngDelta, lat - latDelta],
+    ]],
+  }
+}
+
+function zoomToRadiusKm(zoom: number): number {
+  if (zoom <= 5) return 500
+  if (zoom <= 8) return 100
+  if (zoom <= 10) return 30
+  if (zoom <= 12) return 10
+  return 5
+}
+
 interface SearchCriteria {
   category: string
   location: string
@@ -23,6 +57,11 @@ interface SearchCriteria {
   resultsPerQuery?: number
   countryCode?: string
   multiLanguageSearch?: boolean // Search in both local + English (default: false, costs 2×)
+  // Geocoding coordinates (from Nominatim — for polygon bounding box)
+  lat?: number
+  lng?: number
+  zoom?: number
+  bbox?: [number, number, number, number] // [south, north, west, east] — use directly when available
   // 🆕 Enrichment options
   enrichment?: {
     enabled?: boolean
@@ -272,8 +311,15 @@ export class UniversalBusinessReviewExtractor {
       return []
     }
 
+    // When geocoded: polygon pins the area, one query is enough — multiple queries
+    // with the same bbox just return duplicates and waste Apify credits.
+    const hasGeocode = searchCriteria.lat !== undefined && searchCriteria.lng !== undefined
+    const queriesToRun = hasGeocode
+      ? [this.translateBusinessCategory(searchCriteria.category, searchCriteria.countryCode || 'nl')]
+      : validatedQueries
+
     console.log(`   ✅ VALIDATION PASSED: ${validatedQueries.length} valid queries`)
-    console.log(`   📝 Queries: ${validatedQueries.map(q => `"${q}"`).join(', ')}`)
+    console.log(`   📝 Queries to run: ${queriesToRun.map(q => `"${q}"`).join(', ')}${hasGeocode ? ' (geocoded — single query)' : ''}`)
 
     const allBusinesses: Business[] = []
     const targetLimit = searchCriteria.businessLimit || 50
@@ -281,7 +327,7 @@ export class UniversalBusinessReviewExtractor {
     // Run queries sequentially until we have enough businesses
     console.log(`   📊 Strategy: Run queries sequentially, requesting up to ${targetLimit} per query, stop when ${targetLimit} total reached`)
 
-    for (const query of validatedQueries) {
+    for (const query of queriesToRun) {
       // Check if we already have enough businesses
       if (allBusinesses.length >= targetLimit) {
         console.log(`   ✅ Target reached: ${allBusinesses.length}/${targetLimit} businesses found, stopping search`)
@@ -290,16 +336,29 @@ export class UniversalBusinessReviewExtractor {
 
       try {
         console.log(`   Searching: "${query}" (requesting up to ${targetLimit} results)`)
+        // Build "City, Country" location string for Apify's native location field (fallback)
+        const countryName = COUNTRY_CODE_TO_NAME[searchCriteria.countryCode?.toLowerCase() || '']
+        const locationText = countryName
+          ? `${searchCriteria.location}, ${countryName}`
+          : searchCriteria.location
+
         const businesses = await this.searchGoogleMaps(
           query,
-          targetLimit, // Request full limit, not divided
+          targetLimit,
           searchCriteria.countryCode || 'nl',
           searchCriteria.language || 'nl',
-          searchCriteria.enrichment?.apifyEnrichment?.enabled || false // 🆕 Pass enrichment flag
+          searchCriteria.enrichment?.apifyEnrichment?.enabled || false,
+          locationText,
+          searchCriteria.lat,
+          searchCriteria.lng,
+          searchCriteria.zoom,
+          searchCriteria.bbox
         )
 
-        // 🛡️ POST-SEARCH VALIDATION - Filter results by geographic correctness
-        const validatedBusinesses = this.validateGeographicResults(businesses, searchCriteria)
+        // 🛡️ POST-SEARCH VALIDATION - Skip when bbox used (Apify already constrains area)
+        const validatedBusinesses = searchCriteria.bbox
+          ? businesses
+          : this.validateGeographicResults(businesses, searchCriteria)
         const filteredCount = businesses.length - validatedBusinesses.length
 
         if (filteredCount > 0) {
@@ -806,8 +865,8 @@ export class UniversalBusinessReviewExtractor {
     return category
   }
 
-  private async searchGoogleMaps(query: string, maxItems = 10, countryCode = 'nl', language = 'nl', enrichment = false): Promise<Business[]> {
-    const input = {
+  private async searchGoogleMaps(query: string, maxItems = 10, countryCode = 'nl', language = 'nl', enrichment = false, locationText?: string, lat?: number, lng?: number, zoom?: number, bbox?: [number, number, number, number]): Promise<Business[]> {
+    const input: Record<string, any> = {
       searchStringsArray: [query],
       maxCrawledPlacesPerSearch: maxItems,
       language: language,
@@ -816,10 +875,29 @@ export class UniversalBusinessReviewExtractor {
       includeReviews: false,
 
       // 🆕 ENRICHMENT - Happens in Stage 1 (same API call!)
-      includeWebsiteData: enrichment,      // Scrape business websites
-      scrapeContactInfo: enrichment,        // Extract emails/phones
-      scrapeSocialMedia: enrichment,        // Get social media links
-      maxPagesPerQuery: enrichment ? 1 : 0, // Limit website crawl depth
+      includeWebsiteData: enrichment,
+      scrapeContactInfo: enrichment,
+      scrapeSocialMedia: enrichment,
+      maxPagesPerQuery: enrichment ? 1 : 0,
+    }
+
+    if (bbox) {
+      // Best: use Nominatim's actual bounding box directly — exact geographic extent of the place
+      const [south, north, west, east] = bbox
+      input.customGeolocation = {
+        type: 'Polygon',
+        coordinates: [[[west, south], [east, south], [east, north], [west, north], [west, south]]],
+      }
+      console.log(`   📍 Using Nominatim bbox: S=${south}, N=${north}, W=${west}, E=${east}`)
+    } else if (lat !== undefined && lng !== undefined) {
+      // Fallback: radius-based polygon from center point + zoom
+      const radiusKm = zoom !== undefined ? zoomToRadiusKm(zoom) : 10
+      input.customGeolocation = buildBoundingBox(lat, lng, radiusKm)
+      console.log(`   📍 Using radius bbox: lat=${lat}, lng=${lng}, radiusKm=${radiusKm}`)
+    } else if (locationText) {
+      // Fallback: actor's native location field (less precise but works without geocoding)
+      input.location = locationText
+      console.log(`   📍 Using location field: "${locationText}"`)
     }
 
     const runId = await this.runApifyActor(this.actorMapsId, input)
@@ -1341,7 +1419,12 @@ export class UniversalBusinessReviewExtractor {
   }
 
   private isSpanishAddress(address: string): boolean {
-    const spanishIndicators = ['españa', 'spain', 'es-', 'madrid', 'barcelona', 'valencia', 'sevilla', 'bilbao', 'murcia']
+    const spanishIndicators = [
+      'españa', 'spain', 'es-', 'madrid', 'barcelona', 'valencia', 'sevilla', 'bilbao', 'murcia',
+      // Canary Islands
+      'las palmas', 'santa cruz de tenerife', 'canarias', 'fuerteventura', 'tenerife',
+      'lanzarote', 'gran canaria', 'corralejo', 'puerto del rosario', 'morro jable',
+    ]
     return spanishIndicators.some(indicator => address.includes(indicator))
   }
 
