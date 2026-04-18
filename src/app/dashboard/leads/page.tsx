@@ -33,7 +33,6 @@ import {
 import {
   Plus,
   Search,
-  Edit,
   Trash2,
   ArrowUpDown,
   ChevronLeft,
@@ -47,7 +46,6 @@ import {
   CheckSquare,
   Upload,
   ExternalLink,
-  AlertCircle,
   Send,
   Shield,
   Filter,
@@ -59,7 +57,6 @@ import { Checkbox } from '@/components/ui/checkbox'
 import { RequireRole } from '@/components/auth/require-role'
 import { AddEditBusinessDialog } from '@/components/leads/add-edit-business-dialog'
 import { CSVImportDialog } from '@/components/leads/csv-import-dialog'
-import { EditableCell } from '@/components/leads/editable-cell'
 import { ReviewsDialog } from '@/components/leads/reviews-dialog'
 
 interface Lead {
@@ -789,6 +786,66 @@ export default function LeadsPage() {
         enableSorting: false,
       },
       {
+        id: 'actions',
+        header: 'Actions',
+        cell: ({ row }) => {
+          return (
+            <div className="flex items-center gap-1">
+              {/* Google Maps / Profile URL */}
+              {row.original.google_profile_url && (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => window.open(row.original.google_profile_url!, '_blank')}
+                  title="View Google Maps"
+                >
+                  <ExternalLink className="h-4 w-4 text-blue-600" />
+                </Button>
+              )}
+
+              {/* Queue for Enrichment */}
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => handleQueueEnrichment(row.original.id)}
+                disabled={queuingLeadId === row.original.id}
+                title={
+                  queuingLeadId === row.original.id
+                    ? 'Queuing...'
+                    : 'Queue for Enrichment'
+                }
+              >
+                {queuingLeadId === row.original.id ? (
+                  <div className="h-4 w-4 animate-spin rounded-full border-2 border-green-600 border-t-transparent"></div>
+                ) : (
+                  <Send className="h-4 w-4 text-green-600" />
+                )}
+              </Button>
+
+              {/* Mark as Customer */}
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => handleMarkAsCustomerClick(row.original.id)}
+                title="Mark as Customer"
+              >
+                <Shield className="h-4 w-4 text-purple-600" />
+              </Button>
+
+              {/* Delete */}
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => handleDeleteClick(row.original)}
+                title="Delete"
+              >
+                <Trash2 className="h-4 w-4 text-red-600" />
+              </Button>
+            </div>
+          )
+        },
+      },
+      {
         accessorKey: 'business_name',
         header: ({ column }) => {
           return (
@@ -804,171 +861,17 @@ export default function LeadsPage() {
         },
         cell: ({ row }) => (
           <div className="min-w-[200px]">
-            <EditableCell
-              value={row.original.business_name}
-              leadId={row.original.id}
-              field="business_name"
-              onSave={handleCellUpdate}
-              className="font-medium"
-            />
-          </div>
-        ),
-      },
-      {
-        accessorKey: 'category',
-        header: 'Category',
-        cell: ({ row }) => (
-          <div className="min-w-[150px]">
-            <EditableCell
-              value={row.original.category}
-              leadId={row.original.id}
-              field="category"
-              onSave={handleCellUpdate}
-            />
-          </div>
-        ),
-      },
-      {
-        accessorKey: 'first_name',
-        header: 'First Name',
-        cell: ({ row }) => (
-          <div className="min-w-[120px]">
-            <EditableCell
-              value={row.original.first_name}
-              leadId={row.original.id}
-              field="first_name"
-              onSave={handleCellUpdate}
-            />
-          </div>
-        ),
-      },
-      {
-        accessorKey: 'last_name',
-        header: 'Last Name',
-        cell: ({ row }) => (
-          <div className="min-w-[120px]">
-            <EditableCell
-              value={row.original.last_name}
-              leadId={row.original.id}
-              field="last_name"
-              onSave={handleCellUpdate}
-            />
-          </div>
-        ),
-      },
-      {
-        accessorKey: 'email',
-        header: 'Email',
-        cell: ({ row }) => (
-          <div className="min-w-[200px]">
-            <EditableCell
-              value={row.original.email}
-              leadId={row.original.id}
-              field="email"
-              type="email"
-              onSave={handleCellUpdate}
-            />
-          </div>
-        ),
-      },
-      {
-        accessorKey: 'phone',
-        header: 'Phone',
-        cell: ({ row }) => (
-          <div className="min-w-[140px]">
-            <EditableCell
-              value={row.original.phone}
-              leadId={row.original.id}
-              field="phone"
-              onSave={handleCellUpdate}
-            />
-          </div>
-        ),
-      },
-      {
-        accessorKey: 'website',
-        header: 'Website',
-        cell: ({ row }) => (
-          <div className="min-w-[200px]">
-            <EditableCell
-              value={row.original.website}
-              leadId={row.original.id}
-              field="website"
-              type="url"
-              onSave={handleCellUpdate}
-            />
-          </div>
-        ),
-      },
-      {
-        accessorKey: 'address',
-        header: 'Address',
-        cell: ({ row }) => (
-          <div className="min-w-[200px]">
-            <EditableCell
-              value={row.original.address}
-              leadId={row.original.id}
-              field="address"
-              onSave={handleCellUpdate}
-            />
-          </div>
-        ),
-      },
-      {
-        accessorKey: 'city',
-        header: 'City',
-        cell: ({ row }) => (
-          <div className="min-w-[120px]">
-            <EditableCell
-              value={row.original.city}
-              leadId={row.original.id}
-              field="city"
-              onSave={handleCellUpdate}
-            />
-          </div>
-        ),
-      },
-      {
-        accessorKey: 'country',
-        header: 'Country',
-        cell: ({ row }) => (
-          <div className="min-w-[100px]">
-            <EditableCell
-              value={row.original.country}
-              leadId={row.original.id}
-              field="country"
-              onSave={handleCellUpdate}
-            />
-          </div>
-        ),
-      },
-      {
-        accessorKey: 'google_profile_url',
-        header: 'Google Profile URL',
-        cell: ({ row }) => (
-          <div className="min-w-[250px]">
-            <EditableCell
-              value={row.original.google_profile_url}
-              leadId={row.original.id}
-              field="google_profile_url"
-              type="url"
-              onSave={handleCellUpdate}
-            />
-          </div>
-        ),
-      },
-      {
-        accessorKey: 'negative_review_url',
-        header: 'Negative Review URL',
-        cell: ({ row }) => (
-          <div className="min-w-[250px]">
-            <EditableCell
-              value={row.original.negative_review_url}
-              leadId={row.original.id}
-              field="negative_review_url"
-              type="url"
-              onSave={handleCellUpdate}
-            />
+            <button
+              onClick={() => handleEdit(row.original)}
+              className="font-medium text-blue-600 underline underline-offset-2 hover:text-blue-800 text-left"
+            >
+              {row.original.business_name}
+            </button>
+            {(row.original.city || row.original.country) && (
+              <div className="text-xs text-gray-500 mt-0.5">
+                {[row.original.city, row.original.country].filter(Boolean).join(', ')}
+              </div>
+            )}
           </div>
         ),
       },
@@ -998,138 +901,6 @@ export default function LeadsPage() {
             </span>
           )
         },
-      },
-      {
-        accessorKey: 'rating',
-        header: ({ column }) => {
-          return (
-            <Button
-              variant="ghost"
-              onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-              className="hover:bg-transparent"
-            >
-              Rating
-              <ArrowUpDown className="ml-2 h-4 w-4" />
-            </Button>
-          )
-        },
-        cell: ({ row }) => {
-          const rating = row.original.rating
-          const reviews = row.original.total_reviews
-          return rating ? (
-            <div className="flex items-center gap-1">
-              <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-              <span className="font-medium">{Number(rating).toFixed(1)}</span>
-              {reviews && (
-                <span className="text-sm text-gray-500">({reviews})</span>
-              )}
-            </div>
-          ) : (
-            <span className="text-gray-400">N/A</span>
-          )
-        },
-      },
-      {
-        accessorKey: 'review_data',
-        header: 'Review Data',
-        cell: ({ row }) => {
-          const reviewAge = row.original.latest_review_date
-            ? Math.floor(
-                (new Date().getTime() -
-                  new Date(row.original.latest_review_date).getTime()) /
-                  (1000 * 60 * 60 * 24)
-              )
-            : null
-
-          return (
-            <div className="space-y-1">
-              <Badge variant="secondary">{row.original.review_count} reviews</Badge>
-              {row.original.latest_review_date && (
-                <div className="text-xs text-gray-500">
-                  Latest: {new Date(row.original.latest_review_date).toLocaleDateString()}
-                  <br />
-                  Age: {reviewAge} days ago
-                </div>
-              )}
-            </div>
-          )
-        },
-      },
-      {
-        accessorKey: 'import_info',
-        header: 'Import Info',
-        cell: ({ row }) => {
-          const source = row.original.data_source
-          const status = row.original.import_status || 'pending'
-          const sourceColors: Record<string, string> = {
-            manual: 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400',
-            scraper: 'bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-400',
-            import: 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400',
-          }
-          const statusColors: Record<string, string> = {
-            pending: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400',
-            completed: 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400',
-            failed: 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400',
-          }
-          return (
-            <div className="space-y-1">
-              <Badge className={sourceColors[source] || sourceColors.manual}>
-                {source || 'manual'}
-              </Badge>
-              <Badge className={statusColors[status]}>
-                {status}
-              </Badge>
-              <div className="text-xs text-gray-500">
-                {new Date(row.original.created_at).toLocaleDateString()}
-              </div>
-            </div>
-          )
-        },
-      },
-      {
-        id: 'reviews',
-        header: 'Reviews',
-        cell: ({ row }) => {
-          const count = row.original.review_count
-          return (
-            <div className="min-w-[120px]">
-              {count > 0 ? (
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => {
-                    setSelectedBusinessForReviews({
-                      id: row.original.id,
-                      name: row.original.business_name,
-                    })
-                    setReviewsDialogOpen(true)
-                  }}
-                  className="flex items-center gap-2"
-                >
-                  <Star className="h-4 w-4 text-orange-500" />
-                  <span>{count} review{count !== 1 ? 's' : ''}</span>
-                </Button>
-              ) : (
-                <span className="text-gray-400 text-sm">No reviews</span>
-              )}
-            </div>
-          )
-        },
-      },
-      {
-        accessorKey: 'va_notes',
-        header: 'VA Notes',
-        cell: ({ row }) => (
-          <div className="min-w-[250px]">
-            <EditableCell
-              value={row.original.va_notes}
-              leadId={row.original.id}
-              field="va_notes"
-              type="textarea"
-              onSave={handleCellUpdate}
-            />
-          </div>
-        ),
       },
       {
         accessorKey: 'ready_for_enrichment',
@@ -1168,7 +939,7 @@ export default function LeadsPage() {
         },
       },
       {
-        accessorKey: 'created_at',
+        accessorKey: 'rating',
         header: ({ column }) => {
           return (
             <Button
@@ -1176,93 +947,105 @@ export default function LeadsPage() {
               onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
               className="hover:bg-transparent"
             >
-              Created
+              Rating
               <ArrowUpDown className="ml-2 h-4 w-4" />
             </Button>
           )
         },
         cell: ({ row }) => {
-          return new Date(row.original.created_at).toLocaleDateString()
+          const rating = row.original.rating
+          const reviews = row.original.total_reviews
+          return rating ? (
+            <div className="flex items-center gap-1">
+              <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+              <span className="font-medium">{Number(rating).toFixed(1)}</span>
+              {reviews && (
+                <span className="text-sm text-gray-500">({reviews})</span>
+              )}
+            </div>
+          ) : (
+            <span className="text-gray-400">N/A</span>
+          )
         },
       },
       {
-        id: 'actions',
-        header: 'Actions',
+        accessorKey: 'category',
+        header: 'Category',
+        cell: ({ row }) => (
+          <span className="text-sm">{row.original.category || <span className="text-gray-400">—</span>}</span>
+        ),
+      },
+      {
+        accessorKey: 'phone',
+        header: 'Phone',
         cell: ({ row }) => {
+          const phone = row.original.phone
+          if (!phone) return <span className="text-gray-400">—</span>
           return (
-            <div className="flex items-center gap-1">
-              {/* Google Profile URL */}
-              {row.original.google_profile_url && (
+            <a href={`tel:${phone}`} className="text-sm hover:underline">
+              {phone}
+            </a>
+          )
+        },
+      },
+      {
+        accessorKey: 'email',
+        header: 'Email',
+        cell: ({ row }) => {
+          const email = row.original.email
+          if (!email) return <span className="text-gray-400">—</span>
+          return (
+            <a href={`mailto:${email}`} className="text-sm hover:underline">
+              {email}
+            </a>
+          )
+        },
+      },
+      {
+        accessorKey: 'website',
+        header: 'Website',
+        cell: ({ row }) => {
+          const website = row.original.website
+          if (!website) return <span className="text-gray-400">—</span>
+          return (
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => window.open(website, '_blank')}
+              title="Open website"
+              className="p-1 h-auto"
+            >
+              <ExternalLink className="h-4 w-4 text-blue-600" />
+            </Button>
+          )
+        },
+      },
+      {
+        id: 'reviews',
+        header: 'Reviews',
+        cell: ({ row }) => {
+          const count = row.original.review_count
+          return (
+            <div className="min-w-[120px]">
+              {count > 0 ? (
                 <Button
-                  variant="ghost"
+                  variant="outline"
                   size="sm"
-                  onClick={() => window.open(row.original.google_profile_url!, '_blank')}
-                  title="View Google Profile"
+                  onClick={() => {
+                    setSelectedBusinessForReviews({
+                      id: row.original.id,
+                      name: row.original.business_name,
+                    })
+                    setReviewsDialogOpen(true)
+                  }}
+                  className="flex items-center gap-2"
                 >
-                  <ExternalLink className="h-4 w-4 text-blue-600" />
+                  <Star className="h-4 w-4 text-orange-500" />
+                  <span>{count} review{count !== 1 ? 's' : ''}</span>
                 </Button>
+              ) : (
+                <span className="text-gray-400 text-sm">No reviews</span>
               )}
-
-              {/* Negative Review URL */}
-              {row.original.negative_review_url && (
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => window.open(row.original.negative_review_url!, '_blank')}
-                  title="View Negative Review"
-                >
-                  <AlertCircle className="h-4 w-4 text-orange-600" />
-                </Button>
-              )}
-
-              {/* Queue for Enrichment */}
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => handleQueueEnrichment(row.original.id)}
-                disabled={queuingLeadId === row.original.id}
-                title={
-                  queuingLeadId === row.original.id
-                    ? 'Queuing...'
-                    : 'Queue for Enrichment'
-                }
-              >
-                {queuingLeadId === row.original.id ? (
-                  <div className="h-4 w-4 animate-spin rounded-full border-2 border-green-600 border-t-transparent"></div>
-                ) : (
-                  <Send className="h-4 w-4 text-green-600" />
-                )}
-              </Button>
-
-              {/* Mark as Customer */}
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => handleMarkAsCustomerClick(row.original.id)}
-                title="Mark as Customer"
-              >
-                <Shield className="h-4 w-4 text-purple-600" />
-              </Button>
-
-              {/* Edit */}
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => handleEdit(row.original)}
-                title="Edit"
-              >
-                <Edit className="h-4 w-4" />
-              </Button>
-
-              {/* Delete */}
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => handleDeleteClick(row.original)}
-                title="Delete"
-              >
-                <Trash2 className="h-4 w-4 text-red-600" />
-              </Button>
             </div>
           )
         },
@@ -1298,10 +1081,10 @@ export default function LeadsPage() {
           <div>
             <h1 className="text-3xl font-bold flex items-center gap-2">
               <Users className="h-8 w-8 text-blue-600" />
-              Lead Qualification
+              Businesses
             </h1>
             <p className="text-muted-foreground mt-1">
-              Stage 1: Manual lead entry and qualification
+              Manage and track your business leads
             </p>
           </div>
           <div className="flex items-center gap-2">
