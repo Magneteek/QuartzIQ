@@ -32,6 +32,8 @@ interface EnrichedBusiness {
   website?: string
   url?: string
   placeId?: string
+  totalScore?: number
+  reviewsCount?: number
   contactEnriched?: boolean
   enrichmentDate?: Date
   ownerFirstName?: string
