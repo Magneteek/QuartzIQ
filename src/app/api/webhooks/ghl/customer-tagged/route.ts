@@ -142,6 +142,9 @@ export async function POST(request: NextRequest) {
       console.log(`[GHL Webhook] Updated existing customer (matched by ${matchedBy}):`, customerId)
 
     } else if (businessName) {
+      // Generate fallback place_id if GHL didn't provide one (place_id is NOT NULL in schema)
+      const effectivePlaceId = placeId || `ghl_${contactId || Date.now()}`
+
       // Create new record with all available data
       const result = await pool.query(
         `INSERT INTO businesses (
@@ -155,7 +158,7 @@ export async function POST(request: NextRequest) {
           true, 336, 3,
           CURRENT_TIMESTAMP, 'ghl_webhook', $8
         ) RETURNING id`,
-        [businessName, contactEmail, contactPhone, contactWebsite, placeId, googleMapsUrl, contactCategory, contactId || null]
+        [businessName, contactEmail, contactPhone, contactWebsite, effectivePlaceId, googleMapsUrl, contactCategory, contactId || null]
       )
       customerId = result.rows[0].id
       action = 'created'
