@@ -8,7 +8,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Badge } from '@/components/ui/badge'
-import { ArrowLeft, Mail, Phone, Globe, MapPin, Star, Bell, CheckCircle2, AlertCircle, Clock, Loader2, Save } from 'lucide-react'
+import { ArrowLeft, Mail, Phone, Globe, MapPin, Star, Bell, CheckCircle2, AlertCircle, Clock, Loader2, Save, RefreshCw } from 'lucide-react'
 
 export default function CustomerDetailPage() {
   const params = useParams()
@@ -17,6 +17,7 @@ export default function CustomerDetailPage() {
   const [customer, setCustomer] = useState<any>(null)
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
+  const [refreshing, setRefreshing] = useState(false)
   const [notification, setNotification] = useState<{ type: 'success' | 'error'; message: string } | null>(null)
 
   const [formData, setFormData] = useState({
@@ -57,6 +58,21 @@ export default function CustomerDetailPage() {
     }
   }
 
+  const refreshFromGoogle = async () => {
+    try {
+      setRefreshing(true)
+      const response = await fetch(`/api/businesses/${id}/refresh-from-google`, { method: 'POST' })
+      const data = await response.json()
+      if (!response.ok) throw new Error(data.error || 'Refresh failed')
+      setNotification({ type: 'success', message: `Google Maps data refreshed — ${data.message}` })
+      fetchCustomerData()
+    } catch (error) {
+      setNotification({ type: 'error', message: error instanceof Error ? error.message : 'Refresh failed' })
+    } finally {
+      setRefreshing(false)
+    }
+  }
+
   const saveSettings = async () => {
     try {
       setSaving(true)
@@ -93,18 +109,29 @@ export default function CustomerDetailPage() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex items-center gap-4">
-        <Link href="/dashboard/customers">
-          <Button variant="outline" size="icon">
-            <ArrowLeft className="h-4 w-4" />
-          </Button>
-        </Link>
-        <div>
-          <h1 className="text-3xl font-bold">{customer.name}</h1>
-          <p className="text-gray-600 dark:text-gray-400">
-            {customer.customer_tier} • Since {new Date(customer.customer_since).toLocaleDateString()}
-          </p>
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-4">
+          <Link href="/dashboard/customers">
+            <Button variant="outline" size="icon">
+              <ArrowLeft className="h-4 w-4" />
+            </Button>
+          </Link>
+          <div>
+            <h1 className="text-3xl font-bold">{customer.name}</h1>
+            <p className="text-gray-600 dark:text-gray-400">
+              {customer.customer_tier} • Since {new Date(customer.customer_since).toLocaleDateString()}
+            </p>
+          </div>
         </div>
+        <Button
+          variant="outline"
+          onClick={refreshFromGoogle}
+          disabled={refreshing}
+          className="gap-2"
+        >
+          {refreshing ? <Loader2 className="h-4 w-4 animate-spin" /> : <RefreshCw className="h-4 w-4" />}
+          {refreshing ? 'Refreshing...' : 'Refresh from Google'}
+        </Button>
       </div>
 
       {/* Notification */}
