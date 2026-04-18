@@ -49,6 +49,7 @@ export async function POST(request: NextRequest) {
     const contactEmail = payload.email || payload.contact?.email || null
     const contactPhone = payload.phone || payload.contact?.phone || null
     const contactWebsite = payload.website || payload.contact?.website || null
+    const contactCategory = payload.category || payload.niche__category || null
 
     // Place ID: direct field or extracted from Google Maps URL
     let placeId = payload.placeId || payload.place_id || payload.customFields?.place_id || null
@@ -116,9 +117,10 @@ export async function POST(request: NextRequest) {
           email = COALESCE(email, $4),
           phone = COALESCE(phone, $5),
           website = COALESCE(website, $6),
-          ghl_contact_id = $7
+          category = COALESCE(category, $7),
+          ghl_contact_id = $8
         WHERE id = $1`,
-        [customerId, placeId, googleMapsUrl, contactEmail, contactPhone, contactWebsite, contactId || null]
+        [customerId, placeId, googleMapsUrl, contactEmail, contactPhone, contactWebsite, contactCategory, contactId || null]
       )
       console.log(`[GHL Webhook] Updated existing customer (matched by ${matchedBy}):`, customerId)
 
@@ -126,17 +128,17 @@ export async function POST(request: NextRequest) {
       // Create new record with all available data
       const result = await pool.query(
         `INSERT INTO businesses (
-          name, email, phone, website, place_id, google_maps_url,
+          name, email, phone, website, place_id, google_maps_url, category,
           lifecycle_stage, is_paying_customer, customer_since,
           monitoring_enabled, monitoring_frequency_hours, monitoring_alert_threshold,
           next_monitoring_check, data_source, ghl_contact_id
         ) VALUES (
-          $1, $2, $3, $4, $5, $6,
+          $1, $2, $3, $4, $5, $6, $7,
           'customer', true, CURRENT_DATE,
           true, 336, 3,
-          CURRENT_TIMESTAMP, 'ghl_webhook', $7
+          CURRENT_TIMESTAMP, 'ghl_webhook', $8
         ) RETURNING id`,
-        [businessName, contactEmail, contactPhone, contactWebsite, placeId, googleMapsUrl, contactId || null]
+        [businessName, contactEmail, contactPhone, contactWebsite, placeId, googleMapsUrl, contactCategory, contactId || null]
       )
       customerId = result.rows[0].id
       action = 'created'
