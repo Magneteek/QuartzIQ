@@ -109,8 +109,12 @@ export async function POST(
   if (item.categoryName) updates.category     = item.categoryName
   if (item.totalScore)   updates.rating       = item.totalScore
   if (item.reviewsCount) updates.reviews_count = item.reviewsCount
-  if (item.placeId)      updates.place_id     = item.placeId
-  if (item.url)          updates.google_maps_url = item.url
+  if (item.placeId) {
+    updates.place_id = item.placeId
+    const mapsUrl = `https://www.google.com/maps/place/?q=place_id:${item.placeId}`
+    updates.google_maps_url = mapsUrl
+    updates.google_profile_url = mapsUrl
+  }
   if (item.permanentlyClosed !== undefined) updates.permanently_closed = item.permanentlyClosed
   if (location?.lat)     updates.latitude     = location.lat
   if (location?.lng)     updates.longitude    = location.lng
