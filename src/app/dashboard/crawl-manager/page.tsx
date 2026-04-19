@@ -25,21 +25,21 @@ import { AddToQueueModal } from '@/components/crawl-manager/add-to-queue-modal'
 interface Business {
   id: string
   name: string
-  place_id: string
+  placeId: string
   category: string
   city: string
   address: string
   rating: number
-  reviews_count: number
+  reviewsCount: number
   phone?: string
   website?: string
-  google_maps_url: string
-  last_crawled_at?: string
-  days_since_crawl?: number
-  reviews_in_last_crawl?: number
-  next_recommended?: string
-  crawl_status: 'never_crawled' | 'recent' | 'soon' | 'due' | 'overdue'
-  in_queue: boolean
+  googleMapsUrl: string
+  lastCrawledAt?: string
+  daysSinceLastCrawl?: number
+  reviewsInLastCrawl?: number
+  nextRecommendedCrawl?: string
+  crawlStatus: 'never_crawled' | 'recent' | 'soon' | 'due' | 'overdue'
+  inQueue: boolean
 }
 
 interface CrawlStats {
@@ -146,8 +146,8 @@ export default function CrawlManagerPage() {
     const query = searchQuery.toLowerCase()
     return (
       business.name.toLowerCase().includes(query) ||
-      business.city.toLowerCase().includes(query) ||
-      business.category.toLowerCase().includes(query)
+      (business.city || '').toLowerCase().includes(query) ||
+      (business.category || '').toLowerCase().includes(query)
     )
   })
 
@@ -427,16 +427,16 @@ export default function CrawlManagerPage() {
                       </td>
                       <td className="p-3">
                         <div className="flex items-center gap-1">
-                          <span className="font-medium">{business.rating.toFixed(1)}</span>
-                          <span className="text-xs text-muted-foreground">({business.reviews_count})</span>
+                          <span className="font-medium">{business.rating?.toFixed(1) ?? '—'}</span>
+                          <span className="text-xs text-muted-foreground">({business.reviewsCount ?? 0})</span>
                         </div>
                       </td>
                       <td className="p-3">
-                        {business.last_crawled_at ? (
+                        {business.lastCrawledAt ? (
                           <div>
-                            <p className="text-sm">{business.days_since_crawl} days ago</p>
+                            <p className="text-sm">{business.daysSinceLastCrawl} days ago</p>
                             <p className="text-xs text-muted-foreground">
-                              {business.reviews_in_last_crawl} reviews
+                              {business.reviewsInLastCrawl} reviews
                             </p>
                           </div>
                         ) : (
@@ -444,7 +444,7 @@ export default function CrawlManagerPage() {
                         )}
                       </td>
                       <td className="p-3">
-                        {getCrawlStatusBadge(business.crawl_status)}
+                        {getCrawlStatusBadge(business.crawlStatus)}
                       </td>
                       <td className="p-3">
                         <Link href={`/dashboard/crawl-history/${business.id}`}>
