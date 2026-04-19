@@ -58,16 +58,12 @@ export function AddToQueueModal({
     setError(null)
 
     try {
-      // Get organization ID from somewhere (you might want to pass this as a prop)
-      const organizationId = '95a2d0b2-ab13-4209-89fc-f0f495345397' // TODO: Make this dynamic
-
       const response = await fetch('/api/crawl/queue', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          organizationId,
           businessIds: selectedBusinessIds,
           batchName,
           priority,
@@ -79,6 +75,18 @@ export function AddToQueueModal({
 
       if (!response.ok || !data.success) {
         throw new Error(data.error || 'Failed to add businesses to queue')
+      }
+
+      // Immediately start the crawl — no need to go to the queue page and click Start
+      const startResponse = await fetch('/api/crawl/start', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ batchId: data.batch.batchId }),
+      })
+
+      if (!startResponse.ok) {
+        const startData = await startResponse.json()
+        throw new Error(startData.error || 'Failed to start crawl')
       }
 
       setSuccess(true)
@@ -126,10 +134,10 @@ export function AddToQueueModal({
               <div>
                 <h2 className="text-2xl font-bold flex items-center gap-2">
                   <Plus className="h-6 w-6 text-primary" />
-                  Add to Crawl Queue
+                  Queue Review Scrape
                 </h2>
                 <p className="text-sm text-muted-foreground mt-1">
-                  Configure batch settings for {selectedBusinessIds.length} businesses
+                  Configure review scraping for {selectedBusinessIds.length} businesses
                 </p>
               </div>
               <Button
@@ -150,10 +158,10 @@ export function AddToQueueModal({
               >
                 <CheckCircle2 className="h-16 w-16 text-green-400 mx-auto mb-4" />
                 <h3 className="text-xl font-semibold text-green-400 mb-2">
-                  Successfully Added to Queue!
+                  Scrape Started!
                 </h3>
                 <p className="text-muted-foreground">
-                  {selectedBusinessIds.length} businesses are now queued for crawling
+                  Scraping reviews for {selectedBusinessIds.length} businesses in the background
                 </p>
               </motion.div>
             ) : (
@@ -198,7 +206,7 @@ export function AddToQueueModal({
                   <div className="border border-border rounded-lg p-4 space-y-4">
                     <div className="flex items-center gap-2 mb-2">
                       <Settings className="h-5 w-5 text-primary" />
-                      <h3 className="font-semibold">Crawl Configuration</h3>
+                      <h3 className="font-semibold">Scrape Configuration</h3>
                     </div>
 
                     <div className="grid grid-cols-2 gap-4">
@@ -349,7 +357,7 @@ export function AddToQueueModal({
                       ) : (
                         <>
                           <Plus className="h-4 w-4" />
-                          Add to Queue
+                          Queue for Scraping
                         </>
                       )}
                     </Button>

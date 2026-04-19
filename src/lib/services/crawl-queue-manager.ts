@@ -98,10 +98,11 @@ class CrawlQueueManager {
     console.log(`   Priority: ${priority}`);
 
     // Insert all businesses into queue
+    const orgValue = organizationId ? `'${organizationId}'` : 'NULL';
     const values = businessIds.map((businessId, index) => {
       return `(
         '${uuidv4()}',
-        '${organizationId}',
+        ${orgValue},
         '${businessId}',
         '${batchName.replace(/'/g, "''")}',
         '${batchId}',

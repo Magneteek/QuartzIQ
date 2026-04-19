@@ -24,7 +24,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { Building, Link as LinkIcon, Upload } from 'lucide-react'
+import { Building, Link as LinkIcon, Sparkles, CheckCircle, Clock, AlertCircle } from 'lucide-react'
 
 const businessSchema = z.object({
   business_name: z.string().min(2, 'Business name must be at least 2 characters'),
@@ -79,6 +79,7 @@ interface Lead {
   qualification_date?: string | null
   qualified_by_name?: string | null
   ready_for_enrichment?: boolean
+  enrichment_status?: string | null
   review_count?: number
   latest_review_date?: string | null
   oldest_review_date?: string | null
@@ -100,9 +101,12 @@ export function AddEditBusinessDialog({
   onSuccess,
 }: AddEditBusinessDialogProps) {
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [activeTab, setActiveTab] = useState<'manual_entry' | 'google_maps_url' | 'enrich'>('manual_entry')
   const [entryMethod, setEntryMethod] = useState<'manual_entry' | 'google_maps_url'>('manual_entry')
   const [googleMapsUrl, setGoogleMapsUrl] = useState('')
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
+  const [isEnriching, setIsEnriching] = useState(false)
+  const [enrichMessage, setEnrichMessage] = useState<string | null>(null)
 
   const {
     register,
@@ -153,7 +157,26 @@ export function AddEditBusinessDialog({
         enrichment_priority: 50,
       })
     }
+    setActiveTab('manual_entry')
+    setEnrichMessage(null)
   }, [lead, setValue, reset])
+
+  const handleQueueEnrichment = async () => {
+    if (!lead) return
+    setIsEnriching(true)
+    setEnrichMessage(null)
+    try {
+      const res = await fetch(`/api/leads/${lead.id}/queue-enrichment`, { method: 'POST' })
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error || 'Failed to queue')
+      setEnrichMessage('✅ Queued for enrichment successfully')
+      onSuccess()
+    } catch (err: any) {
+      setEnrichMessage(`❌ ${err.message}`)
+    } finally {
+      setIsEnriching(false)
+    }
+  }
 
   // Extract place_id from Google Maps URL
   const [isExtracting, setIsExtracting] = useState(false)
@@ -279,52 +302,94 @@ export function AddEditBusinessDialog({
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           {/* Entry Method Tabs */}
-          {!lead && (
-            <Tabs
-              value={entryMethod}
-              onValueChange={(v) => setEntryMethod(v as any)}
-              className="w-full"
-            >
-              <TabsList className="grid w-full grid-cols-2">
-                <TabsTrigger value="manual_entry">
-                  <Building className="h-4 w-4 mr-2" />
-                  Manual Entry
+          <Tabs
+            value={activeTab}
+            onValueChange={(v) => {
+              setActiveTab(v as any)
+              if (v === 'manual_entry' || v === 'google_maps_url') setEntryMethod(v as any)
+            }}
+            className="w-full"
+          >
+            <TabsList className={`grid w-full ${lead ? 'grid-cols-3' : 'grid-cols-2'}`}>
+              <TabsTrigger value="manual_entry">
+                <Building className="h-4 w-4 mr-2" />
+                Manual Entry
+              </TabsTrigger>
+              <TabsTrigger value="google_maps_url">
+                <LinkIcon className="h-4 w-4 mr-2" />
+                Google Maps URL
+              </TabsTrigger>
+              {lead && (
+                <TabsTrigger value="enrich">
+                  <Sparkles className="h-4 w-4 mr-2" />
+                  Enrich
                 </TabsTrigger>
-                <TabsTrigger value="google_maps_url">
-                  <LinkIcon className="h-4 w-4 mr-2" />
-                  Google Maps URL
-                </TabsTrigger>
-              </TabsList>
+              )}
+            </TabsList>
 
-              <TabsContent value="manual_entry" className="space-y-4 mt-4">
-                {/* Manual entry form fields */}
-              </TabsContent>
+            <TabsContent value="google_maps_url" className="space-y-4 mt-4">
+              <div className="space-y-2">
+                <Label>Google Maps URL</Label>
+                <div className="flex gap-2">
+                  <Input
+                    placeholder="https://www.google.com/maps/place/..."
+                    value={googleMapsUrl}
+                    onChange={(e) => setGoogleMapsUrl(e.target.value)}
+                    disabled={isExtracting}
+                  />
+                  <Button
+                    type="button"
+                    onClick={handleGoogleMapsUrl}
+                    disabled={isExtracting || !googleMapsUrl.trim()}
+                  >
+                    {isExtracting ? 'Scraping...' : 'Extract'}
+                  </Button>
+                </div>
+                <p className="text-sm text-gray-500">
+                  Paste a Google Maps URL to automatically fill in business details
+                </p>
+              </div>
+            </TabsContent>
 
-              <TabsContent value="google_maps_url" className="space-y-4 mt-4">
-                <div className="space-y-2">
-                  <Label>Google Maps URL</Label>
-                  <div className="flex gap-2">
-                    <Input
-                      placeholder="https://www.google.com/maps/place/..."
-                      value={googleMapsUrl}
-                      onChange={(e) => setGoogleMapsUrl(e.target.value)}
-                      disabled={isExtracting}
-                    />
-                    <Button
-                      type="button"
-                      onClick={handleGoogleMapsUrl}
-                      disabled={isExtracting || !googleMapsUrl.trim()}
-                    >
-                      {isExtracting ? 'Scraping with Apify...' : 'Extract'}
-                    </Button>
+            {lead && (
+              <TabsContent value="enrich" className="mt-4">
+                <div className="space-y-4">
+                  <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-4 space-y-2">
+                    <div className="flex items-center gap-2 text-sm">
+                      {lead.enrichment_status === 'completed' ? (
+                        <><CheckCircle className="h-4 w-4 text-green-600" /><span className="text-green-700 font-medium">Enrichment complete</span></>
+                      ) : lead.enrichment_status === 'in_progress' ? (
+                        <><Clock className="h-4 w-4 text-yellow-600" /><span className="text-yellow-700 font-medium">Enrichment in progress</span></>
+                      ) : lead.ready_for_enrichment ? (
+                        <><Clock className="h-4 w-4 text-blue-600" /><span className="text-blue-700 font-medium">Queued for enrichment</span></>
+                      ) : (
+                        <><AlertCircle className="h-4 w-4 text-gray-400" /><span className="text-gray-500">Not yet enriched</span></>
+                      )}
+                    </div>
+                    {lead.email && <p className="text-sm"><span className="text-gray-500">Email:</span> {lead.email}</p>}
+                    {lead.first_name && <p className="text-sm"><span className="text-gray-500">Contact:</span> {lead.first_name} {lead.last_name}</p>}
                   </div>
-                  <p className="text-sm text-gray-500">
-                    Paste any Google Maps URL to automatically scrape business details (name, rating, reviews, address, phone, website)
+
+                  {enrichMessage && (
+                    <p className="text-sm font-medium">{enrichMessage}</p>
+                  )}
+
+                  <Button
+                    type="button"
+                    onClick={handleQueueEnrichment}
+                    disabled={isEnriching}
+                    className="w-full"
+                  >
+                    <Sparkles className="h-4 w-4 mr-2" />
+                    {isEnriching ? 'Queuing...' : 'Queue for Enrichment'}
+                  </Button>
+                  <p className="text-xs text-gray-500 text-center">
+                    Runs the enrichment pipeline: website scrape → owner name → email lookup
                   </p>
                 </div>
               </TabsContent>
-            </Tabs>
-          )}
+            )}
+          </Tabs>
 
           {/* Business Details */}
           <div className="space-y-4 mt-4">

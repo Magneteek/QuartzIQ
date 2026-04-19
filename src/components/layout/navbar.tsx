@@ -17,6 +17,7 @@ import {
   List,
   FolderKanban,
   ChevronDown,
+  MapPin,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import {
@@ -28,25 +29,25 @@ import {
 } from '@/components/ui/dropdown-menu'
 
 const navigation = [
-  { name: 'Discovery', href: '/', icon: Search },
-  { name: 'Customers', href: '/dashboard/customers', icon: Users },
-  { name: 'Monitoring', href: '/dashboard/monitoring', icon: Bell },
+  { name: 'Find Businesses', href: '/', icon: MapPin },
   { name: 'Leads', href: '/dashboard/leads', icon: UserPlus },
   { name: 'Enrichment', href: '/dashboard/enrichment', icon: BarChart3 },
+  { name: 'Customers', href: '/dashboard/customers', icon: Users },
+  { name: 'Alerts', href: '/dashboard/monitoring', icon: Bell },
 ]
 
 export function Navbar() {
   const pathname = usePathname()
 
-  const crawlPages = [
-    { name: 'Crawl Manager', href: '/dashboard/crawl-manager', icon: FolderKanban },
-    { name: 'Crawl Queue', href: '/dashboard/crawl-queue', icon: List },
-    { name: 'Crawl Targets', href: '/dashboard/crawl-targets', icon: Target },
-    { name: 'Crawl History', href: '/dashboard/crawl-history', icon: History },
+  const morePages = [
+    { name: 'Review Scraper', href: '/dashboard/crawl-manager', icon: FolderKanban },
+    { name: 'Review Queue', href: '/dashboard/crawl-queue', icon: List },
+    { name: 'Scrape Targets', href: '/dashboard/crawl-targets', icon: Target },
+    { name: 'Scrape History', href: '/dashboard/crawl-history', icon: History },
     { name: 'Qualified Reviews', href: '/dashboard/qualified-reviews', icon: Star },
   ]
 
-  const isCrawlPageActive = crawlPages.some(
+  const isCrawlPageActive = morePages.some(
     page => pathname.startsWith(page.href)
   )
 
@@ -102,12 +103,12 @@ export function Navbar() {
                   )}
                 >
                   <MoreHorizontal className="h-4 w-4" />
-                  <span className="hidden sm:inline">Crawl</span>
+                  <span className="hidden sm:inline">More</span>
                   <ChevronDown className="h-3 w-3" />
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
-                {crawlPages.map((page) => {
+                {morePages.map((page) => {
                   const Icon = page.icon
                   return (
                     <Link key={page.name} href={page.href}>

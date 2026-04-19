@@ -171,10 +171,10 @@ export default function CrawlQueuePage() {
             <div>
               <h1 className="text-3xl font-bold text-foreground flex items-center gap-3">
                 <TrendingUp className="h-8 w-8 text-primary" />
-                Crawl Queue Monitor
+                Review Scrape Queue
               </h1>
               <p className="text-muted-foreground mt-1">
-                Monitor active crawl batches and their progress in real-time
+                Monitor active review scrape batches and their progress in real-time
               </p>
             </div>
           </div>

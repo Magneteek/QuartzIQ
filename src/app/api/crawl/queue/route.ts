@@ -55,13 +55,6 @@ export async function POST(request: NextRequest) {
     } = body;
 
     // Validation
-    if (!organizationId) {
-      return NextResponse.json(
-        { success: false, error: 'organizationId is required' },
-        { status: 400 }
-      );
-    }
-
     if (!businessIds || !Array.isArray(businessIds) || businessIds.length === 0) {
       return NextResponse.json(
         { success: false, error: 'businessIds array is required' },

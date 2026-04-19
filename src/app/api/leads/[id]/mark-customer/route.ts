@@ -4,6 +4,107 @@ import { requireRole } from '@/lib/auth-helpers'
 import { auth } from '@/auth'
 import { z } from 'zod'
 
+const GHL_API_BASE = 'https://services.leadconnectorhq.com'
+const GHL_API_KEY = process.env.GHL_API_KEY
+const GHL_LOCATION_ID = process.env.GHL_LOCATION_ID
+
+async function syncToGHL(business: Record<string, unknown>): Promise<string | null> {
+  if (!GHL_API_KEY || !GHL_LOCATION_ID) return null
+
+  const headers = {
+    'Authorization': `Bearer ${GHL_API_KEY}`,
+    'Content-Type': 'application/json',
+    'Version': '2021-07-28',
+  }
+
+  // Only pass real place_ids (not ghl_ placeholders)
+  const realPlaceId = business.place_id && !(business.place_id as string).startsWith('ghl_')
+    ? business.place_id as string
+    : null
+
+  try {
+    let ghlContactId = business.ghl_contact_id as string | null
+
+    // If we already have a GHL contact ID, just add the tag
+    if (ghlContactId) {
+      await fetch(`${GHL_API_BASE}/contacts/${ghlContactId}/tags`, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({ tags: ['customer'] }),
+      })
+      console.log('[GHL Sync] Tagged existing contact:', ghlContactId)
+      return ghlContactId
+    }
+
+    // Search GHL by email
+    if (business.email) {
+      const searchRes = await fetch(
+        `${GHL_API_BASE}/contacts/search/duplicate?locationId=${GHL_LOCATION_ID}&email=${encodeURIComponent(business.email as string)}`,
+        { headers }
+      )
+      if (searchRes.ok) {
+        const searchData = await searchRes.json()
+        ghlContactId = searchData.contact?.id || null
+      }
+    }
+
+    // Search GHL by phone if email didn't match
+    if (!ghlContactId && business.phone) {
+      const searchRes = await fetch(
+        `${GHL_API_BASE}/contacts/search/duplicate?locationId=${GHL_LOCATION_ID}&phone=${encodeURIComponent(business.phone as string)}`,
+        { headers }
+      )
+      if (searchRes.ok) {
+        const searchData = await searchRes.json()
+        ghlContactId = searchData.contact?.id || null
+      }
+    }
+
+    if (ghlContactId) {
+      // Found in GHL — add tag
+      await fetch(`${GHL_API_BASE}/contacts/${ghlContactId}/tags`, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({ tags: ['customer'] }),
+      })
+      console.log('[GHL Sync] Found and tagged contact:', ghlContactId)
+    } else {
+      // Not in GHL — create new contact
+      const createRes = await fetch(`${GHL_API_BASE}/contacts/`, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({
+          locationId: GHL_LOCATION_ID,
+          companyName: business.name,
+          name: business.name,
+          email: business.email || undefined,
+          phone: business.phone || undefined,
+          website: business.website || undefined,
+          tags: ['customer'],
+          customFields: [
+            ...(realPlaceId ? [{ key: 'place_id', field_value: realPlaceId }] : []),
+            ...(business.google_maps_url ? [{ key: 'google_url', field_value: business.google_maps_url }] : []),
+            ...(business.category ? [{ key: 'niche__category', field_value: business.category }] : []),
+          ],
+        }),
+      })
+      if (createRes.ok) {
+        const createData = await createRes.json()
+        ghlContactId = createData.contact?.id || null
+        console.log('[GHL Sync] Created new contact:', ghlContactId)
+      } else {
+        const errText = await createRes.text()
+        console.error('[GHL Sync] Create failed:', createRes.status, errText.slice(0, 200))
+      }
+    }
+
+    return ghlContactId
+  } catch (err) {
+    console.error('[GHL Sync] Failed:', err)
+    return null
+  }
+}
+
 const pool = new Pool({
   host: process.env.POSTGRES_HOST,
   port: Number(process.env.POSTGRES_PORT),
@@ -38,7 +139,9 @@ export async function POST(
 
     // 1. Get current business to verify it exists and get current lifecycle stage
     const businessResult = await pool.query(
-      'SELECT id, name, lifecycle_stage FROM businesses WHERE id = $1',
+      `SELECT id, name, lifecycle_stage, email, phone, website, category,
+              place_id, google_maps_url, ghl_contact_id
+       FROM businesses WHERE id = $1`,
       [businessId]
     )
 
@@ -105,10 +208,26 @@ export async function POST(
       ]
     )
 
+    // 5. Sync to GHL — fire and forget, don't fail the request if GHL is down
+    let ghlContactId: string | null = null
+    try {
+      ghlContactId = await syncToGHL(business)
+      if (ghlContactId && ghlContactId !== business.ghl_contact_id) {
+        await pool.query(
+          'UPDATE businesses SET ghl_contact_id = $1 WHERE id = $2',
+          [ghlContactId, businessId]
+        )
+      }
+    } catch (err) {
+      console.error('[GHL Sync] Non-fatal error:', err)
+    }
+
     return NextResponse.json({
       success: true,
       message: `Successfully marked "${business.name}" as customer`,
       business: updatedBusiness,
+      ghlSynced: !!ghlContactId,
+      ghlContactId,
       transition: {
         from: business.lifecycle_stage,
         to: 'customer',

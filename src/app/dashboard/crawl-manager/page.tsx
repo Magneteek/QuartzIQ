@@ -172,10 +172,10 @@ export default function CrawlManagerPage() {
             <div>
               <h1 className="text-3xl font-bold text-foreground flex items-center gap-3">
                 <RefreshCw className="h-8 w-8 text-primary" />
-                Business Crawl Manager
+                Review Scraper
               </h1>
               <p className="text-muted-foreground mt-1">
-                Manage and schedule review crawling for {stats?.totalBusinesses.toLocaleString() || 0} cached businesses
+                Manually scrape Google reviews for {stats?.totalBusinesses.toLocaleString() || 0} businesses
               </p>
             </div>
           </div>
@@ -355,7 +355,7 @@ export default function CrawlManagerPage() {
                   className="gap-2"
                 >
                   <Plus className="h-4 w-4" />
-                  Add to Crawl Queue
+                  Queue Review Scrape
                 </Button>
               </div>
             </div>

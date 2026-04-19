@@ -860,10 +860,11 @@ export default function LeadsPage() {
           )
         },
         cell: ({ row }) => (
-          <div className="min-w-[200px]">
+          <div className="w-[220px] min-w-0">
             <button
               onClick={() => handleEdit(row.original)}
-              className="font-medium text-blue-600 underline underline-offset-2 hover:text-blue-800 text-left"
+              className="font-medium text-blue-600 hover:text-blue-800 text-left w-full truncate block"
+              title={row.original.business_name}
             >
               {row.original.business_name}
             </button>

@@ -173,6 +173,9 @@ export class CustomerMonitoringService {
         return r.stars <= alertThreshold && (hasText || hasImages)
       })
 
+      // Store all fetched reviews in the reviews table (permanent record)
+      await this.storeReviews(customer.business_id, reviews)
+
       // Create alerts for negative reviews
       const alertsCreated = await this.createAlertsForReviews(
         customer.business_id,
@@ -338,6 +341,42 @@ export class CustomerMonitoringService {
     }
 
     return alertsCreated
+  }
+
+  /**
+   * Store scraped reviews in the reviews table for historical record
+   */
+  private async storeReviews(businessId: string, reviews: any[]): Promise<void> {
+    if (!reviews.length) return
+
+    for (const review of reviews) {
+      try {
+        const reviewHash = [
+          review.name || '',
+          review.text || review.reviewText || '',
+          review.publishedAtDate || review.date || '',
+        ].join('|')
+
+        await this.pool.query(
+          `INSERT INTO reviews (
+            business_id, reviewer_name, rating, text,
+            published_date, source, review_hash, raw_data
+          ) VALUES ($1, $2, $3, $4, $5, 'monitoring', $6, $7::jsonb)
+          ON CONFLICT (business_id, review_hash) DO NOTHING`,
+          [
+            businessId,
+            review.name || null,
+            review.stars || null,
+            review.text || null,
+            review.publishedAtDate ? new Date(review.publishedAtDate) : null,
+            reviewHash,
+            JSON.stringify(review),
+          ]
+        )
+      } catch {
+        // Non-fatal: don't fail the monitoring cycle if a review can't be stored
+      }
+    }
   }
 
   /**
