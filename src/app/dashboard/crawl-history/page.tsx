@@ -26,17 +26,18 @@ import { cn } from '@/lib/utils'
 // Types
 interface CrawlRecord {
   id: string
-  businessId: string
-  businessName: string
-  crawledAt: string
-  durationSeconds: number | null
-  reviewsFound: number
-  reviewsNew: number
-  reviewsDuplicate: number
-  isIncremental: boolean
-  costUsd: number
+  business_id: string
+  business_name: string
+  city: string | null
+  category: string | null
+  crawled_at: string
+  crawl_duration_seconds: number | null
+  reviews_found: number
+  reviews_new: number
+  is_incremental: boolean
+  apify_cost_usd: number
   status: string
-  nextRecommendedCrawl: string | null
+  error_message: string | null
 }
 
 interface CrawlStats {
@@ -59,26 +60,29 @@ export default function CrawlHistoryPage() {
   const [currentPage, setCurrentPage] = useState(0)
   const itemsPerPage = 50
 
-  // Load crawl history (mock for now - you'll need to create the API endpoint)
   const loadHistory = async () => {
     setLoading(true)
     try {
-      // TODO: Create /api/crawl/history endpoint
-      // For now, we'll use mock data
-      const mockStats: CrawlStats = {
-        totalCrawls: 30,
-        totalBusinesses: 30,
-        totalReviews: 45,
-        totalCost: 0,
-        avgReviewsPerCrawl: 1.5,
-        incrementalCrawls: 0,
-        avgCostPerBusiness: 0
-      }
-      setStats(mockStats)
+      const params = new URLSearchParams()
+      if (searchQuery) params.set('search', searchQuery)
+      if (statusFilter) params.set('status', statusFilter)
+      params.set('sortBy', sortBy)
 
-      // Mock crawl records
-      const mockRecords: CrawlRecord[] = []
-      setCrawlRecords(mockRecords)
+      const res = await fetch(`/api/crawl/history?${params}`)
+      const data = await res.json()
+
+      if (data.success) {
+        setCrawlRecords(data.records)
+        setStats({
+          totalCrawls: data.stats.total_crawls,
+          totalBusinesses: data.stats.total_businesses,
+          totalReviews: data.stats.total_reviews,
+          totalCost: parseFloat(data.stats.total_cost),
+          avgReviewsPerCrawl: parseFloat(data.stats.avg_reviews_per_crawl),
+          incrementalCrawls: data.stats.incremental_crawls,
+          avgCostPerBusiness: parseFloat(data.stats.avg_cost_per_business),
+        })
+      }
     } catch (error) {
       console.error('Failed to load history:', error)
     } finally {
@@ -95,7 +99,7 @@ export default function CrawlHistoryPage() {
     .filter(record => {
       if (searchQuery) {
         const query = searchQuery.toLowerCase()
-        return record.businessName.toLowerCase().includes(query)
+        return record.business_name.toLowerCase().includes(query)
       }
       return true
     })
@@ -108,11 +112,11 @@ export default function CrawlHistoryPage() {
     .sort((a, b) => {
       switch (sortBy) {
         case 'date':
-          return new Date(b.crawledAt).getTime() - new Date(a.crawledAt).getTime()
+          return new Date(b.crawled_at).getTime() - new Date(a.crawled_at).getTime()
         case 'cost':
-          return b.costUsd - a.costUsd
+          return b.apify_cost_usd - a.apify_cost_usd
         case 'reviews':
-          return b.reviewsFound - a.reviewsFound
+          return b.reviews_found - a.reviews_found
         default:
           return 0
       }
@@ -332,40 +336,36 @@ export default function CrawlHistoryPage() {
                   {paginatedRecords.map((record) => (
                     <tr key={record.id} className="border-b border-border/50 hover:bg-white/5">
                       <td className="p-3">
-                        <Link
-                          href={`/dashboard/crawl-history/${record.businessId}`}
-                          className="text-primary hover:underline"
-                        >
-                          {record.businessName}
-                        </Link>
+                        <div className="font-medium">{record.business_name}</div>
+                        {record.city && <div className="text-xs text-muted-foreground">{record.city}</div>}
                       </td>
                       <td className="p-3 text-sm">
-                        {formatDate(record.crawledAt)}
+                        {formatDate(record.crawled_at)}
                       </td>
                       <td className="p-3 text-sm">
-                        {formatDuration(record.durationSeconds)}
+                        {formatDuration(record.crawl_duration_seconds)}
                       </td>
                       <td className="p-3">
                         <div className="flex items-center gap-2">
-                          <span className="font-medium">{record.reviewsFound}</span>
-                          {record.reviewsNew > 0 && (
+                          <span className="font-medium">{record.reviews_found}</span>
+                          {record.reviews_new > 0 && (
                             <span className="text-xs text-green-400">
-                              +{record.reviewsNew} new
+                              +{record.reviews_new} new
                             </span>
                           )}
                         </div>
                       </td>
                       <td className="p-3 text-sm">
-                        ${record.costUsd.toFixed(4)}
+                        ${Number(record.apify_cost_usd || 0).toFixed(4)}
                       </td>
                       <td className="p-3">
                         <span className={cn(
                           'px-2 py-1 rounded-full text-xs font-medium',
-                          record.isIncremental
+                          record.is_incremental
                             ? 'bg-blue-500/20 text-blue-300 border border-blue-500/30'
                             : 'bg-gray-500/20 text-gray-300 border border-gray-500/30'
                         )}>
-                          {record.isIncremental ? 'Incremental' : 'Full'}
+                          {record.is_incremental ? 'Incremental' : 'Full'}
                         </span>
                       </td>
                       <td className="p-3">
@@ -375,16 +375,11 @@ export default function CrawlHistoryPage() {
                             <span className="text-xs">Complete</span>
                           </span>
                         ) : (
-                          <span className="flex items-center gap-1 text-red-300">
+                          <span className="flex items-center gap-1 text-red-300" title={record.error_message || ''}>
                             <XCircle className="h-4 w-4" />
                             <span className="text-xs">Failed</span>
                           </span>
                         )}
-                      </td>
-                      <td className="p-3 text-sm text-muted-foreground">
-                        {record.nextRecommendedCrawl
-                          ? new Date(record.nextRecommendedCrawl).toLocaleDateString()
-                          : 'N/A'}
                       </td>
                     </tr>
                   ))}

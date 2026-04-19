@@ -16,7 +16,8 @@ import {
   AlertCircle,
   ArrowLeft,
   BarChart3,
-  Package
+  Package,
+  Eye
 } from 'lucide-react'
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
@@ -319,6 +320,14 @@ export default function CrawlQueuePage() {
                           <XCircle className="h-4 w-4" />
                           Cancel
                         </Button>
+                      )}
+                      {(batch.status === 'completed' || batch.status === 'mixed') && batch.totalReviews > 0 && (
+                        <Link href="/dashboard/qualified-reviews">
+                          <Button size="sm" variant="outline" className="gap-2">
+                            <Eye className="h-4 w-4" />
+                            View Reviews
+                          </Button>
+                        </Link>
                       )}
                     </div>
                   </div>
