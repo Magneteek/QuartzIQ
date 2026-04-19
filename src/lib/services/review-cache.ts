@@ -46,9 +46,12 @@ class ReviewCacheService {
   private generateReviewHash(
     reviewerName: string | null,
     text: string | null,
-    publishedDate: Date
+    publishedDate: Date | null
   ): string {
-    const content = `${reviewerName || 'anonymous'}|${text || ''}|${publishedDate.toISOString().split('T')[0]}`;
+    const dateStr = publishedDate && !isNaN(publishedDate.getTime())
+      ? publishedDate.toISOString().split('T')[0]
+      : 'unknown-date';
+    const content = `${reviewerName || 'anonymous'}|${text || ''}|${dateStr}`;
     return crypto.createHash('md5').update(content).digest('hex');
   }
 
@@ -71,13 +74,15 @@ class ReviewCacheService {
     }
 
     // Generate hashes for all reviews
-    const reviewHashes = reviews.map(r =>
-      this.generateReviewHash(
+    const reviewHashes = reviews.map(r => {
+      const raw = r.publishedAtDate || r.published_date || r.date
+      const d = raw ? new Date(raw) : null
+      return this.generateReviewHash(
         r.reviewerName || r.reviewer_name,
         r.text || r.reviewText,
-        new Date(r.publishedAtDate || r.published_date || r.date)
+        d && !isNaN(d.getTime()) ? d : null
       )
-    );
+    });
 
     // Check which hashes exist in database
     const result = await query(`
@@ -197,10 +202,14 @@ class ReviewCacheService {
     // Use transaction for batch insert
     await transaction(async (client: PoolClient) => {
       for (const review of reviews) {
+        const rawDate = review.publishedAtDate || review.published_date || review.date
+        const parsedDate = rawDate ? new Date(rawDate) : null
+        const safeDate = parsedDate && !isNaN(parsedDate.getTime()) ? parsedDate : null
+
         const reviewHash = this.generateReviewHash(
           review.reviewerName || review.reviewer_name || null,
           review.text || review.reviewText || null,
-          new Date(review.publishedAtDate || review.published_date || review.date)
+          safeDate
         );
 
         const result = await client.query(`
@@ -218,7 +227,7 @@ class ReviewCacheService {
           review.reviewerName || review.reviewer_name || null,
           review.stars || review.rating,
           review.text || review.reviewText || null,
-          new Date(review.publishedAtDate || review.published_date || review.date),
+          safeDate,
           'apify',
           review.language || 'nl',
           reviewHash,
