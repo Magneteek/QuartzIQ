@@ -363,7 +363,6 @@ class IncrementalCrawler {
         id,
         business_id,
         organization_id,
-        extraction_id,
         crawled_at,
         crawl_duration_seconds,
         reviews_found,
@@ -375,12 +374,11 @@ class IncrementalCrawler {
         next_recommended_crawl,
         crawl_config,
         status
-      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)
     `, [
       crawlId,
       data.businessId,
-      data.organizationId,
-      data.extractionId || null,
+      data.organizationId || null,
       data.crawledAt,
       data.durationSeconds,
       data.reviewsFound,

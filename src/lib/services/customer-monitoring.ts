@@ -357,6 +357,12 @@ export class CustomerMonitoringService {
           review.publishedAtDate || review.date || '',
         ].join('|')
 
+        let publishedDate: Date | null = null
+        try {
+          if (review.publishedAtDate) publishedDate = new Date(review.publishedAtDate)
+          if (publishedDate && isNaN(publishedDate.getTime())) publishedDate = null
+        } catch { publishedDate = null }
+
         await this.pool.query(
           `INSERT INTO reviews (
             business_id, reviewer_name, rating, text,
@@ -368,7 +374,7 @@ export class CustomerMonitoringService {
             review.name || null,
             review.stars || null,
             review.text || null,
-            review.publishedAtDate ? new Date(review.publishedAtDate) : null,
+            publishedDate,
             reviewHash,
             JSON.stringify(review),
           ]
