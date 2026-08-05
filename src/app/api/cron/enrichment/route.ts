@@ -175,7 +175,45 @@ export async function GET(request: NextRequest) {
   }
 }
 
-// Support POST for manual triggers
+// Support POST for manual triggers (optionally with specific businessIds)
 export async function POST(request: NextRequest) {
+  // Check if body contains specific businessIds
+  try {
+    const body = await request.json().catch(() => null)
+    if (body?.businessIds && Array.isArray(body.businessIds) && body.businessIds.length > 0) {
+      // Inject businessIds into a modified request via headers isn't possible,
+      // so we handle selective enrichment inline here
+      const authHeader = request.headers.get('authorization')
+      const cronSecret = process.env.CRON_SECRET
+      if (authHeader !== `Bearer ${cronSecret}`) {
+        return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 })
+      }
+
+      const orchestrator = new ContactEnrichmentOrchestrator(
+        process.env.APOLLO_API_KEY!,
+        parseInt(process.env.APOLLO_MONTHLY_LIMIT || '100'),
+        process.env.ANTHROPIC_API_KEY,
+        process.env.APIFY_API_TOKEN,
+        process.env.FIRECRAWL_API_KEY,
+        process.env.BETTER_ENRICH_API_KEY,
+        process.env.HUNTER_API_KEY,
+        process.env.ENRICHLAYER_API_KEY
+      )
+
+      const results = []
+      for (const businessId of body.businessIds) {
+        const result = await orchestrator.enrichBusiness(businessId)
+        results.push({ businessId, ...result })
+      }
+
+      const success = results.filter((r: any) => r.success).length
+      return NextResponse.json({
+        success: true,
+        summary: { jobsProcessed: results.length, success, failed: results.length - success },
+        results
+      })
+    }
+  } catch {}
+
   return GET(request)
 }

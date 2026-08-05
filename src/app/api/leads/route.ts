@@ -73,7 +73,7 @@ export async function GET(request: NextRequest) {
     // Search filter
     if (search) {
       paramCount++
-      whereConditions.push(`b.name ILIKE '%' || $${paramCount} || '%'`)
+      whereConditions.push(`(b.name ILIKE '%' || $${paramCount} || '%' OR b.category ILIKE '%' || $${paramCount} || '%')`)
       queryParams.push(search)
     }
 
@@ -293,7 +293,8 @@ export async function GET(request: NextRequest) {
 
     // Rebuild filters for count query with new parameter numbering
     if (search) {
-      countWhereConditions.push(`b.name ILIKE '%' || $${countParamIndex++} || '%'`)
+      countWhereConditions.push(`(b.name ILIKE '%' || $${countParamIndex} || '%' OR b.category ILIKE '%' || $${countParamIndex} || '%')`)
+      countParamIndex++
       countParams.push(search)
     }
     if (dateFrom) {

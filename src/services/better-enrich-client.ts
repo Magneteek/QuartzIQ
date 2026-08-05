@@ -50,7 +50,8 @@ export class BetterEnrichClient {
       const taskId = await this.submitTask('find-work-email', body)
       const result = await this.pollForResult('find-work-email', taskId)
 
-      const email = result?.email || result?.work_email || null
+      // API wraps the result under `data`: { id, data: { email, status, verifier, ESP }, status }
+      const email = result?.data?.email || result?.email || result?.work_email || null
       const durationMs = Date.now() - startTime
 
       return {
@@ -95,7 +96,8 @@ export class BetterEnrichClient {
       const taskId = await this.submitTask('find-mobile-phone-number', body)
       const result = await this.pollForResult('find-mobile-phone-number', taskId)
 
-      const phone = result?.phone_number || result?.mobile_phone || null
+      // API wraps the result under `data`, same shape as find-work-email
+      const phone = result?.data?.phone_number || result?.data?.mobile_phone || result?.phone_number || result?.mobile_phone || null
       const durationMs = Date.now() - startTime
 
       return {

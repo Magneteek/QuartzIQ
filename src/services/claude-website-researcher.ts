@@ -30,6 +30,7 @@ export interface WebsiteResearchResult {
   success: boolean;
   method: 'basic_scraping' | 'claude_api' | 'hybrid';
   durationMs: number;
+  claudeCostUsd: number;
   error?: string;
 }
 
@@ -85,6 +86,7 @@ export class ClaudeWebsiteResearcher {
         success: false,
         method: 'basic_scraping',
         durationMs,
+        claudeCostUsd: 0,
         error: error.message,
       };
     }
@@ -168,10 +170,15 @@ Rules:
 
     const anthropic = new Anthropic({ apiKey: this.claudeApiKey });
     const message = await anthropic.messages.create({
-      model: 'claude-sonnet-4-6',
+      model: 'claude-haiku-4-5-20251001',
       max_tokens: 1024,
       messages: [{ role: 'user', content: prompt }],
     });
+
+    // Haiku pricing: $0.25/MTok input, $1.25/MTok output
+    const claudeCostUsd =
+      (message.usage.input_tokens / 1_000_000) * 0.25 +
+      (message.usage.output_tokens / 1_000_000) * 1.25;
 
     const responseText = message.content[0].type === 'text' ? message.content[0].text : '';
     console.log(`   Claude response: ${responseText.length} chars`);
@@ -231,6 +238,7 @@ Rules:
       success: executives.length > 0 || companyEmails.length > 0,
       method: 'claude_api',
       durationMs,
+      claudeCostUsd,
     };
   }
 
@@ -307,6 +315,7 @@ Rules:
       success: executives.length > 0 || emailPatterns.length > 0,
       method: 'basic_scraping',
       durationMs,
+      claudeCostUsd: 0,
     };
   }
 

@@ -132,16 +132,34 @@ export async function POST(request: NextRequest) {
           })
           .parse(body)
 
-        // If no IDs provided, export all leads
-        const query = ids
-          ? 'SELECT * FROM get_leads_for_va($1, $2, $3, $4, $5) WHERE id = ANY($6)'
-          : 'SELECT * FROM get_leads_for_va($1, $2, $3, $4, $5)'
-
-        const params = ids
-          ? [10000, 0, null, 'business_name', 'ASC', ids]
-          : [10000, 0, null, 'business_name', 'ASC']
-
-        const result = await pool.query(query, params)
+        // Query businesses with enrichment data joined
+        const baseQuery = `
+          SELECT
+            b.id,
+            b.name AS business_name,
+            b.city,
+            b.country_code AS country,
+            b.address,
+            COALESCE(ce.phone, b.phone) AS phone,
+            b.website,
+            b.rating,
+            b.reviews_count AS total_reviews,
+            b.category,
+            b.place_id,
+            b.lifecycle_stage,
+            ce.owner_name,
+            ce.title AS owner_title,
+            ce.email AS enriched_email,
+            ce.linkedin_url,
+            ce.enrichment_source,
+            ce.confidence_score
+          FROM businesses b
+          LEFT JOIN contact_enrichments ce ON b.id = ce.business_id
+          ${ids ? 'WHERE b.id = ANY($1::uuid[])' : ''}
+          ORDER BY b.name ASC
+          LIMIT 10000
+        `
+        const result = await pool.query(baseQuery, ids ? [ids] : [])
 
         // Convert to CSV
         const leads = result.rows
@@ -155,19 +173,21 @@ export async function POST(request: NextRequest) {
         // CSV headers
         const headers = [
           'business_name',
+          'owner_name',
+          'owner_title',
+          'enriched_email',
+          'phone',
+          'website',
           'city',
           'country',
           'address',
-          'phone',
-          'website',
+          'category',
           'rating',
           'total_reviews',
+          'linkedin_url',
+          'enrichment_source',
           'place_id',
-          'data_source',
-          'qualification_date',
-          'qualified_by_name',
-          'ready_for_enrichment',
-          'review_count',
+          'lifecycle_stage',
         ]
 
         // CSV rows
@@ -180,7 +200,7 @@ export async function POST(request: NextRequest) {
                 if (value === null || value === undefined) return ''
                 // Escape commas and quotes
                 const stringValue = String(value)
-                if (stringValue.includes(',') || stringValue.includes('"')) {
+                if (stringValue.includes(',') || stringValue.includes('"') || stringValue.includes('\n')) {
                   return `"${stringValue.replace(/"/g, '""')}"`
                 }
                 return stringValue

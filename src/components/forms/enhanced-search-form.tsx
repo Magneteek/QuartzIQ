@@ -167,6 +167,10 @@ const businessCategories = [
   { id: 'barber_shop', label: 'Barber Shop', sector: 'Beauty & Wellness', icon: '💈' },
   { id: 'massage_therapist', label: 'Massage Therapist', sector: 'Beauty & Wellness', icon: '💆' },
   { id: 'gym', label: 'Gym', sector: 'Beauty & Wellness', icon: '🏋️' },
+  { id: 'tattoo_shop', label: 'Tattoo Studio', sector: 'Beauty & Wellness', icon: '🪡' },
+  { id: 'piercing_shop', label: 'Piercing Studio', sector: 'Beauty & Wellness', icon: '💎' },
+  { id: 'tanning_studio', label: 'Tanning Studio', sector: 'Beauty & Wellness', icon: '🌟' },
+  { id: 'permanent_makeup', label: 'Permanent Makeup', sector: 'Beauty & Wellness', icon: '✏️' },
 
   // Food & Dining
   { id: 'restaurant', label: 'Restaurant', sector: 'Food & Dining', icon: '🍽️' },

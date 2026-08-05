@@ -182,6 +182,7 @@ export class ContactEnrichmentOrchestrator {
       console.log(`   Found ${claudeResults.emailPatterns.length} email patterns`);
       console.log(`   Found ${claudeResults.companyEmails.length} company emails`);
       console.log(`   Duration: ${claudeResults.durationMs}ms`);
+      totalCostUsd += claudeResults.claudeCostUsd;
 
       if (claudeResults.executives.length > 0) {
         const executive = claudeResults.executives[0];
@@ -693,16 +694,14 @@ export class ContactEnrichmentOrchestrator {
         first_name = $1,
         last_name = $2,
         email = COALESCE($3, email),
-        phone = COALESCE($4, phone),
-        enrichment_status = $5,
-        enrichment_confidence = $6,
+        enrichment_status = $4,
+        enrichment_confidence = $5,
         last_updated_at = NOW()
-       WHERE id = $7`,
+       WHERE id = $6`,
       [
         firstName,
         lastName,
         contact.email,
-        contact.phone,
         bizStatus,
         Math.round(contact.confidence_score * 100),
         businessId,

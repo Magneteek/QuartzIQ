@@ -1,5 +1,197 @@
 [
   {
+    "id": "extraction_1775757263860_qhvo961o8",
+    "timestamp": "2026-04-09T17:54:23.860Z",
+    "searchCriteria": {
+      "category": "dentist",
+      "location": "barcelona",
+      "countryCode": "es"
+    },
+    "statistics": {
+      "businessesFound": 5,
+      "reviewsFound": 0,
+      "avgRating": 0,
+      "extractionTime": 21122
+    },
+    "enrichmentHistory": []
+  },
+  {
+    "id": "extraction_1775746811372_t47h8eel3",
+    "timestamp": "2026-04-09T15:00:11.372Z",
+    "searchCriteria": {
+      "category": "dentist",
+      "location": "Fuerteventura",
+      "countryCode": "es"
+    },
+    "statistics": {
+      "businessesFound": 0,
+      "reviewsFound": 0,
+      "avgRating": 0,
+      "extractionTime": 123292
+    },
+    "enrichmentHistory": []
+  },
+  {
+    "id": "extraction_1775745510506_udu390v3l",
+    "timestamp": "2026-04-09T14:38:30.506Z",
+    "searchCriteria": {
+      "category": "dentist",
+      "location": "Fuerteventura",
+      "countryCode": "es"
+    },
+    "statistics": {
+      "businessesFound": 0,
+      "reviewsFound": 0,
+      "avgRating": 0,
+      "extractionTime": 31828
+    },
+    "enrichmentHistory": []
+  },
+  {
+    "id": "extraction_1775742810067_r4qno4hxi",
+    "timestamp": "2026-04-09T13:53:30.067Z",
+    "searchCriteria": {
+      "category": "dentist",
+      "location": "Corralejo",
+      "countryCode": "es"
+    },
+    "statistics": {
+      "businessesFound": 0,
+      "reviewsFound": 0,
+      "avgRating": 0,
+      "extractionTime": 127465
+    },
+    "enrichmentHistory": []
+  },
+  {
+    "id": "extraction_1775742327298_kw2xemo5f",
+    "timestamp": "2026-04-09T13:45:27.298Z",
+    "searchCriteria": {
+      "category": "dentist",
+      "location": "Corralejo",
+      "countryCode": "es"
+    },
+    "statistics": {
+      "businessesFound": 11,
+      "reviewsFound": 0,
+      "avgRating": 0,
+      "extractionTime": 239392
+    },
+    "enrichmentHistory": []
+  },
+  {
+    "id": "extraction_1775741488648_dk4h8tkcv",
+    "timestamp": "2026-04-09T13:31:28.648Z",
+    "searchCriteria": {
+      "category": "dentist",
+      "location": "España",
+      "countryCode": "es"
+    },
+    "statistics": {
+      "businessesFound": 0,
+      "reviewsFound": 0,
+      "avgRating": 0,
+      "extractionTime": 1898
+    },
+    "enrichmentHistory": []
+  },
+  {
+    "id": "extraction_1775740533956_7mp0ga7ip",
+    "timestamp": "2026-04-09T13:15:33.956Z",
+    "searchCriteria": {
+      "category": "dentist",
+      "location": "Corralejo",
+      "countryCode": "es"
+    },
+    "statistics": {
+      "businessesFound": 0,
+      "reviewsFound": 0,
+      "avgRating": 0,
+      "extractionTime": 6928
+    },
+    "enrichmentHistory": []
+  },
+  {
+    "id": "extraction_1775739981092_rpoog109c",
+    "timestamp": "2026-04-09T13:06:21.092Z",
+    "searchCriteria": {
+      "category": "dentist",
+      "location": "Corralejo",
+      "countryCode": "es"
+    },
+    "statistics": {
+      "businessesFound": 0,
+      "reviewsFound": 0,
+      "avgRating": 0,
+      "extractionTime": 7643
+    },
+    "enrichmentHistory": []
+  },
+  {
+    "id": "extraction_1775386450449_xmxeuvczo",
+    "timestamp": "2026-04-05T10:54:10.449Z",
+    "searchCriteria": {
+      "category": "dentist",
+      "location": "Barcelona",
+      "countryCode": "es"
+    },
+    "statistics": {
+      "businessesFound": 20,
+      "reviewsFound": 0,
+      "avgRating": 0,
+      "extractionTime": 24330
+    },
+    "enrichmentHistory": []
+  },
+  {
+    "id": "extraction_1775386397274_vgsrxzvsu",
+    "timestamp": "2026-04-05T10:53:17.274Z",
+    "searchCriteria": {
+      "category": "dentist",
+      "location": "Rotterdam",
+      "countryCode": "nl"
+    },
+    "statistics": {
+      "businessesFound": 6,
+      "reviewsFound": 0,
+      "avgRating": 0,
+      "extractionTime": 819
+    },
+    "enrichmentHistory": []
+  },
+  {
+    "id": "extraction_1774886682015_i6ct121ja",
+    "timestamp": "2026-03-30T16:04:42.015Z",
+    "searchCriteria": {
+      "category": "dentist",
+      "location": "Amsterdam",
+      "countryCode": "nl"
+    },
+    "statistics": {
+      "businessesFound": 5,
+      "reviewsFound": 0,
+      "avgRating": 0,
+      "extractionTime": 1161
+    },
+    "enrichmentHistory": []
+  },
+  {
+    "id": "extraction_1774886472889_5cr0y8jw1",
+    "timestamp": "2026-03-30T16:01:12.889Z",
+    "searchCriteria": {
+      "category": "dentist",
+      "location": "AMSTERDAM",
+      "countryCode": "nl"
+    },
+    "statistics": {
+      "businessesFound": 200,
+      "reviewsFound": 0,
+      "avgRating": 0,
+      "extractionTime": 1145
+    },
+    "enrichmentHistory": []
+  },
+  {
     "id": "extraction_1773210440546_w0vpnsn2u",
     "timestamp": "2026-03-11T06:27:20.546Z",
     "searchCriteria": {
@@ -604,198 +796,6 @@
       "reviewsFound": 0,
       "avgRating": 0,
       "extractionTime": 55690
-    },
-    "enrichmentHistory": []
-  },
-  {
-    "id": "extraction_1769333974143_oakmcto5h",
-    "timestamp": "2026-01-25T09:39:34.143Z",
-    "searchCriteria": {
-      "category": "dentist",
-      "location": "Amsterdam",
-      "countryCode": "nl"
-    },
-    "statistics": {
-      "businessesFound": 0,
-      "reviewsFound": 0,
-      "avgRating": 0,
-      "extractionTime": 22064
-    },
-    "enrichmentHistory": []
-  },
-  {
-    "id": "extraction_1769329362001_0t04ttir9",
-    "timestamp": "2026-01-25T08:22:42.001Z",
-    "searchCriteria": {
-      "category": "doctor",
-      "location": "Amsterdam",
-      "countryCode": "nl"
-    },
-    "statistics": {
-      "businessesFound": 4,
-      "reviewsFound": 2,
-      "avgRating": null,
-      "extractionTime": 81080
-    },
-    "enrichmentHistory": []
-  },
-  {
-    "id": "extraction_1769289916233_s8e9ieqe4",
-    "timestamp": "2026-01-24T21:25:16.233Z",
-    "searchCriteria": {
-      "category": "veterinarian",
-      "location": "Amsterdam",
-      "countryCode": "nl"
-    },
-    "statistics": {
-      "businessesFound": 10,
-      "reviewsFound": 5,
-      "avgRating": null,
-      "extractionTime": 174615
-    },
-    "enrichmentHistory": []
-  },
-  {
-    "id": "extraction_1769285829843_p63ukw0yz",
-    "timestamp": "2026-01-24T20:17:09.843Z",
-    "searchCriteria": {
-      "category": "veterinarian",
-      "location": "Amsterdam",
-      "countryCode": "nl"
-    },
-    "statistics": {
-      "businessesFound": 6,
-      "reviewsFound": 3,
-      "avgRating": null,
-      "extractionTime": 114345
-    },
-    "enrichmentHistory": []
-  },
-  {
-    "id": "extraction_1769281217330_x3ka3jqoh",
-    "timestamp": "2026-01-24T19:00:17.330Z",
-    "searchCriteria": {
-      "category": "dentist",
-      "location": "The Hague",
-      "countryCode": "nl"
-    },
-    "statistics": {
-      "businessesFound": 0,
-      "reviewsFound": 0,
-      "avgRating": 0,
-      "extractionTime": 2117
-    },
-    "enrichmentHistory": []
-  },
-  {
-    "id": "extraction_1760711064165_c869qvfje",
-    "timestamp": "2025-10-17T14:24:24.165Z",
-    "searchCriteria": {
-      "category": "dentist",
-      "location": "Amsterdam",
-      "countryCode": "nl"
-    },
-    "statistics": {
-      "businessesFound": 10,
-      "reviewsFound": 0,
-      "avgRating": 0,
-      "extractionTime": 105120
-    },
-    "enrichmentHistory": []
-  },
-  {
-    "id": "extraction_1760710114131_rhjzctscy",
-    "timestamp": "2025-10-17T14:08:34.131Z",
-    "searchCriteria": {
-      "category": "doctor",
-      "location": "Amsterdam",
-      "countryCode": "nl"
-    },
-    "statistics": {
-      "businessesFound": 50,
-      "reviewsFound": 8,
-      "avgRating": 1,
-      "extractionTime": 812630
-    },
-    "enrichmentHistory": []
-  },
-  {
-    "id": "extraction_1760708115347_nrmxxkkpi",
-    "timestamp": "2025-10-17T13:35:15.347Z",
-    "searchCriteria": {
-      "category": "insurance_agency",
-      "location": "Amsterdam",
-      "countryCode": "nl"
-    },
-    "statistics": {
-      "businessesFound": 50,
-      "reviewsFound": 3,
-      "avgRating": 1,
-      "extractionTime": 847541
-    },
-    "enrichmentHistory": []
-  },
-  {
-    "id": "extraction_1760654868725_6b222b4u1",
-    "timestamp": "2025-10-16T22:47:48.725Z",
-    "searchCriteria": {
-      "category": "insurance_agency",
-      "location": "Amsterdam",
-      "countryCode": "nl"
-    },
-    "statistics": {
-      "businessesFound": 0,
-      "reviewsFound": 0,
-      "avgRating": 0,
-      "extractionTime": 213022
-    },
-    "enrichmentHistory": []
-  },
-  {
-    "id": "extraction_1760622350499_9uxrkqme2",
-    "timestamp": "2025-10-16T13:45:50.499Z",
-    "searchCriteria": {
-      "category": "real_estate_agency",
-      "location": "Netherlands",
-      "countryCode": "nl"
-    },
-    "statistics": {
-      "businessesFound": 100,
-      "reviewsFound": 6,
-      "avgRating": 1.3333333333333333,
-      "extractionTime": 1220731
-    },
-    "enrichmentHistory": []
-  },
-  {
-    "id": "extraction_1760262423403_w3ouqhurj",
-    "timestamp": "2025-10-12T09:47:03.403Z",
-    "searchCriteria": {
-      "category": "dentist",
-      "location": "Amsterdam",
-      "countryCode": "nl"
-    },
-    "statistics": {
-      "businessesFound": 10,
-      "reviewsFound": 0,
-      "avgRating": 0,
-      "extractionTime": 26303
-    },
-    "enrichmentHistory": []
-  },
-  {
-    "id": "extraction_imported_apify_1760111432570_wy9hvr",
-    "timestamp": "2025-10-10T15:50:32.570Z",
-    "searchCriteria": {
-      "category": "unknown",
-      "location": "Unknown location",
-      "countryCode": "unknown"
-    },
-    "statistics": {
-      "businessesFound": 914,
-      "reviewsFound": 7,
-      "avgRating": 0,
-      "extractionTime": 0
     },
     "enrichmentHistory": []
   }
